@@ -380,7 +380,7 @@ export default async function HomePage() {
       )}
 
       {/* ------------------------------------------------ Methodology band */}
-      <section aria-labelledby="method-title" className="bg-ink text-[oklch(0.93_0.012_82)]">
+      <section aria-labelledby="method-title" className="bg-band-bg text-band-fg">
         <div className="mx-auto max-w-6xl px-4 py-16 lg:px-6">
           <div className="grid gap-10 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
@@ -388,7 +388,7 @@ export default async function HomePage() {
               <h2 id="method-title" className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
                 How we earn the byline<span className="text-sun">.</span>
               </h2>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-[oklch(0.93_0.012_82)]/70">
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-band-fg/70">
                 Every verdict on Duyan Blog is built the same way: a published methodology,
                 named authors, visible trade-offs, and corrections that stay up. The hat is
                 simple. So are our rules.
@@ -397,16 +397,16 @@ export default async function HomePage() {
                 <Link href="/methodology">Read the methodology</Link>
               </Button>
             </Reveal>
-            <div className="grid gap-px overflow-hidden rounded-md bg-[oklch(0.93_0.012_82)]/15 sm:grid-cols-3 lg:col-span-7">
+            <div className="grid gap-px overflow-hidden rounded-md bg-band-fg/15 sm:grid-cols-3 lg:col-span-7">
               {[
                 { n: "01", t: "Evidence over hype", d: "Claims link to sources. Where we lack data, we say so instead of inventing numbers." },
                 { n: "02", t: "Trade-offs in the open", d: "No product is perfect for everyone. We tell you who should buy it — and who shouldn't." },
                 { n: "03", t: "Commerce never edits", d: "Affiliate revenue funds the site; it never decides a verdict. Rankings can't be bought." },
               ].map((p) => (
-                <div key={p.n} className="bg-ink p-6">
+                <div key={p.n} className="bg-band-bg p-6">
                   <span className="section-index text-sun">{p.n}</span>
                   <h3 className="mt-3 font-display text-lg font-semibold">{p.t}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[oklch(0.93_0.012_82)]/65">{p.d}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-band-fg-soft">{p.d}</p>
                 </div>
               ))}
             </div>
