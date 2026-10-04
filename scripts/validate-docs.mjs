@@ -159,6 +159,26 @@ check(
 );
 
 // ---------------------------------------------------------------------------
+// Check 6b — long content columns in schema.prisma are annotated for MySQL.
+// Bare String maps to VARCHAR(191); content columns that receive user/API text
+// longer than that must be @db.Text/@db.LongText or they silently truncate
+// (Author.bio, ContactMessage.message, SiteSetting.value all regressed live
+// exactly this way on 2026-10-04). The must-MISS half: no unannotated `String`
+// field that ends in a known long-content name.
+// ---------------------------------------------------------------------------
+{
+  const schema = fs.readFileSync(path.join(root, "prisma/schema.prisma"), "utf8");
+  const longFields = [
+    "focusAreas", "deck", "tldr", "blocks", "attributes", "pros", "cons", "body", "bio", "message", "value",
+  ];
+  const missing = longFields.filter((f) => {
+    const line = schema.split("\n").find((l) => new RegExp(`^\\s*${f}\\s+String`).test(l));
+    return line !== undefined && !/@db\.(Text|LongText)/.test(line);
+  });
+  check("every long-content String column in schema.prisma is @db.Text/@db.LongText", missing.length === 0, `unannotated: ${missing.join(", ")}`);
+}
+
+// ---------------------------------------------------------------------------
 // Check 7 — .env.example exists and is tracked by git (it was missing once and
 // 8+ docs pointed at it; that is R5 in the risk register).
 // ---------------------------------------------------------------------------

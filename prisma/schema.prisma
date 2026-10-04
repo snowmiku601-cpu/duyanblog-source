@@ -1,8 +1,9 @@
 // duyanblog.com — data model
-// SQLite in this sandbox (portable: same schema maps to PostgreSQL by changing
-// the datasource provider and migrating String-JSON columns if desired).
+// MySQL-canonical (production target: Hostinger Business Node.js web app).
 // Structured content (blocks, attributes, pros/cons) is stored as JSON strings
 // and validated at the application boundary with Zod (src/lib/content-schema.ts).
+// Long content columns are @db.LongText/@db.Text — bare String maps to
+// VARCHAR(191) on MySQL and would silently truncate anything longer.
 
 generator client {
   provider = "prisma-client-js"
@@ -48,7 +49,7 @@ model Author {
   slug       String    @unique
   name       String
   role       String // e.g. "Founding editor" — roles only, never fabricated credentials
-  bio        String
+  bio        String   @db.Text // bios in seed are 200-230 chars — exceeds VARCHAR(191)
   avatarUrl  String?
   focusAreas String        @db.LongText // JSON string[] — LongText: JSON arrays exceed VARCHAR(191)
   articles   Article[] @relation("ArticleAuthor")
@@ -281,7 +282,7 @@ model ContactMessage {
   name      String
   email     String
   subject   String
-  message   String
+  message   String   @db.Text // contact API accepts up to 4000 chars — exceeds VARCHAR(191)
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
@@ -297,6 +298,6 @@ model Redirect {
 
 model SiteSetting {
   key       String   @id
-  value     String
+  value     String   @db.Text // settings API accepts up to 500 chars — exceeds VARCHAR(191)
   updatedAt DateTime @updatedAt
 }
