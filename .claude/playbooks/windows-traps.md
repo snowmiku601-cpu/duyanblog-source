@@ -1,3 +1,4 @@
+<!-- PLAYBOOK — not auto-loaded; read on demand per .claude/playbooks/README.md -->
 # Windows traps — shells, paths, encoding
 
 This repo runs on Windows 10 (PowerShell 5.1 primary, Git Bash available via the Bash tool).

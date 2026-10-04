@@ -43,6 +43,20 @@ definition's `tools:` before writing a dispatch step that depends on one it lack
 2. **Hostile verification before a completion claim.** A read-only pass over the **rendered**
    page with ground truth pasted in and DO-NOT-SHIP as the default verdict.
 
+## Vision routing — screenshots and pixel evidence
+
+Screenshot capture and screenshot reading are separate operations. On this machine the main
+model may be text-only: **a text-only main model must hand pixels to an image-capable
+instrument** (`duyan-vision-reader`, or a subagent with `Read`) and report what that instrument
+reads — never what the pixel *looks like* from a filename or a DOM dump.
+
+- Screenshots land in `snapshot/` (`snapshot/{route}-{width}-{theme}.png`), read, then deleted.
+- `IMAGE READ FAILURE` is an instrument problem, **not evidence about the page** — retry with a
+  fresh capture, do not convert the failure into "looks fine" or "looks broken".
+- A class list is not evidence for a visual claim. If the claim is "the hero renders correctly",
+  the evidence is a screenshot read by an image-capable instrument, in both themes, at 1280 and
+  375.
+
 ## NO-GO
 
 Never delegate content generation to a marketing-style agent whose prompt does not forbid

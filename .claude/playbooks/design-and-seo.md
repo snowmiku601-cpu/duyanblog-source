@@ -1,3 +1,4 @@
+<!-- PLAYBOOK — not auto-loaded; read on demand per .claude/playbooks/README.md -->
 # Design & SEO — tokens, metadata, structured data
 
 Read before any visual, token, metadata, schema or SEO decision. Full references:

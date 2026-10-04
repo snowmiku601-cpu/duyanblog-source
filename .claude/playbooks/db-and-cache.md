@@ -1,3 +1,4 @@
+<!-- PLAYBOOK — not auto-loaded; read on demand per .claude/playbooks/README.md -->
 # DB & cache — Prisma, migrations, ISR
 
 Read before touching `prisma/schema.prisma`, migrations, seeds, `src/lib/queries.ts`,

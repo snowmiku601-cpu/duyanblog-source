@@ -1,13 +1,15 @@
 # DUYANBLOG — Agent Operating Manual
 
 > Auto-loads every session. This file is a **router**: keep it thin. Rules live in
-> `.claude/rules/` (loaded on demand), playbooks in `.claude/playbooks/` (task-scoped, never
+> `.claude/rules/` (auto-loaded), playbooks in `.claude/playbooks/` (task-scoped, NEVER
 > auto-loaded), history is `worklog.md` at the repo root. Anything you can reconstruct from the
 > tree or from `git log` does not belong here. Facts move out to a rule, never accrete.
 >
-> **The budget is a ratchet.** `.claude/rules/` and this file are the only things the harness
-> auto-loads. Pay for every addition by retiring something finished (`worklog.md` grows, rules
-> must not).
+> **The budget is a ratchet.** This file + `.claude/rules/` + `AGENTS.md` auto-load every
+> session; `npm run validate:docs` caps them at
+> 24 KB and the cap comes DOWN, never up. Adding task-scoped prose here costs every future
+> session — put it in `.claude/playbooks/` instead. Measured on a sibling project: rules with 15
+> files cost ~534 KB/session; the same files in a non-loading directory cost ~137 KB.
 
 ---
 
@@ -80,19 +82,30 @@ npm run media:manifest # backfill public/images/.media-manifest.json dimensions
 - Back-to-back smoke runs can trip the newsletter rate limiter (5/min/IP → 429). Wait a minute;
   that limiter is the feature.
 
-## Rules index (`.claude/rules/`) — read on demand
+## Rules index (`.claude/rules/`) — auto-loaded, read on demand
 
 | File | Read before |
 |---|---|
-| `content-integrity.md` | writing any content, number, claim, or demo-data bound to the page |
+| `content-integrity.md` | writing any content, number, claim, or demo-bound data |
 | `admin-safety.md` | touching auth, admin routes, production guards, or DB sessions |
-| `db-and-cache.md` | any Prisma model, migration, seed, or ISR/revalidate decision |
-| `windows-traps.md` | any multi-line shell work, path juggling, or PowerShell/Bash mixing |
 | `agent-routing.md` | launching any subagent |
-| `design-and-seo.md` | any visual, token, metadata, schema or SEO decision |
+| `operating-rhythm.md` | starting/ending a session, before any commit or push |
+| `risk-register.md` | proposing any "improvement" |
 
-Each rule file starts with the incident that produced it. If the incident is in `worklog.md`
-instead, the rule says so and links the Task ID.
+## Playbooks (`.claude/playbooks/`) — NOT auto-loaded, read on demand
+
+`db-and-cache.md` (Prisma/migration/ISR) · `windows-traps.md` (shells/paths) ·
+`design-and-seo.md` (tokens/metadata/SEO) — index with trigger lines in `.claude/playbooks/README.md`.
+Task-scoped incidents and mechanisms live here, never in `rules/`.
+
+## The gate (before any commit or push — see rules/operating-rhythm.md)
+
+```bash
+npm run lint && npm run typecheck   # 1. fast gates
+npm run validate:docs               # 2. docs/workspace gate (budget + links + indexes)
+```
+
+(If code changed: `npm run build`, then `npm run test` against a running dev server.)
 
 ## Agents (`.claude/agents/`) — never invent a name
 
@@ -103,7 +116,10 @@ work; the repo agents exist for jobs with a house contract. Cap is two agents pe
 ## Session end
 
 Write what you **learned**, not what you did, to the memory store that actually auto-loads — the
-user-scope `C:\Users\PC\.claude\projects\e--duyanblog-source\memory\` directory — **not** to
-`.claude/memory/` (kept for durable reference material only, it does not auto-load). One fact per
-file, named after the fact (e.g. `the-upload-api-accepts-a-folder-param.md`). If it could be
-reconstructed from `git log --stat`, do not save it.
+user-scope `C:\Users\PC\.claude\projects\e--duyanblog-source\memory\` directory. One fact per
+file, named after the fact; if it could be reconstructed from `git log --stat`, do not save it.
+Lessons specific to this repo's `.claude/` go into `.claude/memory/` (indexed in
+`.claude/memory/README.md`, linked with `[[wikilinks]]` — `npm run validate:docs` enforces no
+orphans). New task-scoped procedure → `.claude/playbooks/`. New invariant → `.claude/rules/`.
+Then: update root docs if behaviour changed, append a `Task ID: N` entry to `worklog.md`, commit
+one concern per commit.

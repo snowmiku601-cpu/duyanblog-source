@@ -23,11 +23,20 @@ may *contain* explicitly fictional values (they are labelled, by design); you ma
 
 - Verify on the **rendered page**, never by grepping `src/` alone. Give every grep a control that
   must hit and one that must miss.
+- **A verification claim includes the exact command, its literal output, and the exit code.**
+  "Looks correct", "should work", "the format is right" are not verification.
 - An agent's quote is a lead, not a source: re-fetch, attribute, or delete it. No fourth option.
 - A false CON survives every sweep — criticism reads as honesty. Treat "no API / no free tier /
   no SOC 2" on a merchant as a spec claim that needs the same source as a pro.
 - Scope dies when the claim is restated: "the cheapest of the five we compare" becomes "the
   cheapest" one sentence later. Check transitions, not just sentences.
+
+## Pre-write gate (before every Edit or Write)
+
+1. Have I read this file in this session?
+2. Does the value I am about to write trace to a source, or is it labelled demo?
+3. Is this the minimal change, or am I also "fixing" something adjacent?
+4. Will I be able to demonstrate this on the rendered page, with a control that must not match?
 
 ## Demo → launch
 

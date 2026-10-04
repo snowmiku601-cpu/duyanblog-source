@@ -58,6 +58,13 @@ prompt
 
 server.log
 
+# review artifacts (screenshots, DOM dumps) — create, read, delete
+/snapshot/*
+!/snapshot/README.md
+
+# scratch dir (evidence captures with dates, disposable)
+/_scratch/
+
 # Claude Code workspace configuration (local machine state, never shared)
 # settings.local.json holds machine-specific permissions — do not commit it.
 .claude/settings.local.json
