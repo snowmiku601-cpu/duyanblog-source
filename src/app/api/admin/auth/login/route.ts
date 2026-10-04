@@ -36,6 +36,25 @@ export async function POST(request: Request) {
   }
   const { email, password } = parsed.data;
 
+  // Defense-in-depth beyond IP attribution (Correction 3): even if the
+  // upstream IP cannot be trusted, a per-email bucket and a process-global
+  // bucket mean rotating a spoofed XFF can never produce unlimited attempts
+  // against one account. These are in-memory and reset with a restart.
+  const emailLimited = rateLimit(`login:email:${email}`, 5, 60_000);
+  if (!emailLimited.ok) {
+    return NextResponse.json(
+      { error: `Too many attempts for this account — try again in ${emailLimited.retryAfterSeconds}s.` },
+      { status: 429, headers: { "Retry-After": String(emailLimited.retryAfterSeconds) } }
+    );
+  }
+  const globalLimited = rateLimit("login:global", 60, 60_000);
+  if (!globalLimited.ok) {
+    return NextResponse.json(
+      { error: "Too many sign-in attempts site-wide — try again in a minute." },
+      { status: 429, headers: { "Retry-After": String(globalLimited.retryAfterSeconds) } }
+    );
+  }
+
   try {
     const user = await db.user.findUnique({ where: { email } });
     const valid = user ? await verifyPassword(password, user.passwordHash) : false;

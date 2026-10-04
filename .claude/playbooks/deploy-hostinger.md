@@ -36,6 +36,15 @@ reasoning; this is the how.
    failed a build). TypeScript/tsx/eslint can stay dev-only.
 5. **Webpack, not Turbopack.** Turbopack panics parsing `globals.css` in the sandboxed build
    (`node worker exits`) — `next build --webpack` is the working build.
+5b. **`TRUST_PROXY` is only set after the edge contract is verified.** The rate limiter
+   ignores client-supplied `X-Forwarded-For` by default (it is forgeable). If this deployment
+   needs real visitor IPs behind the Hostinger edge, FIRST confirm the edge overwrites or
+   strips client-supplied forwarding headers (test with `curl -H "X-Forwarded-For: 1.2.3.4"`),
+   then set `TRUST_PROXY=true`. Until verified, login is still protected by per-email and
+   process-global buckets regardless of IP attribution.
+5c. **`ALLOW_INDEXING=true` is set ONLY on the real production domain** (build-time). The demo
+   subdomain and any preview/localhost must leave it unset so `robots.txt` serves a full
+   `Disallow: /` — fictional demo content is never indexed as production editorial.
 6. **App DB host is `127.0.0.1`; local tooling uses `srvNNNN.hstgr.io`** with a temporary
    remote rule (`ip %`), closed after use. They are different URLs by design.
 7. **`ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` never appear in the host env.** They are set

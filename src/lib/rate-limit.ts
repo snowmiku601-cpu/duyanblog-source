@@ -2,11 +2,19 @@
  * Tiny fixed-window in-memory rate limiter.
  * Sufficient for a single-node editorial site; swap for Redis/edge KV when
  * horizontally scaling (see ARCHITECTURE.md).
+ *
+ * IP attribution is a security-sensitive input: a client-supplied
+ * `X-Forwarded-For` header is forgeable, so we refuse to trust it unless the
+ * operator has explicitly verified that the edge overwrites/sanitizes
+ * client-supplied forwarding headers AND set TRUST_PROXY=true. Untrusted by
+ * default = a rotated XFF cannot mint a fresh rate-limit bucket.
  */
 type Bucket = { count: number; resetAt: number };
 
 const buckets = new Map<string, Bucket>();
 let lastSweep = Date.now();
+
+const TRUST_PROXY = process.env.TRUST_PROXY === "true";
 
 function sweep(now: number) {
   if (now - lastSweep < 60_000) return;
@@ -35,8 +43,20 @@ export function rateLimit(
   return { ok: true, remaining: limit - bucket.count, retryAfterSeconds: 0 };
 }
 
-export function clientIp(request: Request): string {
-  const fwd = request.headers.get("x-forwarded-for");
-  if (fwd) return fwd.split(",")[0]!.trim();
-  return request.headers.get("x-real-ip") ?? "unknown";
+/**
+ * Resolve the client IP for rate-limit keying.
+ *
+ * - Trusted proxy (TRUST_PROXY=true AND the edge is verified to overwrite
+ *   client-supplied XFF): return the first XFF hop.
+ * - Untrusted (default): NEVER read client-supplied XFF. Prefer the
+ *   platform-set x-real-ip; if absent, fall back to a stable per-process key
+ *   so the limiter still works without exposing a forgeable input.
+ */
+export function clientIp(request: Request, opts: { trustProxy?: boolean } = {}): string {
+  const trust = opts.trustProxy ?? TRUST_PROXY;
+  if (trust) {
+    const fwd = request.headers.get("x-forwarded-for");
+    if (fwd) return fwd.split(",")[0]!.trim();
+  }
+  return request.headers.get("x-real-ip") ?? "__local__";
 }
