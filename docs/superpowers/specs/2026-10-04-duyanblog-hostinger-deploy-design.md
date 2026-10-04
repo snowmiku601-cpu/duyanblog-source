@@ -74,18 +74,19 @@ Browser ── TLS (auto Let's Encrypt on the subdomain)
   rebuild; shared hosting gives no durable local filesystem guarantee for app data. MySQL is
   the platform's supported durable store and the API provisions it end-to-end.
 - **Code change required:** `prisma/schema.prisma` `provider` `"sqlite"` → `"mysql"`, and the
-  three existing migrations (`20260928122551_init`, `20260928125741_add_reading_minutes`,
-  `20260928173719_newsletter_double_opt_in`) regenerated **for MySQL** (`prisma migrate diff`
-  against the datamodel, same names/order preserved). All JSON-in-String columns are TEXT —
-  MySQL-native. No index is on a TEXT column (indexes are on String/DateTime columns), so no
-  prefix-length problems. Local dev switches back to SQLite by keeping a dev-only
-  `prisma/schema.sqlite.prisma`? — **no**: keep one schema, provider read from env is not
-  supported by Prisma. Decision: the repo's canonical `schema.prisma` becomes MySQL (the
-  production target); local dev uses the same MySQL via the same `DATABASE_URL` (a local MySQL)
-  or a documented dev-only `DATABASE_URL` to a local SQLite requires a second schema file —
-  **deferred to the plan** (two options: (a) one MySQL schema for everyone + local MySQL for
-  dev, or (b) keep `schema.prisma` sqlite + new `schema.mysql.prisma` used by a
-  `prisma generate --schema` override in the build). Marked OPEN below.
+  existing migration history rebased to **one MySQL baseline migration** (`20261004000000_init`,
+  via `prisma migrate diff --from-empty`). The old SQLite chain (4 folders) is unreplayable on
+  MySQL (autoincrement/BLOB semantics differ) and has no production value — the single baseline
+  is canonical. All long content columns (`Article.blocks`, `Article.deck`/`tldr`,
+  `Author.focusAreas`, `ComparisonItem.attributes/pros/cons`, `MethodologyEntry.body`) must be
+  annotated `@db.LongText` (or `@db.Text` for the short ones) with their `@default("[]")`
+  removed — bare `String` maps to `VARCHAR(191)` on MySQL and would truncate the seed's 6–10 KB
+  JSON blocks at insert (`Data too long`), and MariaDB refuses `DEFAULT` on TEXT/BLOB (1101).
+  Slugs/emails/tokens keep `VARCHAR(191)` — they carry unique indexes needing the 191 charset.
+- **Order (hard):** bootstrap (migrate + seed + admin, run LOCALLY over a remote DB connection)
+  runs BEFORE the first build — `next build` prerenders the `revalidate=N` pages and queries
+  the DB, so an unmigrated DB fails the build. Every later deploy re-runs `migrate deploy`
+  before `next build`.
 - **App type:** `next`. Build script `npm run build` (existing: `next build` + copies into
   standalone). `root_directory`: `.`. `output_directory`/`entry_file`: resolved at plan time via
   `hosting_nodejs_get-build-settings` / auto-detection; fallback per platform for Next apps
