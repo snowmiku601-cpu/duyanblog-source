@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "test": "node scripts/smoke.mjs",
     "validate:docs": "node scripts/validate-docs.mjs",
+    "slop": "node scripts/slop-scan.mjs",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push --accept-data-loss",

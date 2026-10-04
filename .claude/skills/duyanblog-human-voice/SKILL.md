@@ -49,4 +49,17 @@ schema comments); nothing renders with `dangerouslySetInnerHTML`.
 - [ ] No raw merchant URLs — all offer references are `go:OFFER_ID`.
 - [ ] Headline ≤ 60 chars, deck one crisp sentence, TL;DR three bullets max.
 - [ ] Read aloud once: if a sentence needs two breaths it needs a period.
+- [ ] **Run the slop scan** — `npm run slop -- --rows` — and read each hit before fixing.
+      A hit is a lead, not a sentence to delete blindly; a pattern that fires on good prose is a
+      known-imperfect instrument (same as the sibling projects). Do not argue about whether
+      prose "feels human" — run the scan, it carries its own controls and prints a selftest
+      before any result.
 - [ ] `npm run lint && npm run typecheck` pass if any code touched the blocks/types.
+
+## Scanner hygiene
+
+- Default target is `src/content/policies.ts` — clean edits stay 0 hits, so a new FATAL is the
+  diff, not the baseline.
+- Demo seed (`prisma/seed.ts`) is labelled fiction: scan it with `--files=prisma/seed.ts --rows`
+  to review style, never as a gate — its prices are demo by design.
+- `--strict` makes any WARN fail; use it as the editorial gate when real content starts shipping.
