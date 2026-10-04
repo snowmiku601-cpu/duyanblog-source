@@ -146,7 +146,7 @@ export default async function VersusPage({ params }: Params) {
         )}
 
         {article.tldr && <TldrBox text={article.tldr} />}
-        <DemoNotice />
+        {article.isDemo && <DemoNotice />}
       </div>
 
       {comparisonItems.length >= 2 && (

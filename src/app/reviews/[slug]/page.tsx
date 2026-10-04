@@ -120,7 +120,7 @@ export default async function ReviewPage({ params }: Params) {
 
           {article.tldr && <TldrBox text={article.tldr} />}
           <AffiliateDisclosure variant="box" />
-          <DemoNotice />
+          {article.isDemo && <DemoNotice />}
           <AdSlot enabled={isAdsEnabled(settings)} slotId="review-top" />
 
           <ArticleRenderer blocks={blocks} articleSlug={article.slug} />

@@ -83,6 +83,8 @@ export default async function EditorialPage({ params }: Params) {
 
       <ArticleHeader article={article} />
 
+      {article.isDemo && <DemoNotice />}
+
       <div className="mx-auto max-w-3xl space-y-8 px-4 py-10 lg:px-6">
         {article.heroImage && (
           <figure className="overflow-hidden rounded-md border border-border">

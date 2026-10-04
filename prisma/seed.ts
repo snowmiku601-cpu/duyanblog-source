@@ -325,6 +325,7 @@ async function main() {
       slug: "auralis-note-14-review",
       type: "review",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "Auralis Note 14 review: a calm laptop for deep work",
       deck: "Three weeks with the 14-inch that refuses to shout: excellent battery, honest performance, and a fan you will never meet. The trade-offs are real, and we list them.",
       tldr:
@@ -411,6 +412,7 @@ async function main() {
       slug: "terrasim-go-review",
       type: "review",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "TerraSIM Go review: a regional eSIM that keeps things simple",
       deck: "Two weeks across Vietnam and Japan on TerraSIM's regional plan: easy setup, stable speeds, and an app that tells you the truth about your data.",
       tldr:
@@ -487,6 +489,7 @@ async function main() {
       slug: "best-esim-providers",
       type: "roundup",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "The best eSIM providers for travellers (2026)",
       deck: "We bought, installed and burnt through the data of three major eSIM providers on real trips. These are the ones we'd load on the next flight.",
       tldr:
@@ -581,6 +584,7 @@ async function main() {
       slug: "cloudpeak-vs-harborstack",
       type: "versus",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "Cloudpeak Hosting vs Harborstack: which budget host survives a traffic spike?",
       deck: "One has the faster panel and fatter intro specs; the other has honest renewal pricing and a backup plan that doesn't cost extra. We ran both under load to settle it.",
       tldr:
@@ -643,6 +647,7 @@ async function main() {
       slug: "choose-a-vpn",
       type: "guide",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "How to choose a VPN in 2026: a plain-English guide",
       deck: "Kill lists, audit reports and the questions that actually matter — how to pick a VPN without trusting an ad, a ranking table, or us.",
       tldr:
@@ -696,6 +701,7 @@ async function main() {
       slug: "why-we-publish-testing-notes",
       type: "editorial",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "Why we publish our testing notes (and our mistakes)",
       deck: "A review you can't check is just confident writing. An editor's note on evidence, corrections and why the methodology is the most honest page on this site.",
       heroImage: "/images/testing-notes.png",

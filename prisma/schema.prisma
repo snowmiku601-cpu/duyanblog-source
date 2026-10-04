@@ -77,6 +77,7 @@ model Article {
   slug           String            @unique
   type           String // review | roundup | versus | guide | editorial
   status         String            @default("draft") // draft | published
+  isDemo         Boolean           @default(false) // demo/fictional content gate (Corrections 5-6)
   title          String
   deck           String            @db.Text // standfirst / excerpt — Text: up to 65 KB
   tldr           String?           @db.Text // ~280 chars in seed — Text is honest

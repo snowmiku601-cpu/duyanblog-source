@@ -105,7 +105,7 @@ export default async function GuidePage({ params }: Params) {
               </figure>
             )}
 
-            <DemoNotice />
+            {article.isDemo && <DemoNotice />}
             <ArticleRenderer blocks={blocks} articleSlug={article.slug} dropCap />
 
             <TagChips tags={article.tags.map((t) => t.tag)} className="border-t border-border pt-6" />
