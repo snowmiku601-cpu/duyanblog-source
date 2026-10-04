@@ -56,18 +56,26 @@ checks.push(
   { path: "/old-esim-guide", expect: 302 }
 );
 
+let failed = 0;
+
 // The /go fallback Location must point at the PUBLIC origin, not the upstream
 // (request.url behind the Hostinger edge is 0.0.0.0:3000 — regressed once, fixed
 // via site.url). Status-only checks would pass a dead-origin redirect.
+// When smoke-testing a local server, BASE (localhost) differs from site.url
+// (the configured public origin), so accept any 302 whose target is a public
+// /deals path on some origin — the invariant is "never the upstream origin".
 {
   const res = await fetch(`${BASE}/go/does-not-exist`, { redirect: "manual" });
   const loc = res.headers.get("location") ?? "";
-  const ok = res.status === 302 && (loc.startsWith(BASE) || loc.startsWith("/deals")) && !loc.includes("0.0.0.0");
+  const target = new URL(loc, BASE);
+  const ok =
+    res.status === 302 &&
+    !loc.includes("0.0.0.0") &&
+    !["localhost", "127.0.0.1", "0.0.0.0"].includes(target.hostname) &&
+    target.pathname.endsWith("/deals");
   console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} Location=${loc}  /go/does-not-exist fallback targets public origin`);
   if (!ok) failed += 1;
 }
-
-let failed = 0;
 
 for (const { path, expect } of checks) {
   try {
