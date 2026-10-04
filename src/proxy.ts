@@ -18,7 +18,6 @@ import { db } from "@/lib/db";
  */
 
 export const config = {
-  runtime: "nodejs",
   matcher: [
     "/((?!api/|go/|admin|_next/static|_next/image|favicon\\.svg|robots\\.txt|sitemap\\.xml|feed\\.xml|images/|logo/|.*\\.).*)",
   ],
