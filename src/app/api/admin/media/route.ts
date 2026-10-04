@@ -38,36 +38,23 @@ const SIGNATURES: Array<{ ext: string; test: (b: Uint8Array) => boolean }> = [
     test: (b) =>
       b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
   },
-  { ext: "gif", test: (b) => b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x38 },
   {
     ext: "avif",
     test: (b) =>
       b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70 && b[8] === 0x61 && b[9] === 0x76 && b[10] === 0x69 && b[11] === 0x66,
   },
-  // SVG is text — validated by sniffing the first bytes.
-  {
-    ext: "svg",
-    test: (b) => {
-      const head = new TextDecoder()
-        .decode(b.slice(0, 300))
-        .trim()
-        .toLowerCase();
-      return head.startsWith("<svg") || head.startsWith("<?xml");
-    },
-  },
 ];
 
+/** Raster-only formats (SVG removed: stored-XSS vector; GIF removed: no demonstrated need). */
 const EXT_BY_MIME: Record<string, string> = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/webp": "webp",
-  "image/gif": "gif",
   "image/avif": "avif",
-  "image/svg+xml": "svg",
 };
 
 function extFromName(name: string): string {
-  const m = /\.(png|jpe?g|webp|gif|avif|svg)$/i.exec(name);
+  const m = /\.(png|jpe?g|webp|avif)$/i.exec(name);
   if (!m) return "";
   return m[1].toLowerCase().replace("jpeg", "jpg");
 }
@@ -100,7 +87,7 @@ export async function POST(request: Request) {
   const declared = extFromName(file.name);
   if (!declared) {
     return NextResponse.json(
-      { error: "Unsupported file type — use .png, .jpg, .webp, .gif, .avif or .svg." },
+      { error: "Unsupported file type — use .png, .jpg, .webp or .avif." },
       { status: 400 },
     );
   }
