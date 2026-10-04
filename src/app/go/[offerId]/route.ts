@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { site } from "@/lib/site";
 
 /**
  * Affiliate click router: /go/[offerId]?src=[articleSlug]
@@ -26,11 +27,12 @@ export async function GET(
   });
 
   if (!offer) {
-    // Relative redirect: `request.url` can carry the proxy's upstream origin
-    // (e.g. 0.0.0.0:3000) behind a reverse proxy or hosting edge — building an
-    // absolute URL from it would send visitors to a dead origin. A relative
-    // Location is resolved by the browser against the public origin.
-    return NextResponse.redirect("/deals", { status: 302 });
+    // Fallback to /deals on the PUBLIC origin: `request.url` can carry the
+    // proxy's upstream origin (e.g. 0.0.0.0:3000) behind a reverse proxy or
+    // hosting edge, and NextResponse.redirect rejects a bare relative path —
+    // so build the absolute URL from the configured public site URL, which is
+    // what canonical/OG everywhere else uses.
+    return NextResponse.redirect(`${site.url}/deals`, { status: 302 });
   }
 
   // Consent snapshot: the banner stores choices in localStorage (not a server
