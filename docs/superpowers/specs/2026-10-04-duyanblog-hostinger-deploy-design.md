@@ -35,8 +35,11 @@ API operations available on this account (the plan's Node.js layer):
 - `hosting_nodejs_restart-application`, `hosting_nodejs_list-environment-variables`,
   `hosting_nodejs_replace-environment-variables`
 - `hosting_databases_setup-website` (creates a MySQL DB; writes `DB_HOST`, `DB_PORT`,
-  `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DATABASE_URL` into the app env — password never
-  returned; existing vars kept; call fails 422 if any of those names already exist)
+  `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DATABASE_URL` into the app env — password **never
+  returned**; existing vars kept; call fails 422 if any of those names already exist)
+- `hosting_databases_create-remote-connection` (opens the DB to outside connections so local
+  tooling can reach it — used for the one-time data bootstrap; host from
+  `hosting_databases_list` is `srvNNNN.hstgr.io`)
 - `hosting_deploy-js-application`, `hosting_cron-jobs_list`, `hosting_redirects_*`
 
 ## 3. Chosen approach (owner-approved)
@@ -105,28 +108,29 @@ Browser ── TLS (auto Let's Encrypt on the subdomain)
 
 ## 5. Sequencing (top-level; details in the implementation plan)
 
-1. **Repo preparation** — MySQL migrations regenerated; `package.json`/env docs updated;
+1. **Repo preparation** — MySQL migrations regenerated (`prisma migrate diff` local);
    `.env.example` gains the MySQL URL shape; gates green (`lint`, `typecheck`,
    `validate:docs`, `slop`).
 2. **Provision** — `hosting_websites_create` on order `1009151112` for
    `duyanblog-test.hostingersite.com`; poll `hosting_websites_list-setups` until `completed`.
-3. **Database** — `hosting_databases_setup-website` (name `duyanblog`); confirm env vars
-   written.
-4. **GitHub connection** — owner authorizes the GitHub installation in hPanel once
-   (Websites → Manage → Advanced → Git); confirm via `hosting_git_list-installations`.
-5. **Build settings** — `hosting_nodejs_update-build-settings` (node 22, next, root `.`,
-   build script `build`, npm); `hosting_nodejs_start-build` (git source:
-   `snowmiku601-cpu/duyanblog-source`, `main`); poll `list-builds`/`build-logs`; on failure use
-   `analyse-failed-build`.
-6. **Env + runtime** — `hosting_nodejs_replace-environment-variables` → exact set:
-   `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL=https://duyanblog-test.hostingersite.com`,
-   `DATABASE_URL`+`DB_*` (already there from step 3 — **never copy masked values; send the full
-   intended set**), `ALLOW_DEMO_SEED=true`, `ALLOW_ADMIN_BOOTSTRAP=true` (setup-only).
-   Rebuild (env baked at build time) → start/restart.
-7. **Data bootstrap (one-time, then unset)** — with the allow-flags set: `prisma migrate
-   deploy`, `seed:demo`, `admin:bootstrap --email <owner> --password <12+ chars>`; then **remove
-   both allow-flags** and rebuild. Demo dataset is intended (evaluating the presentation with
-   labelled fiction); `demo_mode` stays `true`.
+3. **Non-DB env** — `replace-environment-variables` → `NODE_ENV=production`,
+   `NEXT_PUBLIC_SITE_URL=https://duyanblog-test.hostingersite.com` (BEFORE the DB setup, per
+   O5).
+4. **Database** — `hosting_databases_setup-website` (name `duyanblog`; adds `DATABASE_URL` +
+   `DB_*` on top of existing vars); confirm env vars written.
+5. **GitHub connection** — owner authorizes the GitHub installation in hPanel once
+   (Websites → Manage → Advanced → Git); confirm via `hosting_git_list-installations`;
+   fallback: archive deploy via `hosting_deploy-js-application`.
+6. **Build** — `hosting_nodejs_update-build-settings` (node 22, next, root `.`, build script
+   `build`, npm); `hosting_nodejs_start-build` (git source: `snowmiku601-cpu/duyanblog-source`,
+   `main`); poll `list-builds`/`build-logs`; on failure `analyse-failed-build`. Restart once
+   built.
+7. **Data bootstrap (one-time, run LOCALLY via remote DB connection)** —
+   `hosting_databases_create-remote-connection`; local `DATABASE_URL` →
+   `mysql://<user>:<pass>@srvNNNN.hstgr.io:<port>/<db>`; `npx prisma migrate deploy` (also
+   runs idempotently at app start if wired), `ALLOW_DEMO_SEED=true npm run seed:demo`,
+   `ALLOW_ADMIN_BOOTSTRAP=true npm run admin:bootstrap -- --email <owner> --password <12+
+   chars>`; then close the remote connection. Flags live only in the local invocation.
 8. **Verify** — `SMOKE_BASE_URL=https://duyanblog-test.hostingersite.com npm run test` (51
    checks); `duyan-runtime-verifier` agent against the live URL (guards, canonical/OG, feeds,
    images, `/go`); owner-side manual check (consent banner, /admin login).
@@ -142,9 +146,10 @@ Browser ── TLS (auto Let's Encrypt on the subdomain)
   contract intact) — verified via the admin UI once.
 - Scheduled publishing still hides future-dated stories on the live host.
 - `/go/` links 302 to the seeded offer URLs; `robots.txt` disallows `/admin`, `/api/`, `/go/`.
-- A second build (deploy update) does not wipe the MySQL data (the database is platform-side).
+- A second build (deploy update) does not wipe the MySQL data (the database is platform-side,
+  and no seed ever runs in the build pipeline).
 - `NODE_ENV=production` guards verified: `seed:demo`/`admin:bootstrap` refuse without the
-  allow-flags once they are unset.
+  allow-flags (they are only set on the local bootstrap invocation, never on the host).
 
 ## 7. Risks & mitigations
 
@@ -163,9 +168,16 @@ Browser ── TLS (auto Let's Encrypt on the subdomain)
   for build). Recommendation: **single schema = MySQL** (canonical, one set of migrations, the
   documented Postgres-portable claim extends to MySQL); local dev runs the same MySQL via the
   platform or a local instance. Owner impact: local dev flow changes (no more file SQLite).
+  **Decision made in review:** single MySQL schema; the owner-approved direction (deploy on
+  existing plan) overrides local-file convenience, and a local SQLite for dev would permanently
+  fork migrations. Noted for the plan as a committed choice.
 - **O2 — Next `app_type` run shape:** how the platform starts the standalone server (auto vs
   explicit `entry_file`) — resolved empirically via `get-build-settings` before the first
-  build; no owner decision needed.
+  build; no owner decision needed. Also resolved: **the build script is `npm run build` ONLY**;
+  migrate/seed/bootstrap never run in the host build pipeline (review outcome).
 - **O3 — `start` script bun dependency:** platform runs its own start; confirm npm fallback in
   the plan (likely `node .next/standalone/server.js` documented, not a code change).
 - **O4 — Email:** launch without RESEND (owner can add a key later; no decision required now).
+- **O5 — Platform DB password is unrecoverable after env replacement:** mitigation chosen —
+  set non-DB env BEFORE the DB setup; never call `replace-environment-variables` afterwards
+  (review outcome).
