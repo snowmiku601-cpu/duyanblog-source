@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -50,7 +50,7 @@ model Author {
   role       String // e.g. "Founding editor" — roles only, never fabricated credentials
   bio        String
   avatarUrl  String?
-  focusAreas String    @default("[]") // JSON string[]
+  focusAreas String        @db.LongText // JSON string[] — LongText: JSON arrays exceed VARCHAR(191)
   articles   Article[] @relation("ArticleAuthor")
   reviewed   Article[] @relation("ArticleReviewer")
   createdAt  DateTime  @default(now())
@@ -77,8 +77,8 @@ model Article {
   type           String // review | roundup | versus | guide | editorial
   status         String            @default("draft") // draft | published
   title          String
-  deck           String // standfirst / excerpt
-  tldr           String?
+  deck           String            @db.Text // standfirst / excerpt — Text: up to 65 KB
+  tldr           String?           @db.Text // ~280 chars in seed — Text is honest
   heroImage      String?
   heroAlt        String?
   heroCredit     String?
@@ -88,7 +88,7 @@ model Article {
   author         Author            @relation("ArticleAuthor", fields: [authorId], references: [id], onDelete: Restrict)
   reviewerId     String?
   reviewer       Author?           @relation("ArticleReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
-  blocks         String            @default("[]") // JSON Block[] — Zod validated
+  blocks         String            @db.LongText // JSON Block[] — Zod validated; LongText: 6-10 KB JSON
   disclosureNote String?
   publishedAt    DateTime?
   lastReviewedAt DateTime?
@@ -114,7 +114,7 @@ model ArticleRevision {
   articleId String
   article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   title     String
-  blocks    String
+  blocks    String   @db.LongText // revision snapshots of Article.blocks — same size class
   note      String?
   createdAt DateTime @default(now())
 
@@ -215,9 +215,9 @@ model ComparisonItem {
   imageUrl     String?
   score        Float?
   summary      String?
-  attributes   String        @default("[]") // JSON {label,value,numeric?,highlight?}[]
-  pros         String        @default("[]") // JSON string[]
-  cons         String        @default("[]") // JSON string[]
+  attributes   String        @db.LongText // JSON {label,value,numeric?,highlight?}[] — LongText
+  pros         String        @db.LongText // JSON string[] — LongText
+  cons         String        @db.LongText // JSON string[] — LongText
   offerId      String?
   offer        AffiliateOffer? @relation(fields: [offerId], references: [id], onDelete: SetNull)
   order        Int           @default(0)
@@ -257,7 +257,7 @@ model MethodologyEntry {
   id        String   @id @default(cuid())
   slug      String   @unique
   title     String
-  body      String // markdown-ish plain text
+  body      String   @db.LongText // markdown-ish plain text — ~1.1 KB in seed
   updatedAt DateTime @updatedAt
 }
 

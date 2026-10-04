@@ -74,11 +74,15 @@ const pathCite = /`((?:src|prisma|scripts|tests|public|\.claude|db)[^`]*\/[^`]*|
 const missingPaths = [];
 for (const rel of walk(".", (r) => r.endsWith(".md") && !r.startsWith("node_modules/") && r !== "worklog.md")) {
   const content = read(rel);
-  // eslint-disable-next-line no-control-regex
   for (const m of content.matchAll(pathCite)) {
-    const cited = m[1];
+    let cited = m[1];
     // Ignore glob-ish cites (contain * or ?) and template/ellipsis fragments — patterns, not paths
     if (/[*?]/.test(cited) || /[<>…]/.test(cited)) continue;
+    // Ignore file:line cites (e.g. `schema.prisma:12`) — the path part is what matters, and
+    // the line suffix makes a real path test impossible; resolve the path part instead.
+    if (/^[\w./-]+:\d+$/.test(cited)) cited = cited.replace(/:\d+$/, "");
+    // Ignore the SDD workspace — gitignored scratch, never a committed path
+    if (cited.startsWith(".superpowers/")) continue;
     // Ignore backtick-wrapped fragments that are not paths: command names,
     // subcommand invocations (e.g. `db push`, `db:reset`, `srcset`)
     if (/\s/.test(cited)) continue;
