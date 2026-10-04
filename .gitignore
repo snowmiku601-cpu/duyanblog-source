@@ -76,3 +76,7 @@ server.log
 
 # Skills directory
 /skills/
+# tooling artifacts (never committed)
+/.playwright-mcp/
+/.verify/
+/duyanblog-source.zip

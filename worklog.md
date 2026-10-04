@@ -369,3 +369,58 @@ Recommended next steps (priority order):
 3. A "scheduled" chip could surface on the public home/type indexes is intentionally NOT wanted (hidden is hidden) — instead consider a tiny admin "Publishing queue" card listing upcoming scheduled stories with countdowns.
 4. Newsletter open-rate/clicks tracking would require the email provider's webhooks — defer until Resend is live.
 5. Dev-quirk worth documenting for the production QA pass: dynamic-segment 404s return 200 + not-found shell in dev; verify real 404 statuses after `next build`.
+
+---
+Task ID: 15
+Agent: Claude Code (lead) — production deployment to Hostinger Business
+Task: Full deployment of duyanblog to the client's Hostinger Business plan (Node.js web app),
+MySQL, temporary subdomain; superpowers process (brainstorming → spec → plan → 3-pass review →
+execute).
+
+Work Log:
+- DISCOVERY: the account (u257278613, order 1009151112, hostinger_business_v3) hosts the
+  client's static sites (thesmartaistack.com, jellyreviews.com) but shared static hosting
+  cannot run this server app. The Business plan's Node.js web-app layer (next/express apps,
+  git/archive source, MySQL) is the vehicle — no new spend (owner constraint).
+- REPO (3 commits): provider → mysql + ONE baseline migration 20261004000000_init
+  (SQLite chain unreplayable; long columns @db.LongText/@db.Text with @default removed);
+  docs/env updates (incl. .gitignore !.env.example); build chain now
+  `prisma generate && next build --webpack && cp…` + start:node; removed the pre-existing
+  `runtime: nodejs` config that Next 16 rejects in proxy files; moved build-critical Tailwind
+  packages (@tailwindcss/postcss, tailwindcss, tw-animate-css) to dependencies because the
+  host installs production deps only.
+- PLATFORM: created duyanblog-test.hostingersite.com; MySQL u257278613_duyanblog
+  (srv2123.hstgr.io) with a locally-generated known password; env written ONCE
+  (NODE_ENV, NEXT_PUBLIC_SITE_URL, DB_*, DATABASE_URL @127.0.0.1) — never replace again;
+  bootstrap ran LOCALLY over a temporary remote rule: migrate deploy (clean), seed
+  (6 articles/7 offers/1 comparison), admin editor@duyanblog.test, negative control refused.
+- BUILD: GitHub connection unavailable (client's account — owner cannot authorize) → archive
+  fallback (git archive zip → hosting_deploy-js-application). 3 failed builds taught:
+  Turbopack panics on globals.css in the sandboxed build (→ --webpack);
+  @tailwindcss/postcss then tw-animate-css missing from production install (→ dependencies).
+  4th build COMPLETED, prerendered 57/57 pages from MySQL. Live.
+- VERIFY: smoke 51/51 PASS (fixed the newsletter double-opt-in expectation for production
+  no-confirmUrl). duyan-runtime-verifier found /go/does-not-exist → 302 to 0.0.0.0:3000
+  (request.url upstream origin; smoke never asserts Location) → fixed via site.url
+  (relative → 500; Next needs absolute). Redeployed; /go 302 → public /deals.
+  Deploy-twice check passed: demo data survives repeated builds; guards armed (no ALLOW_*).
+- OWNER TODO: manual admin check, replace editor@duyanblog.test + password, register
+  duyanblog.com, then the swap checklist (playbook).
+
+Stage Summary:
+- New: prisma/migrations/20261004000000_init, docs/superpowers/specs + plans, .claude/playbooks/deploy-hostinger.md.
+- Changed: prisma/schema.prisma (mysql + LongText), package.json (build/start:node/deps),
+  src/proxy.ts (runtime config removed), src/app/go/[offerId]/route.ts (site.url fallback),
+  scripts/smoke.mjs (production opt-in), scripts/validate-docs.mjs (file:line resolves),
+  .gitignore (!.env.example), .env.example/README/ARCHITECTURE/HOSTINGER_DEPLOYMENT (MySQL),
+  risk-register (C3-C5 closed, R7 open).
+- Validation: smoke 51/51 live; verifier PASS after fixes; gates lint/typecheck/validate:docs/slop green.
+- Live URL: https://duyanblog-test.hostingersite.com (demo content, labelled).
+
+Recommended next steps (priority order):
+1. Owner: manual admin check on the live site (login, one edit, consent banner).
+2. Replace the temporary admin account + password before any real content ships.
+3. Register duyanblog.com → follow playbooks/deploy-hostinger.md §domain-swap.
+4. Real → replace demo merchants/offers/content per AFFILIATE_INTEGRATION.md; flip demo_mode.
+5. Set RESEND_API_KEY for live double opt-in emails; then the dev confirmUrl shortcut becomes
+   unreachable by itself.
