@@ -137,7 +137,7 @@ Flow (implemented 2026-09, migration `newsletter_double_opt_in`):
 
 | Trade-off | Why it's OK today | Production upgrade |
 | --- | --- | --- |
-| SQLite (`db/custom.db`) | Single-node editorial site; zero ops | Change `provider` to `"postgresql"` in `prisma/schema.prisma`, point `DATABASE_URL` at Postgres, `npx prisma migrate deploy`. JSON-in-String columns need no change (they're TEXT); optionally convert to native JSON later. See HOSTINGER_DEPLOYMENT.md |
+| MySQL (`DATABASE_URL`) | Production target (Hostinger Business Node.js app). Single-node editorial site; INTEGER/AUTOINCREMENT semantics are MySQL-native | Migrations are MySQL-canonical (one baseline). Schema is the same 20 models; JSON-in-String columns are `@db.LongText`/`@db.Text`; optionally convert to native JSON later. See HOSTINGER_DEPLOYMENT.md |
 | JSON stored in String columns (`Article.blocks`, `ComparisonItem.attributes/pros/cons`, `Author.focusAreas`) | Zod validation at every boundary; DB-agnostic | Keep as-is (portable), or migrate to Postgres `jsonb` + Prisma `Json` columns; keep the Zod schemas regardless |
 | JS-side search (`src/app/search/page.tsx` scans latest 100 published, filters title/deck/category/author in JS, 30 results max) | Editorial scale (hundreds of articles) | SQLite FTS5 table maintained on publish, or Postgres `tsvector`, or an external index; the page is the only file to change |
 | In-memory fixed-window rate limiter (`src/lib/rate-limit.ts`) | Correct for one Node process | Redis (or any shared KV) keyed by `clientIp()`, same return shape `{ok, remaining, retryAfterSeconds}` |

@@ -22,7 +22,7 @@ All docs for continuing this repo live at the root:
 | --- | --- | --- |
 | Framework | Next.js 16 App Router (`next@^16.1.1`) | `output: "standalone"`, React 19, TypeScript `strict: true` |
 | Styling | Tailwind CSS 4 (`@theme inline` tokens) + shadcn/ui (Radix) | Tokens in `src/app/globals.css` |
-| Data | Prisma 6 + SQLite (`db/custom.db`) | Schema is Postgres-portable; see HOSTINGER_DEPLOYMENT.md |
+| Data | Prisma 6 + MySQL (`DATABASE_URL`) | Schema is MySQL-canonical; see HOSTINGER_DEPLOYMENT.md |
 | Validation | Zod 4 | Content blocks, comparison rows, API bodies |
 | Fonts | Fraunces (display) + Inter (UI/body) via `next/font` | Vietnamese subset required |
 | Auth | Hand-rolled scrypt + DB session tokens (`src/lib/auth.ts`) | No NextAuth despite it being in `package.json` |
@@ -31,12 +31,14 @@ All docs for continuing this repo live at the root:
 
 ```bash
 npm install
-cp .env.example .env
-npx prisma migrate dev          # applies prisma/migrations to SQLite
-npm run seed:demo               # loads the fictional demo issue
+cp .env.example .env              # then set DATABASE_URL to a MySQL URL (local MySQL or the platform DB)
+npx prisma migrate dev            # applies prisma/migrations to MySQL
+npm run seed:demo                 # loads the fictional demo issue
 npm run admin:bootstrap -- --email you@example.com --password "min-12-chars-with-1-number"
-npm run dev                     # http://localhost:3000
+npm run dev                       # http://localhost:3000
 ```
+
+Note: the database is **MySQL** — the schema and migrations are MySQL-canonical (the sandbox's original SQLite setup is retired; `db/custom.db` is no longer created). Local dev runs against a local MySQL or the platform DB via `DATABASE_URL`.
 
 Note: the admin UI itself is **not implemented yet** (see "Known state" below). `admin:bootstrap` creates the `User` row and the auth plumbing in `src/lib/auth.ts` is complete.
 
