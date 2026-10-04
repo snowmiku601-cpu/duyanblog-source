@@ -46,7 +46,7 @@ Article.blocks (TEXT, JSON string)
 
 - The admin editor must persist through `serializeBlocks()` (throws on invalid) so only valid JSON is written.
 - Inline text inside blocks supports a tiny syntax parsed by `src/components/editorial/inline-text.tsx` — never `dangerouslySetInnerHTML`. See EDITORIAL_GUIDE.md for the grammar.
-- JSON-in-String columns exist because SQLite has no JSON type: `Article.blocks`, `Author.focusAreas`, `ComparisonItem.attributes/pros/cons`. All are validated at the boundary with Zod.
+- JSON-in-String columns exist because they carry editorial block JSON: `Article.blocks`, `Author.focusAreas`, `ComparisonItem.attributes/pros/cons`. All are validated at the boundary with Zod.
 
 ## 4. Comparison engine flow
 

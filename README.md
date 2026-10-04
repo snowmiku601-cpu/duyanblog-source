@@ -14,7 +14,7 @@ All docs for continuing this repo live at the root:
 | [EDITORIAL_GUIDE.md](EDITORIAL_GUIDE.md) | Article types, block JSON format, review requirements, tone |
 | [SEO_GUIDE.md](SEO_GUIDE.md) | Metadata, JSON-LD, sitemap/RSS, canonical rules, publishing checklist |
 | [AFFILIATE_INTEGRATION.md](AFFILIATE_INTEGRATION.md) | Offer model, /go router, click logging, ad slots, compliance |
-| [HOSTINGER_DEPLOYMENT.md](HOSTINGER_DEPLOYMENT.md) | Production build, Postgres switch, env vars, smoke test |
+| [HOSTINGER_DEPLOYMENT.md](HOSTINGER_DEPLOYMENT.md) | Production build, MySQL, env vars, smoke test |
 
 ## Tech stack
 

@@ -1,6 +1,6 @@
 ---
 name: duyan-db-guard
-description: Reviews Prisma schema, migrations, seeds and admin mutation code against the duyanblog invariants (liveDateGuard coverage, guardAdmin chain, revalidatePath calls, Postgres portability, JSON-in-String Zod boundaries). Read-only. Lists violations; never fixes them.
+description: Reviews Prisma schema, migrations, seeds and admin mutation code against the duyanblog invariants (liveDateGuard coverage, guardAdmin chain, revalidatePath calls, MySQL-canonical schema, JSON-in-String Zod boundaries). Read-only. Lists violations; never fixes them.
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -19,9 +19,10 @@ You never edit files; you report evidence.
 3. **`revalidatePath()` contract** — every admin mutation must revalidate the affected public
    routes (`src/lib/admin-revalidate.ts` helpers) and `invalidateSettingsCache()` for
    `SiteSetting` rows. Missing revalidation = silent staleness up to the ISR window.
-4. **Postgres portability** — migrations must be plain SQL that applies to both SQLite and
-   Postgres; JSON-in-String columns stay TEXT with Zod at the boundary; no SQLite-only pragma in
-   a migration.
+4. **MySQL-canonical schema** — migrations must be plain MySQL SQL (one baseline; no
+   SQLite-only pragma); long content columns must be `@db.LongText`/`@db.Text` (bare `String`
+   maps to `VARCHAR(191)` and truncates silently in MySQL non-strict mode); JSON-in-String
+   columns stay TEXT with Zod at the boundary.
 5. **Upload/delete containment** — media paths validated lexically (`/images/`, resolve inside
    `public/images`) AND usage re-checked server-side; a delete path that trusts the client is a
    VIOLATION.

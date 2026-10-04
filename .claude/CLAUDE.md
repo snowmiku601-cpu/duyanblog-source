@@ -29,27 +29,32 @@ the ones inside vendored agents and skills, which are written in English.
 
 - **duyanblog.com** — independent editorial review publication (reviews / best / compare / guides
   / articles), Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4
-  (`@theme inline` in `src/app/globals.css`), shadcn/ui, Prisma 6 + SQLite (`db/custom.db`;
-  Postgres-portable), Zod 4.
-- **Repo:** `github.com/snowmiku601-cpu/duyanblog-source` (public, branch `main`). Git is the only
-  undo. Repo-local identity: `DienPower <snowmiku601-cpu@users.noreply.github.com>` (already set).
-- **Build target:** `output: "standalone"`, run with bun (`npm start`). Every route is ISR
-  (`revalidate`), nothing public is per-request dynamic except `/search` and `/go/[offerId]`.
-- **The DB is the mutable state; everything else is rebuildable.** SQLite file at `db/custom.db`
-  (repo-root — `.gitignore`d). Back up before destructive seed/migrate work.
+  (`@theme inline` in `src/app/globals.css`), shadcn/ui, Prisma 6 + **MySQL**
+  (MySQL-canonical; one baseline migration), Zod 4.
+- **Repo:** `github.com/snowmiku601-cpu/duyanblog-source` (public, `main`). Git is the only
+  undo. Identity already set repo-local.
+- **Live (demo):** `https://duyanblog-test.hostingersite.com` — client's Hostinger Business
+  (Node.js web app, MySQL `u257278613_duyanblog`, webpack, archive deploy — no GitHub on
+  client acct). Procedure: `.claude/playbooks/deploy-hostinger.md`. `duyanblog.com` later.
+- **Build target:** `output: "standalone"`, webpack (`next build --webpack`), host runs the
+  built app; `npm start` (bun) local-dev only, `npm run start:node` the fallback.
+  Public routes are ISR (`revalidate`); `/search` and `/go/[offerId]` are dynamic.
+- **The DB is the mutable state — MySQL, platform-side, survives rebuilds** (the host build
+  overwrites the app dir; SQLite would die per build). Back up before destructive
+  seed/migrate work.
 - **Seeded content is fictional by design.** Demo products/merchants/offers/authors carry a
   visible `DemoNotice`. The trust rules (no fake ratings/claims) are the same as on the sibling
   sites — read `rules/content-integrity.md` before writing any content.
 - **Admin area is complete** (auth scrypt + DB sessions, no default credentials — bootstrap via
-  `npm run admin:bootstrap`). `/admin` requires HTTPS in production for the Secure cookie.
-- Worklog: `worklog.md` records every task round (Task ID N). Read the tail before starting work;
+  `npm run admin:bootstrap`). `/admin` needs HTTPS in production for the Secure cookie.
+- Worklog: `worklog.md` records every task round (Task ID N). Read the tail before starting;
   append a new entry after finishing.
 
 ## The five that break this repo
 
-1. **`next build` and `bun run dev` share port 3000, and the standalone copy steps are part of the
-   build.** `npm run build` must copy `.next/static` and `public/` into `.next/standalone/`
-   (`package.json` already does) or the server 404s its own assets.
+1. **Build uses webpack + standalone copy steps.** `npm run build` = `prisma generate && next
+   build --webpack && cp -r .next/static .next/standalone/.next/ && cp -r public
+   .next/standalone/` — skip any part and the host 404s/500s.
 2. **The seed and admin bootstrap refuse `NODE_ENV=production` unless `ALLOW_DEMO_SEED` /
    `ALLOW_ADMIN_BOOTSTRAP` are set.** Never hack around those guards; they are the production
    safety net.
@@ -58,29 +63,26 @@ the ones inside vendored agents and skills, which are written in English.
 4. **Never put a number on a page that nobody measured.** Same rule as the sibling sites:
    see `rules/content-integrity.md`.
 5. **JSON-in-String columns are validated with Zod at every boundary**
-   (`src/lib/content-schema.ts`, `src/lib/comparison.ts`). A malformed block must never take down a
-   page — keep the parse-and-drop behaviour.
+   (`src/lib/content-schema.ts`, `src/lib/comparison.ts`). A malformed block must never take
+   down a page — keep the parse-and-drop behaviour.
 
 ## Canonical commands (Windows)
 
 ```bash
-npm run dev            # next dev -p 3000 (pegged to 3000 — the Caddyfile proxies there)
-npm run lint           # eslint .  — the fast gate
-npm run typecheck      # tsc --noEmit  — the second gate
-npm run test           # node scripts/smoke.mjs against a RUNNING server (51 checks; SMOKE_BASE_URL overrides)
-npm run build          # next build + static/public copy into standalone
-npm start              # NODE_ENV=production bun .next/standalone/server.js
-npm run db:migrate     # prisma migrate deploy (production-safe)
-npm run seed:demo      # wipes + reseeds demo content (refuses production)
+npm run dev            # next dev -p 3000 (tee to dev.log)
+npm run lint && npm run typecheck   # fast gates
+npm run test           # smoke against a RUNNING server; SMOKE_BASE_URL overrides
+npm run validate:docs && npm run slop   # docs gate + prose scan
+npm run build          # prisma generate + next build --webpack + standalone copies
+npm start              # local dev only (bun; needs local MySQL at DATABASE_URL); host uses its own start
+npm run db:migrate     # prisma migrate deploy (production-safe; migrate BEFORE every host build)
+npm run seed:demo      # wipes + reseeds demo (refuses production)
 npm run admin:bootstrap -- --email <e> --password <12+ chars, letters+digits>
-npm run media:manifest # backfill public/images/.media-manifest.json dimensions
 ```
 
-- Prefer **PowerShell** for Windows objects (`Get-ChildItem`, `Test-Path`) and **Bash** for
-  POSIX pipelines; the Bash tool is Git Bash. Never run a multi-string replace through a shell —
-  see `rules/windows-traps.md`.
-- Back-to-back smoke runs can trip the newsletter rate limiter (5/min/IP → 429). Wait a minute;
-  that limiter is the feature.
+- Prefer **PowerShell** for Windows objects, **Bash** for POSIX; never multi-string replace
+  through a shell — `playbooks/windows-traps.md`.
+- Back-to-back smoke runs can trip the newsletter rate limiter (429) — wait a minute.
 
 ## Rules index (`.claude/rules/`) — auto-loaded, read on demand
 
@@ -102,10 +104,9 @@ Task-scoped incidents and mechanisms live here, never in `rules/`.
 
 ```bash
 npm run lint && npm run typecheck   # 1. fast gates
-npm run validate:docs               # 2. docs/workspace gate (budget + links + indexes)
+npm run validate:docs               # 2. docs gate (budget + links + indexes)
 ```
-
-(If code changed: `npm run build`, then `npm run test` against a running dev server.)
+If code changed: `npm run build`, then `npm run test` against a running dev server.
 
 ## Agents (`.claude/agents/`) — never invent a name
 
@@ -115,11 +116,10 @@ work; the repo agents exist for jobs with a house contract. Cap is two agents pe
 
 ## Session end
 
-Write what you **learned**, not what you did, to the memory store that actually auto-loads — the
-user-scope `C:\Users\PC\.claude\projects\e--duyanblog-source\memory\` directory. One fact per
-file, named after the fact; if it could be reconstructed from `git log --stat`, do not save it.
-Lessons specific to this repo's `.claude/` go into `.claude/memory/` (indexed in
-`.claude/memory/README.md`, linked with `[[wikilinks]]` — `npm run validate:docs` enforces no
-orphans). New task-scoped procedure → `.claude/playbooks/`. New invariant → `.claude/rules/`.
-Then: update root docs if behaviour changed, append a `Task ID: N` entry to `worklog.md`, commit
-one concern per commit.
+Write what you **learned**, not what you did, to the auto-loading user-scope memory
+(`C:\Users\PC\.claude\projects\e--duyanblog-source\memory\`). One fact per file, named after
+the fact; if it could be reconstructed from `git log --stat`, do not save it.
+Repo-specific lessons go to `.claude/memory/` (indexed, `[[wikilinks]]`, no orphans per
+validate:docs). New task-scoped procedure → `.claude/playbooks/`. New invariant →
+`.claude/rules/`. Then: update root docs if behaviour changed, append `Task ID: N` to
+`worklog.md`, commit one concern per commit.

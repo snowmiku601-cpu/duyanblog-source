@@ -9,8 +9,12 @@ Read before touching `prisma/schema.prisma`, migrations, seeds, `src/lib/queries
 - 20 models (`User, Session, Author, Category, Article, ArticleRevision, Tag, ArticleTag,
   Merchant, AffiliateOffer, AffiliateClick, Comparison, ComparisonItem, ReviewScore,
   SourceCitation, MethodologyEntry, NewsletterSubscriber, ContactMessage, Redirect, SiteSetting`).
-- SQLite in this sandbox, **Postgres-portable**: switch only the datasource `provider` + URL
-  (`HOSTINGER_DEPLOYMENT.md`). Migrations are plain SQL and apply to both.
+- **MySQL-canonical** (production target: Hostinger Business Node.js web app). Migrations are
+  plain MySQL SQL; one baseline (`20261004000000_init`) + follow-ups. The app connects to
+  `127.0.0.1:3306` (platform rule); local tooling uses the remote host `srvNNNN.hstgr.io` over
+  a temporary remote rule. Long content columns are `@db.LongText`/`@db.Text` (bare `String`
+  maps to `VARCHAR(191)` — truncates silently in MySQL non-strict mode; `validate-docs`
+  Check 6b gates every long-content column).
 - **JSON-in-String columns** (`Article.blocks`, `ComparisonItem.attributes/pros/cons`,
   `Author.focusAreas`) are TEXT validated by Zod at every boundary. Never change them to native
   JSON without checking every `JSON.parse`/`stringify` call site; keep the Zod schemas regardless.
@@ -23,8 +27,10 @@ Read before touching `prisma/schema.prisma`, migrations, seeds, `src/lib/queries
 - Dev: `npm run db:push` only for throwaway prototyping; real schema changes get a migration
   (`npx prisma migrate dev --name <slug>`), reviewed before commit.
 - Prod: `npm run db:migrate` (`prisma migrate deploy`) — never `db push` in production.
-- Destructive data work (`db:reset`, `seed:demo`) is a wipe: back up `db/custom.db` first
-  (WAL-safe copy / `.backup`, never a naive `cp` while the server writes).
+  **Migrate BEFORE every host build** (`next build` prerenders pages and queries the DB).
+- Destructive data work (`db:reset`, `seed:demo`) is a wipe: MySQL backup first (platform DB
+  tools or `mysqldump` via the remote host), never rely on the app directory (the build
+  overwrites it).
 
 ## ISR / cache contract
 
