@@ -58,6 +58,31 @@ checks.push(
 
 let failed = 0;
 
+// Fail-closed indexing semantics (Correction 2): ALLOW_INDEXING is the only
+// gate. Unset/absent -> full Disallow (staging/localhost/preview); set=true ->
+// allow public content + expose sitemap. Assert semantics, not byte equality.
+{
+  try {
+    const res = await fetch(`${BASE}/robots.txt`, { redirect: "manual" });
+    const body = await res.text();
+    const allowIndexing = process.env.ALLOW_INDEXING === "true";
+    const ok =
+      res.status === 200 &&
+      (allowIndexing
+        ? /Allow:\s*\/$/m.test(body) && /Sitemap:/.test(body)
+        : /Disallow:\s*\/$/m.test(body) && !/Sitemap:/.test(body));
+    console.log(
+      `${ok ? "PASS" : "FAIL"}  ${res.status} robots.txt ${
+        allowIndexing ? "indexing allowed (ALLOW_INDEXING=true)" : "indexing blocked (fail-closed, ALLOW_INDEXING unset)"
+      }`
+    );
+    if (!ok) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  robots.txt  ${err.message}`);
+    failed += 1;
+  }
+}
+
 // The /go fallback Location must point at the PUBLIC origin, not the upstream
 // (request.url behind the Hostinger edge is 0.0.0.0:3000 — regressed once, fixed
 // via site.url). Status-only checks would pass a dead-origin redirect.
