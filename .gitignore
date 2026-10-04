@@ -41,7 +41,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 local-*
-.claude
+.claude/*
+!.claude/CLAUDE.md
+!.claude/agents/
+!.claude/rules/
+!.claude/skills/
+!.claude/memory/
+!.claude/playbooks/
+!.claude/settings.json
 .z-ai-config
 *.log
 dev.log
@@ -50,5 +57,14 @@ test
 prompt
 
 server.log
+
+# Claude Code workspace configuration (local machine state, never shared)
+# settings.local.json holds machine-specific permissions — do not commit it.
+.claude/settings.local.json
+.claude/tmp/
+.claude/drafts/
+.claude/archive/
+.claude/worktrees/
+
 # Skills directory
 /skills/

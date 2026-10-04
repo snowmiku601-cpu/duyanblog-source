@@ -114,6 +114,8 @@ Everything seeded by `prisma/seed.ts` is **fictional**: products (Auralis Note 1
 
 ## Working on this repo with an AI agent
 
+0. Read `AGENTS.md` and `.claude/CLAUDE.md` first — the operating manual (reply-in-Vietnamese
+   rule, rules index, canonical commands).
 1. Read `worklog.md` first — it records what was built and the conventions ("Task ID" entries).
 2. Before changing presentation, read [DESIGN.md](DESIGN.md); it lists tokens and patterns that must not be changed casually and explains the failure modes.
 3. Content authoring and the block JSON format: [EDITORIAL_GUIDE.md](EDITORIAL_GUIDE.md).
