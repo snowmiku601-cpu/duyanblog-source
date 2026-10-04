@@ -26,7 +26,11 @@ export async function GET(
   });
 
   if (!offer) {
-    return NextResponse.redirect(new URL("/deals", url), { status: 302 });
+    // Relative redirect: `request.url` can carry the proxy's upstream origin
+    // (e.g. 0.0.0.0:3000) behind a reverse proxy or hosting edge — building an
+    // absolute URL from it would send visitors to a dead origin. A relative
+    // Location is resolved by the browser against the public origin.
+    return NextResponse.redirect("/deals", { status: 302 });
   }
 
   // Consent snapshot: the banner stores choices in localStorage (not a server
