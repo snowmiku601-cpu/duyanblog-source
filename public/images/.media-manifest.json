@@ -1,0 +1,46 @@
+{
+  "/images/auralis-note-14.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/cloudpeak-vs-harborstack.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/cloudpeak.png": {
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/esim-providers.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/harborstack.png": {
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/nomadlink.png": {
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/og-default.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/terrasim.png": {
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/testing-notes.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/vpn-guide.png": {
+    "width": 1344,
+    "height": 768
+  },
+  "/images/waveline.png": {
+    "width": 1024,
+    "height": 1024
+  }
+}

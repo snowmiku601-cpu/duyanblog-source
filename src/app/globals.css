@@ -1,0 +1,318 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Duyan Blog design tokens
+   Warm paper + charcoal ink + burnt orange / golden ochre / controlled
+   vermilion. Neo-Mirai-inspired direction, original values — see DESIGN.md.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* ink & paper */
+  --background: oklch(0.977 0.011 88);
+  --foreground: oklch(0.252 0.02 55);
+  --card: oklch(0.991 0.007 90);
+  --card-foreground: oklch(0.252 0.02 55);
+  --popover: oklch(0.991 0.007 90);
+  --popover-foreground: oklch(0.252 0.02 55);
+
+  /* brand */
+  --primary: oklch(0.585 0.148 46); /* burnt orange */
+  --primary-foreground: oklch(0.985 0.01 85);
+  --secondary: oklch(0.842 0.098 82); /* golden ochre */
+  --secondary-foreground: oklch(0.3 0.03 60);
+
+  /* neutrals */
+  --muted: oklch(0.941 0.014 84);
+  --muted-foreground: oklch(0.482 0.02 62);
+  --accent: oklch(0.912 0.03 84);
+  --accent-foreground: oklch(0.252 0.02 55);
+  --destructive: oklch(0.505 0.19 27);
+  --destructive-foreground: oklch(0.985 0.01 85);
+
+  /* lines */
+  --border: oklch(0.885 0.018 80);
+  --input: oklch(0.86 0.018 80);
+  --ring: oklch(0.585 0.148 46);
+
+  /* editorial accents */
+  --sun: oklch(0.735 0.148 70);
+  --vermilion: oklch(0.545 0.19 30);
+  --ochre: oklch(0.722 0.128 76);
+  --ink: oklch(0.252 0.02 55);
+
+  --radius: 0.375rem;
+
+  --chart-1: oklch(0.735 0.148 70);
+  --chart-2: oklch(0.585 0.148 46);
+  --chart-3: oklch(0.545 0.19 30);
+  --chart-4: oklch(0.722 0.128 76);
+  --chart-5: oklch(0.482 0.02 62);
+}
+
+.dark {
+  --background: oklch(0.222 0.014 55);
+  --foreground: oklch(0.93 0.012 82);
+  --card: oklch(0.258 0.015 55);
+  --card-foreground: oklch(0.93 0.012 82);
+  --popover: oklch(0.258 0.015 55);
+  --popover-foreground: oklch(0.93 0.012 82);
+
+  --primary: oklch(0.755 0.135 58);
+  --primary-foreground: oklch(0.2 0.02 50);
+  --secondary: oklch(0.78 0.1 78);
+  --secondary-foreground: oklch(0.2 0.02 50);
+
+  --muted: oklch(0.3 0.014 55);
+  --muted-foreground: oklch(0.72 0.015 70);
+  --accent: oklch(0.32 0.02 55);
+  --accent-foreground: oklch(0.93 0.012 82);
+  --destructive: oklch(0.665 0.19 28);
+  --destructive-foreground: oklch(0.2 0.02 50);
+
+  --border: oklch(0.34 0.014 55);
+  --input: oklch(0.36 0.014 55);
+  --ring: oklch(0.755 0.135 58);
+
+  --sun: oklch(0.78 0.13 70);
+  --vermilion: oklch(0.68 0.185 30);
+  --ochre: oklch(0.78 0.115 76);
+  --ink: oklch(0.93 0.012 82);
+
+  --chart-1: oklch(0.78 0.13 70);
+  --chart-2: oklch(0.755 0.135 58);
+  --chart-3: oklch(0.68 0.185 30);
+  --chart-4: oklch(0.78 0.115 76);
+  --chart-5: oklch(0.72 0.015 70);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* editorial accent utilities: bg-sun, text-vermilion, border-ochre … */
+  --color-sun: var(--sun);
+  --color-vermilion: var(--vermilion);
+  --color-ochre: var(--ochre);
+  --color-ink: var(--ink);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+  }
+  /* Analogue paper grain — a fixed, non-interactive noise veil over the page.
+     Ultra low opacity: texture you feel rather than see. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+  .dark body::after {
+    opacity: 0.045;
+  }
+  ::selection {
+    background: var(--sun);
+    color: var(--ink);
+  }
+  /* Consistent, visible keyboard focus across links and controls */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  select:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+    letter-spacing: -0.015em;
+  }
+  h1, h2 {
+    text-wrap: balance;
+  }
+  /* Anchored headings clear the sticky site header when jumped to
+     (TOC links, share-links to sections, footnote backlinks). */
+  h2[id], h3[id], h4[id], [data-anchor] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Print: articles read like an editor meant them — ink on paper, chrome off.
+--------------------------------------------------------------------------- */
+@media print {
+  body > header,
+  body > footer,
+  nav[aria-label="Breadcrumb"],
+  aside[class*="lg:col-span-4"],
+  .print\:hidden,
+  #newsletter {
+    display: none !important;
+  }
+  body::after {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  main {
+    display: block !important;
+  }
+  .prose-measure {
+    max-width: 100% !important;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+}
+
+@layer components {
+  /* small-caps section label */
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  /* query-term highlight (search results) — sun marker over warm paper */
+  mark {
+    background: color-mix(in oklch, var(--sun) 42%, transparent);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 0.1em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  /* numbered editorial section heading, e.g. "01 / Latest reviews" */
+  .section-index {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  /* comfortable long-form measure */
+  .prose-measure {
+    max-width: 68ch;
+  }
+  .prose-body {
+    font-size: 1.0625rem;
+    line-height: 1.78;
+    text-wrap: pretty;
+  }
+  /* Editorial drop cap on the opening paragraph of long-form pieces.
+    Applied via the ArticleRenderer `dropCap` prop (guides & articles). */
+  .dropcap::first-letter {
+    font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+    font-weight: 600;
+    font-size: 3.4em;
+    line-height: 0.8;
+    float: left;
+    margin-right: 0.14em;
+    margin-top: 0.1em;
+    color: var(--vermilion);
+  }
+  /* thin warm scrollbar for scroll areas */
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .scroll-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+  }
+}
+
+@layer utilities {
+  /* subtle reveal-on-scroll (added by <Reveal/>) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .reveal[data-in="1"] {
+    opacity: 1;
+    transform: none;
+  }
+  /* gentle geometric drift for the hero sun */
+  .animate-drift {
+    animation: drift 8s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  /* comparison-table column hover: composites over any cell background
+     (bg-card, bg-inherit, odd row stripes) without replacing them */
+  .col-tint {
+    box-shadow: inset 0 0 0 9999px color-mix(in oklab, var(--primary) 6%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* cache-bust r8 */

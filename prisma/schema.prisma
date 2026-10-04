@@ -1,0 +1,302 @@
+// duyanblog.com — data model
+// SQLite in this sandbox (portable: same schema maps to PostgreSQL by changing
+// the datasource provider and migrating String-JSON columns if desired).
+// Structured content (blocks, attributes, pros/cons) is stored as JSON strings
+// and validated at the application boundary with Zod (src/lib/content-schema.ts).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Admin / auth
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         String    @default("ADMIN") // ADMIN | EDITOR
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique // sha256 of the cookie token — never store raw tokens
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Editorial
+// ---------------------------------------------------------------------------
+
+model Author {
+  id         String    @id @default(cuid())
+  slug       String    @unique
+  name       String
+  role       String // e.g. "Founding editor" — roles only, never fabricated credentials
+  bio        String
+  avatarUrl  String?
+  focusAreas String    @default("[]") // JSON string[]
+  articles   Article[] @relation("ArticleAuthor")
+  reviewed   Article[] @relation("ArticleReviewer")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  tagline     String
+  description String
+  heroImage   String?
+  accent      String    @default("amber") // amber | ochre | vermilion
+  order       Int       @default(0)
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Article {
+  id             String            @id @default(cuid())
+  slug           String            @unique
+  type           String // review | roundup | versus | guide | editorial
+  status         String            @default("draft") // draft | published
+  title          String
+  deck           String // standfirst / excerpt
+  tldr           String?
+  heroImage      String?
+  heroAlt        String?
+  heroCredit     String?
+  categoryId     String
+  category       Category          @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  authorId       String
+  author         Author            @relation("ArticleAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  reviewerId     String?
+  reviewer       Author?           @relation("ArticleReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  blocks         String            @default("[]") // JSON Block[] — Zod validated
+  disclosureNote String?
+  publishedAt    DateTime?
+  lastReviewedAt DateTime?
+  featured       Boolean           @default(false)
+  readingMinutes Int?
+  tags           ArticleTag[]
+  revisions      ArticleRevision[]
+  scores         ReviewScore[]
+  sources        SourceCitation[]
+  offers         AffiliateOffer[]
+  clicks         AffiliateClick[]
+  comparison     Comparison?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([categoryId])
+  @@index([type, status])
+}
+
+model ArticleRevision {
+  id        String   @id @default(cuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  title     String
+  blocks    String
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([articleId])
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  slug     String       @unique
+  name     String
+  articles ArticleTag[]
+}
+
+model ArticleTag {
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+}
+
+// ---------------------------------------------------------------------------
+// Commerce / affiliate
+// ---------------------------------------------------------------------------
+
+model Merchant {
+  id        String           @id @default(cuid())
+  slug      String           @unique
+  name      String
+  website   String?
+  note      String? // e.g. "Fictional demo merchant"
+  offers    AffiliateOffer[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model AffiliateOffer {
+  id         String           @id @default(cuid())
+  merchantId String
+  merchant   Merchant         @relation(fields: [merchantId], references: [id], onDelete: Restrict)
+  articleId  String?
+  article    Article?         @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  label      String // e.g. "NomadLink — 15% off first eSIM"
+  url        String // destination (validated https, reached via /go/[id])
+  price      String?
+  currency   String           @default("USD")
+  note       String?
+  badge      String? // e.g. "Best overall"
+  isDeal     Boolean          @default(false)
+  dealText   String?
+  active     Boolean          @default(true)
+  order      Int              @default(0)
+  clicks          AffiliateClick[]
+  comparisonItems ComparisonItem[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([articleId])
+  @@index([isDeal, active])
+}
+
+model AffiliateClick {
+  id               String    @id @default(cuid())
+  offerId          String
+  offer            AffiliateOffer @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  articleId        String?
+  article          Article?  @relation(fields: [articleId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now())
+  referer          String?
+  sessionHash      String? // salted hash — no raw identifiers
+  consentAnalytics Boolean   @default(false)
+
+  @@index([offerId])
+}
+
+// ---------------------------------------------------------------------------
+// Comparison engine
+// ---------------------------------------------------------------------------
+
+model Comparison {
+  id        String           @id @default(cuid())
+  slug      String           @unique
+  title     String
+  intro     String?
+  articleId String?          @unique
+  article   Article?         @relation(fields: [articleId], references: [id], onDelete: SetNull)
+  updatedAt DateTime         @updatedAt
+  items     ComparisonItem[]
+}
+
+model ComparisonItem {
+  id           String        @id @default(cuid())
+  comparisonId String
+  comparison   Comparison    @relation(fields: [comparisonId], references: [id], onDelete: Cascade)
+  name         String
+  url          String? // internal article link
+  imageUrl     String?
+  score        Float?
+  summary      String?
+  attributes   String        @default("[]") // JSON {label,value,numeric?,highlight?}[]
+  pros         String        @default("[]") // JSON string[]
+  cons         String        @default("[]") // JSON string[]
+  offerId      String?
+  offer        AffiliateOffer? @relation(fields: [offerId], references: [id], onDelete: SetNull)
+  order        Int           @default(0)
+
+  @@index([comparisonId])
+}
+
+// ---------------------------------------------------------------------------
+// Trust / review data
+// ---------------------------------------------------------------------------
+
+model ReviewScore {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  label     String // e.g. "Performance"
+  score     Float // 0..10
+  weight    Int     @default(1)
+  note      String?
+  order     Int     @default(0)
+
+  @@index([articleId])
+}
+
+model SourceCitation {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  label     String
+  url       String?
+  order     Int     @default(0)
+
+  @@index([articleId])
+}
+
+model MethodologyEntry {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  body      String // markdown-ish plain text
+  updatedAt DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Audience / site plumbing
+// ---------------------------------------------------------------------------
+
+model NewsletterSubscriber {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  source           String?
+  confirmed        Boolean   @default(false) // double opt-in — flipped on /newsletter/confirm?token=…
+  confirmToken     String?   @unique // issued on signup; null once confirmed
+  confirmExpiresAt DateTime? // confirmation links are valid for 48h
+  unsubscribeToken String    @unique // one-click /newsletter/unsubscribe?token=… links
+  createdAt        DateTime  @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Redirect {
+  id         String   @id @default(cuid())
+  from       String   @unique
+  to         String
+  statusCode Int      @default(302)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

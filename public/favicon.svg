@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#B4561F"/>
+  <path fill="#FBF6EA" fill-rule="evenodd" clip-rule="evenodd" d="
+    M32 10 L56 47 Q32 54.5 8 47 Z
+    M18.5 32.5 Q32 35.6 45.5 32.5 L45.5 35.6 Q32 38.8 18.5 35.6 Z
+    M12.2 42.4 Q32 45.5 51.8 42.4 L51.8 45.4 Q32 48.6 12.2 45.4 Z
+  "/>
+</svg>

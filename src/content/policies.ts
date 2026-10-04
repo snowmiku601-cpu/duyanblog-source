@@ -1,0 +1,307 @@
+/**
+ * Static policy pages: original plain-language copy for duyanblog.com.
+ * Kept as typed content (not DB) so they ship with the repo and survive
+ * fresh databases. Each entry renders via src/components/editorial/policy-page.tsx.
+ */
+
+export type PolicySection = { heading: string; body: string[] };
+export type Policy = {
+  slug: string;
+  title: string;
+  description: string;
+  updated: string;
+  intro: string;
+  sections: PolicySection[];
+};
+
+const POLICIES: Policy[] = [
+  {
+    slug: "editorial-policy",
+    title: "Editorial policy",
+    description:
+      "How Duyan Blog produces, reviews and stands behind its editorial work: independence, named authors, visible evidence and labelled samples.",
+    updated: "2026-03-01",
+    intro:
+      "This policy governs everything published on Duyan Blog. It is short on purpose — a policy nobody can memorise protects nobody.",
+    sections: [
+      {
+        heading: "Independence",
+        body: [
+          "We choose what to cover, what to recommend and what to criticise. Manufacturers, merchants, affiliate networks and advertisers have no preview, no veto and no right of reply before publication. If one of them asks us to change a verdict, we decline — and if they pay us for anything, it is labelled as sponsorship and never touches a score.",
+        ],
+      },
+      {
+        heading: "Named humans",
+        body: [
+          "Every article carries a named author. Reviews additionally carry a second editor who verified the claims. We list real roles and never fabricate credentials, awards or test statistics. Where our experience is limited (a laptop reviewed over two weeks, not two years), the article says so.",
+        ],
+      },
+      {
+        heading: "Evidence and honesty",
+        body: [
+          "Claims are sourced; sources are listed. Where evidence is thin or the market moves faster than testing, we say so instead of filling the gap with confident-sounding numbers. Sample and demonstration content is explicitly labelled, everywhere it appears.",
+        ],
+      },
+      {
+        heading: "Sample content",
+        body: [
+          "This demonstration build contains fictional products, merchants, offers and authors, published to show how real editorial work will be presented. Sample pages say so on the page. No sample content is created to deceive search engines, and no fake reviews, ratings or structured data are generated.",
+        ],
+      },
+      {
+        heading: "Corrections",
+        body: [
+          "Mistakes get fixed and the fix gets logged. See the corrections policy for the exact process.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "how-we-make-money",
+    title: "How we make money",
+    description:
+      "Duyan Blog's business model: affiliate commissions, advertising, sponsorship and subscriptions — and the rules that keep commerce out of the newsroom.",
+    updated: "2026-03-01",
+    intro:
+      "Independent publishing costs money. Here is exactly how we pay for it, and the rules that keep the money from steering the words.",
+    sections: [
+      {
+        heading: "Affiliate commissions",
+        body: [
+          "Some links to merchants are affiliate links: if you buy something after clicking, the merchant pays us a small commission, at no extra cost to you. Commission rates differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
+        ],
+      },
+      {
+        heading: "Advertising",
+        body: [
+          "We sell display advertising and clearly-labelled sponsored placements. Ads are disabled by default and only load with your advertising consent. Sponsored content, when it exists, is produced separately from the editorial team and carries a visible label; it never receives a score, a ranking or a recommendation.",
+        ],
+      },
+      {
+        heading: "Newsletter and subscriptions",
+        body: [
+          "The newsletter is free. If we later add paid subscriptions or paid research reports, they will be listed here and will follow the same independence rules as everything else.",
+        ],
+      },
+      {
+        heading: "What we will never do",
+        body: [
+          "Sell rankings, scores or review placement. Publish undisclosed paid content. Let a merchant remove criticism in exchange for revenue. Fake urgency, fake scarcity or deceptive redirects — affiliate navigation goes exactly where the link says it goes.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "affiliate-disclosure",
+    title: "Affiliate disclosure",
+    description:
+      "How affiliate links work on Duyan Blog: where they appear, how they are marked, and why they never affect verdicts.",
+    updated: "2026-03-01",
+    intro:
+      "Some pages on this site contain affiliate links. This page explains, in plain language, what that means and does not mean.",
+    sections: [
+      {
+        heading: "What an affiliate link is",
+        body: [
+          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. The price you pay is the same (sometimes better, when we negotiate a deal).",
+          "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, referring page, and whether analytics consent was granted) and then forwards you to the merchant. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
+        ],
+      },
+      {
+        heading: "How links are marked",
+        body: [
+          "Affiliate links carry the rel=\"sponsored\" attribute so search engines can see the commercial relationship. Offer boxes and comparison tables include a short disclosure near the link, and every commercial page links back here.",
+        ],
+      },
+      {
+        heading: "What affiliate money does not buy",
+        body: [
+          "Scores, rankings or wording. Our methodology requires verdicts to be finalised before commission rates are considered. If we ever cannot maintain that separation for a category, we stop taking affiliate money in that category and say so on the page.",
+        ],
+      },
+      {
+        heading: "Sample data",
+        body: [
+          "In this demonstration build, all merchants, offers and prices are fictional. Clicking an affiliate link in the demo navigates to a fictional destination URL defined in the admin database — it is never a real checkout.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "advertising-disclosure",
+    title: "Advertising disclosure",
+    description:
+      "How advertising and sponsorship work on Duyan Blog: what is sold, how it is labelled, and what advertisers can never buy.",
+    updated: "2026-03-01",
+    intro:
+      "If an advertiser's money has touched a page in any way, this policy determines how you'll know about it.",
+    sections: [
+      {
+        heading: "What we sell",
+        body: [
+          "Display placements (a labelled ad slot) and, occasionally, sponsored articles. Ads are switched off site-wide by default and only render after you grant advertising consent. The same rule applies to the ad networks themselves: no advertising scripts run before consent.",
+        ],
+      },
+      {
+        heading: "Labelling",
+        body: [
+          "Display ads are marked “Advertisement”. Sponsored articles carry a sponsor line at the top and bottom and are produced outside the editorial workflow. Neither is ever eligible for scores, rankings or product recommendations.",
+        ],
+      },
+      {
+        heading: "What advertisers cannot do",
+        body: [
+          "They cannot see editorial before publication, request changes to reviews, buy their way into a roundup, or take space that visually impersonates editorial content. If we ever break these rules ourselves, the failure gets a public correction.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "corrections-policy",
+    title: "Corrections policy",
+    description:
+      "How Duyan Blog handles errors: how to report them, how fast we respond, and how corrections are recorded.",
+    updated: "2026-03-01",
+    intro:
+      "Everyone who publishes gets things wrong sometimes. What separates serious publications is what happens next. This is our version of next.",
+    sections: [
+      {
+        heading: "Reporting an error",
+        body: [
+          "Use the contact form and include the page URL and what you believe is wrong. You will get a human reply within seven days. Corrections do not require you to identify yourself.",
+        ],
+      },
+      {
+        heading: "How we fix things",
+        body: [
+          "Small factual fixes (a price, a name, a specification) are corrected in the article, and the “updated” date changes. Material errors — anything that could change a reader's decision, including a score or recommendation — also receive a dated correction note at the bottom of the article explaining what changed and why.",
+          "Corrections are never hidden. Removed content that was material is marked as removed rather than silently deleted.",
+        ],
+      },
+      {
+        heading: "When we're wrong about a recommendation",
+        body: [
+          "If new evidence changes a verdict, we re-test, update the article, change the score with its criteria, and note the change. Rankings follow the evidence, not our pride — and affiliate commissions are never a reason to leave a wrong recommendation in place.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "privacy-policy",
+    title: "Privacy policy",
+    description:
+      "What Duyan Blog collects, what it doesn't, and how consent controls analytics and advertising. Plain language, short by design.",
+    updated: "2026-03-01",
+    intro:
+      "We collect as little as possible, and optional collection is off until you turn it on. This page explains the details — it is information, not legal advice.",
+    sections: [
+      {
+        heading: "What we collect",
+        body: [
+          "Newsletter subscriptions: the email address you submit, plus the signup source. Contact form: name, email, subject and message. Affiliate navigation: an anonymous click record (offer, timestamp, referring page, and whether analytics consent was on) — we do not store your IP address with it.",
+          "That's the whole list of things we keep.",
+        ],
+      },
+      {
+        heading: "Cookies and local storage",
+        body: [
+          "Necessary storage keeps the site working (for example, your cookie choice itself). Analytics and advertising storage stay off until you opt in via the consent banner or the cookie settings in the footer. Your choice lives in your browser; clearing it reopens the prompt.",
+        ],
+      },
+      {
+        heading: "Analytics and advertising, after consent",
+        body: [
+          "If you grant analytics consent, aggregate usage measurement may run. If you grant advertising consent, advertising partners may set their own cookies subject to their policies. Neither ever runs before consent, and affiliate links work with all consents denied.",
+        ],
+      },
+      {
+        heading: "Your choices",
+        body: [
+          "Change consent any time via “Cookie settings” in the footer. Ask us to delete your newsletter subscription or contact messages via the contact form. We will action deletion requests promptly and confirm when done.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "cookie-policy",
+    title: "Cookie policy",
+    description:
+      "The cookies and browser storage Duyan Blog uses, grouped by purpose, and how consent controls the optional ones.",
+    updated: "2026-03-01",
+    intro:
+      "A short inventory of what this site stores in your browser, and when. Optional categories stay empty until you consent.",
+    sections: [
+      {
+        heading: "Necessary",
+        body: [
+          "dy-consent-v1 (local storage): remembers your cookie choices so we stop asking. Admin sessions set a HttpOnly session cookie used only by the editorial team's login. These cannot be switched off without breaking the site.",
+        ],
+      },
+      {
+        heading: "Analytics (optional)",
+        body: [
+          "Empty by default. If, and only if, you enable analytics consent, an aggregate measurement tool may store an anonymous identifier. We deliberately keep this category unpopulated until a provider is configured.",
+        ],
+      },
+      {
+        heading: "Advertising (optional)",
+        body: [
+          "Empty by default. If you enable advertising consent, future ad partners may store cookies for measurement or frequency capping. Ads never load before this consent exists.",
+        ],
+      },
+      {
+        heading: "Managing storage",
+        body: [
+          "Use “Cookie settings” in the footer to change your choice at any time, or clear site data in your browser to reset everything. With all optional consent denied, every feature on the site except measurement and ads works normally — including affiliate links.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "terms",
+    title: "Terms of service",
+    description:
+      "The ground rules for using duyanblog.com: content licence, acceptable use, affiliate relationships and limitations. Information, not legal advice.",
+    updated: "2026-03-01",
+    intro:
+      "Short terms for a reader-friendly site. This page is plain-language information rather than a legal document; if you need formal wording, contact us.",
+    sections: [
+      {
+        heading: "Using the site",
+        body: [
+          "You may read, link to and quote Duyan Blog with attribution. Scraping for AI training or republication of articles wholesale is not permitted without written permission. Don't attempt to break, overload or gain unauthorised access to any part of the site — the admin area is for the editorial team only.",
+        ],
+      },
+      {
+        heading: "Editorial content",
+        body: [
+          "Articles reflect the authors' honest judgement at the time of writing and are provided “as is”, without warranty of completeness or fitness for your specific situation. Prices, terms and product behaviour change; check the merchant before you buy. In this demonstration build, all products, merchants and offers are fictional samples.",
+        ],
+      },
+      {
+        heading: "Commercial relationships",
+        body: [
+          "Affiliate and advertising relationships are disclosed on-page and on the dedicated disclosure pages. Buying through our links never changes your rights with the merchant — your contract is with them, not with us.",
+        ],
+      },
+      {
+        heading: "Liability",
+        body: [
+          "To the extent permitted by law, we are not liable for indirect or consequential loss arising from use of the site. Nothing here excludes liability that cannot be excluded under applicable law.",
+        ],
+      },
+      {
+        heading: "Changes",
+        body: [
+          "Material changes to these terms get a new “updated” date and, where sensible, a note on the page. Continued use after changes means you accept them.",
+        ],
+      },
+    ],
+  },
+];
+
+export function getPolicy(slug: string): Policy | null {
+  return POLICIES.find((p) => p.slug === slug) ?? null;
+}
+
+export const policySlugs = POLICIES.map((p) => p.slug);

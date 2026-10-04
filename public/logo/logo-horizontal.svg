@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" role="img" aria-label="Duyan Blog">
+  <!-- Horizontal lockup: nón lá symbol + wordmark.
+       The wordmark is set in the display serif; standalone SVGs use a serif
+       stack so the file renders identically everywhere without webfonts. -->
+  <g transform="translate(0,0)">
+    <path fill="#25201A" fill-rule="evenodd" clip-rule="evenodd" d="
+      M32 8 L59 49 Q32 57.5 5 49 Z
+      M16.85 31 Q32 34.5 47.15 31 L47.15 34.5 Q32 38 16.85 34.5 Z
+      M9.6 42 Q32 45.5 54.4 42 L54.4 45.5 Q32 49 9.6 45.5 Z
+      M29.4 21.5 a2.6 2.6 0 1 0 5.2 0 a2.6 2.6 0 1 0 -5.2 0 Z
+    "/>
+  </g>
+  <text x="72" y="40" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-weight="600" font-size="30" letter-spacing="-0.5" fill="#25201A">duyanblog</text>
+  <circle cx="281" cy="37" r="3.4" fill="#B4561F"/>
+</svg>
