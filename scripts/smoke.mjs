@@ -151,8 +151,10 @@ try {
   failed += 1;
 }
 
-// Newsletter double opt-in end-to-end: subscribe → dev confirmUrl → confirm →
-// re-open (idempotent "already confirmed"). Also the bare page and a bogus token.
+// Newsletter double opt-in end-to-end: subscribe → dev confirmUrl (or production no-URL) →
+// confirm → re-open (idempotent "already confirmed"). Also the bare page and a bogus token.
+// In production (NODE_ENV=production) the confirmUrl is NEVER echoed — that is the designed
+// security property; the response carries `emailed` instead (email transport may be "none").
 try {
   const email = `smoke-${Date.now()}@duyanblog.test`;
   const res = await fetch(`${BASE}/api/newsletter`, {
@@ -161,11 +163,12 @@ try {
     body: JSON.stringify({ email }),
   });
   const data = await res.json();
-  const ok1 = res.status === 200 && data.ok && typeof data.confirmUrl === "string";
-  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status} (want 200 + confirmUrl)  POST /api/newsletter double opt-in`);
+  const isDev = typeof data.confirmUrl === "string";
+  const ok1 = res.status === 200 && data.ok && (isDev || typeof data.emailed === "boolean");
+  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status} (want 200${isDev ? " + confirmUrl" : "; dev-style confirmUrl absent is correct in prod"})  POST /api/newsletter double opt-in`);
   if (!ok1) failed += 1;
 
-  if (ok1) {
+  if (ok1 && isDev) {
     const confirm1 = await fetch(data.confirmUrl, { redirect: "manual" });
     const ok2 = confirm1.status === 200;
     console.log(`${ok2 ? "PASS" : "FAIL"}  ${confirm1.status} (want 200)  GET confirm link (first use)`);
@@ -175,6 +178,8 @@ try {
     const ok3 = confirm2.status === 200;
     console.log(`${ok3 ? "PASS" : "FAIL"}  ${confirm2.status} (want 200, idempotent)  GET confirm link (replay)`);
     if (!ok3) failed += 1;
+  } else if (ok1) {
+    console.log("INFO  production response has no confirmUrl (designed); skipping link replay");
   }
 } catch (err) {
   console.log(`FAIL  ERR  newsletter double opt-in flow  ${err.message}`);
