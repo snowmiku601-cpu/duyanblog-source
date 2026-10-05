@@ -141,7 +141,7 @@ export default async function ReviewPage({ params }: Params) {
                 <div className="mt-4 flex items-center gap-5">
                   <ScoreDial score={weighted} size={104} />
                   <div className="min-w-0 text-xs leading-relaxed text-muted-foreground">
-                    Weighted across {article.scores.length} criteria, tested against our{" "}
+                    Weighted across {article.scores.length} criteria, scored against our{" "}
                     <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">
                       published methodology
                     </Link>
