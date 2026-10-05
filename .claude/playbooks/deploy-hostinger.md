@@ -117,5 +117,9 @@ curl -s https://duyanblog-test.hostingersite.com/ | grep -c auralis     # conten
   `NEXT_PUBLIC_SITE_URL`), never `request.url` (upstream origin is `0.0.0.0:3000` behind the
   edge) and never a bare relative path (Next 500s).
 - `NEXT_PUBLIC_*` is baked at build time; changing it requires a rebuild.
-- Newsletter double opt-in in production returns `{ok, emailed}` with NO `confirmUrl` (design;
-  smoke accepts both).
+- Newsletter double opt-in in production returns `{ok, emailed}` (with a provider) or a
+  truthful **503** (no `RESEND_API_KEY` — Correction 14), NEVER `{ok:true, emailed:false}`.
+  Dev/non-production may echo `confirmUrl` via the console transport. Set `RESEND_API_KEY` +
+  `EMAIL_FROM` for live confirmations; until then signups are declined honestly.
+- Media uploads in production are refused (403) unless `MEDIA_PERSISTENT=true` (Correction 15).
+  On the archive deploy (rebuild wipes the app dir) leave it unset and manage media via Git.

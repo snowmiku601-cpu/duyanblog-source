@@ -6,7 +6,7 @@ For humans and AI agents authoring content. Storage is structured JSON blocks, n
 
 | Type | URL prefix | Use when | Required extras |
 | --- | --- | --- | --- |
-| `review` | `/reviews/` | You tested one product and have a verdict | Author + reviewer, `ReviewScore` rows, TL;DR, sources, `lastReviewedAt` |
+| `review` | `/reviews/` | You researched one product and have a verdict | Author + reviewer, `ReviewScore` rows, TL;DR, sources, `lastReviewedAt` |
 | `roundup` | `/best/` | You can name a ranked set of picks for a need | Pick blocks (ranked), TL;DR, sources |
 | `versus` | `/compare/` | Two concrete options, one decision | Comparison data attached (`Comparison.articleId`), TL;DR |
 | `guide` | `/guides/` | A reusable method/decision framework, not tied to one verdict | Sources; TL;DR recommended |
@@ -23,12 +23,12 @@ Every article also needs: `slug` (unique across the site, one type per slug — 
 ```json
 [
   { "type": "paragraph",
-    "text": "The **Auralis Note 14** is *calm* rather than exciting. Battery hit `14h 22m` in our loop, and you can [read the methodology](/methodology) or [the maker's spec sheet](https://example-auralis.test/spec)." },
+    "text": "The **Auralis Note 14** is *calm* rather than exciting. Its published spec claims `14h 22m` of battery in a looped-work profile — [read the methodology](/methodology) or [the maker's spec sheet](https://example-auralis.test/spec) for what that test means." },
   { "type": "heading", "level": 2, "text": "Who it is for" },
   { "type": "paragraph",
     "text": "If the price works for you, [buy the Note 14 direct](go:off_auralis_direct) — that is an affiliate link by construction." },
   { "type": "callout", "variant": "note", "title": "About our numbers",
-    "text": "One retail unit, three weeks. See the caveats, not just the medians." }
+    "text": "Every figure above is cited to a dated source. Where we could not verify something, we leave it empty rather than invent it." }
 ]
 ```
 
@@ -43,7 +43,7 @@ Every article also needs: `slug` (unique across the site, one type per slug — 
 | `[label](https://…)` | External link, `rel="nofollow noopener"`, new tab | Use for genuine external sources only |
 | `[label](go:OFFER_ID)` | **Affiliate link** → `/go/OFFER_ID?src=<articleSlug>`, `rel="sponsored noopener"`, new tab, vermilion underline | See the rule below |
 
-**`go:` vs raw URLs — the rule.** Article prose must reference offers by ID (`go:off_auralis_direct`), never by merchant URL. Reasons: the destination is owned by the `AffiliateOffer` row (change the URL once in the database, every article follows); every click is logged consistently with `rel="sponsored"`; article text can never leak a stale or non-HTTPS URL. Never paste a raw merchant URL into a `text` field — it would render as a plain `nofollow` external link with no tracking and no disclosure chain. Known gap: the schema docstring mentions `[label](ref:SLUG)` for internal links by article slug, but `inline-text.tsx` does not implement it yet — it renders as plain text, so use literal `/path` links until then.
+**`go:` vs raw URLs — the rule.** Article prose must reference offers by ID (`go:off_auralis_direct`), never by merchant URL. Reasons: the destination is owned by the `AffiliateOffer` row (change the URL once in the database, every article follows); every click is logged consistently with `rel="sponsored"`; article text can never leak a stale or non-HTTPS URL. Never paste a raw merchant URL into a `text` field — it would render as a plain `nofollow` external link with no tracking and no disclosure chain.
 
 ## 3. Block type reference (all 15)
 
@@ -55,7 +55,7 @@ Every article also needs: `slug` (unique across the site, one type per slug — 
 | `quote` | `text`, `attribution?` | pull-quote, display serif italic |
 | `callout` | `variant`: `note` \| `warning` \| `tip`; `title?`, `text` | note=sun border, tip=primary, warning=vermilion |
 | `prosCons` | `title?`, `pros[]`, `cons[]` | ≤12 each, ≤300 chars — used for "the trade-offs, plainly" |
-| `stats` | `items[]` of `{value, label}` | 1–6; measured numbers with test context |
+| `stats` | `items[]` of `{value, label}` | 1–6; evidence-led — cite a dated source for each value or label it demo |
 | `table` | `caption?`, `head[]`, `rows[][]` | ≤8 cols, ≤40 rows; plain text cells |
 | `image` | `src`, `alt` (required), `caption?`, `credit?` | alt is mandatory by schema |
 | `pick` | `rank` 1–100, `name`, `blurb`, `badge?`, `imageUrl?`, `offerId?`, `url?` | roundup building block; `offerId` wires the buy button |
@@ -93,8 +93,8 @@ While `demo_mode` is on: every fictional product, merchant, price and measuremen
 - **Headlines: short declaratives ending with a vermilion period on H1s.** "Reviews with reasons attached." / "Find the verdict." / "How we earn the byline." The period is a brand mark (`<span className="text-vermilion">.</span>`).
 - **Trade-offs in the open.** Every recommendation names what it is bad at. "You pay for it in graphics grunt and port variety." If there is no downside, you have not researched enough.
 - **No hype adjectives.** Banned register: "game-changing", "must-have", "amazing deals", "best-ever". Superlatives must be earned by a stated criterion ("the best keyboard in this price class — because X").
-- **Evidence over confidence.** Numbers come with their test conditions ("14h22m in our looped work test"); absence of data is stated, not papered over.
-- **First person plural, plain verbs.** "We bought, installed and burnt through the data." Contractions fine; jargon explained on first use.
+- **Evidence over confidence.** Numbers come with their dated sources ("14h 22m per the maker's published spec, checked October 4, 2026"); absence of data is stated, not papered over.
+- **First person plural, plain verbs.** "We read the vendor's published pages and record the day we checked each figure." Contractions fine; jargon explained on first use. If an article genuinely includes first-hand testing, say so and describe exactly what was done — never imply it when it did not happen.
 
 ## 9. Workflow (admin, when it lands)
 

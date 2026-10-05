@@ -9,10 +9,7 @@ const bodySchema = z.object({
   key: z
     .string()
     .trim()
-    .refine(
-      (v) => ["ads_enabled", "demo_mode"].includes(v) || /^[a-z_]{2,40}$/.test(v),
-      "Key must be a known switch or 2–40 lowercase letters/underscores"
-    ),
+    .refine((v) => ["ads_enabled", "demo_mode"].includes(v), "Key must be a known switch (ads_enabled or demo_mode)"),
   value: z.string().trim().min(1).max(500),
 });
 
