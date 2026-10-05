@@ -75,9 +75,10 @@ export default async function HomePage() {
               reasons attached<span className="text-vermilion">.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Duyan Blog is an independent editorial publication. We review software,
-              travel and technology with the methodology, sources and trade-offs in
-              the open — so you can disagree with us properly.
+              Duyan Blog is an independent editorial publication. Our reviews are built
+              from the published specs, source documents and dated checks — with
+              the methodology and trade-offs in the open, so you can check the
+              working or disagree with it.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="font-medium">
@@ -432,7 +433,7 @@ export default async function HomePage() {
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 New reviews, methodology notes and the occasional correction — written by
-                the people who did the testing. No hype, no &quot;amazing deals&quot; spam.
+                the editors who checked the sources and the maths. No hype, no &quot;amazing deals&quot; spam.
               </p>
               <div className="mt-6">
                 <NewsletterForm />

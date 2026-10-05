@@ -9,7 +9,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://duyanblog.com",
   tagline: "Reviews with reasons attached.",
   description:
-    "Duyan Blog is an independent editorial publication covering software, travel and technology. Hands-on reviews, honest comparisons and buying guides — with the methodology and trade-offs shown, not hidden.",
+    "Reviews with the evidence attached. Duyan Blog independently reviews software, travel and technology from the published specs, source documents and dated checks — methodology, trade-offs and the day we checked the numbers, all in the open.",
   locale: "en_US",
   publisherNote: "Reader-supported: we may earn a commission when you buy through links on this site. It never changes our verdicts.",
 } as const;

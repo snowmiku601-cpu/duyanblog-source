@@ -1,6 +1,6 @@
 # duyanblog.com
 
-Independent editorial review publication: hands-on reviews, head-to-head comparisons and buying guides for software, travel and technology — with the methodology, sources and trade-offs shown in the open. Currently ships with a fully labelled fictional demo dataset so the presentation can be evaluated before real editorial work begins.
+Independent editorial review publication: research/evidence-led reviews, head-to-head comparisons and buying guides for software, travel and technology — built from published specs, source documents and dated checks, with the methodology and trade-offs shown in the open. Currently ships with a fully labelled fictional demo dataset so the presentation can be evaluated before real editorial work begins.
 
 > **Tagline:** Reviews with reasons attached.
 
