@@ -16,6 +16,7 @@
     "test": "node scripts/smoke.mjs",
     "test:media": "node --import tsx scripts/test-media-validation.mjs",
     "test:newsletter": "node scripts/test-newsletter-semantics.mjs",
+    "test:admin-auth": "node --import tsx scripts/test-admin-auth.mjs",
     "validate:docs": "node scripts/validate-docs.mjs",
     "slop": "node scripts/slop-scan.mjs",
     "db:generate": "prisma generate",

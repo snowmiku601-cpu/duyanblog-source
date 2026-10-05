@@ -15,12 +15,18 @@ export async function POST(request: Request) {
   }
 
   const ip = clientIp(request);
-  const limited = rateLimit(`login:${ip}`, 5, 60_000);
-  if (!limited.ok) {
-    return NextResponse.json(
-      { error: `Too many attempts — try again in ${limited.retryAfterSeconds}s.` },
-      { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
-    );
+  // Fine-grained per-IP bucket applies ONLY when a trusted IP exists. When
+  // clientIp() is null (no verified proxy), we skip the per-IP window entirely
+  // so one anonymous visitor cannot consume a shared bucket and 429 everyone
+  // else — the per-email + process-global buckets below are the real floor.
+  if (ip) {
+    const limited = rateLimit(`login:${ip}`, 5, 60_000);
+    if (!limited.ok) {
+      return NextResponse.json(
+        { error: `Too many attempts — try again in ${limited.retryAfterSeconds}s.` },
+        { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
+      );
+    }
   }
 
   let json: unknown;
@@ -60,6 +66,15 @@ export async function POST(request: Request) {
     const valid = user ? await verifyPassword(password, user.passwordHash) : false;
     if (!user || !valid) {
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+    }
+    // Fail-closed: only ADMIN may hold a usable admin session in this MVP.
+    // A non-ADMIN (EDITOR) row resolves to the same 403 as a denied session —
+    // no session is issued, so nothing to revoke later.
+    if (user.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "This account does not have admin access." },
+        { status: 403 }
+      );
     }
 
     const { token, expiresAt } = await createSession(user.id);

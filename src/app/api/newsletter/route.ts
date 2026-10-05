@@ -36,19 +36,25 @@ export async function POST(request: Request) {
   }
 
   const ip = clientIp(request);
-  const limited = rateLimit(`newsletter:${ip}`, 5, 60_000);
-  if (!limited.ok) {
-    return NextResponse.json(
-      { error: "Too many attempts — try again in a minute." },
-      { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
-    );
+  // Fine-grained per-IP bucket applies ONLY when a trusted IP exists (verified
+  // proxy). Anonymous visitors (clientIp() === null) never consume a shared
+  // IP window — otherwise one visitor could 429 everyone else. The contention
+  // floor for anonymous traffic is the per-email + global buckets below.
+  if (ip) {
+    const limited = rateLimit(`newsletter:${ip}`, 5, 60_000);
+    if (!limited.ok) {
+      return NextResponse.json(
+        { error: "Too many attempts — try again in a minute." },
+        { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
+      );
+    }
   }
 
-  // Defense-in-depth beyond IP attribution (Correction 3 applies to newsletter
-  // too): a client forging x-real-ip can mint fresh IP buckets, so a
-  // process-global bucket caps the total signup attempts per minute no matter
-  // what headers are sent. In-memory; resets on restart.
-  const globalLimited = rateLimit("newsletter:global", 60, 60_000);
+  // Process-global abuse floor: caps the TOTAL signup attempts per minute no
+  // matter what headers or email addresses are sent. In-memory; resets on
+  // restart. Low enough to stop a flood, high enough to never throttle a
+  // real user base.
+  const globalLimited = rateLimit("newsletter:global", 300, 60_000);
   if (!globalLimited.ok) {
     return NextResponse.json(
       { error: "Too many signup attempts — try again in a minute." },
@@ -73,7 +79,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const normalized = email.toLowerCase();
+  // Normalized per-email bucket (Correction 3): repeated attempts on ONE
+  // address are limited regardless of IP attribution, so rotating forging
+  // headers can never produce unlimited attempts against a single signup.
+  const normalized = email.toLowerCase().trim();
+  const emailLimited = rateLimit(`newsletter:email:${normalized}`, 5, 60_000);
+  if (!emailLimited.ok) {
+    return NextResponse.json(
+      { error: "Too many attempts for this address — try again in a minute." },
+      { status: 429, headers: { "Retry-After": String(emailLimited.retryAfterSeconds) } }
+    );
+  }
 
   try {
     const existing = await db.newsletterSubscriber.findUnique({

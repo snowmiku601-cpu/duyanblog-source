@@ -300,15 +300,23 @@ try {
 // and the route source is structurally guarded by test-newsletter-semantics.mjs.
 
 // Rate limiter (Correction 3): client IP headers (x-forwarded-for / x-real-ip)
-// are forgeable and are IGNORED when TRUST_PROXY is unset — all untrusted
-// requests share the stable "__untrusted__" key (plus a process-global bucket),
-// so rotating forged headers can never mint fresh windows. Attempt #6 from the
-// same window must 429.
+// are forgeable and IGNORED when TRUST_PROXY is unset. There is NO shared
+// anonymous per-IP bucket — one visitor can never 429 another. Instead:
+//   (a) rotating forged headers can NOT mint fresh trusted-IP buckets;
+//   (b) repeated attempts on ONE email ARE limited (per-email 5/min);
+//   (c) a DIFFERENT email is NOT blocked merely because another account
+//       consumed its own per-email bucket.
 {
   try {
-    let got429 = false;
-    for (let i = 0; i < 7; i++) {
-      // Rotate x-real-ip on every request — must NOT create fresh buckets.
+    const addrA = `lima-${Date.now()}@duyanblog.test`;
+    const addrB = `limb-${Date.now()}@duyanblog.test`;
+
+    // (a)+(b) Rotate forged headers across 6 attempts on addrA — must 429 on
+    // the per-email window, even though each request "looks" like a new IP.
+    let a429 = false;
+    let aAttempts = 0;
+    for (let i = 0; i < 7 && !a429; i++) {
+      aAttempts++;
       const r = await fetch(`${BASE}/api/newsletter`, {
         method: "POST",
         headers: {
@@ -316,28 +324,46 @@ try {
           "x-real-ip": `10.99.${i}.${i}`,
           "x-forwarded-for": `10.99.${i}.${i}`,
         },
-        body: JSON.stringify({ email: `lim-${Date.now()}-${i}@duyanblog.test` }),
+        body: JSON.stringify({ email: addrA }),
       });
-      if (r.status === 429) { got429 = true; break; }
+      if (r.status === 429) { a429 = true; break; }
     }
-    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? "429 (want 429)" : "no 429"}  newsletter limiter holds while rotating forged IP headers`);
-    if (!got429) failed += 1;
+    console.log(`${a429 ? "PASS" : "FAIL"}  ${a429 ? `429 on attempt ${aAttempts}` : "no 429"}  per-email limit holds under rotating forged headers`);
+    if (!a429) failed += 1;
+
+    // (c) addrB must NOT be blocked — a fresh email still gets a non-429
+    // response (it may be 503 in prod-no-provider, or 200 in dev, but not 429).
+    const rB = await fetch(`${BASE}/api/newsletter`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-real-ip": "10.99.77.77",
+        "x-forwarded-for": "10.99.77.77",
+      },
+      body: JSON.stringify({ email: addrB }),
+    });
+    const bOk = rB.status !== 429 && rB.status !== 400;
+    console.log(`${bOk ? "PASS" : "FAIL"}  ${rB.status} (want non-429/non-400)  different email NOT blocked by another account's limit`);
+    if (!bOk) failed += 1;
   } catch (err) {
-    console.log(`FAIL  ERR  newsletter rotating-header limiter  ${err.message}`);
+    console.log(`FAIL  ERR  newsletter per-email limiter  ${err.message}`);
     failed += 1;
   }
 }
 
-// Contact limiter (Correction 3, defense-in-depth): rotating forged IP headers
-// must NOT produce unlimited DB messages — the untrusted shared key + global
-// bucket floor eventually 429s. Send 5 messages with rotating headers; the
-// 6th must 429 (untrusted window 5/min).
+// Contact limiter (Correction 3): same model — per-sender-email bucket; one
+// sender cannot pass a shared anonymous IP window, and a DIFFERENT sender
+// address is not blocked by another account's per-email limit.
 {
   try {
-    let got429 = false;
-    let attempts = 0;
-    for (let i = 0; i < 8 && !got429; i++) {
-      attempts++;
+    const senderA = `cta-${Date.now()}@duyanblog.test`;
+    const senderB = `ctb-${Date.now()}@duyanblog.test`;
+
+    // (a)+(b) Rotate forged headers across 6 messages from senderA — must 429.
+    let a429 = false;
+    let aAttempts = 0;
+    for (let i = 0; i < 7 && !a429; i++) {
+      aAttempts++;
       const r = await fetch(`${BASE}/api/contact`, {
         method: "POST",
         headers: {
@@ -347,17 +373,36 @@ try {
         },
         body: JSON.stringify({
           name: "Limiter Probe",
-          email: `contact-lim${Date.now()}-${i}@duyanblog.test`,
+          email: senderA,
           subject: "rate limit probe",
           message: "Automated rate-limit verification — deleting if stored.",
         }),
       });
-      if (r.status === 429) { got429 = true; break; }
+      if (r.status === 429) { a429 = true; break; }
     }
-    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? `429 on attempt ${attempts} (want 429)` : "no 429"}  contact limiter holds while rotating forged IP headers`);
-    if (!got429) failed += 1;
+    console.log(`${a429 ? "PASS" : "FAIL"}  ${a429 ? `429 on attempt ${aAttempts}` : "no 429"}  contact per-sender limit holds under rotating forged headers`);
+    if (!a429) failed += 1;
+
+    // (c) senderB must NOT be blocked.
+    const rB = await fetch(`${BASE}/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-real-ip": "198.18.55.55",
+        "x-forwarded-for": "198.18.55.55",
+      },
+      body: JSON.stringify({
+        name: "Limiter Probe",
+        email: senderB,
+        subject: "rate limit probe",
+        message: "Automated rate-limit verification — deleting if stored.",
+      }),
+    });
+    const bOk = rB.status !== 429 && rB.status !== 400;
+    console.log(`${bOk ? "PASS" : "FAIL"}  ${rB.status} (want non-429/non-400)  different contact sender NOT blocked by another account's limit`);
+    if (!bOk) failed += 1;
   } catch (err) {
-    console.log(`FAIL  ERR  contact rotating-header limiter  ${err.message}`);
+    console.log(`FAIL  ERR  contact per-sender limiter  ${err.message}`);
     failed += 1;
   }
 }

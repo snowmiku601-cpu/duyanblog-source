@@ -6,9 +6,11 @@
  * IP attribution is a security-sensitive input: `X-Forwarded-For` AND
  * `x-real-ip` are both client-supplied headers, and both are forgeable unless
  * the operating proxy/edge is verified to overwrite them. Untrusted by
- * default: the limiter keys on a stable per-process fallback so a rotated
- * forwarding header cannot mint a fresh bucket. Compose per-account /
- * process-global buckets where true client identity is needed.
+ * default: `clientIp()` returns null (no trusted IP) so routes apply
+ * fine-grained per-IP buckets ONLY when a trusted IP exists, and rely on
+ * per-account / per-email / process-global buckets otherwise. A model where
+ * every anonymous visitor shares one "untrusted" IP bucket would let one
+ * visitor 429 all the others — that failure is what null avoids.
  */
 type Bucket = { count: number; resetAt: number };
 
@@ -45,20 +47,18 @@ export function rateLimit(
 }
 
 /**
- * Resolve the client IP for rate-limit keying.
+ * Resolve the client IP for rate-limit keying, if one is TRUSTED.
  *
  * - Trusted proxy (TRUST_PROXY=true AND the edge is verified to overwrite
- *   client-supplied forwarding headers): return the first XFF hop. Both
- *   `x-forwarded-for` and `x-real-ip` are client-controlled input headers; a
- *   proxy that sanitizes one must be verified to sanitize the other.
- * - Untrusted (default): NEVER read client-supplied XFF, and NEVER read
- *   `x-real-ip` either — that header is just as forgeable when no proxy
- *   overwrites it. The limiter keys on a stable per-process fallback so it
- *   still works without exposing a forgeable input. Where a true client
- *   identity is needed beyond the process window, compose a per-account /
- *   process-global bucket (see login and newsletter routes).
+ *   client-supplied forwarding headers): return the first XFF hop, falling
+ *   back to x-real-ip. Both headers are client-controlled; a proxy that
+ *   sanitizes one must be verified to sanitize the other.
+ * - Untrusted (default): return null. We NEVER read client-supplied XFF or
+ *   x-real-ip, so a rotated forging header cannot mint a fresh trusted-IP
+ *   bucket. Routes must not apply a per-IP bucket to null — they key on
+ *   per-account/per-email + process-global buckets instead.
  */
-export function clientIp(request: Request, opts: { trustProxy?: boolean } = {}): string {
+export function clientIp(request: Request, opts: { trustProxy?: boolean } = {}): string | null {
   const trust = opts.trustProxy ?? TRUST_PROXY;
   if (trust) {
     const fwd = request.headers.get("x-forwarded-for");
@@ -66,5 +66,5 @@ export function clientIp(request: Request, opts: { trustProxy?: boolean } = {}):
     const real = request.headers.get("x-real-ip");
     if (real) return real.trim();
   }
-  return "__untrusted__";
+  return null;
 }

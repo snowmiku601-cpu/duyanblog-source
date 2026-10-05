@@ -104,6 +104,10 @@ export async function getAdminUser(): Promise<AdminUser | null> {
 export async function requireAdminPage(): Promise<AdminUser> {
   const user = await getAdminUser();
   if (!user) redirect("/admin/login");
+  // Fail-closed: ONLY role ADMIN may use the admin area in this MVP. EDITOR is
+  // reserved for a future permission matrix — today a non-ADMIN session is
+  // treated as unauthenticated rather than granted partial access.
+  if (user.role !== "ADMIN") redirect("/admin/login");
   return user;
 }
 
@@ -112,6 +116,11 @@ export async function requireAdminApi(): Promise<{ user: AdminUser } | { respons
   const user = await getAdminUser();
   if (!user) {
     return { response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+  // Non-ADMIN sessions are denied centrally (403 after authentication): EDITOR
+  // is reserved for a future permission matrix, not a lesser-session MVP.
+  if (user.role !== "ADMIN") {
+    return { response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
   }
   return { user };
 }
