@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { articlePath } from "@/lib/site";
 
@@ -83,6 +84,14 @@ export function liveDateGuard(): { OR: Array<Record<string, unknown>> } {
   return { OR: [{ publishedAt: null }, { publishedAt: { lte: new Date() } }] };
 }
 
+/**
+ * Demo-content crawler exclusion (Correction 6): Article.isDemo === true →
+ * noindex, excluded from sitemap, excluded from feeds, and no Review/Product
+ * rich-result schema. Applied uniformly everywhere (no prod/staging branching).
+ * A property rule: the flag on the row is the single source of truth.
+ */
+export const demoExcludedWhere = { isDemo: false } as const;
+
 export async function getCategories() {
   return db.category.findMany({ orderBy: [{ order: "asc" }, { name: "asc" }] });
 }
@@ -131,6 +140,47 @@ export async function getArticlesByCategory(categoryId: string, limit = 24): Pro
     where: { status: "published", categoryId, ...liveDateGuard() },
     orderBy: [{ publishedAt: "desc" }],
     take: limit,
+    select: articleCardSelect,
+  });
+  return rows.map(toCardData);
+}
+
+/**
+ * DB-side article search (Correction 13): the query filters title/deck/tags,
+ * not a JS pass over the latest 100. Case-insensitive `contains` on MySQL,
+ * newest first, hard `LIMIT 30` (no silent latest-100 ceiling). Demo content is
+ * excluded — /search is a crawler surface. `catSlug` narrows to one section.
+ * MySQL FULLTEXT is a later scale optimization (see ARCHITECTURE.md) — not
+ * needed at this corpus, and deliberately not implemented.
+ */
+const SEARCH_LIMIT = 30;
+
+export async function searchArticles(query: string, catSlug?: string): Promise<ArticleCardData[]> {
+  const needle = query.trim();
+  if (needle.length === 0) return [];
+
+  const where: Prisma.ArticleWhereInput = {
+    status: "published",
+    ...demoExcludedWhere,
+    AND: [
+      liveDateGuard(),
+      {
+        OR: [
+          { title: { contains: needle } },
+          { deck: { contains: needle } },
+          { tags: { some: { tag: { name: { contains: needle } } } } },
+        ],
+      },
+    ],
+  };
+  if (catSlug) {
+    where.category = { slug: catSlug };
+  }
+
+  const rows = await db.article.findMany({
+    where,
+    orderBy: [{ publishedAt: "desc" }],
+    take: SEARCH_LIMIT,
     select: articleCardSelect,
   });
   return rows.map(toCardData);

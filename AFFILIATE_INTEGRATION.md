@@ -51,12 +51,10 @@ Because this is a plain server-side 302, it works for every visitor regardless o
 | Field | Policy |
 | --- | --- |
 | `offerId`, `articleId?` | What was clicked and from which article |
-| `referer` | The `?src=` hint param (article slug, max 200 chars) when present, else the HTTP Referer header truncated to 500; no IP address is stored anywhere |
-| `sessionHash?` | Reserved for a salted, non-reversible identifier; unused by the current router |
-| `consentAnalytics` | **Consent snapshot.** The server cannot read the localStorage consent store, so the router accepts an explicit, non-identifying `c=1` query hint (client MAY append it; navigation is identical without it) and stores `true` only for that. Reporting can then separate consented vs unconsented clicks honestly |
+| `sourcePath?` | A **controlled** internal source path: the article slug (from `?src=`) or `/deals`. The router never reads or stores the browser's Referer header (it can carry query strings / PII), and never stores an IP with click data |
 | `createdAt` | Time of click |
 
-The `src` param is appended by `affiliateHref()`/`inline-text.tsx` from the article slug.
+The `src` param is appended by `affiliateHref()`/`inline-text.tsx` from the article slug. A direct visit to `/go/<offer>` without `?src=` logs `sourcePath = null` — no browser-derived data is captured. Click accounting is operational (commissions, broken-link tracing), not optional user analytics, so it is deliberately not consent-gated: the click record contains no personal identifier.
 
 ## 5. Link hygiene — `rel="sponsored noopener"`
 
@@ -73,14 +71,27 @@ The demo database contains fictional merchants (`example-*.test`). Go-live seque
 5. Re-run the flow manually: click a buy button, confirm the 302 target and that an `AffiliateClick` row lands.
 6. Retire the demo labelling (DemoNotice, "demo merchant" strings, footer disclaimer, `demo_mode` setting) once no demo content remains visible.
 
-## 7. Ad enablement (AdSlot)
+## 7. Ad enablement (AdSlot) — currently disabled
 
-Current state: `AdSlot` renders a reserved, labelled placeholder and nothing else. `ads_enabled` defaults to `false` (seeded `SiteSetting`); `NEXT_PUBLIC_ADS_ENABLED` in `.env.example` is documented as a force-enable but is **not read by code yet** — the runtime gate is the DB setting. To actually serve ads:
+Current state: advertising is **disabled site-wide**. `AdSlot` renders a reserved, labelled
+placeholder and nothing else. `ads_enabled` defaults to `false` (seeded `SiteSetting`);
+`NEXT_PUBLIC_ADS_ENABLED` in `.env.example` is documented as a fallback but is **not read
+by code yet** — the runtime gate is the DB setting via `isAdsEnabled()`. No ad network is
+configured, no third-party ad script loads, and there is **no certified CMP**.Ads cannot
+currently be served by changing a setting: enabling them is a **separate, owner-authorized
+integration task**, and readiness is tracked (and honestly marked NOT READY) in
+[`docs/ADSENSE_READINESS.md`](docs/ADSENSE_READINESS.md).
 
-1. Enable the switch: set `ads_enabled = "true"` in the site settings (admin settings page when it exists; until then a DB update — remember to `invalidateSettingsCache()`), or wire the `NEXT_PUBLIC_ADS_ENABLED` fallback into the pages that pass `enabled={isAdsEnabled(settings)}`.
-2. Wire a real network **inside `AdSlot`**, after both gates: `enabled` (server) AND `loadConsent()?.advertising === true` (client, live-updating via `onConsentChange`). The component must never load third-party script before advertising consent.
-3. Keep the reserved box (`min-h-24`, dashed border) to avoid layout shift when ads load.
-4. Respect the editorial rule: ads never overwhelm the page — current placements are one per article body (`review-top`, `roundup-top`) plus sidebar space. New placements need the same restraint and a disclosure (`/advertising-disclosure`).
+The mechanics an integration must preserve:
+
+1. A real network must be wired **inside `AdSlot`**, after both gates: `enabled` (server,
+   DB setting) AND `loadConsent()?.advertising === true` (client, live-updating via
+   `onConsentChange`). The component must never load third-party script before advertising
+   consent.
+2. Keep the reserved box (`min-h-24`, dashed border) to avoid layout shift when ads load.
+3. Respect the editorial rule: ads never overwhelm the page — current reserved placements
+   are one per article body (`review-top`, `roundup-top`) plus sidebar space. New
+   placements need the same restraint and a disclosure (`/advertising-disclosure`).
 
 ## 8. Compliance notes
 

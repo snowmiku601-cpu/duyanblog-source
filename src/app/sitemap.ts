@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { db } from "@/lib/db";
-import { liveDateGuard } from "@/lib/queries";
+import { demoExcludedWhere, liveDateGuard } from "@/lib/queries";
 import { articlePath, site } from "@/lib/site";
 import { policySlugs } from "@/content/policies";
 
@@ -12,14 +12,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [articles, categories, authors, tagLinks] = await Promise.all([
     db.article.findMany({
-      where: { status: "published", ...liveDateGuard() },
+      where: { status: "published", ...liveDateGuard(), ...demoExcludedWhere },
       select: { slug: true, type: true, updatedAt: true, publishedAt: true },
       orderBy: { updatedAt: "desc" },
     }),
     db.category.findMany({ select: { slug: true, updatedAt: true } }),
     db.author.findMany({ select: { slug: true, updatedAt: true } }),
     db.articleTag.findMany({
-      where: { article: { status: "published", ...liveDateGuard() } },
+      where: { article: { status: "published", ...liveDateGuard(), ...demoExcludedWhere } },
       select: { tag: { select: { slug: true } } },
     }),
   ]);

@@ -19,11 +19,29 @@ export async function POST(request: Request) {
   }
 
   const ip = clientIp(request);
-  const limited = rateLimit(`contact:${ip}`, 5, 60_000);
-  if (!limited.ok) {
+  // Fine-grained per-IP bucket applies ONLY when a trusted IP exists (verified
+  // proxy). Anonymous visitors (clientIp() === null) never consume a shared IP
+  // window — otherwise one visitor could 429 everyone else. The floor for
+  // anonymous traffic is the per-email + global buckets below.
+  if (ip) {
+    const limited = rateLimit(`contact:${ip}`, 5, 60_000);
+    if (!limited.ok) {
+      return NextResponse.json(
+        { error: "Too many messages — try again in a minute." },
+        { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
+      );
+    }
+  }
+
+  // Process-global abuse floor (Correction 3): caps the TOTAL messages per
+  // minute no matter what headers or sender addresses are used. In-memory;
+  // resets on restart. High enough to never throttle a real user base, low
+  // enough to stop a flood.
+  const globalLimited = rateLimit("contact:global", 300, 60_000);
+  if (!globalLimited.ok) {
     return NextResponse.json(
       { error: "Too many messages — try again in a minute." },
-      { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } }
+      { status: 429, headers: { "Retry-After": String(globalLimited.retryAfterSeconds) } }
     );
   }
 
@@ -41,6 +59,18 @@ export async function POST(request: Request) {
   const { name, email, subject, message, company } = parsed.data;
   if (company) {
     return NextResponse.json({ ok: true });
+  }
+
+  // Normalized per-sender-email bucket (Correction 3): repeated messages from
+  // ONE address are limited regardless of IP attribution, so rotating forging
+  // headers can never produce unlimited DB messages from a single account.
+  const normalizedSender = email.toLowerCase().trim();
+  const senderLimited = rateLimit(`contact:email:${normalizedSender}`, 5, 60_000);
+  if (!senderLimited.ok) {
+    return NextResponse.json(
+      { error: "Too many messages from this address — try again in a minute." },
+      { status: 429, headers: { "Retry-After": String(senderLimited.retryAfterSeconds) } }
+    );
   }
 
   try {

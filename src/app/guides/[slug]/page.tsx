@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: articlePath(article.type, article.slug),
     image: article.heroImage,
     type: "article",
+    noIndex: article.isDemo, // demo fiction is never indexed (Correction 6)
     publishedTime: article.publishedAt?.toISOString(),
     modifiedTime: article.updatedAt.toISOString(),
     authors: [article.author.name],
@@ -105,7 +106,7 @@ export default async function GuidePage({ params }: Params) {
               </figure>
             )}
 
-            <DemoNotice />
+            {article.isDemo && <DemoNotice />}
             <ArticleRenderer blocks={blocks} articleSlug={article.slug} dropCap />
 
             <TagChips tags={article.tags.map((t) => t.tag)} className="border-t border-border pt-6" />

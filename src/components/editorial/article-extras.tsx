@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AlertTriangle, BookOpen } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 /** TL;DR box at the top of reviews/roundups/versus pages. */
 export function TldrBox({ text }: { text: string }) {
@@ -26,7 +27,7 @@ export function DemoNotice() {
 }
 
 /** Sources & citations rendered from the SourceCitation table. */
-export function SourcesList({ sources }: { sources: { id: string; label: string; url: string | null }[] }) {
+export function SourcesList({ sources }: { sources: { id: string; label: string; url: string | null; checkedAt: Date | null }[] }) {
   if (sources.length === 0) return null;
   return (
     <section aria-label="Sources" className="prose-measure">
@@ -41,10 +42,14 @@ export function SourcesList({ sources }: { sources: { id: string; label: string;
             {s.url ? (
               <a href={s.url} rel="noopener nofollow" target="_blank" className="underline underline-offset-2 hover:text-foreground">
                 {s.label}
+                {s.checkedAt ? ` — checked ${formatDate(s.checkedAt)}` : ""}
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : (
-              <span>{s.label}</span>
+              <span>
+                {s.label}
+                {s.checkedAt ? ` — checked ${formatDate(s.checkedAt)}` : ""}
+              </span>
             )}
           </li>
         ))}

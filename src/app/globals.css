@@ -43,6 +43,13 @@
   --ochre: oklch(0.722 0.128 76);
   --ink: oklch(0.252 0.02 55);
 
+  /* Non-inverting manifesto-band colors: a dark panel with cream text in BOTH
+     themes. The band is intentionally the site's one inverted (manifesto)
+     element — it must not flip to light-on-light in dark mode. */
+  --band-bg: oklch(0.252 0.02 55);
+  --band-fg: oklch(0.93 0.012 82);
+  --band-fg-soft: oklch(0.93 0.012 82 / 0.65);
+
   --radius: 0.375rem;
 
   --chart-1: oklch(0.735 0.148 70);
@@ -81,6 +88,12 @@
   --ochre: oklch(0.78 0.115 76);
   --ink: oklch(0.93 0.012 82);
 
+  /* Dark theme: the band stays a dark panel (darker than the card) with the
+     same cream text — it does NOT invert with --ink. */
+  --band-bg: oklch(0.15 0.012 55);
+  --band-fg: oklch(0.93 0.012 82);
+  --band-fg-soft: oklch(0.93 0.012 82 / 0.65);
+
   --chart-1: oklch(0.78 0.13 70);
   --chart-2: oklch(0.755 0.135 58);
   --chart-3: oklch(0.68 0.185 30);
@@ -114,6 +127,9 @@
   --color-vermilion: var(--vermilion);
   --color-ochre: var(--ochre);
   --color-ink: var(--ink);
+  --color-band-bg: var(--band-bg);
+  --color-band-fg: var(--band-fg);
+  --color-band-fg-soft: var(--band-fg-soft);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;

@@ -35,11 +35,12 @@ export default async function AboutPage() {
             </p>
             <p>
               Duyan Blog is an independent editorial publication covering software, travel and
-              technology. We buy what we test when we can, borrow when we can&apos;t, and say
-              which one happened. Our verdicts are written before anyone looks at commission
-              rates — that rule is written into our{" "}
+              technology. Our reviews are built from the published specs, source documents and
+              the dates we record when we check each figure. Verdicts are written before anyone
+              looks at commission rates — that rule is written into our{" "}
               <Link href="/how-we-make-money" className="underline underline-offset-2">business model</Link> and our{" "}
-              <Link href="/editorial-policy" className="underline underline-offset-2">editorial policy</Link>.
+              <Link href="/editorial-policy" className="underline underline-offset-2">editorial policy</Link>.{" "}
+              Where an article contains genuine first-hand work, it says so and describes exactly what was done.
             </p>
             <p>
               We are small on purpose. Every piece has a named author and, for reviews, a second

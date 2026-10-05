@@ -60,8 +60,8 @@ The DB password lives ONLY in the website's env vars and is not recoverable. The
 - Build settings: node 22, app_type `next`, root `.`, build script `build` (= `prisma generate
   && next build && cp -r .next/static .next/standalone/.next/ && cp -r public
   .next/standalone/`), package manager npm.
-- The platform starts the app itself (Next standalone); `npm start` (bun) is a local-dev
-  convenience only; `npm run start:node` is the node fallback for non-bun hosts.
+- The platform starts the app itself (Next standalone); `npm start` (Node 22) is the local-dev
+  convenience; `npm run start:node` is the same command without the log tee.
 - **A build prerenders the `revalidate=N` pages and queries the DB** — so **migrate BEFORE
   every build**. `npx prisma migrate deploy` (idempotent) is run locally over a remote DB
   connection, then the build is triggered. The seed NEVER runs in the build pipeline (it is

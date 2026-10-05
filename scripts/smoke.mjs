@@ -56,18 +56,66 @@ checks.push(
   { path: "/old-esim-guide", expect: 302 }
 );
 
-// The /go fallback Location must point at the PUBLIC origin, not the upstream
-// (request.url behind the Hostinger edge is 0.0.0.0:3000 — regressed once, fixed
-// via site.url). Status-only checks would pass a dead-origin redirect.
-{
-  const res = await fetch(`${BASE}/go/does-not-exist`, { redirect: "manual" });
-  const loc = res.headers.get("location") ?? "";
-  const ok = res.status === 302 && (loc.startsWith(BASE) || loc.startsWith("/deals")) && !loc.includes("0.0.0.0");
-  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} Location=${loc}  /go/does-not-exist fallback targets public origin`);
-  if (!ok) failed += 1;
+// Dynamic article/tag routes must 404 (not soft-404) for an unknown slug.
+// Regression guard: a Suspense loading.tsx in a [slug] route made notFound()
+// stream with HTTP 200 (fixed by removing those loading boundaries).
+const BOGUS_SLUGS = [
+  "/reviews/zzz-bogus-slug-404",
+  "/best/zzz-bogus-slug-404",
+  "/compare/zzz-bogus-slug-404",
+  "/guides/zzz-bogus-slug-404",
+  "/articles/zzz-bogus-slug-404",
+  "/tag/zzz-bogus-slug-404",
+];
+for (const path of BOGUS_SLUGS) {
+  checks.push({ path, expect: 404 });
 }
 
 let failed = 0;
+
+// Fail-closed indexing semantics (Correction 2): ALLOW_INDEXING is the only
+// gate. Unset/absent -> full Disallow (staging/localhost/preview); set=true ->
+// allow public content + expose sitemap. Assert semantics, not byte equality.
+{
+  try {
+    const res = await fetch(`${BASE}/robots.txt`, { redirect: "manual" });
+    const body = await res.text();
+    const allowIndexing = process.env.ALLOW_INDEXING === "true";
+    const ok =
+      res.status === 200 &&
+      (allowIndexing
+        ? /Allow:\s*\/$/m.test(body) && /Sitemap:/.test(body)
+        : /Disallow:\s*\/$/m.test(body) && !/Sitemap:/.test(body));
+    console.log(
+      `${ok ? "PASS" : "FAIL"}  ${res.status} robots.txt ${
+        allowIndexing ? "indexing allowed (ALLOW_INDEXING=true)" : "indexing blocked (fail-closed, ALLOW_INDEXING unset)"
+      }`
+    );
+    if (!ok) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  robots.txt  ${err.message}`);
+    failed += 1;
+  }
+}
+
+// The /go fallback Location must point at the PUBLIC origin, not the upstream
+// (request.url behind the Hostinger edge is 0.0.0.0:3000 — regressed once, fixed
+// via site.url). Status-only checks would pass a dead-origin redirect.
+// When smoke-testing a local server, BASE (localhost) differs from site.url
+// (the configured public origin), so accept any 302 whose target is a public
+// /deals path on some origin — the invariant is "never the upstream origin".
+{
+  const res = await fetch(`${BASE}/go/does-not-exist`, { redirect: "manual" });
+  const loc = res.headers.get("location") ?? "";
+  const target = new URL(loc, BASE);
+  const ok =
+    res.status === 302 &&
+    !loc.includes("0.0.0.0") &&
+    !["localhost", "127.0.0.1", "0.0.0.0"].includes(target.hostname) &&
+    target.pathname.endsWith("/deals");
+  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} Location=${loc}  /go/does-not-exist fallback targets public origin`);
+  if (!ok) failed += 1;
+}
 
 for (const { path, expect } of checks) {
   try {
@@ -131,13 +179,37 @@ try {
   failed += 1;
 }
 
+// DB-side search semantics (Correction 13): the page filters in the query, not in
+// JS over the latest 100. With the demo seed EVERY article is isDemo=true, and
+// demo content is excluded from /search (a crawler surface, Corrections 5-6) — so a
+// correct search on the demo DB MUST return zero results but still render 200.
+// Assertions: 200 + "Nothing for" (empty state) + demo slug absent; must-not-match demo slug.
+for (const [path, needle, mustMiss] of [
+  ["/search?q=esim", 'Nothing for', 'best-esim-providers'],
+  ["/search?q=zzz", 'Nothing for', 'auralis'],
+]) {
+  try {
+    const res = await fetch(`${BASE}${path}`);
+    const html = await res.text();
+    const ok = res.status === 200 && html.includes(needle) && !html.includes(mustMiss);
+    console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200, ${needle} present, ${mustMiss} absent)  ${path}`);
+    if (!ok) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  ${path}  ${err.message}`);
+    failed += 1;
+  }
+}
+
 // Per-tag RSS: known tag filters the feed with a #tag channel, unknown slug 404s,
 // and combining ?category= + ?tag= is rejected. (Tag slug "esim" exists after seed:demo.)
+// NOTE: with all seeded content isDemo=true, the eSIM feed may legitimately be EMPTY
+// (demo content is excluded from feeds per Correction 6) — the channel title is the
+// assertion, not a non-empty item list.
 try {
   const res = await fetch(`${BASE}/feed.xml?tag=esim`, { redirect: "manual" });
   const xml = res.status === 200 ? await res.text() : "";
-  const ok = res.status === 200 && xml.includes("— #eSIM") && xml.includes("<category>");
-  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200 + #eSIM channel)  /feed.xml?tag=esim`);
+  const ok = res.status === 200 && xml.includes("— #eSIM");
+  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200 + #eSIM channel${xml.includes("<item>") ? " + items" : "; empty (demo excluded) is correct"})  /feed.xml?tag=esim`);
   if (!ok) failed += 1;
 } catch (err) {
   console.log(`FAIL  ERR  /feed.xml?tag=esim  ${err.message}`);
@@ -165,7 +237,8 @@ try {
 // Newsletter double opt-in end-to-end: subscribe → dev confirmUrl (or production no-URL) →
 // confirm → re-open (idempotent "already confirmed"). Also the bare page and a bogus token.
 // In production (NODE_ENV=production) the confirmUrl is NEVER echoed — that is the designed
-// security property; the response carries `emailed` instead (email transport may be "none").
+// security property. With no mail provider configured, production answers a TRUTHFUL declined
+// state (503), never {ok:true, emailed:false} pretending success (Correction 14).
 try {
   const email = `smoke-${Date.now()}@duyanblog.test`;
   const res = await fetch(`${BASE}/api/newsletter`, {
@@ -175,11 +248,23 @@ try {
   });
   const data = await res.json();
   const isDev = typeof data.confirmUrl === "string";
-  const ok1 = res.status === 200 && data.ok && (isDev || typeof data.emailed === "boolean");
-  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status} (want 200${isDev ? " + confirmUrl" : "; dev-style confirmUrl absent is correct in prod"})  POST /api/newsletter double opt-in`);
+  // Dev (console transport) → 200 + confirmUrl. Production-like no-provider → 503 truthful decline.
+  // A production WITH provider → 200 + emailed boolean. Anything else is a regression.
+  const ok1 = isDev
+    ? res.status === 200 && data.ok
+    : typeof data.emailed === "boolean"
+      ? res.status === 200 && data.ok && data.emailed
+      : res.status === 503 && data.ok === false && typeof data.error === "string" && !data.emailed;
+  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status}${isDev ? " + confirmUrl" : typeof data.emailed === "boolean" ? " + emailed" : " + truthful 503 (no provider)"}  POST /api/newsletter double opt-in`);
   if (!ok1) failed += 1;
 
   if (ok1 && isDev) {
+    // Origin guard on the dev confirmUrl (Correction 14 / reverse-proxy class):
+    // must not leak a localhost / 127.0.0.1 / 0.0.0.0 / internal upstream origin.
+    const badOrigin = /0\.0\.0\.0|127\.0\.0\.1|\blocalhost\b/.test(data.confirmUrl);
+    console.log(`${badOrigin ? "FAIL" : "PASS"}${badOrigin ? " (leaked internal/local origin!)" : ""}  confirmUrl origin is canonical-public or dev-local, never internal upstream`);
+    if (badOrigin) failed += 1;
+
     const confirm1 = await fetch(data.confirmUrl, { redirect: "manual" });
     const ok2 = confirm1.status === 200;
     console.log(`${ok2 ? "PASS" : "FAIL"}  ${confirm1.status} (want 200)  GET confirm link (first use)`);
@@ -189,8 +274,10 @@ try {
     const ok3 = confirm2.status === 200;
     console.log(`${ok3 ? "PASS" : "FAIL"}  ${confirm2.status} (want 200, idempotent)  GET confirm link (replay)`);
     if (!ok3) failed += 1;
-  } else if (ok1) {
+  } else if (ok1 && typeof data.emailed === "boolean") {
     console.log("INFO  production response has no confirmUrl (designed); skipping link replay");
+  } else if (ok1) {
+    console.log("INFO  no mail provider → truthful 503 (Correction 14); skipping link replay");
   }
 } catch (err) {
   console.log(`FAIL  ERR  newsletter double opt-in flow  ${err.message}`);
@@ -206,7 +293,122 @@ try {
   failed += 1;
 }
 
+// Newsletter confirmUrl origin (Correction 14 / reverse-proxy bug class) — in a
+// production host the confirmation link must use the configured canonical public
+// origin (site.url), never localhost/127.0.0.1/0.0.0.0 or an internal upstream.
+// Asserted on the double opt-in response above (same request, no extra POSTs),
+// and the route source is structurally guarded by test-newsletter-semantics.mjs.
+
+// Rate limiter (Correction 3): client IP headers (x-forwarded-for / x-real-ip)
+// are forgeable and IGNORED when TRUST_PROXY is unset. There is NO shared
+// anonymous per-IP bucket — one visitor can never 429 another. Instead:
+//   (a) rotating forged headers can NOT mint fresh trusted-IP buckets;
+//   (b) repeated attempts on ONE email ARE limited (per-email 5/min);
+//   (c) a DIFFERENT email is NOT blocked merely because another account
+//       consumed its own per-email bucket.
+{
+  try {
+    const addrA = `lima-${Date.now()}@duyanblog.test`;
+    const addrB = `limb-${Date.now()}@duyanblog.test`;
+
+    // (a)+(b) Rotate forged headers across 6 attempts on addrA — must 429 on
+    // the per-email window, even though each request "looks" like a new IP.
+    let a429 = false;
+    let aAttempts = 0;
+    for (let i = 0; i < 7 && !a429; i++) {
+      aAttempts++;
+      const r = await fetch(`${BASE}/api/newsletter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": `10.99.${i}.${i}`,
+          "x-forwarded-for": `10.99.${i}.${i}`,
+        },
+        body: JSON.stringify({ email: addrA }),
+      });
+      if (r.status === 429) { a429 = true; break; }
+    }
+    console.log(`${a429 ? "PASS" : "FAIL"}  ${a429 ? `429 on attempt ${aAttempts}` : "no 429"}  per-email limit holds under rotating forged headers`);
+    if (!a429) failed += 1;
+
+    // (c) addrB must NOT be blocked — a fresh email still gets a non-429
+    // response (it may be 503 in prod-no-provider, or 200 in dev, but not 429).
+    const rB = await fetch(`${BASE}/api/newsletter`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-real-ip": "10.99.77.77",
+        "x-forwarded-for": "10.99.77.77",
+      },
+      body: JSON.stringify({ email: addrB }),
+    });
+    const bOk = rB.status !== 429 && rB.status !== 400;
+    console.log(`${bOk ? "PASS" : "FAIL"}  ${rB.status} (want non-429/non-400)  different email NOT blocked by another account's limit`);
+    if (!bOk) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  newsletter per-email limiter  ${err.message}`);
+    failed += 1;
+  }
+}
+
+// Contact limiter (Correction 3): same model — per-sender-email bucket; one
+// sender cannot pass a shared anonymous IP window, and a DIFFERENT sender
+// address is not blocked by another account's per-email limit.
+{
+  try {
+    const senderA = `cta-${Date.now()}@duyanblog.test`;
+    const senderB = `ctb-${Date.now()}@duyanblog.test`;
+
+    // (a)+(b) Rotate forged headers across 6 messages from senderA — must 429.
+    let a429 = false;
+    let aAttempts = 0;
+    for (let i = 0; i < 7 && !a429; i++) {
+      aAttempts++;
+      const r = await fetch(`${BASE}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": `198.18.${i}.${i}`,
+          "x-forwarded-for": `198.18.${i}.${i}`,
+        },
+        body: JSON.stringify({
+          name: "Limiter Probe",
+          email: senderA,
+          subject: "rate limit probe",
+          message: "Automated rate-limit verification — deleting if stored.",
+        }),
+      });
+      if (r.status === 429) { a429 = true; break; }
+    }
+    console.log(`${a429 ? "PASS" : "FAIL"}  ${a429 ? `429 on attempt ${aAttempts}` : "no 429"}  contact per-sender limit holds under rotating forged headers`);
+    if (!a429) failed += 1;
+
+    // (c) senderB must NOT be blocked.
+    const rB = await fetch(`${BASE}/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-real-ip": "198.18.55.55",
+        "x-forwarded-for": "198.18.55.55",
+      },
+      body: JSON.stringify({
+        name: "Limiter Probe",
+        email: senderB,
+        subject: "rate limit probe",
+        message: "Automated rate-limit verification — deleting if stored.",
+      }),
+    });
+    const bOk = rB.status !== 429 && rB.status !== 400;
+    console.log(`${bOk ? "PASS" : "FAIL"}  ${rB.status} (want non-429/non-400)  different contact sender NOT blocked by another account's limit`);
+    if (!bOk) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  contact per-sender limiter  ${err.message}`);
+    failed += 1;
+  }
+}
 // JSON Feed 1.1 — mirrors the RSS scopes: site-wide, per-tag, 404/400 guards.
+// NOTE: all seeded content is isDemo=true, so the site-wide feed may be EMPTY
+// (demo excluded from feeds per Correction 6) — structure is the assertion.
 try {
   const res = await fetch(`${BASE}/feed.json`, { redirect: "manual" });
   const ok = res.status === 200;
@@ -216,11 +418,13 @@ try {
     ok &&
     body.version === "https://jsonfeed.org/version/1.1" &&
     typeof body.feed_url === "string" &&
-    Array.isArray(body.items) &&
-    body.items.length > 0 &&
-    typeof body.items[0].id === "string" &&
-    typeof body.items[0].date_published === "string";
-  console.log(`${structured ? "PASS" : "FAIL"}  ${res.status} (want 200 + valid JSON Feed 1.1)  /feed.json`);
+    Array.isArray(body.items) && // may be [] (demo excluded)
+    body.items.every((it) => typeof it.id === "string" && typeof it.date_published === "string");
+  console.log(
+    `${structured ? "PASS" : "FAIL"}  ${res.status} (want 200 + valid JSON Feed 1.1${
+      body.items?.length ? `, ${body.items.length} item(s)` : "; empty (demo excluded) is correct"
+    })  /feed.json`
+  );
   if (!structured) failed += 1;
 } catch (err) {
   console.log(`FAIL  ERR  /feed.json  ${err.message}`);

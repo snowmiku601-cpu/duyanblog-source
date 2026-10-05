@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { liveDateGuard } from "@/lib/queries";
+import { demoExcludedWhere, liveDateGuard } from "@/lib/queries";
 import { articlePath, site } from "@/lib/site";
 
 export const revalidate = 900;
@@ -50,6 +50,7 @@ export async function GET(request: Request) {
     where: {
       status: "published",
       ...liveDateGuard(),
+      ...demoExcludedWhere,
       ...(category ? { categoryId: category.id } : {}),
       ...(tag ? { tags: { some: { tagId: tag.id } } } : {}),
     },

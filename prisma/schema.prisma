@@ -77,6 +77,7 @@ model Article {
   slug           String            @unique
   type           String // review | roundup | versus | guide | editorial
   status         String            @default("draft") // draft | published
+  isDemo         Boolean           @default(false) // demo/fictional content gate (Corrections 5-6)
   title          String
   deck           String            @db.Text // standfirst / excerpt — Text: up to 65 KB
   tldr           String?           @db.Text // ~280 chars in seed — Text is honest
@@ -185,9 +186,7 @@ model AffiliateClick {
   articleId        String?
   article          Article?  @relation(fields: [articleId], references: [id], onDelete: SetNull)
   createdAt        DateTime  @default(now())
-  referer          String?
-  sessionHash      String? // salted hash — no raw identifiers
-  consentAnalytics Boolean   @default(false)
+  sourcePath       String? // controlled internal source path (article slug or /deals) — never the raw Referer header
 
   @@index([offerId])
 }
@@ -244,12 +243,13 @@ model ReviewScore {
 }
 
 model SourceCitation {
-  id        String  @id @default(cuid())
+  id        String    @id @default(cuid())
   articleId String
-  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
   label     String
   url       String?
-  order     Int     @default(0)
+  checkedAt DateTime? @db.Date // "the day we checked this source" — date-only, no timezone shift
+  order     Int       @default(0)
 
   @@index([articleId])
 }

@@ -75,16 +75,17 @@ export default async function HomePage() {
               reasons attached<span className="text-vermilion">.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Duyan Blog is an independent editorial publication. We review software,
-              travel and technology with the methodology, sources and trade-offs in
-              the open — so you can disagree with us properly.
+              Duyan Blog is an independent editorial publication. Our reviews are built
+              from the published specs, source documents and dated checks — with
+              the methodology and trade-offs in the open, so you can check the
+              working or disagree with it.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="font-medium">
                 <Link href="/reviews">Start with a review</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-medium">
-                <Link href="/methodology">How we test</Link>
+                <Link href="/methodology">How we review</Link>
               </Button>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
@@ -120,8 +121,8 @@ export default async function HomePage() {
                   <dt className="text-[11px] leading-tight text-muted-foreground">published pieces</dt>
                 </div>
                 <div className="bg-card px-4 py-3">
-                  <dd className="font-display text-xl font-semibold">0</dd>
-                  <dt className="text-[11px] leading-tight text-muted-foreground">paid placements</dt>
+                  <dd className="font-display text-xl font-semibold">Editorially</dd>
+                  <dt className="text-[11px] leading-tight text-muted-foreground">independent — no paid placements</dt>
                 </div>
                 <div className="bg-card px-4 py-3">
                   <dd className="font-display text-xl font-semibold">{stats.categories}</dd>
@@ -380,7 +381,7 @@ export default async function HomePage() {
       )}
 
       {/* ------------------------------------------------ Methodology band */}
-      <section aria-labelledby="method-title" className="bg-ink text-[oklch(0.93_0.012_82)]">
+      <section aria-labelledby="method-title" className="bg-band-bg text-band-fg">
         <div className="mx-auto max-w-6xl px-4 py-16 lg:px-6">
           <div className="grid gap-10 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
@@ -388,7 +389,7 @@ export default async function HomePage() {
               <h2 id="method-title" className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
                 How we earn the byline<span className="text-sun">.</span>
               </h2>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-[oklch(0.93_0.012_82)]/70">
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-band-fg/70">
                 Every verdict on Duyan Blog is built the same way: a published methodology,
                 named authors, visible trade-offs, and corrections that stay up. The hat is
                 simple. So are our rules.
@@ -397,16 +398,16 @@ export default async function HomePage() {
                 <Link href="/methodology">Read the methodology</Link>
               </Button>
             </Reveal>
-            <div className="grid gap-px overflow-hidden rounded-md bg-[oklch(0.93_0.012_82)]/15 sm:grid-cols-3 lg:col-span-7">
+            <div className="grid gap-px overflow-hidden rounded-md bg-band-fg/15 sm:grid-cols-3 lg:col-span-7">
               {[
                 { n: "01", t: "Evidence over hype", d: "Claims link to sources. Where we lack data, we say so instead of inventing numbers." },
                 { n: "02", t: "Trade-offs in the open", d: "No product is perfect for everyone. We tell you who should buy it — and who shouldn't." },
                 { n: "03", t: "Commerce never edits", d: "Affiliate revenue funds the site; it never decides a verdict. Rankings can't be bought." },
               ].map((p) => (
-                <div key={p.n} className="bg-ink p-6">
+                <div key={p.n} className="bg-band-bg p-6">
                   <span className="section-index text-sun">{p.n}</span>
                   <h3 className="mt-3 font-display text-lg font-semibold">{p.t}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[oklch(0.93_0.012_82)]/65">{p.d}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-band-fg-soft">{p.d}</p>
                 </div>
               ))}
             </div>
@@ -432,7 +433,7 @@ export default async function HomePage() {
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 New reviews, methodology notes and the occasional correction — written by
-                the people who did the testing. No hype, no &quot;amazing deals&quot; spam.
+                the editors who checked the sources and the maths. No hype, no &quot;amazing deals&quot; spam.
               </p>
               <div className="mt-6">
                 <NewsletterForm />

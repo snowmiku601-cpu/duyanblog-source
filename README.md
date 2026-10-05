@@ -1,6 +1,6 @@
 # duyanblog.com
 
-Independent editorial review publication: hands-on reviews, head-to-head comparisons and buying guides for software, travel and technology — with the methodology, sources and trade-offs shown in the open. Currently ships with a fully labelled fictional demo dataset so the presentation can be evaluated before real editorial work begins.
+Independent editorial review publication: research/evidence-led reviews, head-to-head comparisons and buying guides for software, travel and technology — built from published specs, source documents and dated checks, with the methodology and trade-offs shown in the open. Currently ships with a fully labelled fictional demo dataset so the presentation can be evaluated before real editorial work begins.
 
 > **Tagline:** Reviews with reasons attached.
 
@@ -20,7 +20,7 @@ All docs for continuing this repo live at the root:
 
 | Layer | Choice | Notes |
 | --- | --- | --- |
-| Framework | Next.js 16 App Router (`next@^16.1.1`) | `output: "standalone"`, React 19, TypeScript `strict: true` |
+| Framework | Next.js 16 App Router (`next@^16.3.8`) | `output: "standalone"`, React 19, TypeScript `strict: true` |
 | Styling | Tailwind CSS 4 (`@theme inline` tokens) + shadcn/ui (Radix) | Tokens in `src/app/globals.css` |
 | Data | Prisma 6 + MySQL (`DATABASE_URL`) | Schema is MySQL-canonical; see HOSTINGER_DEPLOYMENT.md |
 | Validation | Zod 4 | Content blocks, comparison rows, API bodies |
@@ -40,7 +40,7 @@ npm run dev                       # http://localhost:3000
 
 Note: the database is **MySQL** — the schema and migrations are MySQL-canonical (the sandbox's original SQLite setup is retired; `db/custom.db` is no longer created). Local dev runs against a local MySQL or the platform DB via `DATABASE_URL`.
 
-Note: the admin UI itself is **not implemented yet** (see "Known state" below). `admin:bootstrap` creates the `User` row and the auth plumbing in `src/lib/auth.ts` is complete.
+Note: the `/admin` area is complete (see "Known state" below); `admin:bootstrap` creates the `User` row and `src/lib/auth.ts` powers the scrypt + DB-session login.
 
 ## Commands
 
@@ -51,7 +51,7 @@ Note: the admin UI itself is **not implemented yet** (see "Known state" below). 
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test` | HTTP smoke test against a **running** server (`scripts/smoke.mjs`); override target with `SMOKE_BASE_URL=http://host:port` |
 | `npm run build` | `next build`, then copies `.next/static` and `public/` into `.next/standalone/` |
-| `npm run start` | Runs the standalone server via bun (`NODE_ENV=production bun .next/standalone/server.js`) |
+| `npm run start` | Runs the standalone server via Node (`NODE_ENV=production node .next/standalone/server.js`); `npm run start:node` is the same without the tee |
 | `npm run db:generate` | `prisma generate` |
 | `npm run db:migrate` | `prisma migrate deploy` (production-safe) |
 | `npm run db:reset` | `prisma migrate reset` (wipes data) |
@@ -103,6 +103,7 @@ Prisma models: `User, Session, Author, Category, Article, ArticleRevision, Tag, 
 - Session cookies are `HttpOnly`, `SameSite=Lax`, `Secure` in production; only SHA-256 hashes of tokens are stored (`Session.tokenHash`).
 - Public POST endpoints (`/api/newsletter`, `/api/contact`) check same-origin, enforce a honeypot field and rate-limit to 5 requests/minute/IP (`src/lib/rate-limit.ts`, in-memory).
 - Security headers (HSTS, nosniff, DENY framing, referrer + permissions policy) are set in `next.config.ts`.
+- AI crawler user agents are currently **allowed** by default (no bot arrays in `robots.ts`; an owner decision, recorded in `.claude/rules/risk-register.md` — adding a block later is a single robots group change).
 
 ## Demo content disclaimer
 
@@ -112,7 +113,7 @@ Everything seeded by `prisma/seed.ts` is **fictional**: products (Auralis Note 1
 
 - The `/admin` area is complete: login (rate-limited, DB sessions), dashboard, article editor with JSON blocks + revision history (view/restore, auto-backup before restore), categories, authors, merchants, offers, comparisons, redirects, messages, newsletter subscribers (search + CSV export + delete), settings. No admin account is seeded — create one with `npm run admin:bootstrap`.
 - `next-auth` and other unused packages remain in `package.json` from the scaffolding; the app does not import them.
-- Search (`src/app/search/page.tsx`) filters the latest 100 published articles in JS — fine for editorial scale, swap for FTS later.
+- Search (`src/lib/queries.ts` `searchArticles`) filters published title/deck/tags in the DB (case-insensitive, newest first, `LIMIT 30`, demo-excluded) — no JS filter over a latest-100 ceiling; MySQL FULLTEXT is a later scale optimization (ARCHITECTURE.md).
 
 ## Working on this repo with an AI agent
 

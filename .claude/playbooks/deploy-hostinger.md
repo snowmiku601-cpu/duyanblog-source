@@ -36,6 +36,22 @@ reasoning; this is the how.
    failed a build). TypeScript/tsx/eslint can stay dev-only.
 5. **Webpack, not Turbopack.** Turbopack panics parsing `globals.css` in the sandboxed build
    (`node worker exits`) — `next build --webpack` is the working build.
+5b. **`TRUST_PROXY` is only set after the edge contract is verified.** The rate limiter
+   ignores client-supplied `X-Forwarded-For` by default (it is forgeable). If this deployment
+   needs real visitor IPs behind the Hostinger edge, FIRST confirm the edge overwrites or
+   strips client-supplied forwarding headers (test with `curl -H "X-Forwarded-For: 1.2.3.4"`),
+   then set `TRUST_PROXY=true`. Until verified, login is still protected by per-email and
+   process-global buckets regardless of IP attribution.
+5c. **`ALLOW_INDEXING=true` is set ONLY on the real production domain** (build-time). The demo
+   subdomain and any preview/localhost must leave it unset so `robots.txt` serves a full
+   `Disallow: /` — fictional demo content is never indexed as production editorial.
+5d. **`MEDIA_PERSISTENT=true` is set ONLY on deployments that persist the app dir.** CMS
+   uploads write to `<cwd>/public/images` (inside the app dir). The archive deploy overwrites
+   the app dir on rebuild, so without this flag uploaded media vanishes on the next deploy.
+   Default (flag unset) on the host = production CMS uploads are refused (403) and editorial
+   media lives in Git. **Future durable path (deferred, no code):** move uploads to object
+   storage (S3/R2) + CDN and swap `src/app/api/admin/media/route.ts` internals — the byte-sniff
+   validation and `public/images` consumer contract stay; see ARCHITECTURE.md §10.
 6. **App DB host is `127.0.0.1`; local tooling uses `srvNNNN.hstgr.io`** with a temporary
    remote rule (`ip %`), closed after use. They are different URLs by design.
 7. **`ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` never appear in the host env.** They are set
@@ -101,5 +117,9 @@ curl -s https://duyanblog-test.hostingersite.com/ | grep -c auralis     # conten
   `NEXT_PUBLIC_SITE_URL`), never `request.url` (upstream origin is `0.0.0.0:3000` behind the
   edge) and never a bare relative path (Next 500s).
 - `NEXT_PUBLIC_*` is baked at build time; changing it requires a rebuild.
-- Newsletter double opt-in in production returns `{ok, emailed}` with NO `confirmUrl` (design;
-  smoke accepts both).
+- Newsletter double opt-in in production returns `{ok, emailed}` (with a provider) or a
+  truthful **503** (no `RESEND_API_KEY` — Correction 14), NEVER `{ok:true, emailed:false}`.
+  Dev/non-production may echo `confirmUrl` via the console transport. Set `RESEND_API_KEY` +
+  `EMAIL_FROM` for live confirmations; until then signups are declined honestly.
+- Media uploads in production are refused (403) unless `MEDIA_PERSISTENT=true` (Correction 15).
+  On the archive deploy (rebuild wipes the app dir) leave it unset and manage media via Git.

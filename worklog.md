@@ -424,3 +424,148 @@ Recommended next steps (priority order):
 4. Real → replace demo merchants/offers/content per AFFILIATE_INTEGRATION.md; flip demo_mode.
 5. Set RESEND_API_KEY for live double opt-in emails; then the dev confirmUrl shortcut becomes
    unreachable by itself.
+
+---
+Task ID: 16
+Agent: Claude Code (lead) — isolated local toolchain + implementation of
+docs/superpowers/plans/2026-10-04-editorial-pivot-and-production-hardening.md
+Tasks 1–16 (checkpoint BEFORE Task 17).
+
+Environment (this session, NOT committed):
+- Portable Node 22.23.3 at `E:\duyanblog-dev\node22\node-v22.23.3-win-x64` (npm 10.9.9).
+  Activate per shell: `export PATH="/e/duyanblog-dev/node22/node-v22.23.3-win-x64:$PATH"`.
+- Local MySQL 8.4.11 at `127.0.0.1:3307`, DB `duyanblog_dev`, dedicated user
+  `duyanblog_dev`. Server: `...\mysql84\mysql-8.4.11-winx64\bin\mysqld.exe
+  --defaults-file=E:\duyanblog-dev\my.ini`. Password in
+  `E:\duyanblog-dev\.dbpass.notcommitted`. Seeded once with demo data.
+- `.env` (gitignored): `DATABASE_URL="mysql://duyanblog_dev:<redacted>@127.0.0.1:3307/duyanblog_dev"`,
+  `NEXT_PUBLIC_SITE_URL="https://duyanblog-test.hostingersite.com"`.
+- QA admin (LOCAL ONLY, delete before production): `qa@duyanblog.test`, password in
+  `E:\duyanblog-dev\.qapass.notcommitted`.
+
+Committed 2026-10-05 (15 commits, ahead of origin/main):
+3389bde → f9367c8 — Tasks 1–16 (range base eca9383):
+- 1 security: Next 16.1.3→16.3.8 (patched stable); removed stale bun.lock; fixed
+  smoke.mjs TDZ + /go-fallback checks.
+- 2 theme: non-inverting band/footer tokens (--band-bg/--band-fg).
+- 3 seo: robots.ts fail-closed via ALLOW_INDEXING (production-only enables index).
+- 4 security: rate limiter ignores spoofable XFF + per-email + process-global buckets.
+- 5 security: raster-only media uploads (SVG stored-XSS vector + GIF removed).
+- 6 editorial: Article.isDemo single demo gate (schema+migration+seed+templates).
+- 7 seo: demo excluded from sitemap/feeds/search + noindex on demo pages.
+- 8–10 copy: research/evidence-led site/home/about/methodology ("How we review",
+  "we do not run our own benchmarks").
+- 11 evidence: SourceCitation.checkedAt (date-only) renders "checked <date>".
+- 12 editorial: six seeds + bios + playbook de-tested (first-hand→source-led).
+- 13 home: "0 paid placements" hardcoded stat → "Editorially independent".
+- 14 privacy: cookie policy discloses real storage keys; banner role=region.
+- 15–16 privacy: truthful privacy policy (conditional rights, honest retention,
+  transient IP) + minimal click data (sourcePath only; drops consentAnalytics/
+  referer/sessionHash via migration).
+
+Verified per task: lint 0, typecheck 0, validate:docs PASS, build 0, smoke 51/51.
+Live probes: SVG→400/PNG→200; isDemo noindex; /go click sourcePath only (crafted
+Referer stores NULL); dark band computed-style non-inverting (light 0.252/0.93,
+dark 0.15/0.93).
+
+Safety rules in force:
+- NEVER broad-kill `node.exe` (kills 9router on :20128 / the model connection).
+  Kill only the verified PID listening on :3000 whose command line is
+  `.next/standalone/server.js`. This session's server currently runs under
+  system Node 24 (C:\Program Files\nodejs) at PID 604 — restart under Node 22.
+- Never touch Hostinger/production DB; local DB only. Never commit .env.
+- `next dev` (16.3.8) auto-injects an "agent rules" block into tracked AGENTS.md
+  on each run — restore it after runs / do NOT commit it.
+
+Next: Task 17 (terms/corrections/editorial-policy truthful; no pseudo-legal
+placeholders; no public corrections ledger) → then 18 (AI-crawler decision, docs
+only) → 19 (AdSense readiness doc) → 20 (search correctness) → 21 (newsletter
+truthful) → 22 (media persistence gate) → 23 (docs/env/allowlist) → 24 (final
+branch gate + hostile review).
+
+Task ID: 17
+Agent: Claude Code (lead) — completion of
+docs/superpowers/plans/2026-10-04-editorial-pivot-and-production-hardening.md
+Tasks 17–24 (inline, superpowers:executing-plans).
+
+Environment: same isolated Node 22.23.3 + local MySQL duyanblog_dev as Task 16.
+
+Committed 2026-10-05 (8 commits, aa39818 → 83d4477; full branch 3389bde..83d4477):
+- 17 policy truthful: Corrections 10 — no 7-day SLA, "re-check the cited
+  sources", children-under-13, present-tense ads (no network configured).
+- 18 AI-crawler decision: default allow, recorded in risk register (D1).
+- 19 ADSENSE_READINESS.md NOT READY + drop "flip the switch" implication.
+- 20 search DB-side filter (searchArticles, LIMIT 30) vs take-100 JS pass.
+- 21 newsletter truthful: transport "none" → 503 + rollback, never fake.
+- 22 media: production uploads 403 without MEDIA_PERSISTENT + admin banner.
+- 23 docs/env/allowlist: EDITORIAL_GUIDE evidence-led, settings allowlist
+  narrowed to ads_enabled+demo_mode, risk register C6–C8 closed.
+- (T24 fix) 83d4477 soft-404 + limiter floor (see below).
+
+Final branch review: one hostile duyan-runtime-verifier run (default FAIL).
+Findings → fixes (commit 83d4477):
+- SOFT-404 (MAJOR→fixed): folder-level loading.tsx in 5 segment routes
+  (reviews/best/compare/guides/articles + 6 [slug] loadings) made notFound()
+  stream HTTP 200. Debug: bare probe/[slug] returned 404 but reviews/[slug]
+  (bare too) 200 → isolated to the folder-level Suspense boundary. Removed
+  11 loading boundaries. Verified: 6 bogus slugs 404, real 200, smoke 60/60.
+- NEWSLETTER LIMITER (MAJOR→fixed): x-real-ip forgeable rotation defeated the
+  5/min/IP window. Added process-global newsletter:global 60/min bucket
+  (login's Correction 3 pattern). Verified attempt #6 → 429, smoke 60/60.
+- Deferred MINORs (ledger): demo content on listing ItemList JSON-LD (R1 gate
+  prevents crawler exposure); footer vermilion-period contrast 2.93:1
+  sub-AA; 375px viewport untested by reviewer.
+Reviewer CONFIRMED: band/footer non-inverting both themes; robots fail-closed;
+demo noindex + plain-Article JSON-LD; zero demo slugs in sitemap/feed/search;
+canonical origin; no /_next/image 400s; admin 307s; newsletter 503; media guard.
+
+Validation: lint 0, typecheck 0, validate:docs PASS (budget 239XX/24000B),
+slop 0, build 0, smoke 60/60.
+
+Plan complete. READY-FOR-REAL-CONTENT gates met (isDemo single source, no
+hands-on claims, newsletter truthful/disabled, media Git-managed, dark band
+non-inverting, Next 16.3.8 patched stable). Remaining owner decisions:
+register duyanblog.com + ALLOW_INDEXING; jurisdiction/legal; newsletter
+provider; media persistence choice; AI-crawler default (allow); AdSense as a
+separate later task.
+
+Task ID: 18
+Agent: Claude Code (lead) — PR #1 independent-review fixes (5 merge-blockers).
+
+On branch hardening/editorial-pivot-production-readiness, commit eec4843:
+- 1 media: byte signature authoritative; MIME cannot compensate invalid bytes;
+  test:media 11/11 (fake .png w/ SVG+image/png refused; real raster accepted).
+- 2 rate-limit: untrusted clientIp ignores BOTH XFF and x-real-ip (fallback
+  __untrusted__); contact added contact:global bucket; smoke rotating headers
+  → 429 (newsletter + contact).
+- 3 newsletter confirmUrl from site.url canonical origin, never request.url
+  (0.0.0.0 leak class); asserted in smoke + unit.
+- 4 newsletter: no path reports failed delivery as completed signup —
+  provider none → 503+rollback, resend failure → truthful 503 (pending kept);
+  unit asserts no ok:true-without-delivery.
+- 5 Node canonical start (npm start → node); bun-types removed, @types/node
+  added; README Next ^16.3.8 + admin-UI drift fixed; HOSTINGER_DEPLOYMENT note.
+
+Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 61/61
+x2 (deterministic), test:media 11/11, test:newsletter 5/5, diff --check clean.
+
+Task ID: 19
+Agent: Claude Code (lead) — PR #1 final-review fix pass (narrow; no redesign).
+
+Branch hardening/editorial-pivot-production-readiness, commit 1a94f9f:
+- rate-limit availability: clientIp() → null when TRUST_PROXY unset; per-IP
+  bucket only when a TRUSTED IP exists (no shared anonymous 5/min bucket that
+  one visitor drains into 429s for everyone). login/newsletter/contact key
+  normalized per-account/email buckets + higher global floor (60/300/300 per
+  min). Smoke 63/63 x3 proves: rotating forged headers do NOT mint fresh
+  trusted-IP buckets; one email/sender limited on its own bucket; a DIFFERENT
+  account is NOT blocked by another's limit.
+- admin fail-closed: requireAdminPage/Api deny role!==ADMIN (Api 403,
+  pages redirect); login refuses non-ADMIN sessions (403). EDITOR reserved.
+  test:admin-auth 6/6 (ADMIN allowed, EDITOR denied, forged session rejected).
+- test-newsletter-semantics re-labeled truthful STRUCTURAL guard (not a
+  mocked Resend delivery test); assertions tightened to the two shipped
+  invariants. 7/7.
+
+Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 63/63
+x3, test:admin-auth 6/6, test:media 11/11, test:newsletter 7/7.

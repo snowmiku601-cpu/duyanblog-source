@@ -42,6 +42,12 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
             ? "You're already on the list — nothing else to do."
             : "Almost there — check your inbox and click the confirmation link."
         );
+      } else if (res.status === 503) {
+        // Transport is unavailable (e.g. production with no mail provider
+        // configured). Reply truthfully — the signup did not happen.
+        setState("error");
+        setEmail("");
+        setMessage("Signups are temporarily unavailable. Try again later.");
       } else {
         setState("error");
         setMessage(data.error ?? "Something went wrong. Try again in a moment.");

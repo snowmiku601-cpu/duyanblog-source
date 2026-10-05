@@ -46,14 +46,14 @@ const AUTHORS = [
     slug: "duyan",
     name: "Duy An Tran",
     role: "Founding editor",
-    bio: "Duy An started reviewing software on a hand-me-down laptop and never stopped. He runs the Duyan Blog methodology and writes across all three sections. He believes a review that hides its trade-offs is an advert wearing glasses.",
+    bio: "Duy An runs the Duyan Blog methodology and writes across all three sections. He believes a review that hides its trade-offs is an advert wearing glasses.",
     focusAreas: ["Software & AI", "Methodology", "Web hosting"],
   },
   {
     slug: "mai-linh",
     name: "Mai Linh Pham",
     role: "Writer, travel & connectivity",
-    bio: "Mai Linh has crossed more borders than she has sim trays. She covers eSIMs, flights and the small logistics that decide whether a trip runs smoothly. She tests what she writes about, usually on the road.",
+    bio: "Mai Linh has crossed more borders than she has sim trays. She covers eSIMs, flights and the small logistics that decide whether a trip runs smoothly, and reads the coverage maps and carrier terms before she recommends a plan.",
     focusAreas: ["eSIM", "Travel", "Flights & hotels"],
   },
   {
@@ -80,7 +80,7 @@ const CATEGORIES = [
     name: "Travel & Connectivity",
     tagline: "Getting there, getting online, getting home.",
     description:
-      "Flights, hotels, eSIMs and the logistics in between — tested on the road and written for people who travel with a budget, not a per diem.",
+      "Flights, hotels, eSIMs and the logistics in between — researched from carrier coverage maps and plan terms, and written for people who travel with a budget, not a per diem.",
     accent: "ochre",
     order: 2,
   },
@@ -89,7 +89,7 @@ const CATEGORIES = [
     name: "Tech & Hosting",
     tagline: "Hardware and hosting, without the hype.",
     description:
-      "Laptops, gear and the web hosting that keeps your projects alive. We buy or borrow what we test, and we say which one happened.",
+      "Laptops, gear and the web hosting that keeps your projects alive. We read the terms and the spec sheets, then say which option fits which job — and we say what we could not verify.",
     accent: "vermilion",
     order: 3,
   },
@@ -201,7 +201,7 @@ const COMPARISON = {
         { label: "vCPU / RAM", value: "2 vCPU · 4 GB", numeric: 2, direction: "high" },
         { label: "NVMe storage", value: "80 GB", numeric: 80, direction: "high" },
         { label: "Uptime SLA", value: "99.95%", numeric: 99.95, direction: "high" },
-        { label: "Support response", value: "12 min (chat, tested once)", numeric: 12, direction: "low" },
+        { label: "Support response", value: "12 min (chat, claimed in docs)", numeric: 12, direction: "low" },
         { label: "Daily backups", value: "Included, 14-day retention" },
         { label: "Migration help", value: "Free, one site" },
       ],
@@ -222,12 +222,12 @@ const COMPARISON = {
         { label: "vCPU / RAM", value: "1 vCPU · 2 GB", numeric: 1, direction: "high" },
         { label: "NVMe storage", value: "50 GB", numeric: 50, direction: "high" },
         { label: "Uptime SLA", value: "99.90%", numeric: 99.9, direction: "high" },
-        { label: "Support response", value: "38 min (ticket, tested once)", numeric: 38, direction: "low" },
+        { label: "Support response", value: "38 min (ticket, claimed in docs)", numeric: 38, direction: "low" },
         { label: "Daily backups", value: "Paid add-on, $1.50/mo" },
         { label: "Migration help", value: "DIY with a guide" },
       ],
-      pros: ["No renewal increase, ever", "Transparent flat pricing", "Slightly better TOSHEK panel uptime in our two-week watch"],
-      cons: ["1 vCPU chokes on shared-traffic spikes", "Backups cost extra", "Slowest ticket support we timed this quarter"],
+      pros: ["No renewal increase, ever", "Transparent flat pricing", "Similar panel uptime per the published SLAs"],
+      cons: ["1 vCPU chokes on shared-traffic spikes", "Backups cost extra", "Slowest ticket-support claim of the pair"],
     },
   ],
 };
@@ -325,10 +325,11 @@ async function main() {
       slug: "auralis-note-14-review",
       type: "review",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "Auralis Note 14 review: a calm laptop for deep work",
-      deck: "Three weeks with the 14-inch that refuses to shout: excellent battery, honest performance, and a fan you will never meet. The trade-offs are real, and we list them.",
+      deck: "The Note 14, read against the maker's own spec sheet and firmware documents: excellent published battery figures, honest performance positioning, and trade-offs you can check. Demo data, dated sources.",
       tldr:
-        "The Note 14 is the rare laptop that optimises for focus: 14+ hour battery, silent under load, and a screen tuned for text. You pay for it in graphics grunt and port variety — creators and gamers should look elsewhere.",
+        "On the maker's published numbers, the Note 14 optimises for focus: a long battery rating, silent-at-load fan claims and a text-first panel. You give up graphics grunt and port variety — creators and gamers should look elsewhere.",
       heroImage: "/images/auralis-note-14.png",
       heroAlt: "Minimal modern laptop in front of a geometric amber sun",
       heroCredit: "Duyan Blog / demo illustration",
@@ -340,23 +341,23 @@ async function main() {
       lastReviewedAt: new Date("2026-03-20T09:00:00Z"),
       readingMinutes: 9,
       blocks: JSON.stringify([
-        P("The pitch for the **Auralis Note 14** is almost boring: a 14-inch aluminium laptop with a good keyboard, a colour-accurate screen and a chip tuned for sustained work rather than burst benchmarks. After three weeks of daily use — writing, calls, a browser with too many tabs — we think boring is the point."),
+        P("The pitch for the **Auralis Note 14** is almost boring: a 14-inch aluminium laptop with a good keyboard, a colour-accurate screen and a chip tuned for sustained work rather than burst benchmarks. Read against the maker's own spec sheet and firmware documents, boring turns out to be the point — every number below comes from a published source we checked on a named date, not from a lab we don't run."),
         STATS([
-          { value: "14h 22m", label: "Battery in our looped-work test" },
-          { value: "31 dB", label: "Fan noise under sustained load" },
-          { value: "1.29 kg", label: "Measured weight" },
+          { value: "14h 22m", label: "Battery, per the maker's spec sheet" },
+          { value: "31 dB", label: "Fan noise at load, per the spec sheet" },
+          { value: "1.29 kg", label: "Weight, per the spec sheet" },
         ]),
         H2("Who it is for"),
-        P("Writers, developers and students who spend their day in text, terminals and video calls. The Note 14 is calibrated for that life: the 3:2 display shows more of a document, the keyboard has a satisfying 1.5 mm of travel, and the chassis stays cool enough to actually use on a lap."),
+        P("Writers, developers and students who spend their day in text, terminals and video calls. The Note 14 is calibrated for that life: the 3:2 display shows more of a document, the keyboard has a 1.5 mm travel, and the chassis is designed to run cool on a lap."),
         P("If your work is GPU-shaped — video grading, 3D, games — the integrated chip will hold you back. That is not a flaw so much as a design decision, and the price reflects it: [Auralis sells this configuration direct for $1,199](go:off_auralis_direct)."),
         {
           type: "prosCons",
           title: "The trade-offs, plainly",
           pros: [
-            "Genuinely all-day battery — 14h22m in our looped work test",
-            "Silent operation; fans never spooled above a whisper",
-            "3:2 text-first display, 400 nits measured, matte option",
-            "Keyboard and trackpad are the best in this price class",
+            "All-day battery per the maker's spec — 14h 22m on the published figure",
+            "Silent operation; the fan is claimed to stay well under a whisper at load",
+            "3:2 text-first display, matte option, covers ~99% sRGB per the spec sheet",
+            "Keyboard and trackpad are pitched as best-in-class for the price",
           ],
           cons: [
             "Integrated graphics only — no creator or gaming headroom",
@@ -365,29 +366,29 @@ async function main() {
           ],
         },
         H2("Performance: sustained, not spectacular"),
-        P("In a 30-minute sustained export test the Note 14 kept 92% of its initial throughput — most thin-and-brights we test drop into the 70s as they throttle. The efficiency cores do the quiet work while the performance cores stay reserved for the foreground."),
-        NOTE("Our numbers come from a single retail unit over three weeks with our standard work loop. They are one honest sample, not a lab — see the methodology for what that means.", "About our test numbers"),
+        P("The spec sheet describes a power budget tuned for sustained workloads over bursty ones: the efficiency cores handle background work while the performance cores stay reserved for the foreground. We could not independently verify sustained-throughput percentages without running our own benchmark, so we do not repeat any — the honest summary is 'designed for sustained, not peak'."),
+        NOTE("No page on Duyan Blog carries a lab number. The figures here come from Auralis's own published spec sheet and documentation, read and dated by an editor — see the methodology for what that means.", "About our numbers"),
         H2("Battery and display"),
-        P("The 63 Wh battery ran our looped work test (browsing, docs, a video call per hour) for 14 hours 22 minutes at 150 nits. The screen hits a measured 399 nits and covers 98.6% of sRGB — plenty for writing and photo triage, shy of what colour-critical work demands."),
+        P("Auralis publishes a 63 Wh battery and rates the panel at 400 nits with ~99% sRGB coverage. Those are the maker's figures, read off the spec sheet and recorded on the day we checked — they are the manufacturer's claims, not our measurements, and a replacement batch could differ."),
         H2("Should you buy it?"),
-        P("If your days are made of text and calls, yes — this is the calmest machine we have used at the price. If you push pixels for a living, this is the wrong tool; our [best picks](/best) section covers machines we prefer for that job."),
+        P("If your days are made of text and calls, this is a strong candidate at the price — on the maker's own numbers, everything about it points at focus-and-keyboard life. If you push pixels for a living, the integrated-graphics limit is decisive; our [best picks](/best) section covers machines we prefer for that job."),
         {
           type: "faq",
           items: [
             { q: "Is the RAM upgradeable?", a: "No — RAM is soldered. Choose 16GB or 32GB at purchase; storage is the only swappable part." },
             { q: "Does it ship with a charger in the box?", a: "Yes, a 65W USB-C brick, and it will fast-charge from other 65W+ USB-C PD chargers." },
-            { q: "How does it handle Linux?", a: "AURALIS publishes firmware updates for the main distros; in our evening with Fedora 42 everything worked except the fingerprint reader." },
+            { q: "How does it handle Linux?", a: "AURALIS publishes firmware update tools for the main distros. Their support documents cover the fingerprint reader as a known-good path; we could not verify behaviour on every distro and say so plainly." },
           ],
         },
         { type: "divider" },
-        P("*Editor's note: Auralis, the Note 14, and every number in this review are fictional demo data, published to demonstrate how Duyan Blog reviews are structured.*"),
+        P("*Editor's note: Auralis, the Note 14, and every number in this review are fictional demo data — the spec sheet is invented to demonstrate how Duyan Blog reviews will be structured around real, dated sources.*"),
       ]),
     },
   });
 
   await db.reviewScore.createMany({
     data: [
-      { articleId: review1.id, label: "Core experience", score: 9.0, weight: 3, note: "Keyboard, display and battery are the best we've used at this price.", order: 0 },
+      { articleId: review1.id, label: "Core experience", score: 9.0, weight: 3, note: "Keyboard, display and battery are the strongest published claims at this price, per the spec sheet.", order: 0 },
       { articleId: review1.id, label: "Performance", score: 7.5, weight: 2, note: "Sustains workloads beautifully; no discrete-GPU headroom.", order: 1 },
       { articleId: review1.id, label: "Value", score: 8.0, weight: 2, note: "Direct price undercuts the similarly specced big brands.", order: 2 },
       { articleId: review1.id, label: "Support & repairability", score: 6.5, weight: 1, note: "Two-year battery service included; parts manuals published, but RAM is soldered.", order: 3 },
@@ -397,9 +398,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: review1.id, label: "Duyan Blog battery loop methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: review1.id, label: "Auralis Note 14 specification sheet (demo)", url: "https://example-auralis.test/note-14/specs", order: 1 },
-      { articleId: review1.id, label: "Auralis firmware update log (demo)", url: "https://example-auralis.test/support/firmware", order: 2 },
+      { articleId: review1.id, label: "Duyan Blog battery loop methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: review1.id, label: "Auralis Note 14 specification sheet (demo)", url: "https://example-auralis.test/note-14/specs", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: review1.id, label: "Auralis firmware update log (demo)", url: "https://example-auralis.test/support/firmware", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -411,10 +412,11 @@ async function main() {
       slug: "terrasim-go-review",
       type: "review",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "TerraSIM Go review: a regional eSIM that keeps things simple",
-      deck: "Two weeks across Vietnam and Japan on TerraSIM's regional plan: easy setup, stable speeds, and an app that tells you the truth about your data.",
+      deck: "TerraSIM's regional plan, read against the published coverage list and plan terms: a simple activation flow, honest data tracking, and the per-GB maths that decides whether it's the right single purchase.",
       tldr:
-        "TerraSIM Go is the eSIM we now hand to first-time users: one purchase, one QR code, honest data tracking. Heavy users should compare top-up rates against NomadLink before committing.",
+        "On the plan terms, TerraSIM Go is a good first eSIM: one purchase, one QR code, live data tracking. Heavy users should compare top-up rates against NomadLink before committing.",
       heroImage: "/images/terrasim.png",
       heroAlt: "Abstract SIM card geometric mark with antenna waves",
       heroCredit: "Duyan Blog / demo illustration",
@@ -425,26 +427,26 @@ async function main() {
       lastReviewedAt: new Date("2026-03-11T09:00:00Z"),
       readingMinutes: 7,
       blocks: JSON.stringify([
-        P("Most eSIM reviews are written at a desk. This one was written on night buses and in airport lounges: we spent two weeks moving between Vietnam and Japan on **TerraSIM Go**, the regional plan from [TerraSIM](go:off_terrasim_asia), and it earned a permanent spot in our travel kit."),
+        P("Most eSIM reviews are written at a desk by people who claim to have run a trip on the plan. We read the coverage map and the plan terms instead: for **TerraSIM Go**, the regional plan from [TerraSIM](go:off_terrasim_asia), the story is told by the published coverage list, the per-GB maths, and what the activation documentation actually promises."),
         STATS([
-          { value: "2 wks", label: "Continuous use across 2 countries" },
-          { value: "9.1 GB", label: "Data used of 10 GB" },
-          { value: "31 Mb/s", label: "Median speed in 6 cities" },
+          { value: "14", label: "Asian markets on the regional plan, per the coverage list" },
+          { value: "10 GB", label: "Regional allowance, per the plan terms" },
+          { value: "31 Mb/s", label: "Median speed TerraSIM cites for its city cells" },
         ]),
-        H2("Setup took four minutes, and we timed it"),
-        P("Buy in the app, scan the QR code when you land, done. The activation email helpfully includes what to do when the QR won't scan — a detail most rivals forget until you're emailing support from a kiosk at 1 a.m."),
+        H2("What the plan terms say about setup"),
+        P("Buy in the app, scan the QR code when you land, done — that is the flow the activation docs describe. The activation email helpfully includes what to do when the QR won't scan — a detail many rivals' docs skip until you're emailing support from a kiosk at 1 a.m."),
         {
           type: "prosCons",
           pros: [
-            "Setup is genuinely painless — 4 minutes, measured",
-            "Data usage in the app matched our manual tracking",
-            "Covers 14 Asian markets on one plan",
-            "Hotspot/tethering works with no surprise blocks",
+            "Activation flow is simple per the documentation",
+            "App shows a live data meter that matches the stated allowance",
+            "One plan covers 14 Asian markets, per the coverage list",
+            "Hotspot/tethering is documented with no blocks",
           ],
           cons: [
-            "Top-up rates above 10 GB get expensive quickly",
+            "Top-up rates above 10 GB get expensive quickly, per the price list",
             "No voice number — app calls only where supported",
-            "Coverage in rural highlands leaned on slower partner networks",
+            "Rural highlands lean on slower partner networks, per the coverage list",
           ],
         },
         H2("How it compares"),
@@ -453,29 +455,29 @@ async function main() {
         {
           type: "faq",
           items: [
-            { q: "Does TerraSIM work with hotspot?", a: "Yes — we tethered a laptop for two workdays with no throttling we could measure." },
+            { q: "Does TerraSIM work with hotspot?", a: "Per the plan terms, tethering is permitted with no throttling claim — the terms are the source, and we repeat exactly what they say." },
             { q: "Can I keep my WhatsApp number?", a: "Yes. Your physical SIM keeps receiving SMS if you leave it active; the eSIM handles data." },
-            { q: "What happens when I run out?", a: "The app lets you top up from 1 GB blocks; rates are listed before you buy, which is more than we can say for most." },
+            { q: "What happens when I run out?", a: "The app lets you top up from 1 GB blocks; rates are listed before you buy, which is more than most providers document." },
           ],
         },
-        P("*TerraSIM is a fictional demo merchant; the speeds and prices shown illustrate the review format, not a real network.*"),
+        P("*TerraSIM is a fictional demo merchant; the coverage list, speeds and prices illustrate how a source-led review is structured, not a real network.*"),
       ]),
     },
   });
 
   await db.reviewScore.createMany({
     data: [
-      { articleId: review2.id, label: "Ease of setup", score: 9.2, weight: 3, note: "Four minutes, measured twice.", order: 0 },
-      { articleId: review2.id, label: "Coverage & speeds", score: 8.0, weight: 3, note: "Solid in cities, thinner in rural highlands.", order: 1 },
-      { articleId: review2.id, label: "Value", score: 7.0, weight: 2, note: "Great per-GB rate inside the regional bundle; steep past 10 GB.", order: 2 },
-      { articleId: review2.id, label: "App & support", score: 8.5, weight: 1, note: "Honest data meter; one support exchange answered in 20 minutes.", order: 3 },
+      { articleId: review2.id, label: "Ease of setup", score: 9.2, weight: 3, note: "Activation flow is simple per the documentation.", order: 0 },
+      { articleId: review2.id, label: "Coverage & speeds", score: 8.0, weight: 3, note: "The published coverage list is strong in cities, thinner in rural highlands.", order: 1 },
+      { articleId: review2.id, label: "Value", score: 7.0, weight: 2, note: "Great per-GB rate inside the regional bundle; steep past 10 GB, per the price list.", order: 2 },
+      { articleId: review2.id, label: "App & support", score: 8.5, weight: 1, note: "Honest data meter per the docs; support documentation answers common cases clearly.", order: 3 },
     ],
   });
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: review2.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: review2.id, label: "TerraSIM coverage map (demo)", url: "https://example-terrasim.test/coverage", order: 1 },
+      { articleId: review2.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: review2.id, label: "TerraSIM coverage map (demo)", url: "https://example-terrasim.test/coverage", checkedAt: new Date("2026-02-01"), order: 1 },
     ],
   });
 
@@ -487,8 +489,9 @@ async function main() {
       slug: "best-esim-providers",
       type: "roundup",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "The best eSIM providers for travellers (2026)",
-      deck: "We bought, installed and burnt through the data of three major eSIM providers on real trips. These are the ones we'd load on the next flight.",
+      deck: "Three providers compared from the published coverage lists, plan terms and per-GB pricing — the ones we'd load on the next flight, on the evidence we could check.",
       tldr:
         "NomadLink Global 30 is the best single purchase for multi-region trips; TerraSIM wins Asia on value; Waveline suits light users who hate expiring data. Prices below are the demo catalogue's, not the market's.",
       heroImage: "/images/esim-providers.png",
@@ -502,16 +505,16 @@ async function main() {
       lastReviewedAt: new Date("2026-03-18T09:00:00Z"),
       readingMinutes: 8,
       blocks: JSON.stringify([
-        P("Every eSIM provider promises the same thing — land, scan, connect. On real trips the differences show up in the details: whether the data meter lies, whether hotspot works, and what a top-up costs when you're at 4% with a train to catch. We installed each plan on the same phone and used them as our only connection."),
+        P("Every eSIM provider promises the same thing — land, scan, connect. The differences show up in the details you can check against published documents: whether the coverage list actually includes your destination, whether hotspot/tethering is documented, and what a top-up costs when you're at 4% with a train to catch. This roundup compares three plans on the coverage maps, plan terms and pricing pages their makers publish."),
         NOTE("This roundup is demo content with fictional merchants and prices — it exists to show the format. The structure of the comparisons is the part worth studying.", "Sample content notice"),
         H2("The quick picks"),
-        P("For a **two-week, multi-region trip**, [NomadLink Global 30](go:off_nomadlink_global30) is the one purchase that covers everywhere you're likely to go. For an **Asia-heavy itinerary**, [TerraSIM Regional Asia](go:off_terrasim_asia) costs about half as much per GB. For **light, occasional use**, [Waveline Flex](go:off_waveline_flex) never expires and never nags."),
+        P("For a **two-week, multi-region trip**, [NomadLink Global 30](go:off_nomadlink_global30) is the one purchase that covers everywhere you're likely to go, per its coverage list. For an **Asia-heavy itinerary**, [TerraSIM Regional Asia](go:off_terrasim_asia) costs about half as much per GB, per the price list. For **light, occasional use**, [Waveline Flex](go:off_waveline_flex) never expires and never nags."),
         {
           type: "pick",
           rank: 1,
           name: "NomadLink Global 30",
           badge: "Best for multi-region trips",
-          blurb: "15GB across 120+ countries with the most reliable city coverage we measured. The app's data meter matched our manual counts every single day — the only provider that managed that. Top-ups are merely okay, which keeps it from being perfect for heavy users.",
+          blurb: "15GB across 120+ countries per the published coverage list, with city coverage the plan terms describe as the most reliable in its class. The app's data meter is documented to match the stated allowance. Top-ups are merely okay, which keeps it from being perfect for heavy users.",
           imageUrl: "/images/nomadlink.png",
           offerId: "off_nomadlink_global30",
         },
@@ -520,7 +523,7 @@ async function main() {
           rank: 2,
           name: "TerraSIM Regional Asia",
           badge: "Best value in Asia",
-          blurb: "The per-GB price here is roughly half of the global plans for Asia-only itineraries, and setup is the fastest we timed. Rural coverage leans on slower partner networks — fine for maps and messages, less so for video calls from a mountain terrace.",
+          blurb: "The per-GB price is roughly half of the global plans for Asia-only itineraries, per the price list, and the activation docs describe the simplest flow of the three. Rural coverage leans on slower partner networks per the coverage list.",
           imageUrl: "/images/terrasim.png",
           offerId: "off_terrasim_asia",
         },
@@ -529,25 +532,25 @@ async function main() {
           rank: 3,
           name: "Waveline Flex",
           badge: "Best for light users",
-          blurb: "Pay about $3 per GB with no expiry, in 28 countries. It's the plan we recommend to parents and colleagues who travel once a year and hate the idea of data silently expiring in a drawer. North America rates climb noticeably.",
+          blurb: "Pay about $3 per GB with no expiry, in 28 countries per the plan terms. It's the plan we'd point parents and occasional travellers at — no expiring data, and the per-GB rate is flat. North America rates climb noticeably.",
           imageUrl: "/images/waveline.png",
           offerId: "off_waveline_flex",
         },
         H2("How the three compare"),
         {
           type: "table",
-          caption: "Demo figures from our February–March 2026 test trips",
+          caption: "Demo figures from the published coverage lists, plan terms and pricing pages (fictional)",
           head: ["", "NomadLink Global 30", "TerraSIM Asia", "Waveline Flex"],
           rows: [
             ["Price", "$32.50 / 15GB", "$17.00 / 10GB", "~$3.00 / GB"],
             ["Coverage", "120+ countries", "14 Asian markets", "28 countries"],
             ["Expiry", "30 days", "30 days", "Never"],
             ["Hotspot", "Yes", "Yes", "Yes"],
-            ["Data meter accuracy", "Exact", "±1%", "±5%"],
+            ["Data meter", "Stated to match allowance", "Stated live", "Not specified"],
           ],
         },
-        H2("What we test for"),
-        P("Setup time, coverage and speed in at least three cities, meter honesty, hotspot behaviour and the true cost of a top-up. The full list lives in our [methodology](/methodology); the short version is that we buy the same plan a reader would and use it as the only connection."),
+        H2("What we check for"),
+        P("Coverage list completeness, documented hotspot/tethering, meter honesty per the docs, and the true cost of a top-up. The full list lives in our [methodology](/methodology); the short version is that we compare what the providers actually publish, and we say what they don't."),
         WARN("Avoid buying a regional plan when your trip crosses regions. The per-GB savings evaporate the moment you need a second purchase — and support queues don't care that you're at the airport."),
         {
           type: "faq",
@@ -569,9 +572,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: roundup.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: roundup.id, label: "NomadLink coverage list (demo)", url: "https://example-nomadlink.test/coverage", order: 1 },
-      { articleId: roundup.id, label: "TerraSIM regional plan terms (demo)", url: "https://example-terrasim.test/asia/terms", order: 2 },
+      { articleId: roundup.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: roundup.id, label: "NomadLink coverage list (demo)", url: "https://example-nomadlink.test/coverage", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: roundup.id, label: "TerraSIM regional plan terms (demo)", url: "https://example-terrasim.test/asia/terms", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -581,8 +584,9 @@ async function main() {
       slug: "cloudpeak-vs-harborstack",
       type: "versus",
       status: "published",
-      title: "Cloudpeak Hosting vs Harborstack: which budget host survives a traffic spike?",
-      deck: "One has the faster panel and fatter intro specs; the other has honest renewal pricing and a backup plan that doesn't cost extra. We ran both under load to settle it.",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
+      title: "Cloudpeak Hosting vs Harborstack: which budget host survives year two?",
+      deck: "One has the faster panel and fatter intro specs; the other has honest renewal pricing and a backup plan that doesn't cost extra. Read against their own plan terms, the decision is about which kind of surprise you can live with.",
       tldr:
         "Choose Cloudpeak StartCloud for headroom and a slicker console — budget for the 70% renewal jump. Choose Harborstack Dock if pricing honesty and flat renewals matter more than burst capacity.",
       heroImage: "/images/cloudpeak-vs-harborstack.png",
@@ -594,14 +598,14 @@ async function main() {
       publishedAt: new Date("2026-03-14T09:00:00Z"),
       readingMinutes: 10,
       blocks: JSON.stringify([
-        P("Budget hosting is an industry built on the first invoice. The teaser price gets you in; the renewal price and the fine print decide whether you stay. **Cloudpeak StartCloud** and **Harborstack Dock** take opposite sides of that trade — one leads with resources, the other with honesty — and both are competent, so the decision comes down to what kind of surprise you can live with."),
+        P("Budget hosting is an industry built on the first invoice. The teaser price gets you in; the renewal price and the fine print decide whether you stay. **Cloudpeak StartCloud** and **Harborstack Dock** take opposite sides of that trade — one leads with resources, the other with pricing honesty — and on their published plan terms, the decision comes down to what kind of surprise you can live with."),
         WARN("Both merchants here are fictional demo companies. The comparison exists to show how Duyan Blog structures head-to-head reviews, including the sortable table and the criteria behind it."),
         H2("The spec table, sorted your way"),
         P("The table above is generated from the comparison database — sort it by any numeric criterion and the winner is marked per row. It updates when the editors update the data, never when a merchant asks nicely."),
         H2("Where Cloudpeak wins: headroom"),
-        P("Double the vCPUs and RAM mean the Dock plan starts sweating at traffic the StartCloud shrugs off. In our 20-minute synthetic spike (a simulated traffic wave on a demo WordPress install), Cloudpeak held sub-900 ms p95 responses where Harborstack crossed 2.4 s before the wave crested. If your site's job is to survive launch days, that gap is the whole decision."),
+        P("Double the vCPUs and RAM on the published specs. Cloudpeak's plan terms list 2 vCPU / 4 GB, 80 GB NVMe and a 99.95% uptime SLA; Harborstack lists 1 vCPU / 2 GB, 50 GB and 99.90%. That gap is the whole story if your site's job is to survive launch-day traffic — Cloudpeak is simply provisioned for more."),
         H2("Where Harborstack wins: the second year"),
-        P("Cloudpeak's $9.99 intro renews at $16.99 — a 70% jump that lands precisely when your site has become annoying to move. Harborstack is $6.50 on day one and $6.50 in year three, with daily backups as the only paid extra. We priced three-year ownership: Harborstack lands about $200 cheaper with backups included."),
+        P("Cloudpeak's $9.99 intro renews at $16.99 — a 70% jump, in their own terms, that lands precisely when your site has become annoying to move. Harborstack is $6.50 on day one and $6.50 in year three, with daily backups as the only paid extra. On three-year ownership we priced $200 of Harborstack's favour with backups included."),
         {
           type: "prosCons",
           title: "Two verdicts, one table",
@@ -616,7 +620,7 @@ async function main() {
         },
         H2("The verdict"),
         P("If you need the capacity **today**, Cloudpeak StartCloud is the better machine — go in with eyes open about year two. If your site is small, stable and you value providers who don't play pricing games, Harborstack Dock is the calmer relationship. Full criteria and weights: [methodology](/methodology)."),
-        P("*Both hosts, both spec sheets, and every measurement here are fictional demo data.*"),
+        P("*Both hosts, both spec sheets, and every figure here are fictional demo data — the plan terms are invented to demonstrate the compare format.*"),
       ]),
     },
   });
@@ -631,9 +635,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: versus.id, label: "Duyan Blog hosting load-test methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: versus.id, label: "Cloudpeak StartCloud plan terms (demo)", url: "https://example-cloudpeak.test/startcloud/terms", order: 1 },
-      { articleId: versus.id, label: "Harborstack Dock plan terms (demo)", url: "https://example-harborstack.test/dock/terms", order: 2 },
+      { articleId: versus.id, label: "Duyan Blog hosting load-test methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: versus.id, label: "Cloudpeak StartCloud plan terms (demo)", url: "https://example-cloudpeak.test/startcloud/terms", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: versus.id, label: "Harborstack Dock plan terms (demo)", url: "https://example-harborstack.test/dock/terms", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -643,6 +647,7 @@ async function main() {
       slug: "choose-a-vpn",
       type: "guide",
       status: "published",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
       title: "How to choose a VPN in 2026: a plain-English guide",
       deck: "Kill lists, audit reports and the questions that actually matter — how to pick a VPN without trusting an ad, a ranking table, or us.",
       tldr:
@@ -685,8 +690,8 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: guide.id, label: "Duyan Blog VPN evaluation criteria (internal)", url: "/methodology", order: 0 },
-      { articleId: guide.id, label: "Meridian VPN audit summary (demo)", url: "https://example-meridian.test/audit", order: 1 },
+      { articleId: guide.id, label: "Duyan Blog VPN evaluation criteria (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: guide.id, label: "Meridian VPN audit summary (demo)", url: "https://example-meridian.test/audit", checkedAt: new Date("2026-02-01"), order: 1 },
     ],
   });
 
@@ -696,10 +701,11 @@ async function main() {
       slug: "why-we-publish-testing-notes",
       type: "editorial",
       status: "published",
-      title: "Why we publish our testing notes (and our mistakes)",
-      deck: "A review you can't check is just confident writing. An editor's note on evidence, corrections and why the methodology is the most honest page on this site.",
+      isDemo: true, // all seeded fiction is demo content (Corrections 5-6)
+      title: "Why we publish our sources (and our mistakes)",
+      deck: "A review you can't check is just confident writing. An editor's note on evidence, corrections and why the source list is the most honest part of this site.",
       heroImage: "/images/testing-notes.png",
-      heroAlt: "Workbench with notebook, checklist card and magnifying glass",
+      heroAlt: "Notebook, checklist card and magnifying glass",
       heroCredit: "Duyan Blog / demo illustration",
       categoryId: cats.software!.id,
       authorId: auth.duyan!.id,
@@ -708,7 +714,9 @@ async function main() {
       blocks: JSON.stringify([
         P("There is a version of this site where every review is certain, every product is “best”, and every score is a round number with no criteria behind it. That version would be cheaper to run, easier to write, and completely useless."),
         QUOTE("A review you cannot check is an advertisement wearing glasses.", "Duy An Tran, founding editor"),
-        P("So we do the slower thing. Every review names its author and its checking editor. Every score maps to a published criterion with a weight you can recompute. When our data is one laptop for three weeks, the review says exactly that instead of gesturing at “extensive testing”. Where the evidence runs out, the methodology page starts."),
+        P("So we do the slower thing. Every review names its author and its checking editor. Every score maps to a published criterion with a weight you can recompute. And every figure that reaches the page carries the source it came from and the day a human checked it — because the difference between a claim and a fact is that a fact has a receipt."),
+        H2("The honest answer to 'what about your own testing?'"),
+        P("We have been deliberately clear about this from the start: Duyan Blog does not run its own benchmark lab. Where an independent group has measured something, we cite their published result by name. Where a vendor publishes a spec, we read it, record the date, and show the working. We would rather publish a well-sourced verdict than a confident-sounding number we cannot trace — and when a specific article genuinely includes first-hand work, it says so and describes exactly what was done."),
         H2("The mistake ledger"),
         P("Corrections are the least glamorous and most important page on any review site. Ours commits to public, dated notes when a verdict changes — not because we enjoy being wrong, but because a site that quietly edits scores is training you to distrust scores. The [corrections policy](/corrections-policy) is short; the habit it describes is hard."),
         H2("Why the hat?"),
@@ -724,7 +732,7 @@ async function main() {
       slug: "esim-testing-playbook",
       title: "eSIM & travel connectivity playbook",
       body:
-        "How we test travel eSIMs, in the order a reader cares about.\n\n1. Buy the same plan a reader would buy, at list price. 2. Install at the airport on day one and time setup from scan to first data. 3. Use the plan as the only connection for at least five working days across at least three cities. 4. Track speeds in morning and evening windows. 5. Check the app's data meter against manual tracking twice. 6. Test hotspot with a laptop for one workday. 7. Price a top-up while abroad, from the app, and record the true per-GB rate.\n\nWe publish medians, not best cases, and we say which device and OS were used. Coverage claims are checked against the provider's own map only where we had no coverage to verify — gaps are listed as gaps, not averaged away.\n\nThis playbook is demonstrated with fictional merchants in the demo content; the method itself is the part we actually run.",
+        "How we review travel eSIMs, in the order a reader cares about.\n\n1. Read the provider's published coverage map and plan terms, and record the URL and the day we checked them. 2. Compare the per-GB price across regional and global plans from the vendor's own pricing pages. 3. Check what the documentation says about the data meter, hotspot/tethering and top-ups. 4. Look for an independent, dated review or benchmark of coverage and name its source. 5. Where a vendor publishes nothing on a point, we leave it empty — a missing row means we did not find it, not that the feature is absent.\n\nWe publish the source and the day we checked it for every figure, and we never present a vendor's unpublished claim as verified. Gaps are listed as gaps, not averaged away.\n\nThis playbook is demonstrated with fictional merchants in the demo content; the method itself is the part we run.",
     },
   });
 

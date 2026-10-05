@@ -45,6 +45,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: articlePath(article.type, article.slug),
     image: article.heroImage,
     type: "article",
+    noIndex: article.isDemo, // demo fiction is never indexed (Correction 6)
     publishedTime: article.publishedAt?.toISOString(),
     modifiedTime: article.updatedAt.toISOString(),
     authors: [article.author.name],
@@ -120,7 +121,7 @@ export default async function ReviewPage({ params }: Params) {
 
           {article.tldr && <TldrBox text={article.tldr} />}
           <AffiliateDisclosure variant="box" />
-          <DemoNotice />
+          {article.isDemo && <DemoNotice />}
           <AdSlot enabled={isAdsEnabled(settings)} slotId="review-top" />
 
           <ArticleRenderer blocks={blocks} articleSlug={article.slug} />
@@ -140,7 +141,7 @@ export default async function ReviewPage({ params }: Params) {
                 <div className="mt-4 flex items-center gap-5">
                   <ScoreDial score={weighted} size={104} />
                   <div className="min-w-0 text-xs leading-relaxed text-muted-foreground">
-                    Weighted across {article.scores.length} criteria, tested against our{" "}
+                    Weighted across {article.scores.length} criteria, scored against our{" "}
                     <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">
                       published methodology
                     </Link>

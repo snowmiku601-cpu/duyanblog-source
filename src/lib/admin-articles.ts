@@ -48,6 +48,7 @@ export const articlePayloadSchema = z.object({
       z.object({
         label: z.string().trim().min(1).max(200),
         url: optionalTextField(500),
+        checkedAt: optionalDateField, // "the day we checked this source" — date-only
       })
     )
     .max(50),

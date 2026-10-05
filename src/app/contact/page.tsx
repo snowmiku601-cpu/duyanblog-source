@@ -18,7 +18,7 @@ export default function ContactPage() {
             Talk to the editors<span className="text-vermilion">.</span>
           </h1>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Corrections get the fastest treatment — they also get a public note, per our{" "}
+            Corrections get the fastest treatment — material ones also get a dated note on the article, per our{" "}
             <a href="/corrections-policy" className="underline underline-offset-2 hover:text-foreground">corrections policy</a>.
             For review suggestions, tell us what you&apos;re trying to buy.
           </p>
@@ -32,7 +32,7 @@ export default function ContactPage() {
             <dl className="mt-4 space-y-4">
               <div>
                 <dt className="font-semibold">Corrections &amp; fact-checks</dt>
-                <dd className="mt-1 text-muted-foreground">Use this form with the article link. We respond within a week and publish the outcome.</dd>
+                <dd className="mt-1 text-muted-foreground">Use this form with the article link. We aim to review correction reports promptly.</dd>
               </div>
               <div>
                 <dt className="font-semibold">Review suggestions</dt>

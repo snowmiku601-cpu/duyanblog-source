@@ -4,8 +4,10 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { guardAdmin } from "@/lib/admin-api";
 import { slugify } from "@/lib/admin-client";
+import { mediaPersistent } from "@/lib/settings";
 import { deleteMediaFile } from "@/lib/media-delete";
 import { recordDimensions } from "@/lib/media-manifest";
+import { extFromName, validateMediaUpload } from "@/lib/media-validation";
 
 /**
  * POST /api/admin/media — upload one image into public/images.
@@ -15,7 +17,8 @@ import { recordDimensions } from "@/lib/media-manifest";
  *   a single safe slug segment like "picks", never a traversal vector).
  * - Extension whitelist + byte-signature sniff — the bytes must match the
  *   extension (guards the exact JPEG-as-.png class of bug that breaks the
- *   Next.js image optimizer with 400s).
+ *   Next.js image optimizer with 400s). The byte signature is authoritative;
+ *   a client-supplied MIME can never compensate for invalid bytes.
  * - Size cap 5 MB (Next's optimizer re-encodes large sources on the fly;
  *   keeping sources modest keeps the cache warm and pages fast).
  * - The on-disk filename is slugified; collisions get -2/-3/… suffixes
@@ -29,52 +32,23 @@ import { recordDimensions } from "@/lib/media-manifest";
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
-/** File signatures for the formats we accept (checked against real bytes). */
-const SIGNATURES: Array<{ ext: string; test: (b: Uint8Array) => boolean }> = [
-  { ext: "png", test: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
-  { ext: "jpg", test: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
-  {
-    ext: "webp",
-    test: (b) =>
-      b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
-  },
-  { ext: "gif", test: (b) => b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x38 },
-  {
-    ext: "avif",
-    test: (b) =>
-      b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70 && b[8] === 0x61 && b[9] === 0x76 && b[10] === 0x69 && b[11] === 0x66,
-  },
-  // SVG is text — validated by sniffing the first bytes.
-  {
-    ext: "svg",
-    test: (b) => {
-      const head = new TextDecoder()
-        .decode(b.slice(0, 300))
-        .trim()
-        .toLowerCase();
-      return head.startsWith("<svg") || head.startsWith("<?xml");
-    },
-  },
-];
-
-const EXT_BY_MIME: Record<string, string> = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/webp": "webp",
-  "image/gif": "gif",
-  "image/avif": "avif",
-  "image/svg+xml": "svg",
-};
-
-function extFromName(name: string): string {
-  const m = /\.(png|jpe?g|webp|gif|avif|svg)$/i.exec(name);
-  if (!m) return "";
-  return m[1].toLowerCase().replace("jpeg", "jpg");
-}
-
 export async function POST(request: Request) {
   const guard = await guardAdmin(request);
   if (guard.response) return guard.response;
+
+  // Production media-persistence gate (Correction 15): without
+  // MEDIA_PERSISTENT=true this environment cannot guarantee uploads survive
+  // the next deployment, so the CMS refuses to write — editorial media stays
+  // Git-managed in production. Dev is unaffected.
+  if (!mediaPersistent()) {
+    return NextResponse.json(
+      {
+        error:
+          "Media uploads are disabled in this environment — MEDIA_PERSISTENT is not set, so uploaded files would not survive a rebuild. Manage media through the repo (Git) instead, or set MEDIA_PERSISTENT=true on a deployment that persists the app directory.",
+      },
+      { status: 403 },
+    );
+  }
 
   let form: FormData;
   try {
@@ -97,27 +71,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const declared = extFromName(file.name);
-  if (!declared) {
-    return NextResponse.json(
-      { error: "Unsupported file type — use .png, .jpg, .webp, .gif, .avif or .svg." },
-      { status: 400 },
-    );
-  }
-
   const bytes = new Uint8Array(await file.arrayBuffer());
-  // Byte signature must confirm the declared type (or the reported MIME must) —
-  // mismatched files break the image optimizer, so we refuse them at the door.
-  const sig = SIGNATURES.find((s) => s.ext === declared);
-  const mimeOk = Boolean(file.type) && EXT_BY_MIME[file.type]?.toLowerCase() === declared;
-  if (!sig || !(sig.test(bytes) || mimeOk)) {
-    return NextResponse.json(
-      {
-        error: `The bytes don't match .${declared} — the file may be misnamed or corrupt. Re-export it as a real .${declared} and try again.`,
-      },
-      { status: 400 },
-    );
+  // The byte signature is authoritative (media-validation.ts) — the reported
+  // MIME / Content-Type is client-controlled and must never compensate for
+  // invalid bytes. We require: supported extension, matching byte signature,
+  // and (when a MIME is present) an agreeing MIME.
+  const validation = validateMediaUpload(file.name, file.type, bytes);
+  if (!validation.ok) {
+    return NextResponse.json({ error: validation.error }, { status: 400 });
   }
+  const declared = validation.ext;
 
   // Optional single folder segment, strictly validated.
   const rawFolder = form.get("folder");

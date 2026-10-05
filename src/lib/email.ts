@@ -7,6 +7,9 @@
  *  2. No key → "console" transport: the message is logged as a structured
  *    line and `delivered: false` is reported, so callers can decide whether
  *    a dev shortcut (e.g. the newsletter confirmUrl) is safe to expose.
+ *  3. No key + production → "none": mail is disabled. Callers (e.g. the
+ *    newsletter route) must NOT pretend a signup succeeded — the route
+ *    answers a truthful 503 and rolls back the pending row.
  *
  * Non-goals: queues/retries (HTTP 4xx/5xx are surfaced, not retried), batch
  * sends, attachments. When transactional email becomes a bigger surface,

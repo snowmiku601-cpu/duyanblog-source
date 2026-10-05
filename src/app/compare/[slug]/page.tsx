@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: articlePath(article.type, article.slug),
     image: article.heroImage,
     type: "article",
+    noIndex: article.isDemo, // demo fiction is never indexed (Correction 6)
     publishedTime: article.publishedAt?.toISOString(),
     modifiedTime: article.updatedAt.toISOString(),
     authors: [article.author.name],
@@ -146,7 +147,7 @@ export default async function VersusPage({ params }: Params) {
         )}
 
         {article.tldr && <TldrBox text={article.tldr} />}
-        <DemoNotice />
+        {article.isDemo && <DemoNotice />}
       </div>
 
       {comparisonItems.length >= 2 && (

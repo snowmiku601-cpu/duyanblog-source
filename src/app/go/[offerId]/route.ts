@@ -6,12 +6,24 @@ import { site } from "@/lib/site";
  * Affiliate click router: /go/[offerId]?src=[articleSlug]
  *
  * - Navigation NEVER depends on consent: this is a plain 302.
- * - We log an anonymous click (no IP, no raw identifiers) alongside the
- *   consent snapshot so reporting can separate consented vs unconsented.
+ * - We log a minimal anonymous click: offer, timestamp, and a controlled
+ *   source path when the link carried one (article slug or /deals). We do not
+ *   read or store the browser's Referer header (it can carry query strings /
+ *   PII), and we never store an IP with click data.
  * - No deceptive redirects: the destination is the offer's declared URL.
  * - Unknown/inactive offers fall back to /deals instead of erroring.
  */
 export const dynamic = "force-dynamic";
+
+/** A controlled internal source path, never the raw Referer. */
+function safeSource(src: string | null): string | null {
+  if (!src) return null;
+  // Only accept a path-shaped, whitelisted source: an article slug or /deals.
+  const trimmed = src.trim();
+  if (/^\/deals$/.test(trimmed)) return "/deals";
+  if (/^[a-z0-9][a-z0-9-]{1,80}$/i.test(trimmed)) return `/${trimmed}`;
+  return null;
+}
 
 export async function GET(
   request: Request,
@@ -30,24 +42,16 @@ export async function GET(
     // Fallback to /deals on the PUBLIC origin: `request.url` can carry the
     // proxy's upstream origin (e.g. 0.0.0.0:3000) behind a reverse proxy or
     // hosting edge, and NextResponse.redirect rejects a bare relative path —
-    // so build the absolute URL from the configured public site URL, which is
-    // what canonical/OG everywhere else uses.
+    // so build the absolute URL from the configured public site URL.
     return NextResponse.redirect(`${site.url}/deals`, { status: 302 });
   }
-
-  // Consent snapshot: the banner stores choices in localStorage (not a server
-  // cookie), so the server cannot read analytics consent directly. We accept
-  // an explicit, non-identifying `c=1|0` hint that the client MAY append —
-  // navigation works identically without it.
-  const consentHint = url.searchParams.get("c") === "1";
 
   try {
     await db.affiliateClick.create({
       data: {
         offerId: offer.id,
         articleId: offer.articleId,
-        referer: src ?? request.headers.get("referer")?.slice(0, 500) ?? null,
-        consentAnalytics: consentHint,
+        sourcePath: safeSource(src),
       },
     });
   } catch (err) {

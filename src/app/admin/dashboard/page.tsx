@@ -91,7 +91,7 @@ export default async function AdminDashboardPage() {
       select: {
         id: true,
         createdAt: true,
-        referer: true,
+        sourcePath: true,
         offer: { select: { label: true, merchant: { select: { name: true } } } },
         article: { select: { slug: true, type: true, title: true } },
       },
@@ -252,7 +252,7 @@ export default async function AdminDashboardPage() {
                       </p>
                     </div>
                     <p className="shrink-0 text-xs tabular-nums text-muted-foreground">
-                      {c.referer ? <span className="mr-2 font-mono">{new URL(c.referer, "http://x").pathname}</span> : null}
+                      {c.sourcePath ? <span className="mr-2 font-mono">{c.sourcePath}</span> : null}
                       {formatDate(c.createdAt)}
                     </p>
                   </li>

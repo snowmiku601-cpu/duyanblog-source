@@ -54,8 +54,7 @@ export function ConsentManager() {
     <>
       {showBanner && (
         <div
-          role="dialog"
-          aria-modal="false"
+          role="region"
           aria-label="Cookie consent"
           className="fixed inset-x-3 bottom-3 z-[90] sm:inset-x-auto sm:right-4 sm:bottom-4 sm:max-w-md border border-border bg-card text-card-foreground shadow-lg rounded-md p-4"
         >

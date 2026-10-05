@@ -230,14 +230,14 @@ export function MediaField({
                   >
                     choose a file
                   </button>{" "}
-                  — .png, .jpg, .webp, .gif, .avif, .svg up to 5&nbsp;MB.
+                  — .png, .jpg, .webp, .avif up to 5&nbsp;MB.
                 </>
               )}
             </p>
             <input
               ref={fileInputRef}
               type="file"
-              accept=".png,.jpg,.jpeg,.webp,.gif,.avif,.svg,image/png,image/jpeg,image/webp,image/gif,image/avif,image/svg+xml"
+              accept=".png,.jpg,.jpeg,.webp,.avif,image/png,image/jpeg,image/webp,image/avif"
               className="sr-only"
               aria-label="Upload an image to the media library"
               onChange={(e) => {
