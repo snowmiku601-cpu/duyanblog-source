@@ -6,7 +6,7 @@ nothing until the task triggers it. Adding a task-scoped file here costs every f
 The budget below is the ratchet: it comes DOWN, never up.
 
 Re-derive counts rather than trusting them:
-`ls .claude/rules/*.md | grep -v README | wc -l`
+`node scripts/validate-docs.mjs` → "auto-load budget".
 
 ## The rules (auto-load — trigger by task)
 
@@ -15,7 +15,7 @@ Re-derive counts rather than trusting them:
 | [`content-integrity.md`](content-integrity.md) | writing any content, number, claim, or demo-bound data | **A placeholder is a fabrication with a deadline you will forget.** |
 | [`admin-safety.md`](admin-safety.md) | touching auth, admin routes, production guards, sessions | **The guards are the safety net; mutating without `revalidatePath()` ships invisible edits.** |
 | [`agent-routing.md`](agent-routing.md) | launching any subagent | **The cap is two. It beats any session default that says otherwise.** |
-| [`operating-rhythm.md`](operating-rhythm.md) | starting or ending a session, before any commit/push | **The gate is four commands; a verification claim includes its output.** |
+| [`operating-rhythm.md`](operating-rhythm.md) | starting or ending a session, before any commit/push | **The gate is four commands; a verification claim includes its output. Superpowers is a process aid — Duyan rules precede it.** |
 | [`risk-register.md`](risk-register.md) | proposing any "improvement" | **Everything here is already known, measured, and blocked on something that is not code.** |
 
 ## The playbooks (on demand — see `.claude/playbooks/README.md` for the index)

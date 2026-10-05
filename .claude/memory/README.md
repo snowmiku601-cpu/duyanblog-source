@@ -22,5 +22,6 @@ end" for which store gets what.
 | [a-dev-server-reaping-on-windows.md](a-dev-server-reaping-on-windows.md) | "fetch failed" storm = server died, not the app. Restart, don't debug. |
 | [a-newsletter-rate-limiter-is-the-feature.md](a-newsletter-rate-limiter-is-the-feature.md) | A 429 on newsletter/contact checks is the guard working. Wait a minute. |
 | [a-png-extension-must-match-bytes.md](a-png-extension-must-match-bytes.md) | Next optimizer 400s when bytes ≠ extension; every /images file was once JPEG-as-.png. |
+| [production-now-runs-on-spaceship.md](production-now-runs-on-spaceship.md) | duyanblog.com runs on Spaceship; Hostinger is rollback/reference; indexing gated on content launch. |
 | [a-admin-edit-invisible-without-revalidate.md](a-admin-edit-invisible-without-revalidate.md) | Edit "didn't save"? Missing revalidatePath()/invalidateSettingsCache(), not a DB bug. |
 | [a-dev-confirm-url-leaks-with-console-transport.md](a-dev-confirm-url-leaks-with-console-transport.md) | confirmUrl in a response = proof no real email was sent. Drop it, don't extend it. |
