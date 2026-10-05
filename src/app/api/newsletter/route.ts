@@ -43,6 +43,18 @@ export async function POST(request: Request) {
     );
   }
 
+  // Defense-in-depth beyond IP attribution (Correction 3 applies to newsletter
+  // too): a client forging x-real-ip can mint fresh IP buckets, so a
+  // process-global bucket caps the total signup attempts per minute no matter
+  // what headers are sent. In-memory; resets on restart.
+  const globalLimited = rateLimit("newsletter:global", 60, 60_000);
+  if (!globalLimited.ok) {
+    return NextResponse.json(
+      { error: "Too many signup attempts — try again in a minute." },
+      { status: 429, headers: { "Retry-After": String(globalLimited.retryAfterSeconds) } }
+    );
+  }
+
   let json: unknown;
   try {
     json = await request.json();

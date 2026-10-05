@@ -56,6 +56,21 @@ checks.push(
   { path: "/old-esim-guide", expect: 302 }
 );
 
+// Dynamic article/tag routes must 404 (not soft-404) for an unknown slug.
+// Regression guard: a Suspense loading.tsx in a [slug] route made notFound()
+// stream with HTTP 200 (fixed by removing those loading boundaries).
+const BOGUS_SLUGS = [
+  "/reviews/zzz-bogus-slug-404",
+  "/best/zzz-bogus-slug-404",
+  "/compare/zzz-bogus-slug-404",
+  "/guides/zzz-bogus-slug-404",
+  "/articles/zzz-bogus-slug-404",
+  "/tag/zzz-bogus-slug-404",
+];
+for (const path of BOGUS_SLUGS) {
+  checks.push({ path, expect: 404 });
+}
+
 let failed = 0;
 
 // Fail-closed indexing semantics (Correction 2): ALLOW_INDEXING is the only
@@ -270,6 +285,33 @@ try {
 } catch (err) {
   console.log(`FAIL  ERR  /newsletter/confirm  ${err.message}`);
   failed += 1;
+}
+
+// Rate limiter (Correction 3): a fixed client identity cannot exceed the IP
+// window — attempt #6 must 429. The process-global bucket (60/min) caps total
+// signups regardless of forged x-real-ip, so rotating a header can never mint
+// unlimited buckets; that floor is exercised implicitly by the limit below and
+// its boundary (60) is high enough that this sequence cannot trip it.
+{
+  try {
+    let got429 = false;
+    for (let i = 0; i < 7; i++) {
+      const r = await fetch(`${BASE}/api/newsletter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": "203.0.113.77", // fixed spoof attempt — buckets by this key
+        },
+        body: JSON.stringify({ email: `lim-${Date.now()}-${i}@duyanblog.test` }),
+      });
+      if (r.status === 429) { got429 = true; break; }
+    }
+    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? "429 (want 429)" : "no 429"}  newsletter IP rate limit holds under forged header`);
+    if (!got429) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  newsletter IP rate limit  ${err.message}`);
+    failed += 1;
+  }
 }
 
 // JSON Feed 1.1 — mirrors the RSS scopes: site-wide, per-tag, 404/400 guards.
