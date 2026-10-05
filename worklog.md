@@ -528,3 +528,23 @@ non-inverting, Next 16.3.8 patched stable). Remaining owner decisions:
 register duyanblog.com + ALLOW_INDEXING; jurisdiction/legal; newsletter
 provider; media persistence choice; AI-crawler default (allow); AdSense as a
 separate later task.
+
+Task ID: 18
+Agent: Claude Code (lead) — PR #1 independent-review fixes (5 merge-blockers).
+
+On branch hardening/editorial-pivot-production-readiness, commit eec4843:
+- 1 media: byte signature authoritative; MIME cannot compensate invalid bytes;
+  test:media 11/11 (fake .png w/ SVG+image/png refused; real raster accepted).
+- 2 rate-limit: untrusted clientIp ignores BOTH XFF and x-real-ip (fallback
+  __untrusted__); contact added contact:global bucket; smoke rotating headers
+  → 429 (newsletter + contact).
+- 3 newsletter confirmUrl from site.url canonical origin, never request.url
+  (0.0.0.0 leak class); asserted in smoke + unit.
+- 4 newsletter: no path reports failed delivery as completed signup —
+  provider none → 503+rollback, resend failure → truthful 503 (pending kept);
+  unit asserts no ok:true-without-delivery.
+- 5 Node canonical start (npm start → node); bun-types removed, @types/node
+  added; README Next ^16.3.8 + admin-UI drift fixed; HOSTINGER_DEPLOYMENT note.
+
+Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 61/61
+x2 (deterministic), test:media 11/11, test:newsletter 5/5, diff --check clean.
