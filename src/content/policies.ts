@@ -235,6 +235,8 @@ const POLICIES: Policy[] = [
         heading: "Necessary",
         body: [
           "dy-consent-v1 (local storage): remembers your cookie choices so we stop asking. Admin sessions set a HttpOnly session cookie used only by the editorial team's login. These cannot be switched off without breaking the site.",
+          "theme (local storage): keeps your light/dark display preference. It is stored before the consent prompt on purpose so the site renders correctly on first visit — it holds no tracking data.",
+          "duyanblog:sort (local storage): remembers the column sort you picked on a comparison table, on this browser. Clearing it resets tables to the editors' default order.",
         ],
       },
       {
