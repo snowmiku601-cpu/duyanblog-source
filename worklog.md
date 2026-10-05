@@ -424,3 +424,61 @@ Recommended next steps (priority order):
 4. Real → replace demo merchants/offers/content per AFFILIATE_INTEGRATION.md; flip demo_mode.
 5. Set RESEND_API_KEY for live double opt-in emails; then the dev confirmUrl shortcut becomes
    unreachable by itself.
+
+---
+Task ID: 16
+Agent: Claude Code (lead) — isolated local toolchain + implementation of
+docs/superpowers/plans/2026-10-04-editorial-pivot-and-production-hardening.md
+Tasks 1–16 (checkpoint BEFORE Task 17).
+
+Environment (this session, NOT committed):
+- Portable Node 22.23.3 at `E:\duyanblog-dev\node22\node-v22.23.3-win-x64` (npm 10.9.9).
+  Activate per shell: `export PATH="/e/duyanblog-dev/node22/node-v22.23.3-win-x64:$PATH"`.
+- Local MySQL 8.4.11 at `127.0.0.1:3307`, DB `duyanblog_dev`, dedicated user
+  `duyanblog_dev`. Server: `...\mysql84\mysql-8.4.11-winx64\bin\mysqld.exe
+  --defaults-file=E:\duyanblog-dev\my.ini`. Password in
+  `E:\duyanblog-dev\.dbpass.notcommitted`. Seeded once with demo data.
+- `.env` (gitignored): `DATABASE_URL="mysql://duyanblog_dev:<redacted>@127.0.0.1:3307/duyanblog_dev"`,
+  `NEXT_PUBLIC_SITE_URL="https://duyanblog-test.hostingersite.com"`.
+- QA admin (LOCAL ONLY, delete before production): `qa@duyanblog.test`, password in
+  `E:\duyanblog-dev\.qapass.notcommitted`.
+
+Committed 2026-10-05 (15 commits, ahead of origin/main):
+3389bde → f9367c8 — Tasks 1–16 (range base eca9383):
+- 1 security: Next 16.1.3→16.3.8 (patched stable); removed stale bun.lock; fixed
+  smoke.mjs TDZ + /go-fallback checks.
+- 2 theme: non-inverting band/footer tokens (--band-bg/--band-fg).
+- 3 seo: robots.ts fail-closed via ALLOW_INDEXING (production-only enables index).
+- 4 security: rate limiter ignores spoofable XFF + per-email + process-global buckets.
+- 5 security: raster-only media uploads (SVG stored-XSS vector + GIF removed).
+- 6 editorial: Article.isDemo single demo gate (schema+migration+seed+templates).
+- 7 seo: demo excluded from sitemap/feeds/search + noindex on demo pages.
+- 8–10 copy: research/evidence-led site/home/about/methodology ("How we review",
+  "we do not run our own benchmarks").
+- 11 evidence: SourceCitation.checkedAt (date-only) renders "checked <date>".
+- 12 editorial: six seeds + bios + playbook de-tested (first-hand→source-led).
+- 13 home: "0 paid placements" hardcoded stat → "Editorially independent".
+- 14 privacy: cookie policy discloses real storage keys; banner role=region.
+- 15–16 privacy: truthful privacy policy (conditional rights, honest retention,
+  transient IP) + minimal click data (sourcePath only; drops consentAnalytics/
+  referer/sessionHash via migration).
+
+Verified per task: lint 0, typecheck 0, validate:docs PASS, build 0, smoke 51/51.
+Live probes: SVG→400/PNG→200; isDemo noindex; /go click sourcePath only (crafted
+Referer stores NULL); dark band computed-style non-inverting (light 0.252/0.93,
+dark 0.15/0.93).
+
+Safety rules in force:
+- NEVER broad-kill `node.exe` (kills 9router on :20128 / the model connection).
+  Kill only the verified PID listening on :3000 whose command line is
+  `.next/standalone/server.js`. This session's server currently runs under
+  system Node 24 (C:\Program Files\nodejs) at PID 604 — restart under Node 22.
+- Never touch Hostinger/production DB; local DB only. Never commit .env.
+- `next dev` (16.3.8) auto-injects an "agent rules" block into tracked AGENTS.md
+  on each run — restore it after runs / do NOT commit it.
+
+Next: Task 17 (terms/corrections/editorial-policy truthful; no pseudo-legal
+placeholders; no public corrections ledger) → then 18 (AI-crawler decision, docs
+only) → 19 (AdSense readiness doc) → 20 (search correctness) → 21 (newsletter
+truthful) → 22 (media persistence gate) → 23 (docs/env/allowlist) → 24 (final
+branch gate + hostile review).
