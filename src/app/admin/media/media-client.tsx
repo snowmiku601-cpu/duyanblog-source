@@ -68,7 +68,7 @@ function extOf(p: string): string {
 
 const STORAGE_WARN_BYTES = 80 * 1024 * 1024; // amber note past 80 MB on disk
 
-export function MediaClient({ items }: { items: MediaItem[] }) {
+export function MediaClient({ items, canUpload = true }: { items: MediaItem[]; canUpload?: boolean }) {
   const { toast } = useToast();
   const [files, setFiles] = useState<MediaItem[]>(items);
   const [query, setQuery] = useState("");
@@ -285,18 +285,35 @@ export function MediaClient({ items }: { items: MediaItem[] }) {
         )}
       </header>
 
+      {/* Production media-persistence banner (Correction 15): uploads are
+          refused without MEDIA_PERSISTENT=true; media is Git-managed here. */}
+      {!canUpload && (
+        <div className="rounded-md border border-amber-300/60 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-200" role="status">
+          <p className="font-semibold">Media uploads are disabled in this environment.</p>
+          <p className="mt-1">
+            MEDIA_PERSISTENT is not set, so files written here would not survive a rebuild.
+            Editorial media is managed through the repo (Git) on this deployment — add or change
+            images in <code className="font-mono text-[13px]">public/images</code> and deploy. To
+            allow CMS uploads, set <code className="font-mono text-[13px]">MEDIA_PERSISTENT=true</code>{" "}
+            on an environment that persists the app directory.
+          </p>
+        </div>
+      )}
+
       {/* Upload dropzone */}
       <div
         onDragOver={(e) => {
+          if (!canUpload) return;
           e.preventDefault();
           setDragging(true);
         }}
         onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
+        onDrop={canUpload ? onDrop : undefined}
         className={cn(
           "flex flex-wrap items-center justify-between gap-4 rounded-md border border-dashed px-5 py-4 transition-colors",
           dragging ? "border-vermilion bg-vermilion/5" : "border-border",
           uploading && "opacity-60",
+          !canUpload && "opacity-50",
         )}
       >
         <div className="flex items-center gap-3">
@@ -305,7 +322,9 @@ export function MediaClient({ items }: { items: MediaItem[] }) {
             aria-hidden="true"
           />
           <p className="text-sm text-muted-foreground">
-            {uploading ? (
+            {!canUpload ? (
+              "Uploads are disabled — see the notice above."
+            ) : uploading ? (
               <span className="flex items-center gap-1.5">
                 <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
                 Uploading…
@@ -316,7 +335,7 @@ export function MediaClient({ items }: { items: MediaItem[] }) {
                 <button
                   type="button"
                   className="font-medium text-foreground underline underline-offset-2 hover:text-vermilion"
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => canUpload && fileInputRef.current?.click()}
                 >
                   choose a file
                 </button>{" "}
@@ -334,9 +353,10 @@ export function MediaClient({ items }: { items: MediaItem[] }) {
           aria-label="Upload an image to the media library"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) void upload(file);
+            if (canUpload && file) void upload(file);
             e.target.value = "";
           }}
+          disabled={!canUpload}
         />
       </div>
       {uploadError && (

@@ -45,6 +45,13 @@ reasoning; this is the how.
 5c. **`ALLOW_INDEXING=true` is set ONLY on the real production domain** (build-time). The demo
    subdomain and any preview/localhost must leave it unset so `robots.txt` serves a full
    `Disallow: /` — fictional demo content is never indexed as production editorial.
+5d. **`MEDIA_PERSISTENT=true` is set ONLY on deployments that persist the app dir.** CMS
+   uploads write to `<cwd>/public/images` (inside the app dir). The archive deploy overwrites
+   the app dir on rebuild, so without this flag uploaded media vanishes on the next deploy.
+   Default (flag unset) on the host = production CMS uploads are refused (403) and editorial
+   media lives in Git. **Future durable path (deferred, no code):** move uploads to object
+   storage (S3/R2) + CDN and swap `src/app/api/admin/media/route.ts` internals — the byte-sniff
+   validation and `public/images` consumer contract stay; see ARCHITECTURE.md §10.
 6. **App DB host is `127.0.0.1`; local tooling uses `srvNNNN.hstgr.io`** with a temporary
    remote rule (`ip %`), closed after use. They are different URLs by design.
 7. **`ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` never appear in the host env.** They are set

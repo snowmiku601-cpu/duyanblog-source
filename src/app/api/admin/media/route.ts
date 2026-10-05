@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { guardAdmin } from "@/lib/admin-api";
 import { slugify } from "@/lib/admin-client";
+import { mediaPersistent } from "@/lib/settings";
 import { deleteMediaFile } from "@/lib/media-delete";
 import { recordDimensions } from "@/lib/media-manifest";
 
@@ -62,6 +63,20 @@ function extFromName(name: string): string {
 export async function POST(request: Request) {
   const guard = await guardAdmin(request);
   if (guard.response) return guard.response;
+
+  // Production media-persistence gate (Correction 15): without
+  // MEDIA_PERSISTENT=true this environment cannot guarantee uploads survive
+  // the next deployment, so the CMS refuses to write — editorial media stays
+  // Git-managed in production. Dev is unaffected.
+  if (!mediaPersistent()) {
+    return NextResponse.json(
+      {
+        error:
+          "Media uploads are disabled in this environment — MEDIA_PERSISTENT is not set, so uploaded files would not survive a rebuild. Manage media through the repo (Git) instead, or set MEDIA_PERSISTENT=true on a deployment that persists the app directory.",
+      },
+      { status: 403 },
+    );
+  }
 
   let form: FormData;
   try {

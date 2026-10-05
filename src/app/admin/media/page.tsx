@@ -4,6 +4,7 @@ import { requireAdminPage } from "@/lib/auth";
 import { listPublicImages } from "@/lib/media";
 import { getImageUsage } from "@/lib/media-usage";
 import { readManifest } from "@/lib/media-manifest";
+import { mediaPersistent } from "@/lib/settings";
 import { MediaClient, type MediaItem } from "./media-client";
 
 export const metadata = { title: "Media library — Admin" };
@@ -38,5 +39,5 @@ export default async function AdminMediaPage() {
     }),
   );
 
-  return <MediaClient items={items} />;
+  return <MediaClient items={items} canUpload={mediaPersistent()} />;
 }

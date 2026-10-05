@@ -35,3 +35,16 @@ export function isAdsEnabled(settings: Record<string, string>): boolean {
   if (settings["ads_enabled"] != null) return settings["ads_enabled"] === "true";
   return process.env.NEXT_PUBLIC_ADS_ENABLED === "true";
 }
+
+/**
+ * Production media-persistence decision (Correction 15): CMS uploads write to
+ * <cwd>/public/images — durable on a VPS that never wipes the app dir, but a
+ * rebuild-from-scratch pipeline overwrites it. MEDIA_PERSISTENT=true declares
+ * "this environment persists media across deployments". In production, uploads
+ * are refused without it (editorial media then lives in Git/deploy); on dev the
+ * guard is off so the CMS media library stays usable.
+ */
+export function mediaPersistent(): boolean {
+  if (process.env.NODE_ENV !== "production") return true;
+  return process.env.MEDIA_PERSISTENT === "true";
+}
