@@ -103,6 +103,7 @@ Prisma models: `User, Session, Author, Category, Article, ArticleRevision, Tag, 
 - Session cookies are `HttpOnly`, `SameSite=Lax`, `Secure` in production; only SHA-256 hashes of tokens are stored (`Session.tokenHash`).
 - Public POST endpoints (`/api/newsletter`, `/api/contact`) check same-origin, enforce a honeypot field and rate-limit to 5 requests/minute/IP (`src/lib/rate-limit.ts`, in-memory).
 - Security headers (HSTS, nosniff, DENY framing, referrer + permissions policy) are set in `next.config.ts`.
+- AI crawler user agents are currently **allowed** by default (no bot arrays in `robots.ts`; an owner decision, recorded in `.claude/rules/risk-register.md` — adding a block later is a single robots group change).
 
 ## Demo content disclaimer
 
