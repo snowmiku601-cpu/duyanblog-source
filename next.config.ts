@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
+  // Spaceship CloudLinux LVE caps entry processes (~30): the default
+  // build-time page-data worker pool (one worker per CPU) SIGABRTs with
+  // pthread_create failures on shared hosting. Cap workers at 2.
+  experimental: {
+    cpus: 2,
+  },
   async headers() {
     return [
       {
