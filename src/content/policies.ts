@@ -104,7 +104,7 @@ const POLICIES: Policy[] = [
         heading: "What an affiliate link is",
         body: [
           "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. The price you pay is the same (sometimes better, when we negotiate a deal).",
-          "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, referring page, and whether analytics consent was granted) and then forwards you to the merchant. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
+          "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, and the Duyan Blog page the link sat on) and then forwards you to the merchant. We do not read or store your browser's Referer header and we never store your IP with click data. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
         ],
       },
       {
@@ -198,8 +198,9 @@ const POLICIES: Policy[] = [
       {
         heading: "What we collect",
         body: [
-          "Newsletter subscriptions: the email address you submit, plus the signup source. Contact form: name, email, subject and message. Affiliate navigation: an anonymous click record (offer, timestamp, referring page, and whether analytics consent was on) — we do not store your IP address with it.",
-          "That's the whole list of things we keep.",
+          "Newsletter subscriptions: the email address you submit, plus the signup source. Contact form: name, email, subject and message. Affiliate navigation: an anonymous click record (offer, timestamp, and the Duyan Blog page that carried the link) — we do not read or store your browser's Referer header, and we do not store your IP address with click data.",
+          "That is the information we keep with your data. Separately, to stop abuse, we briefly derive an IP-based identifier in server memory when you submit the newsletter form, contact form or log in to the editorial area; it is used only to rate-limit and is not persisted to the application database.",
+          "Records are kept only as long as reasonably necessary for the purpose they serve. You can ask us to delete anything we hold about you and we will action it promptly.",
         ],
       },
       {
@@ -215,9 +216,16 @@ const POLICIES: Policy[] = [
         ],
       },
       {
-        heading: "Your choices",
+        heading: "Your rights",
         body: [
-          "Change consent any time via “Cookie settings” in the footer. Ask us to delete your newsletter subscription or contact messages via the contact form. We will action deletion requests promptly and confirm when done.",
+          "You can change consent any time via “Cookie settings” in the footer, and ask us to delete your newsletter subscription or contact messages via the contact form.",
+          "Depending on where you live, data-protection law may give you additional rights — for example, to access, correct, delete, restrict or object to the processing of your data, or to receive a portable copy. Those rights apply if the relevant law covers you, and we will honour any request that it does. We will review our privacy practices with legal counsel before we serve behavioural advertising.",
+        ],
+      },
+      {
+        heading: "Contact for privacy questions",
+        body: [
+          "Use the contact form for any privacy request. If the law where you live gives you the right to complain to a data-protection supervisory authority, this site's operator — reachable via the contact form — will tell you which one applies and help you get to it.",
         ],
       },
     ],

@@ -51,12 +51,10 @@ Because this is a plain server-side 302, it works for every visitor regardless o
 | Field | Policy |
 | --- | --- |
 | `offerId`, `articleId?` | What was clicked and from which article |
-| `referer` | The `?src=` hint param (article slug, max 200 chars) when present, else the HTTP Referer header truncated to 500; no IP address is stored anywhere |
-| `sessionHash?` | Reserved for a salted, non-reversible identifier; unused by the current router |
-| `consentAnalytics` | **Consent snapshot.** The server cannot read the localStorage consent store, so the router accepts an explicit, non-identifying `c=1` query hint (client MAY append it; navigation is identical without it) and stores `true` only for that. Reporting can then separate consented vs unconsented clicks honestly |
+| `sourcePath?` | A **controlled** internal source path: the article slug (from `?src=`) or `/deals`. The router never reads or stores the browser's Referer header (it can carry query strings / PII), and never stores an IP with click data |
 | `createdAt` | Time of click |
 
-The `src` param is appended by `affiliateHref()`/`inline-text.tsx` from the article slug.
+The `src` param is appended by `affiliateHref()`/`inline-text.tsx` from the article slug. A direct visit to `/go/<offer>` without `?src=` logs `sourcePath = null` — no browser-derived data is captured. Click accounting is operational (commissions, broken-link tracing), not optional user analytics, so it is deliberately not consent-gated: the click record contains no personal identifier.
 
 ## 5. Link hygiene — `rel="sponsored noopener"`
 

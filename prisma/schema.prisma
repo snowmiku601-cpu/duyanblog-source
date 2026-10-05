@@ -186,9 +186,7 @@ model AffiliateClick {
   articleId        String?
   article          Article?  @relation(fields: [articleId], references: [id], onDelete: SetNull)
   createdAt        DateTime  @default(now())
-  referer          String?
-  sessionHash      String? // salted hash — no raw identifiers
-  consentAnalytics Boolean   @default(false)
+  sourcePath       String? // controlled internal source path (article slug or /deals) — never the raw Referer header
 
   @@index([offerId])
 }
