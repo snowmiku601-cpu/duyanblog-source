@@ -61,9 +61,10 @@ deliberate rotation (see §2). Therefore:
   `DATABASE_URL=mysql://<user>:<pct-encoded-password>@127.0.0.1:3306/<db>`.
 - **Never set `ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` on the host** — they belong only on
   the local bootstrap invocation, so the production guards stay armed at all times.
-- **Never set `ALLOW_INDEXING` / `MEDIA_PERSISTENT` / `TRUST_PROXY` on staging** — they are
-  production-domain-only (indexing), persistence-declared-only (media), or proxy-verified-only
-  (rate-limit trust).
+- **Never set `MEDIA_PERSISTENT` / `TRUST_PROXY` on staging.** Indexing is enabled ONLY by
+  the exact string `ALLOW_INDEXING=true` (fail-closed otherwise); staging may leave
+  `ALLOW_INDEXING` unset or set it to `false` — the code is fail-closed in both cases, and
+  only the production-domain launch may ever consider `true`.
 - `NODE_ENV=production` flips session cookies to `Secure` and arms the seed/bootstrap guards.
 
 ## 4. Build & run (archive deploy; the build runs migrations)
@@ -80,7 +81,17 @@ deliberate rotation (see §2). Therefore:
   `prisma migrate deploy` is idempotent (applies only missing migrations in order) and uses
   the `DATABASE_URL` already in the Hostinger environment — **no local credentials, no remote
   rule** for routine deploys. A migration failure fails the build/deploy, so the old
-  deployment keeps serving.
+  deployment keeps serving for backward-compatible migrations.
+- **Destructive/breaking migrations require an expand/contract sequence.** Auto-migrate in
+  the build is meant for BACKWARD-COMPATIBLE changes while the old app may still be serving:
+  add nullable column, add column with a safe default, add a table/index the old code
+  tolerates, additive data backfill. Any migration that drops/renames a table or column,
+  narrows or incompatibly changes a type, or otherwise breaks the currently deployed
+  application must NOT ship as a one-step routine deploy. Instead: (1) expand the schema
+  compatibly and deploy; (2) deploy code that no longer depends on the old schema;
+  (3) verify; (4) later contract/drop the old schema in a separate, owner-reviewed deployment
+  with a recoverable backup first. The affiliate-column cleanup (DROPs) applied during
+  this proof-out was a one-time pre-production event — the routine flow stays simple.
 - **Never seed in the build** — `seed:demo` is wipe-and-insert; it runs once, locally, over
   an exceptional access window, before the site serves.
 - The platform starts the app itself (Next standalone); `npm start` (Node 22) is the local-dev

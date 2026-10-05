@@ -15,7 +15,7 @@ manual `prisma migrate deploy`.
 |---|---|
 | Website | `duyanblog-test.hostingersite.com` (addon on order 1009151112) |
 | DB | `u257278613_duyanblog` on `srv2123.hstgr.io:3306` (MySQL, app host `127.0.0.1`) |
-| App env | `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL=https://duyanblog-test.hostingersite.com`, `DATABASE_URL` + `DB_*` (127.0.0.1), **no `ALLOW_*`**, **no `MEDIA_PERSISTENT`**, **no `TRUST_PROXY`** |
+| App env | `NODE_ENV=production`, `NEXT_PUBLIC_SITE_URL=https://duyanblog-test.hostingersite.com`, `DATABASE_URL` + `DB_*` (127.0.0.1), `ALLOW_INDEXING=false` (explicit fail-closed; unset equivalent), **no `MEDIA_PERSISTENT`**, **no `TRUST_PROXY`**, **no `ALLOW_DEMO_SEED`/`ALLOW_ADMIN_BOOTSTRAP`** |
 | Build | archive deploy (`hosting_deploy-js-application`), node 20 (host auto), npm, `npm run build` |
 | Build script | `prisma migrate deploy && prisma generate && next build --webpack && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/` |
 | Source deploy | `git archive --format=zip --output=duyanblog-source.zip HEAD` → upload → deploy |
@@ -45,27 +45,43 @@ the Hostinger environment and are consumed by the Hostinger build/runtime.
    ordering guarantees this (`migrate deploy` precedes `next build`).
 3. **Migration failure fails the deploy.** If `prisma migrate deploy` exits non-zero the
    whole build fails, the old deployment keeps serving, and no schema is improvised.
-4. **Seed never runs in the build pipeline and never again after go-live** — it is
+4. **Routine auto-migrate is only for BACKWARD-COMPATIBLE migrations.** While a build
+   runs, the previously deployed app may still be serving against the same DB. Auto-migrate
+   in the build is safe for: add nullable column, add column with a safe default, add a
+   table/index the old code tolerates, additive data backfill. **Destructive/breaking
+   migrations** (drop/rename a table or column, narrow or incompatibly change a type, break
+   the currently deployed code) must NOT ship as a one-step routine auto-migrate deploy.
+   Use an explicit **expand/contract sequence** instead:
+   1. expand the schema compatibly and deploy;
+   2. deploy code that no longer depends on the old schema;
+   3. verify;
+   4. later, contract/drop the old schema in a separate, owner-reviewed deployment with a
+      recoverable backup taken first.
+   The affiliate-column cleanup (DROPs) that ran during this proof-out was a one-time,
+   pre-production event; the routine flow stays simple.
+5. **Seed never runs in the build pipeline and never again after go-live** — it is
    wipe-and-insert (deletes subscribers, contacts, everything). One-time, local, before
    the site serves, over an exceptional remote access window.
-5. **Production deps only on the host.** The host installs `dependencies`, not
+6. **Production deps only on the host.** The host installs `dependencies`, not
    `devDependencies`. `prisma` + `@prisma/client` are in `dependencies` because the build
    must be able to run `migrate deploy` and generate the client. Anything else needed at
    build/runtime lives in `dependencies` (`@tailwindcss/postcss`, `tailwindcss`,
    `tw-animate-css`). TypeScript/tsx/eslint can stay dev-only.
-6. **Webpack, not Turbopack.** Turbopack panics parsing `globals.css` in the sandboxed
+7. **Webpack, not Turbopack.** Turbopack panics parsing `globals.css` in the sandboxed
    build (`node worker exits`) — `next build --webpack` is the working build.
-7. **`TRUST_PROXY` is only set after the edge contract is verified.** The rate limiter
+8. **`TRUST_PROXY` is only set after the edge contract is verified.** The rate limiter
    ignores client-supplied `X-Forwarded-For` and `x-real-ip` by default (they are
    forgeable). Leave unset unless the edge is verified to overwrite/strip them.
-8. **`ALLOW_INDEXING=true` is set ONLY on the real production domain** (build-time). Staging
-   and preview must leave it unset so `robots.txt` serves a full `Disallow: /`.
-9. **`MEDIA_PERSISTENT=true` is set ONLY on deployments that persist the app dir.** Archive
+9. **Indexing is enabled ONLY by `ALLOW_INDEXING=true`, and only on the real production
+   domain.** Staging may leave it unset OR explicitly set it to `false`; the code is
+   fail-closed because only the exact string `"true"` enables indexing. Production launch
+   is the only point where `true` may be considered.
+10. **`MEDIA_PERSISTENT=true` is set ONLY on deployments that persist the app dir.** Archive
    deploy overwrites the app dir on rebuild, so without this flag uploaded media vanishes;
    default on the host = production CMS uploads are refused (403) and editorial media lives
    in Git. **Future durable path (deferred):** object storage (S3/R2) + CDN, swap
    `src/app/api/admin/media/route.ts` internals — the byte-sniff validation stays.
-10. **`ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` never appear in the host env.** They are
+11. **`ALLOW_DEMO_SEED` / `ALLOW_ADMIN_BOOTSTRAP` never appear in the host env.** They are
    set only on a local bootstrap invocation (with `NODE_ENV=production` so the guard
    actually exercises).
 
@@ -103,9 +119,11 @@ Normal deploys never need DB access from a developer machine. For one-off mainte
 #    MCP: hosting_databases_delete-remote-connection {username, name, ip:"<same-ip>"}
 ```
 
-**Password is knowingly rotated (2026-10-05).** The database password now lives only in the
-Hostinger env vars (masked); a locally-kept plaintext copy exists only for the exceptional
-maintenance path and must never be printed, committed, or pasted into a report.
+**Password was rotated once (2026-10-05).** The database password lives ONLY in the
+Hostinger env vars (masked). Routine deployments require no local plaintext DB password,
+and no plaintext credential is committed or printed. Exceptional backup/debug maintenance
+requires either an **owner-secured copy kept outside the repo** OR an explicit non-destructive
+password rotation at that time — a local copy is not kept by default.
 
 ## Credential handling
 
