@@ -259,6 +259,12 @@ try {
   if (!ok1) failed += 1;
 
   if (ok1 && isDev) {
+    // Origin guard on the dev confirmUrl (Correction 14 / reverse-proxy class):
+    // must not leak a localhost / 127.0.0.1 / 0.0.0.0 / internal upstream origin.
+    const badOrigin = /0\.0\.0\.0|127\.0\.0\.1|\blocalhost\b/.test(data.confirmUrl);
+    console.log(`${badOrigin ? "FAIL" : "PASS"}${badOrigin ? " (leaked internal/local origin!)" : ""}  confirmUrl origin is canonical-public or dev-local, never internal upstream`);
+    if (badOrigin) failed += 1;
+
     const confirm1 = await fetch(data.confirmUrl, { redirect: "manual" });
     const ok2 = confirm1.status === 200;
     console.log(`${ok2 ? "PASS" : "FAIL"}  ${confirm1.status} (want 200)  GET confirm link (first use)`);
@@ -287,33 +293,74 @@ try {
   failed += 1;
 }
 
-// Rate limiter (Correction 3): a fixed client identity cannot exceed the IP
-// window — attempt #6 must 429. The process-global bucket (60/min) caps total
-// signups regardless of forged x-real-ip, so rotating a header can never mint
-// unlimited buckets; that floor is exercised implicitly by the limit below and
-// its boundary (60) is high enough that this sequence cannot trip it.
+// Newsletter confirmUrl origin (Correction 14 / reverse-proxy bug class) — in a
+// production host the confirmation link must use the configured canonical public
+// origin (site.url), never localhost/127.0.0.1/0.0.0.0 or an internal upstream.
+// Asserted on the double opt-in response above (same request, no extra POSTs),
+// and the route source is structurally guarded by test-newsletter-semantics.mjs.
+
+// Rate limiter (Correction 3): client IP headers (x-forwarded-for / x-real-ip)
+// are forgeable and are IGNORED when TRUST_PROXY is unset — all untrusted
+// requests share the stable "__untrusted__" key (plus a process-global bucket),
+// so rotating forged headers can never mint fresh windows. Attempt #6 from the
+// same window must 429.
 {
   try {
     let got429 = false;
     for (let i = 0; i < 7; i++) {
+      // Rotate x-real-ip on every request — must NOT create fresh buckets.
       const r = await fetch(`${BASE}/api/newsletter`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-real-ip": "203.0.113.77", // fixed spoof attempt — buckets by this key
+          "x-real-ip": `10.99.${i}.${i}`,
+          "x-forwarded-for": `10.99.${i}.${i}`,
         },
         body: JSON.stringify({ email: `lim-${Date.now()}-${i}@duyanblog.test` }),
       });
       if (r.status === 429) { got429 = true; break; }
     }
-    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? "429 (want 429)" : "no 429"}  newsletter IP rate limit holds under forged header`);
+    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? "429 (want 429)" : "no 429"}  newsletter limiter holds while rotating forged IP headers`);
     if (!got429) failed += 1;
   } catch (err) {
-    console.log(`FAIL  ERR  newsletter IP rate limit  ${err.message}`);
+    console.log(`FAIL  ERR  newsletter rotating-header limiter  ${err.message}`);
     failed += 1;
   }
 }
 
+// Contact limiter (Correction 3, defense-in-depth): rotating forged IP headers
+// must NOT produce unlimited DB messages — the untrusted shared key + global
+// bucket floor eventually 429s. Send 5 messages with rotating headers; the
+// 6th must 429 (untrusted window 5/min).
+{
+  try {
+    let got429 = false;
+    let attempts = 0;
+    for (let i = 0; i < 8 && !got429; i++) {
+      attempts++;
+      const r = await fetch(`${BASE}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": `198.18.${i}.${i}`,
+          "x-forwarded-for": `198.18.${i}.${i}`,
+        },
+        body: JSON.stringify({
+          name: "Limiter Probe",
+          email: `contact-lim${Date.now()}-${i}@duyanblog.test`,
+          subject: "rate limit probe",
+          message: "Automated rate-limit verification — deleting if stored.",
+        }),
+      });
+      if (r.status === 429) { got429 = true; break; }
+    }
+    console.log(`${got429 ? "PASS" : "FAIL"}  ${got429 ? `429 on attempt ${attempts} (want 429)` : "no 429"}  contact limiter holds while rotating forged IP headers`);
+    if (!got429) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  contact rotating-header limiter  ${err.message}`);
+    failed += 1;
+  }
+}
 // JSON Feed 1.1 — mirrors the RSS scopes: site-wide, per-tag, 404/400 guards.
 // NOTE: all seeded content is isDemo=true, so the site-wide feed may be EMPTY
 // (demo excluded from feeds per Correction 6) — structure is the assertion.

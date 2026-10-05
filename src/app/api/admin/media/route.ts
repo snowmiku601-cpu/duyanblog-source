@@ -7,6 +7,7 @@ import { slugify } from "@/lib/admin-client";
 import { mediaPersistent } from "@/lib/settings";
 import { deleteMediaFile } from "@/lib/media-delete";
 import { recordDimensions } from "@/lib/media-manifest";
+import { extFromName, validateMediaUpload } from "@/lib/media-validation";
 
 /**
  * POST /api/admin/media — upload one image into public/images.
@@ -16,7 +17,8 @@ import { recordDimensions } from "@/lib/media-manifest";
  *   a single safe slug segment like "picks", never a traversal vector).
  * - Extension whitelist + byte-signature sniff — the bytes must match the
  *   extension (guards the exact JPEG-as-.png class of bug that breaks the
- *   Next.js image optimizer with 400s).
+ *   Next.js image optimizer with 400s). The byte signature is authoritative;
+ *   a client-supplied MIME can never compensate for invalid bytes.
  * - Size cap 5 MB (Next's optimizer re-encodes large sources on the fly;
  *   keeping sources modest keeps the cache warm and pages fast).
  * - The on-disk filename is slugified; collisions get -2/-3/… suffixes
@@ -29,36 +31,6 @@ import { recordDimensions } from "@/lib/media-manifest";
  */
 
 const MAX_BYTES = 5 * 1024 * 1024;
-
-/** File signatures for the formats we accept (checked against real bytes). */
-const SIGNATURES: Array<{ ext: string; test: (b: Uint8Array) => boolean }> = [
-  { ext: "png", test: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
-  { ext: "jpg", test: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
-  {
-    ext: "webp",
-    test: (b) =>
-      b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
-  },
-  {
-    ext: "avif",
-    test: (b) =>
-      b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70 && b[8] === 0x61 && b[9] === 0x76 && b[10] === 0x69 && b[11] === 0x66,
-  },
-];
-
-/** Raster-only formats (SVG removed: stored-XSS vector; GIF removed: no demonstrated need). */
-const EXT_BY_MIME: Record<string, string> = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/webp": "webp",
-  "image/avif": "avif",
-};
-
-function extFromName(name: string): string {
-  const m = /\.(png|jpe?g|webp|avif)$/i.exec(name);
-  if (!m) return "";
-  return m[1].toLowerCase().replace("jpeg", "jpg");
-}
 
 export async function POST(request: Request) {
   const guard = await guardAdmin(request);
@@ -99,27 +71,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const declared = extFromName(file.name);
-  if (!declared) {
-    return NextResponse.json(
-      { error: "Unsupported file type — use .png, .jpg, .webp or .avif." },
-      { status: 400 },
-    );
-  }
-
   const bytes = new Uint8Array(await file.arrayBuffer());
-  // Byte signature must confirm the declared type (or the reported MIME must) —
-  // mismatched files break the image optimizer, so we refuse them at the door.
-  const sig = SIGNATURES.find((s) => s.ext === declared);
-  const mimeOk = Boolean(file.type) && EXT_BY_MIME[file.type]?.toLowerCase() === declared;
-  if (!sig || !(sig.test(bytes) || mimeOk)) {
-    return NextResponse.json(
-      {
-        error: `The bytes don't match .${declared} — the file may be misnamed or corrupt. Re-export it as a real .${declared} and try again.`,
-      },
-      { status: 400 },
-    );
+  // The byte signature is authoritative (media-validation.ts) — the reported
+  // MIME / Content-Type is client-controlled and must never compensate for
+  // invalid bytes. We require: supported extension, matching byte signature,
+  // and (when a MIME is present) an agreeing MIME.
+  const validation = validateMediaUpload(file.name, file.type, bytes);
+  if (!validation.ok) {
+    return NextResponse.json({ error: validation.error }, { status: 400 });
   }
+  const declared = validation.ext;
 
   // Optional single folder segment, strictly validated.
   const rawFolder = form.get("folder");

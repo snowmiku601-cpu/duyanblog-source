@@ -3,11 +3,12 @@
  * Sufficient for a single-node editorial site; swap for Redis/edge KV when
  * horizontally scaling (see ARCHITECTURE.md).
  *
- * IP attribution is a security-sensitive input: a client-supplied
- * `X-Forwarded-For` header is forgeable, so we refuse to trust it unless the
- * operator has explicitly verified that the edge overwrites/sanitizes
- * client-supplied forwarding headers AND set TRUST_PROXY=true. Untrusted by
- * default = a rotated XFF cannot mint a fresh rate-limit bucket.
+ * IP attribution is a security-sensitive input: `X-Forwarded-For` AND
+ * `x-real-ip` are both client-supplied headers, and both are forgeable unless
+ * the operating proxy/edge is verified to overwrite them. Untrusted by
+ * default: the limiter keys on a stable per-process fallback so a rotated
+ * forwarding header cannot mint a fresh bucket. Compose per-account /
+ * process-global buckets where true client identity is needed.
  */
 type Bucket = { count: number; resetAt: number };
 
@@ -47,16 +48,23 @@ export function rateLimit(
  * Resolve the client IP for rate-limit keying.
  *
  * - Trusted proxy (TRUST_PROXY=true AND the edge is verified to overwrite
- *   client-supplied XFF): return the first XFF hop.
- * - Untrusted (default): NEVER read client-supplied XFF. Prefer the
- *   platform-set x-real-ip; if absent, fall back to a stable per-process key
- *   so the limiter still works without exposing a forgeable input.
+ *   client-supplied forwarding headers): return the first XFF hop. Both
+ *   `x-forwarded-for` and `x-real-ip` are client-controlled input headers; a
+ *   proxy that sanitizes one must be verified to sanitize the other.
+ * - Untrusted (default): NEVER read client-supplied XFF, and NEVER read
+ *   `x-real-ip` either — that header is just as forgeable when no proxy
+ *   overwrites it. The limiter keys on a stable per-process fallback so it
+ *   still works without exposing a forgeable input. Where a true client
+ *   identity is needed beyond the process window, compose a per-account /
+ *   process-global bucket (see login and newsletter routes).
  */
 export function clientIp(request: Request, opts: { trustProxy?: boolean } = {}): string {
   const trust = opts.trustProxy ?? TRUST_PROXY;
   if (trust) {
     const fwd = request.headers.get("x-forwarded-for");
     if (fwd) return fwd.split(",")[0]!.trim();
+    const real = request.headers.get("x-real-ip");
+    if (real) return real.trim();
   }
-  return request.headers.get("x-real-ip") ?? "__local__";
+  return "__untrusted__";
 }

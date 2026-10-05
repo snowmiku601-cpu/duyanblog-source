@@ -27,6 +27,18 @@ export async function POST(request: Request) {
     );
   }
 
+  // Defense-in-depth (Correction 3 applies to contact too): the fallback
+  // client-IP key is "untrusted" (client headers are forgeable without a
+  // verified proxy), so a process-global bucket caps the total messages per
+  // minute no matter what headers a client sends. In-memory; resets on restart.
+  const globalLimited = rateLimit("contact:global", 60, 60_000);
+  if (!globalLimited.ok) {
+    return NextResponse.json(
+      { error: "Too many messages — try again in a minute." },
+      { status: 429, headers: { "Retry-After": String(globalLimited.retryAfterSeconds) } }
+    );
+  }
+
   let json: unknown;
   try {
     json = await request.json();
