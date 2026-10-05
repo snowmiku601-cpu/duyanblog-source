@@ -245,12 +245,13 @@ model ReviewScore {
 }
 
 model SourceCitation {
-  id        String  @id @default(cuid())
+  id        String    @id @default(cuid())
   articleId String
-  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
   label     String
   url       String?
-  order     Int     @default(0)
+  checkedAt DateTime? @db.Date // "the day we checked this source" — date-only, no timezone shift
+  order     Int       @default(0)
 
   @@index([articleId])
 }

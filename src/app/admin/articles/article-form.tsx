@@ -71,7 +71,7 @@ const BLOCKS_HINT = `Array of blocks. Types: paragraph {"type":"paragraph","text
 
 const SCORES_HINT = `Review scorecard, e.g. [{"label":"Performance","score":8.5,"weight":2,"note":"why this score"}]. Score 0–10, weight 1–10.`;
 
-const SOURCES_HINT = `Citations shown with the article, e.g. [{"label":"Vendor spec sheet","url":"https://…"}]. URL optional.`;
+const SOURCES_HINT = `Citations shown with the article, e.g. [{"label":"Vendor spec sheet","url":"https://…","checkedAt":"2026-10-04"}]. URL optional. "checkedAt" is the day you checked the source (date only); leave it out if you haven't.`;
 
 export function ArticleForm({
   article,

@@ -398,9 +398,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: review1.id, label: "Duyan Blog battery loop methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: review1.id, label: "Auralis Note 14 specification sheet (demo)", url: "https://example-auralis.test/note-14/specs", order: 1 },
-      { articleId: review1.id, label: "Auralis firmware update log (demo)", url: "https://example-auralis.test/support/firmware", order: 2 },
+      { articleId: review1.id, label: "Duyan Blog battery loop methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: review1.id, label: "Auralis Note 14 specification sheet (demo)", url: "https://example-auralis.test/note-14/specs", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: review1.id, label: "Auralis firmware update log (demo)", url: "https://example-auralis.test/support/firmware", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -476,8 +476,8 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: review2.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: review2.id, label: "TerraSIM coverage map (demo)", url: "https://example-terrasim.test/coverage", order: 1 },
+      { articleId: review2.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: review2.id, label: "TerraSIM coverage map (demo)", url: "https://example-terrasim.test/coverage", checkedAt: new Date("2026-02-01"), order: 1 },
     ],
   });
 
@@ -572,9 +572,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: roundup.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: roundup.id, label: "NomadLink coverage list (demo)", url: "https://example-nomadlink.test/coverage", order: 1 },
-      { articleId: roundup.id, label: "TerraSIM regional plan terms (demo)", url: "https://example-terrasim.test/asia/terms", order: 2 },
+      { articleId: roundup.id, label: "Duyan Blog eSIM testing methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: roundup.id, label: "NomadLink coverage list (demo)", url: "https://example-nomadlink.test/coverage", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: roundup.id, label: "TerraSIM regional plan terms (demo)", url: "https://example-terrasim.test/asia/terms", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -635,9 +635,9 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: versus.id, label: "Duyan Blog hosting load-test methodology (internal)", url: "/methodology", order: 0 },
-      { articleId: versus.id, label: "Cloudpeak StartCloud plan terms (demo)", url: "https://example-cloudpeak.test/startcloud/terms", order: 1 },
-      { articleId: versus.id, label: "Harborstack Dock plan terms (demo)", url: "https://example-harborstack.test/dock/terms", order: 2 },
+      { articleId: versus.id, label: "Duyan Blog hosting load-test methodology (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: versus.id, label: "Cloudpeak StartCloud plan terms (demo)", url: "https://example-cloudpeak.test/startcloud/terms", checkedAt: new Date("2026-02-01"), order: 1 },
+      { articleId: versus.id, label: "Harborstack Dock plan terms (demo)", url: "https://example-harborstack.test/dock/terms", checkedAt: new Date("2026-02-01"), order: 2 },
     ],
   });
 
@@ -690,8 +690,8 @@ async function main() {
 
   await db.sourceCitation.createMany({
     data: [
-      { articleId: guide.id, label: "Duyan Blog VPN evaluation criteria (internal)", url: "/methodology", order: 0 },
-      { articleId: guide.id, label: "Meridian VPN audit summary (demo)", url: "https://example-meridian.test/audit", order: 1 },
+      { articleId: guide.id, label: "Duyan Blog VPN evaluation criteria (internal)", url: "/methodology", checkedAt: new Date("2026-02-01"), order: 0 },
+      { articleId: guide.id, label: "Meridian VPN audit summary (demo)", url: "https://example-meridian.test/audit", checkedAt: new Date("2026-02-01"), order: 1 },
     ],
   });
 
