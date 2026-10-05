@@ -121,8 +121,8 @@ export default async function HomePage() {
                   <dt className="text-[11px] leading-tight text-muted-foreground">published pieces</dt>
                 </div>
                 <div className="bg-card px-4 py-3">
-                  <dd className="font-display text-xl font-semibold">0</dd>
-                  <dt className="text-[11px] leading-tight text-muted-foreground">paid placements</dt>
+                  <dd className="font-display text-xl font-semibold">Editorially</dd>
+                  <dt className="text-[11px] leading-tight text-muted-foreground">independent — no paid placements</dt>
                 </div>
                 <div className="bg-card px-4 py-3">
                   <dd className="font-display text-xl font-semibold">{stats.categories}</dd>
