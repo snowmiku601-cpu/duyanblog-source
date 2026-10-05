@@ -11,21 +11,16 @@ the ones beside it look optional too — every step below is a command or a yes/
 3. Read the ONE rule the task needs (index in `.claude/CLAUDE.md`), not all of them.
 4. Tail of `worklog.md` — the conventions from the last round.
 
-## The gate (before any commit or push)
+## Superpowers — process aid
 
-All four, exit code 0, output pasted when you report:
+Use an installed `superpowers:*` skill when it matches the job: brainstorming → plans → execute,
+systematic-debugging, TDD, verification-before-completion, review before merge. Smallest fit.
+**Duyan governance precedes Superpowers** — rules/playbooks beat a generic Superpowers step; the
+two-agent cap, one reviewer and the gates still bind.
 
-```bash
-npm run lint && npm run typecheck   # 1. fast gates
-npm run build                       # 2. standalone build (copy steps are part of it)
-npm run test                        # 3. smoke against a RUNNING dev server
-node scripts/validate-docs.mjs      # 4. governance gate (once it exists)
-```
-
-- `tsc` alone is not sufficient — it never sees a route you forgot to revalidate, a scheduled
-  story leaking, or bytes that disagree with an extension.
-- A verification claim must include the exact command, its literal output, and the exit code.
-  "Looks correct", "should work", "the format is right" are not verification.
+Run the gate in `.claude/CLAUDE.md` before any commit/push and `npm run validate:docs` before
+reporting (auto-load budget + links + indexes). Verification claims include the exact command,
+its output and exit code — `tsc` alone is not sufficient.
 
 ## Drift check (when you catch yourself about to skip a step)
 
@@ -37,8 +32,8 @@ Ask the five questions:
 4. Did I ask the owner about a schema/seed/prod-visible change, or did I decide it for them?
 5. Did I check the control that must NOT match, or only the one that must?
 
-Drift sentences (if you hear yourself, stop): *"I'll fix it later"* · *"I don't need to check"* ·
-*"Let me just hardcode this one thing"* · *"It's just a demo change"*.
+*"I'll fix it later"* · *"I don't need to check"* · *"Let me just hardcode this one thing"* ·
+*"It's just a demo change"* — hearing yourself say any of these means stop.
 
 ## Session end
 

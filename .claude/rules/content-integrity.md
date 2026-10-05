@@ -8,9 +8,8 @@ claim can do is smaller than on a live affiliate site, but the habit must be ide
 
 **A placeholder is a fabrication with a deadline you will forget.**
 While data is demo, mark it visibly (`DemoNotice`, `demo_mode` setting) or delete the number.
-Never soften, restate without its qualifier, or let fictional values leak into `parse`-visible
-metadata as if real (no fake `review`/`aggregateRating` JSON-LD — the codebase already enforces
-this; keep it that way).
+Never let fictional values leak into `parse`-visible metadata as if real (no fake
+`review`/`aggregateRating` JSON-LD — keep the codebase's existing enforcement).
 
 ## What you may never invent
 

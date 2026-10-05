@@ -569,3 +569,42 @@ Branch hardening/editorial-pivot-production-readiness, commit 1a94f9f:
 
 Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 63/63
 x3, test:admin-auth 6/6, test:media 11/11, test:newsletter 7/7.
+
+---
+Task ID: 20
+Agent: Claude Code (lead) — bootstrap state-sync after Spaceship production cutover.
+
+Context: production is LIVE on Spaceship (`duyanblog.com`), Hostinger demo subdomain is
+rollback/reference. New Claude sessions were loading stale Hostinger-era bootstrap state
+(CLAUDE.md described `duyanblog.com later`, "one baseline migration", bun dev server,
+Hostinger as current deployment target). Docs/memory fixed; no app code, no DB, no indexing
+changes. PR #4.
+
+- `.claude/CLAUDE.md` — "Where the project" block updated to Spaceship production
+  (`https://duyanblog.com`, CloudLinux Node app, Node 22.23.3, cPanel selector,
+  `experimental.cpus: 2` validated, Hostinger = rollback/reference + do-not-touch,
+  `ALLOW_INDEXING=false` until content-launch review). Build rule #1 + Build target now point
+  to package.json as authoritative: `prisma migrate deploy` runs BEFORE `next build`; schema
+  managed only by canonical migrations, never rewrite an applied migration. Canonical commands:
+  `npm run start:node` is the runtime (package.json start/start:node are node — no bun);
+  build comment simplified.
+- `.claude/memory/production-now-runs-on-spaceship.md` (new) — durable ops fact: Spaceship is
+  production, Hostinger is rollback/reference; indexing gated by real-content launch review;
+  production never receives demo seed; build uses `prisma migrate deploy`; cpus:2 validated.
+  Transient facts excluded: no article counts, no exact migration count. Indexed in
+  `.claude/memory/README.md`.
+- `.claude/rules/operating-rhythm.md` — new "Superpowers — process aid" (auto-load, minimal):
+  use an installed `superpowers:*` skill when it matches (brainstorm → plans → execute,
+  systematic-debugging, TDD, verification-before-completion, review before merge), smallest fit;
+  **Duyan governance precedes Superpowers** (rules/playbooks beat generic steps; two-agent cap,
+  one reviewer, gates still bind); gate + validate:docs before reporting, verification claims
+  include command+output+exit.
+- `.claude/rules/README.md` — operating-rhythm index line notes Superpowers; re-derive line
+  uses `validate-docs`.
+- `.claude/rules/content-integrity.md` — trimmed duplicated core-rule wording (paid for the
+  Superpowers rule inside the 24 KB auto-load cap; the cap was not raised).
+- Notes: Hostinger playbook untouched (still the rollback/reference doc).
+
+Docs gate: validate:docs PASS — auto-load budget 23950B ≤ 24000B; slop 0; git diff --check
+clean. (Final state after independent-review amendments; earlier intermediate figures are
+superseded by this entry.)

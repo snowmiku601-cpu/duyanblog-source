@@ -8,8 +8,7 @@
 > **The budget is a ratchet.** This file + `.claude/rules/` + `AGENTS.md` auto-load every
 > session; `npm run validate:docs` caps them at
 > 24 KB and the cap comes DOWN, never up. Adding task-scoped prose here costs every future
-> session — put it in `.claude/playbooks/` instead. Measured on a sibling project: rules with 15
-> files cost ~534 KB/session; the same files in a non-loading directory cost ~137 KB.
+> session — put it in `.claude/playbooks/` instead.
 
 ---
 
@@ -25,19 +24,22 @@ the ones inside vendored agents and skills, which are written in English.
 
 ---
 
-## Where the project is (2026-10-04)
+## Where the project is (2026-10-05)
 
 - **duyanblog.com** — independent editorial review publication (reviews / best / compare / guides
   / articles), Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4
-  (`@theme inline` in `src/app/globals.css`), shadcn/ui, Prisma 6 + **MySQL**
-  (MySQL-canonical; one baseline migration), Zod 4.
+  (`@theme inline` in `src/app/globals.css`), shadcn/ui, Prisma 6 + **MySQL**, Zod 4.
+  Fresh production schema current via canonical Prisma migrations.
 - **Repo:** `github.com/snowmiku601-cpu/duyanblog-source` (public, `main`). Git is the only
   undo. Identity already set repo-local.
-- **Live (demo):** `https://duyanblog-test.hostingersite.com` — client's Hostinger Business
-  (Node.js web app, MySQL `u257278613_duyanblog`, webpack, archive deploy — no GitHub on
-  client acct). Procedure: `.claude/playbooks/deploy-hostinger.md`. `duyanblog.com` later.
-- **Build target:** `output: "standalone"`, webpack (`next build --webpack`), host runs the
-  built app; `npm start` (bun) local-dev only, `npm run start:node` the fallback.
+- **Production:** `https://duyanblog.com` — Spaceship Web Hosting Pro (CloudLinux Node.js app,
+  Node 22.23.3, cPanel Node selector). Build/restart/runtime smoke passed; `experimental.cpus: 2`
+  validated there. Hostinger `duyanblog-test.hostingersite.com` is **rollback/reference only —
+  do not touch** the Hostinger account. `ALLOW_INDEXING=false` until real content launch review.
+- **Build target:** `output: "standalone"`, webpack (`next build --webpack`), `npm run build`
+  runs `prisma migrate deploy` BEFORE the build (production-safe). The production schema is
+  managed only by canonical Prisma migrations — `migrate deploy` on deploy/build; never rewrite
+  an applied migration; host runs the built app via `npm run start:node`.
   Public routes are ISR (`revalidate`); `/search` and `/go/[offerId]` are dynamic.
 - **The DB is the mutable state — MySQL, platform-side, survives rebuilds** (the host build
   overwrites the app dir; SQLite would die per build). Back up before destructive
@@ -52,9 +54,10 @@ the ones inside vendored agents and skills, which are written in English.
 
 ## The five that break this repo
 
-1. **Build uses webpack + standalone copy steps.** `npm run build` = `prisma generate && next
-   build --webpack && cp -r .next/static .next/standalone/.next/ && cp -r public
-   .next/standalone/` — skip any part and the host 404s/500s.
+1. **Build uses webpack + standalone copy steps.** `npm run build` (the script in `package.json`
+   is authoritative, not this file) = `prisma migrate deploy` → `prisma generate` → `next build
+   --webpack` → copy static + `public` into `.next/standalone/`. Skip any part and the host
+   404s/500s.
 2. **The seed and admin bootstrap refuse `NODE_ENV=production` unless `ALLOW_DEMO_SEED` /
    `ALLOW_ADMIN_BOOTSTRAP` are set.** Never hack around those guards; they are the production
    safety net.
@@ -73,8 +76,8 @@ npm run dev            # next dev -p 3000 (tee to dev.log)
 npm run lint && npm run typecheck   # fast gates
 npm run test           # smoke against a RUNNING server; SMOKE_BASE_URL overrides
 npm run validate:docs && npm run slop   # docs gate + prose scan
-npm run build          # prisma generate + next build --webpack + standalone copies
-npm start              # local dev only (bun; needs local MySQL at DATABASE_URL); host uses its own start
+npm run build          # builds standalone (deploy-safe); host runs the built app
+npm run start:node     # NODE_ENV=production node .next/standalone/server.js
 npm run db:migrate     # prisma migrate deploy (production-safe; migrate BEFORE every host build)
 npm run seed:demo      # wipes + reseeds demo (refuses production)
 npm run admin:bootstrap -- --email <e> --password <12+ chars, letters+digits>
@@ -119,7 +122,5 @@ work; the repo agents exist for jobs with a house contract. Cap is two agents pe
 Write what you **learned**, not what you did, to the auto-loading user-scope memory
 (`C:\Users\PC\.claude\projects\e--duyanblog-source\memory\`). One fact per file, named after
 the fact; if it could be reconstructed from `git log --stat`, do not save it.
-Repo-specific lessons go to `.claude/memory/` (indexed, `[[wikilinks]]`, no orphans per
-validate:docs). New task-scoped procedure → `.claude/playbooks/`. New invariant →
-`.claude/rules/`. Then: update root docs if behaviour changed, append `Task ID: N` to
-`worklog.md`, commit one concern per commit.
+Then: update root docs if behaviour changed, append `Task ID: N` to `worklog.md`, commit one
+concern per commit.
