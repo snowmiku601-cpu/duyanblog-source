@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `sourcecitation` ADD COLUMN `checkedAt` DATE NULL;
+ALTER TABLE `SourceCitation` ADD COLUMN `checkedAt` DATE NULL;
