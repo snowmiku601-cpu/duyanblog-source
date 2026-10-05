@@ -71,14 +71,27 @@ The demo database contains fictional merchants (`example-*.test`). Go-live seque
 5. Re-run the flow manually: click a buy button, confirm the 302 target and that an `AffiliateClick` row lands.
 6. Retire the demo labelling (DemoNotice, "demo merchant" strings, footer disclaimer, `demo_mode` setting) once no demo content remains visible.
 
-## 7. Ad enablement (AdSlot)
+## 7. Ad enablement (AdSlot) — currently disabled
 
-Current state: `AdSlot` renders a reserved, labelled placeholder and nothing else. `ads_enabled` defaults to `false` (seeded `SiteSetting`); `NEXT_PUBLIC_ADS_ENABLED` in `.env.example` is documented as a force-enable but is **not read by code yet** — the runtime gate is the DB setting. To actually serve ads:
+Current state: advertising is **disabled site-wide**. `AdSlot` renders a reserved, labelled
+placeholder and nothing else. `ads_enabled` defaults to `false` (seeded `SiteSetting`);
+`NEXT_PUBLIC_ADS_ENABLED` in `.env.example` is documented as a fallback but is **not read
+by code yet** — the runtime gate is the DB setting via `isAdsEnabled()`. No ad network is
+configured, no third-party ad script loads, and there is **no certified CMP**.Ads cannot
+currently be served by changing a setting: enabling them is a **separate, owner-authorized
+integration task**, and readiness is tracked (and honestly marked NOT READY) in
+[`docs/ADSENSE_READINESS.md`](docs/ADSENSE_READINESS.md).
 
-1. Enable the switch: set `ads_enabled = "true"` in the site settings (admin settings page when it exists; until then a DB update — remember to `invalidateSettingsCache()`), or wire the `NEXT_PUBLIC_ADS_ENABLED` fallback into the pages that pass `enabled={isAdsEnabled(settings)}`.
-2. Wire a real network **inside `AdSlot`**, after both gates: `enabled` (server) AND `loadConsent()?.advertising === true` (client, live-updating via `onConsentChange`). The component must never load third-party script before advertising consent.
-3. Keep the reserved box (`min-h-24`, dashed border) to avoid layout shift when ads load.
-4. Respect the editorial rule: ads never overwhelm the page — current placements are one per article body (`review-top`, `roundup-top`) plus sidebar space. New placements need the same restraint and a disclosure (`/advertising-disclosure`).
+The mechanics an integration must preserve:
+
+1. A real network must be wired **inside `AdSlot`**, after both gates: `enabled` (server,
+   DB setting) AND `loadConsent()?.advertising === true` (client, live-updating via
+   `onConsentChange`). The component must never load third-party script before advertising
+   consent.
+2. Keep the reserved box (`min-h-24`, dashed border) to avoid layout shift when ads load.
+3. Respect the editorial rule: ads never overwhelm the page — current reserved placements
+   are one per article body (`review-top`, `roundup-top`) plus sidebar space. New
+   placements need the same restraint and a disclosure (`/advertising-disclosure`).
 
 ## 8. Compliance notes
 
