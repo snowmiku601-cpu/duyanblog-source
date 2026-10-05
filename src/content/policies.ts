@@ -20,7 +20,7 @@ const POLICIES: Policy[] = [
     title: "Editorial policy",
     description:
       "How Duyan Blog produces, reviews and stands behind its editorial work: independence, named authors, visible evidence and labelled samples.",
-    updated: "2026-03-01",
+    updated: "2026-10-05",
     intro:
       "This policy governs everything published on Duyan Blog. It is short on purpose — a policy nobody can memorise protects nobody.",
     sections: [
@@ -33,13 +33,13 @@ const POLICIES: Policy[] = [
       {
         heading: "Named humans",
         body: [
-          "Every article carries a named author. Reviews additionally carry a second editor who verified the claims. We list real roles and never fabricate credentials, awards or test statistics. Where our experience is limited (a laptop reviewed over two weeks, not two years), the article says so.",
+          "Every article carries a named author. Reviews additionally carry a second editor, where a review has one, who verifies the claims against the cited sources. We list real roles and never fabricate credentials, awards, research hours or test statistics. Where our product experience is limited, the article says so and describes exactly what was done.",
         ],
       },
       {
         heading: "Evidence and honesty",
         body: [
-          "Claims are sourced; sources are listed. Where evidence is thin or the market moves faster than testing, we say so instead of filling the gap with confident-sounding numbers. Sample and demonstration content is explicitly labelled, everywhere it appears.",
+          "Claims are sourced; sources are listed, each with the day a human last checked it. Where evidence is thin or the market moves faster than we can read it, we say so instead of filling the gap with confident-sounding numbers. We run our own benchmarks only when an article plainly says so and describes the setup; otherwise we cite independent, dated measurements by name. Sample and demonstration content is explicitly labelled, everywhere it appears.",
         ],
       },
       {
@@ -51,7 +51,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Corrections",
         body: [
-          "Mistakes get fixed and the fix gets logged. See the corrections policy for the exact process.",
+          "Mistakes get fixed and the fix is recorded in the article's revision history. See the corrections policy for the exact process.",
         ],
       },
     ],
@@ -60,8 +60,8 @@ const POLICIES: Policy[] = [
     slug: "how-we-make-money",
     title: "How we make money",
     description:
-      "Duyan Blog's business model: affiliate commissions, advertising, sponsorship and subscriptions — and the rules that keep commerce out of the newsroom.",
-    updated: "2026-03-01",
+      "Duyan Blog's business model: affiliate commissions and subscriptions — and the rules that keep commerce out of the newsroom.",
+    updated: "2026-10-05",
     intro:
       "Independent publishing costs money. Here is exactly how we pay for it, and the rules that keep the money from steering the words.",
     sections: [
@@ -74,7 +74,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Advertising",
         body: [
-          "We sell display advertising and clearly-labelled sponsored placements. Ads are disabled by default and only load with your advertising consent. Sponsored content, when it exists, is produced separately from the editorial team and carries a visible label; it never receives a score, a ranking or a recommendation.",
+          "We do not currently sell or serve advertising, and no ad network is configured on this site. If we add advertising later, it will be clearly labelled, governed by the rules in our advertising disclosure, and never touch a score, a ranking or a recommendation.",
         ],
       },
       {
@@ -131,21 +131,21 @@ const POLICIES: Policy[] = [
     slug: "advertising-disclosure",
     title: "Advertising disclosure",
     description:
-      "How advertising and sponsorship work on Duyan Blog: what is sold, how it is labelled, and what advertisers can never buy.",
-    updated: "2026-03-01",
+      "The rules that will govern advertising and sponsorship on Duyan Blog, if and when we add them.",
+    updated: "2026-10-05",
     intro:
-      "If an advertiser's money has touched a page in any way, this policy determines how you'll know about it.",
+      "We do not currently run advertising, and no ad network is configured on this site. If an advertiser's money ever touches a page here, this policy determines how you'll know about it.",
     sections: [
       {
-        heading: "What we sell",
+        heading: "Current state",
         body: [
-          "Display placements (a labelled ad slot) and, occasionally, sponsored articles. Ads are switched off site-wide by default and only render after you grant advertising consent. The same rule applies to the ad networks themselves: no advertising scripts run before consent.",
+          "There is nothing to disclose yet: we do not sell display placements, we do not publish sponsored articles, and no advertising script loads anywhere on the site.",
         ],
       },
       {
-        heading: "Labelling",
+        heading: "Labelling, if and when we add advertising",
         body: [
-          "Display ads are marked “Advertisement”. Sponsored articles carry a sponsor line at the top and bottom and are produced outside the editorial workflow. Neither is ever eligible for scores, rankings or product recommendations.",
+          "Display ads will be marked “Advertisement” and shown only after you grant advertising consent. Sponsored articles will carry a sponsor line at the top and bottom and will be produced outside the editorial workflow. Neither will ever be eligible for scores, rankings or product recommendations.",
         ],
       },
       {
@@ -161,27 +161,27 @@ const POLICIES: Policy[] = [
     title: "Corrections policy",
     description:
       "How Duyan Blog handles errors: how to report them, how fast we respond, and how corrections are recorded.",
-    updated: "2026-03-01",
+    updated: "2026-10-05",
     intro:
       "Everyone who publishes gets things wrong sometimes. What separates serious publications is what happens next. This is our version of next.",
     sections: [
       {
         heading: "Reporting an error",
         body: [
-          "Use the contact form and include the page URL and what you believe is wrong. You will get a human reply within seven days. Corrections do not require you to identify yourself.",
+          "Use the contact form and include the page URL and what you believe is wrong. Corrections do not require you to identify yourself. We aim to review correction reports promptly — contact messages are answered by a human, and material corrections reach the editors immediately.",
         ],
       },
       {
         heading: "How we fix things",
         body: [
-          "Small factual fixes (a price, a name, a specification) are corrected in the article, and the “updated” date changes. Material errors — anything that could change a reader's decision, including a score or recommendation — also receive a dated correction note at the bottom of the article explaining what changed and why.",
+          "Small factual fixes (a price, a name, a specification) are corrected in the article, and the “updated” date changes. Material errors — anything that could change a reader's decision, including a score or recommendation — are corrected in the article with a dated note at the bottom explaining what changed and why. Every fix is recorded in the article's revision history.",
           "Corrections are never hidden. Removed content that was material is marked as removed rather than silently deleted.",
         ],
       },
       {
         heading: "When we're wrong about a recommendation",
         body: [
-          "If new evidence changes a verdict, we re-test, update the article, change the score with its criteria, and note the change. Rankings follow the evidence, not our pride — and affiliate commissions are never a reason to leave a wrong recommendation in place.",
+          "If new evidence changes a verdict, we re-check the cited sources, update the article, change the score with its criteria, and note the change. Rankings follow the evidence, not our pride — and affiliate commissions are never a reason to leave a wrong recommendation in place.",
         ],
       },
     ],
@@ -272,7 +272,7 @@ const POLICIES: Policy[] = [
     title: "Terms of service",
     description:
       "The ground rules for using duyanblog.com: content licence, acceptable use, affiliate relationships and limitations. Information, not legal advice.",
-    updated: "2026-03-01",
+    updated: "2026-10-05",
     intro:
       "Short terms for a reader-friendly site. This page is plain-language information rather than a legal document; if you need formal wording, contact us.",
     sections: [
@@ -298,6 +298,12 @@ const POLICIES: Policy[] = [
         heading: "Liability",
         body: [
           "To the extent permitted by law, we are not liable for indirect or consequential loss arising from use of the site. Nothing here excludes liability that cannot be excluded under applicable law.",
+        ],
+      },
+      {
+        heading: "Children",
+        body: [
+          "This site is not directed at children under 13, and we do not knowingly collect personal information from them. If you believe a child has provided us with personal information, use the contact form so we can delete it.",
         ],
       },
       {
