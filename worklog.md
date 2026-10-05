@@ -482,3 +482,49 @@ placeholders; no public corrections ledger) → then 18 (AI-crawler decision, do
 only) → 19 (AdSense readiness doc) → 20 (search correctness) → 21 (newsletter
 truthful) → 22 (media persistence gate) → 23 (docs/env/allowlist) → 24 (final
 branch gate + hostile review).
+
+Task ID: 17
+Agent: Claude Code (lead) — completion of
+docs/superpowers/plans/2026-10-04-editorial-pivot-and-production-hardening.md
+Tasks 17–24 (inline, superpowers:executing-plans).
+
+Environment: same isolated Node 22.23.3 + local MySQL duyanblog_dev as Task 16.
+
+Committed 2026-10-05 (8 commits, aa39818 → 83d4477; full branch 3389bde..83d4477):
+- 17 policy truthful: Corrections 10 — no 7-day SLA, "re-check the cited
+  sources", children-under-13, present-tense ads (no network configured).
+- 18 AI-crawler decision: default allow, recorded in risk register (D1).
+- 19 ADSENSE_READINESS.md NOT READY + drop "flip the switch" implication.
+- 20 search DB-side filter (searchArticles, LIMIT 30) vs take-100 JS pass.
+- 21 newsletter truthful: transport "none" → 503 + rollback, never fake.
+- 22 media: production uploads 403 without MEDIA_PERSISTENT + admin banner.
+- 23 docs/env/allowlist: EDITORIAL_GUIDE evidence-led, settings allowlist
+  narrowed to ads_enabled+demo_mode, risk register C6–C8 closed.
+- (T24 fix) 83d4477 soft-404 + limiter floor (see below).
+
+Final branch review: one hostile duyan-runtime-verifier run (default FAIL).
+Findings → fixes (commit 83d4477):
+- SOFT-404 (MAJOR→fixed): folder-level loading.tsx in 5 segment routes
+  (reviews/best/compare/guides/articles + 6 [slug] loadings) made notFound()
+  stream HTTP 200. Debug: bare probe/[slug] returned 404 but reviews/[slug]
+  (bare too) 200 → isolated to the folder-level Suspense boundary. Removed
+  11 loading boundaries. Verified: 6 bogus slugs 404, real 200, smoke 60/60.
+- NEWSLETTER LIMITER (MAJOR→fixed): x-real-ip forgeable rotation defeated the
+  5/min/IP window. Added process-global newsletter:global 60/min bucket
+  (login's Correction 3 pattern). Verified attempt #6 → 429, smoke 60/60.
+- Deferred MINORs (ledger): demo content on listing ItemList JSON-LD (R1 gate
+  prevents crawler exposure); footer vermilion-period contrast 2.93:1
+  sub-AA; 375px viewport untested by reviewer.
+Reviewer CONFIRMED: band/footer non-inverting both themes; robots fail-closed;
+demo noindex + plain-Article JSON-LD; zero demo slugs in sitemap/feed/search;
+canonical origin; no /_next/image 400s; admin 307s; newsletter 503; media guard.
+
+Validation: lint 0, typecheck 0, validate:docs PASS (budget 239XX/24000B),
+slop 0, build 0, smoke 60/60.
+
+Plan complete. READY-FOR-REAL-CONTENT gates met (isDemo single source, no
+hands-on claims, newsletter truthful/disabled, media Git-managed, dark band
+non-inverting, Next 16.3.8 patched stable). Remaining owner decisions:
+register duyanblog.com + ALLOW_INDEXING; jurisdiction/legal; newsletter
+provider; media persistence choice; AI-crawler default (allow); AdSense as a
+separate later task.
