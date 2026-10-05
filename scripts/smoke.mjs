@@ -166,11 +166,14 @@ try {
 
 // Per-tag RSS: known tag filters the feed with a #tag channel, unknown slug 404s,
 // and combining ?category= + ?tag= is rejected. (Tag slug "esim" exists after seed:demo.)
+// NOTE: with all seeded content isDemo=true, the eSIM feed may legitimately be EMPTY
+// (demo content is excluded from feeds per Correction 6) — the channel title is the
+// assertion, not a non-empty item list.
 try {
   const res = await fetch(`${BASE}/feed.xml?tag=esim`, { redirect: "manual" });
   const xml = res.status === 200 ? await res.text() : "";
-  const ok = res.status === 200 && xml.includes("— #eSIM") && xml.includes("<category>");
-  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200 + #eSIM channel)  /feed.xml?tag=esim`);
+  const ok = res.status === 200 && xml.includes("— #eSIM");
+  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200 + #eSIM channel${xml.includes("<item>") ? " + items" : "; empty (demo excluded) is correct"})  /feed.xml?tag=esim`);
   if (!ok) failed += 1;
 } catch (err) {
   console.log(`FAIL  ERR  /feed.xml?tag=esim  ${err.message}`);
@@ -240,6 +243,8 @@ try {
 }
 
 // JSON Feed 1.1 — mirrors the RSS scopes: site-wide, per-tag, 404/400 guards.
+// NOTE: all seeded content is isDemo=true, so the site-wide feed may be EMPTY
+// (demo excluded from feeds per Correction 6) — structure is the assertion.
 try {
   const res = await fetch(`${BASE}/feed.json`, { redirect: "manual" });
   const ok = res.status === 200;
@@ -249,11 +254,13 @@ try {
     ok &&
     body.version === "https://jsonfeed.org/version/1.1" &&
     typeof body.feed_url === "string" &&
-    Array.isArray(body.items) &&
-    body.items.length > 0 &&
-    typeof body.items[0].id === "string" &&
-    typeof body.items[0].date_published === "string";
-  console.log(`${structured ? "PASS" : "FAIL"}  ${res.status} (want 200 + valid JSON Feed 1.1)  /feed.json`);
+    Array.isArray(body.items) && // may be [] (demo excluded)
+    body.items.every((it) => typeof it.id === "string" && typeof it.date_published === "string");
+  console.log(
+    `${structured ? "PASS" : "FAIL"}  ${res.status} (want 200 + valid JSON Feed 1.1${
+      body.items?.length ? `, ${body.items.length} item(s)` : "; empty (demo excluded) is correct"
+    })  /feed.json`
+  );
   if (!structured) failed += 1;
 } catch (err) {
   console.log(`FAIL  ERR  /feed.json  ${err.message}`);

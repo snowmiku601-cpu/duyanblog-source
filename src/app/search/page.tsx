@@ -6,7 +6,7 @@ import { SearchInput } from "@/components/search/search-input";
 import { ArticleRow } from "@/components/editorial/article-card";
 import { buildMetadata } from "@/lib/seo";
 import { db } from "@/lib/db";
-import { toCardData, articleCardSelect, liveDateGuard } from "@/lib/queries";
+import { toCardData, articleCardSelect, demoExcludedWhere, liveDateGuard } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
@@ -32,7 +32,7 @@ export default async function SearchPage({ searchParams }: SearchParams) {
   const [rows, categories] = await Promise.all([
     query.length > 0
       ? db.article.findMany({
-          where: { status: "published", ...liveDateGuard() },
+          where: { status: "published", ...liveDateGuard(), ...demoExcludedWhere },
           orderBy: [{ publishedAt: "desc" }],
           take: 100,
           select: articleCardSelect,

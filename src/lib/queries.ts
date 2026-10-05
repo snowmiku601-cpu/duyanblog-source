@@ -83,6 +83,14 @@ export function liveDateGuard(): { OR: Array<Record<string, unknown>> } {
   return { OR: [{ publishedAt: null }, { publishedAt: { lte: new Date() } }] };
 }
 
+/**
+ * Demo-content crawler exclusion (Correction 6): Article.isDemo === true →
+ * noindex, excluded from sitemap, excluded from feeds, and no Review/Product
+ * rich-result schema. Applied uniformly everywhere (no prod/staging branching).
+ * A property rule: the flag on the row is the single source of truth.
+ */
+export const demoExcludedWhere = { isDemo: false } as const;
+
 export async function getCategories() {
   return db.category.findMany({ orderBy: [{ order: "asc" }, { name: "asc" }] });
 }
