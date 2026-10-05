@@ -548,3 +548,24 @@ On branch hardening/editorial-pivot-production-readiness, commit eec4843:
 
 Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 61/61
 x2 (deterministic), test:media 11/11, test:newsletter 5/5, diff --check clean.
+
+Task ID: 19
+Agent: Claude Code (lead) — PR #1 final-review fix pass (narrow; no redesign).
+
+Branch hardening/editorial-pivot-production-readiness, commit 1a94f9f:
+- rate-limit availability: clientIp() → null when TRUST_PROXY unset; per-IP
+  bucket only when a TRUSTED IP exists (no shared anonymous 5/min bucket that
+  one visitor drains into 429s for everyone). login/newsletter/contact key
+  normalized per-account/email buckets + higher global floor (60/300/300 per
+  min). Smoke 63/63 x3 proves: rotating forged headers do NOT mint fresh
+  trusted-IP buckets; one email/sender limited on its own bucket; a DIFFERENT
+  account is NOT blocked by another's limit.
+- admin fail-closed: requireAdminPage/Api deny role!==ADMIN (Api 403,
+  pages redirect); login refuses non-ADMIN sessions (403). EDITOR reserved.
+  test:admin-auth 6/6 (ADMIN allowed, EDITOR denied, forged session rejected).
+- test-newsletter-semantics re-labeled truthful STRUCTURAL guard (not a
+  mocked Resend delivery test); assertions tightened to the two shipped
+  invariants. 7/7.
+
+Gates: lint 0, typecheck 0, validate:docs PASS, slop 0, build 0, smoke 63/63
+x3, test:admin-auth 6/6, test:media 11/11, test:newsletter 7/7.
