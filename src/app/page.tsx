@@ -85,7 +85,7 @@ export default async function HomePage() {
                 <Link href="/reviews">Start with a review</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-medium">
-                <Link href="/methodology">How we test</Link>
+                <Link href="/methodology">How we review</Link>
               </Button>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-muted-foreground">

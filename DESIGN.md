@@ -77,7 +77,7 @@ Dark mode is class-based (`@custom-variant dark`, `next-themes`, `suppressHydrat
 | Sun disc | Hero background, newsletter card ornament | `rounded-full bg-sun/25` + concentric `border-border` rings; hero sun is an SVG circle `fill="var(--sun)"` |
 | Numbered sections | Home, category hubs | `SectionHeading index="01"` (`src/components/editorial/section-heading.tsx`) renders vermilion `01 — Title … View all →` over a hairline; pick ranks and stat cells reuse `section-index` |
 | Eyebrow small caps | Every label ("Versus", "The short version", merchant names) | `.eyebrow` class |
-| Dark methodology band | Home bottom band, footer | `bg-ink` with cream text `oklch(0.93 0.012 82)`; in dark mode `--ink` flips to cream, so the band inverts — components use the literal `oklch(0.93 0.012 82)` values to stay legible in both modes |
+| Dark methodology band | Home bottom band, footer | Non-inverting band tokens `--band-bg`/`--band-fg` (mapped as `bg-band-bg`/`text-band-fg`): a dark panel with cream text in BOTH themes. Light `oklch(0.252 0.02 55)`/`oklch(0.93 0.012 82)`; dark stays a dark panel `oklch(0.15 …)` with the same cream text — it deliberately does not follow `--ink`'s inversion |
 | Asymmetric grids | Hero `lg:grid-cols-12` (7/5), review layout (8/4), versus teaser (5/7) | Never equal-thirds card rows; the only 3-col grid is the sections grid, which is a `gap-px` hairline table, not cards |
 | Sentence-period accent | Hero, section headlines, H2s | `<span className="text-vermilion">.</span>` at the end of display headlines |
 | Winner dot | Comparison table best-in-row | 1.5-dot `bg-vermilion` + sr-only "(best)" |
