@@ -80,3 +80,7 @@ server.log
 /.playwright-mcp/
 /.verify/
 /duyanblog-source.zip
+
+# operational temp: staging DB backup dumps + password scratch (never committed)
+/.staging-*
+/.staging-dbpass*
