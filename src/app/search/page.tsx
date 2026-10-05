@@ -6,7 +6,7 @@ import { SearchInput } from "@/components/search/search-input";
 import { ArticleRow } from "@/components/editorial/article-card";
 import { buildMetadata } from "@/lib/seo";
 import { db } from "@/lib/db";
-import { toCardData, articleCardSelect, demoExcludedWhere, liveDateGuard } from "@/lib/queries";
+import { searchArticles } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
@@ -19,40 +19,23 @@ export const metadata: Metadata = buildMetadata({
 type SearchParams = { searchParams: Promise<{ q?: string; cat?: string }> };
 
 /**
- * Server-side search over published articles. SQLite lacks Prisma's
- * case-insensitive filter, so we filter in JS — fine at editorial scale and
- * ready to swap for FTS5 later (see ARCHITECTURE.md).
- * `?cat=<slug>` narrows results to one section via the chip row.
+ * Server-side search over published articles. The query filters title/deck/tags
+ * in the DB (case-insensitive `contains`, newest first, LIMIT 30) — no JS
+ * substring pass over a latest-100 ceiling. Demo content is excluded (/search
+ * is a crawler surface). `?cat=<slug>` narrows results to one section via the
+ * chip row. MySQL FULLTEXT is a later scale optimization (ARCHITECTURE.md).
  */
 export default async function SearchPage({ searchParams }: SearchParams) {
   const { q, cat } = await searchParams;
   const query = (q ?? "").trim().slice(0, 100);
   const catFilter = (cat ?? "").trim().slice(0, 80);
 
-  const [rows, categories] = await Promise.all([
-    query.length > 0
-      ? db.article.findMany({
-          where: { status: "published", ...liveDateGuard(), ...demoExcludedWhere },
-          orderBy: [{ publishedAt: "desc" }],
-          take: 100,
-          select: articleCardSelect,
-        })
-      : Promise.resolve([]),
+  const [results, categories] = await Promise.all([
+    searchArticles(query, catFilter.length > 0 ? catFilter : undefined),
     db.category.findMany({ orderBy: [{ order: "asc" }, { name: "asc" }], select: { slug: true, name: true } }),
   ]);
 
   const activeCategory = categories.find((c) => c.slug === catFilter) ?? null;
-
-  const needle = query.toLowerCase();
-  const results = rows
-    .map(toCardData)
-    .filter((a) =>
-      needle.length === 0
-        ? false
-        : [a.title, a.deck, a.categoryName, a.authorName].some((f) => f.toLowerCase().includes(needle))
-    )
-    .filter((a) => (activeCategory ? a.categorySlug === activeCategory.slug : true))
-    .slice(0, 30);
 
   /** Chip href preserving the query string. */
   const chipHref = (slug: string | null) => {

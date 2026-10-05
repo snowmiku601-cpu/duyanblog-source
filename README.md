@@ -113,7 +113,7 @@ Everything seeded by `prisma/seed.ts` is **fictional**: products (Auralis Note 1
 
 - The `/admin` area is complete: login (rate-limited, DB sessions), dashboard, article editor with JSON blocks + revision history (view/restore, auto-backup before restore), categories, authors, merchants, offers, comparisons, redirects, messages, newsletter subscribers (search + CSV export + delete), settings. No admin account is seeded — create one with `npm run admin:bootstrap`.
 - `next-auth` and other unused packages remain in `package.json` from the scaffolding; the app does not import them.
-- Search (`src/app/search/page.tsx`) filters the latest 100 published articles in JS — fine for editorial scale, swap for FTS later.
+- Search (`src/lib/queries.ts` `searchArticles`) filters published title/deck/tags in the DB (case-insensitive, newest first, `LIMIT 30`, demo-excluded) — no JS filter over a latest-100 ceiling; MySQL FULLTEXT is a later scale optimization (ARCHITECTURE.md).
 
 ## Working on this repo with an AI agent
 

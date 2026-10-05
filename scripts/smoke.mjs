@@ -164,6 +164,27 @@ try {
   failed += 1;
 }
 
+// DB-side search semantics (Correction 13): the page filters in the query, not in
+// JS over the latest 100. With the demo seed EVERY article is isDemo=true, and
+// demo content is excluded from /search (a crawler surface, Corrections 5-6) — so a
+// correct search on the demo DB MUST return zero results but still render 200.
+// Assertions: 200 + "Nothing for" (empty state) + demo slug absent; must-not-match demo slug.
+for (const [path, needle, mustMiss] of [
+  ["/search?q=esim", 'Nothing for', 'best-esim-providers'],
+  ["/search?q=zzz", 'Nothing for', 'auralis'],
+]) {
+  try {
+    const res = await fetch(`${BASE}${path}`);
+    const html = await res.text();
+    const ok = res.status === 200 && html.includes(needle) && !html.includes(mustMiss);
+    console.log(`${ok ? "PASS" : "FAIL"}  ${res.status} (want 200, ${needle} present, ${mustMiss} absent)  ${path}`);
+    if (!ok) failed += 1;
+  } catch (err) {
+    console.log(`FAIL  ERR  ${path}  ${err.message}`);
+    failed += 1;
+  }
+}
+
 // Per-tag RSS: known tag filters the feed with a #tag channel, unknown slug 404s,
 // and combining ?category= + ?tag= is rejected. (Tag slug "esim" exists after seed:demo.)
 // NOTE: with all seeded content isDemo=true, the eSIM feed may legitimately be EMPTY
