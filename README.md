@@ -50,7 +50,7 @@ Note: the `/admin` area is complete (see "Known state" below); `admin:bootstrap`
 | `npm run lint` | ESLint (`eslint .`, flat config in `eslint.config.mjs`) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test` | HTTP smoke test against a **running** server (`scripts/smoke.mjs`); override target with `SMOKE_BASE_URL=http://host:port` |
-| `npm run build` | `next build`, then copies `.next/static` and `public/` into `.next/standalone/` |
+| `npm run build` | Applies pending Prisma migrations (`migrate deploy`), generates the client, `next build --webpack`, then copies `.next/static` and `public/` into `.next/standalone/` |
 | `npm run start` | Runs the standalone server via Node (`NODE_ENV=production node .next/standalone/server.js`); `npm run start:node` is the same without the tee |
 | `npm run db:generate` | `prisma generate` |
 | `npm run db:migrate` | `prisma migrate deploy` (production-safe) |

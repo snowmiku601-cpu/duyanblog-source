@@ -7,7 +7,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `affiliateclick` DROP COLUMN `consentAnalytics`,
+ALTER TABLE `AffiliateClick` DROP COLUMN `consentAnalytics`,
     DROP COLUMN `referer`,
     DROP COLUMN `sessionHash`,
     ADD COLUMN `sourcePath` VARCHAR(191) NULL;
