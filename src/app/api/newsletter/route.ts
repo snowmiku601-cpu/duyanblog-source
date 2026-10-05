@@ -111,6 +111,22 @@ export async function POST(request: Request) {
       ...newsletterConfirmEmail(confirmUrl),
     });
 
+    // Truthful transport state (Correction 14): when the mail transport can't
+    // send right now (production and no provider configured → provider "none"),
+    // the signup MUST NOT pretend success. Roll back the pending row so no
+    // ghost subscriber exists, and answer the visitor honestly — nothing was
+    // created and nothing will arrive until a provider is configured.
+    if (mail.provider === "none") {
+      if (!existing) {
+        // Row was created above — remove it; the signup never happened.
+        await db.newsletterSubscriber.deleteMany({ where: { email: normalized, confirmed: false } });
+      }
+      return NextResponse.json(
+        { ok: false, error: "Signups are temporarily unavailable. Please try again later." },
+        { status: 503 }
+      );
+    }
+
     // Dev/QA convenience only, and only when nothing was actually emailed:
     // no provider configured + non-production. Never exposes links in prod.
     if (mail.provider === "console" && process.env.NODE_ENV !== "production") {

@@ -222,7 +222,8 @@ try {
 // Newsletter double opt-in end-to-end: subscribe → dev confirmUrl (or production no-URL) →
 // confirm → re-open (idempotent "already confirmed"). Also the bare page and a bogus token.
 // In production (NODE_ENV=production) the confirmUrl is NEVER echoed — that is the designed
-// security property; the response carries `emailed` instead (email transport may be "none").
+// security property. With no mail provider configured, production answers a TRUTHFUL declined
+// state (503), never {ok:true, emailed:false} pretending success (Correction 14).
 try {
   const email = `smoke-${Date.now()}@duyanblog.test`;
   const res = await fetch(`${BASE}/api/newsletter`, {
@@ -232,8 +233,14 @@ try {
   });
   const data = await res.json();
   const isDev = typeof data.confirmUrl === "string";
-  const ok1 = res.status === 200 && data.ok && (isDev || typeof data.emailed === "boolean");
-  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status} (want 200${isDev ? " + confirmUrl" : "; dev-style confirmUrl absent is correct in prod"})  POST /api/newsletter double opt-in`);
+  // Dev (console transport) → 200 + confirmUrl. Production-like no-provider → 503 truthful decline.
+  // A production WITH provider → 200 + emailed boolean. Anything else is a regression.
+  const ok1 = isDev
+    ? res.status === 200 && data.ok
+    : typeof data.emailed === "boolean"
+      ? res.status === 200 && data.ok && data.emailed
+      : res.status === 503 && data.ok === false && typeof data.error === "string" && !data.emailed;
+  console.log(`${ok1 ? "PASS" : "FAIL"}  ${res.status}${isDev ? " + confirmUrl" : typeof data.emailed === "boolean" ? " + emailed" : " + truthful 503 (no provider)"}  POST /api/newsletter double opt-in`);
   if (!ok1) failed += 1;
 
   if (ok1 && isDev) {
@@ -246,8 +253,10 @@ try {
     const ok3 = confirm2.status === 200;
     console.log(`${ok3 ? "PASS" : "FAIL"}  ${confirm2.status} (want 200, idempotent)  GET confirm link (replay)`);
     if (!ok3) failed += 1;
-  } else if (ok1) {
+  } else if (ok1 && typeof data.emailed === "boolean") {
     console.log("INFO  production response has no confirmUrl (designed); skipping link replay");
+  } else if (ok1) {
+    console.log("INFO  no mail provider → truthful 503 (Correction 14); skipping link replay");
   }
 } catch (err) {
   console.log(`FAIL  ERR  newsletter double opt-in flow  ${err.message}`);
