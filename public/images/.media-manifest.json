@@ -42,5 +42,17 @@
   "/images/waveline.png": {
     "width": 1024,
     "height": 1024
+  },
+  "/images/articles/saily-vs-airalo/hero-airport-phone.jpg": {
+    "width": 1880,
+    "height": 1253
+  },
+  "/images/articles/saily-vs-airalo/phone-navigation-outdoors.jpg": {
+    "width": 940,
+    "height": 627
+  },
+  "/images/articles/saily-vs-airalo/sim-card-flatlay.jpg": {
+    "width": 940,
+    "height": 627
   }
 }
