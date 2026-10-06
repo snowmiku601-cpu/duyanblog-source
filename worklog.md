@@ -775,3 +775,19 @@ Superpowers: writing-plans implicit in brief → TDD (gate RED first) → inline
 - GATES: draft gate 30/30 exit 0; slop 0; lint 0; typecheck 0; validate:docs PASS (budget 23950B); git diff --check clean.
 - GIT: commits fa5349a (draft+gate+hero) + worklog entry on content/how-much-esim-data-do-i-need-draft, pushed; PR #8 opened (gh) — NOT merged, NOT deployed, production NOT imported, indexing unchanged (ALLOW_INDEXING=false).
 - PROPOSED BACKLINK (later task): saily-vs-airalo pricing section adds "Not sure how much data your trip needs? Read our guide to estimating it." with internal link — separate content-sync task.
+
+---
+Task ID: 27
+Agent: Claude Code (lead) — PR #8 independent-review repair (one pass, no new reviewer).
+
+- TRIP MATH: table rebuilt as raw editorial planning FLOORS = profile lower bound × days (3d 0.6/1.2/3.0 · 7d 1.4/2.8/7.0 · 14d 2.8/5.6/14 · 30d 6/12/30 — recomputed independently, matches). Rounding rule now "choose the next package your provider offers that is at least this amount" + non-numeric headroom; no universal package ladder; FAQ values aligned. Gate regression #16 recomputes all 12 cells.
+- TLDR: single buy rule (conflicting "one package size above your estimate" + "app-update cycle's worth of headroom" removed); headroom is non-numeric or top-up. Gate #17.
+- EVIDENCE CLEANUP: "text is kilobytes", "ride-hailing apps are light", "consume gigabytes" (updates/backups) removed → non-numeric documented framing ("materially increase cellular usage" per Apple's own wording class); maps/social/browsing stay labelled editorial.
+- APPLE: Connectivity Assist re-sourced to support.apple.com/en-us/127686 "About Connectivity Assist" (fetched, checked 2026-10-06: cellular used when Wi-Fi slow/unusable; supersedes Wi-Fi Assist; on-by-default note). 109323 kept for per-app cellular toggles/system-services note only. Wi-Fi paragraph rewritten with correct attribution. Gate #20.
+- ANDROID: "Unrestricted data = assist equivalent" claim removed (Data Saver docs support only background-while-saver-on). Gate #19.
+- PEXELS: reader-visible paragraph "Photo: [Ingo Joseph / Pexels](https://www.pexels.com/photo/35969/)" near the opening (block 3); heroCredit stays plain text. Gates #21.
+- COPY: "two major travel eSIM apps we cover' own" → "the published plan tables, refund rules and activation mechanics for the two travel eSIM providers we currently cover" — no market-share implication.
+- GATE: extended 30 → 39 checks; all PASS exit 0. serializeBlocks 31/31 roundtrip, 20,620 bytes.
+- LOCAL DB re-synced + read back verified (draft, publishedAt null, floors/127686/Pexels para present). Production untouched.
+- Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, git diff --check clean.
+- Commit 7d6261e pushed to content/how-much-esim-data-do-i-need-draft (PR #8 head). NOT merged, NOT deployed, no production import, no publish, indexing unchanged.
