@@ -2,8 +2,8 @@
   "type": "versus",
   "slug": "saily-vs-airalo",
   "title": "Saily vs Airalo: prices, coverage and the small print",
-  "deck": "Two of the biggest travel eSIM apps, compared on their own published plans, policies and documentation — with every price dated and every vendor claim attributed.",
-  "tldr": "Neither provider wins outright on price: across the Japan, Europe and global plans we compared, the cheaper option alternates by small margins. Saily's unlimited plan documents a higher daily full-speed allowance (5GB/day, then 1 Mbps) than Airalo's (3GB/day at 20 Mbps, then reduced speeds). Saily publishes a 30-day full-refund window for plans that were never installed or activated; Airalo processes refunds in-app and pays 'wrong purchase' cases back in app credit only.",
+  "deck": "Two travel eSIM apps whose plan tables, refund policies and activation rules are public, compared on their own published numbers — with every price dated and every vendor claim attributed.",
+  "tldr": "Neither provider wins on price consistently: in the global plans the cheaper option alternates by cents, and the one clearly wide gap we found — Europe 10GB over 30 days — runs Airalo's way ($31.00 against Saily's $35.99). Saily's unlimited plan documents a higher daily full-speed allowance (5GB/day, then 1 Mbps) than Airalo's (3GB/day at 20 Mbps, then reduced speeds). Saily publishes a 30-day full-refund window for plans that were never installed or activated; Airalo processes refunds in-app and pays 'wrong purchase' cases back in app credit only.",
   "categoryId": "travel",
   "isDemo": false,
   "blocks": [
@@ -15,7 +15,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Saily and Airalo are two of the most visible travel eSIM apps, and the internet is full of pages that pick a winner between them — including pages written by Saily itself and by its competitors. This page does something narrower: it puts the two providers' own published plans, refund policies and documentation side by side, dates every price, and leaves the verdict to your itinerary. Where the two companies' pages use different units or omit details, we show that instead of papering over it."
+      "text": "Saily and Airalo both publish their plan tables, refund policies and activation rules in public, and the internet is full of pages that pick a winner between them — including pages written by Saily itself and by its competitors. This page does something narrower: it puts the two providers' own published numbers side by side, dates every price, and leaves the verdict to your itinerary. Where the two companies' pages use different units or omit details, we show that instead of papering over it."
     },
     {
       "type": "image",
@@ -56,7 +56,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Two readings of the Japan table. On the near-matched shapes — 10GB over 30 days on both sides — Saily lists $17.99 and Airalo $18.00, which is a coin flip. At the entry level the catalogues differ for real: Saily sells a 1GB plan with 7 days of validity, while Airalo's Japan page, when we checked, listed its 1GB package under the 3-day group — we treat that as what the page showed on the check date rather than a permanent fact, because Airalo's catalogue groupings have moved around before. Airalo compensates with cheaper mid-size plans (3GB for $8.00 over 7 days has no direct Saily counterpart at that price)."
+      "text": "Two readings of the Japan table. On the near-matched shapes — 10GB over 30 days on both sides — Saily lists $17.99 and Airalo $18.00, which is a coin flip. At the entry level the catalogues differ for real: Saily sells a 1GB plan with 7 days of validity, while Airalo's Japan page, when we checked, listed its 1GB package under the 3-day group — we treat that as what the page showed on the check date rather than a permanent fact. Mid-size is the closest call: Airalo is cheaper on shelf price (3GB $8.00/7d, 5GB $10.00/7d, 10GB $17.00/7d), but Saily sells the same data amounts with 30-day validity at $7.99, $10.99 and $17.99."
     },
     {
       "type": "table",
@@ -102,12 +102,12 @@
     },
     {
       "type": "paragraph",
-      "text": "The global plans are the closest-matched pair in this comparison — same data amounts, same validity windows — and they are nearly identical on price: Airalo takes 1GB by 49 cents, Saily takes 2GB and 5GB by one cent and a dollar, Airalo takes 10GB by a cent and 20GB by 99 cents. Read that as parity, not a ranking. On breadth, the pages' own labels differ — Saily's listing says 121 countries, Airalo's says 168 \"Countries and Networks\", a unit that mixes countries with network counts — so we can't tell you which plan covers more places from these labels alone. If you are heading somewhere off the main tourist lines, check that country against both providers' lists directly."
+      "text": "The global plans are the closest-matched pair in this comparison — most data amounts and validity windows line up exactly — and they are nearly identical on price: Airalo takes 1GB by 49 cents, Saily takes 2GB by a cent and 5GB by $1.01, Airalo takes 10GB by a cent and 20GB by 99 cents. Read that as parity, not a ranking. (Airalo's 3GB/30-day at $24.00 has no Saily counterpart in this table — Saily jumps from 2GB to 5GB.) On breadth, the pages' own labels differ — Saily's listing says 121 countries, Airalo's says 168 \"Countries and Networks\", a unit that mixes countries with network counts — so we can't tell you which plan covers more places from these labels alone. If you are heading somewhere off the main tourist lines, check that country against both providers' lists directly."
     },
     { "type": "heading", "level": 2, "text": "Coverage: what the numbers on the pages say" },
     {
       "type": "paragraph",
-      "text": "You will see four figures quoted in marketing for these two: Saily's site says its eSIM works in \"200+ destinations\" overall and its global plan listing says 121 countries; Airalo's site says \"200+ locations\" overall and its Discover global page says 168 \"Countries and Networks\". These are not the same unit — destinations and locations count entries in a store, while the global-plan figures count countries (and, in Airalo's case, networks). Per Airalo's own site, it serves \"over 30 million\" customers; per Saily's own materials, it comes \"from the creators of NordVPN\". Both statements are the providers describing themselves. Nothing in these four figures lets either provider claim a coverage win over the other, and neither company's fine print suggests otherwise."
+      "text": "You will see four figures quoted for these two, and they are not the same unit. Saily's all-destinations page said \"209 destinations found\" on the check date; its global plan listing says 121 countries. Airalo's site says \"200+ locations\" overall, and its Discover global page says 168 \"Countries and Networks\" — a unit that mixes countries with network counts. Destinations and locations count entries in a store; countries do not. Per Airalo's own site, it serves \"over 30 million\" customers; Saily presents itself as from the makers of NordVPN (its homepage carries a \"By the creators of\" label with a NordVPN logo, and NordSec B.V. appears in Saily's terms as a payment provider). Both statements are the providers describing themselves. Nothing in these figures lets either provider claim a coverage win over the other, and neither company's fine print suggests otherwise."
     },
     { "type": "heading", "level": 2, "text": "Installation and activation, per the providers' documentation" },
     {
@@ -117,7 +117,7 @@
     { "type": "heading", "level": 2, "text": "Hotspot and top-ups" },
     {
       "type": "paragraph",
-      "text": "**Hotspot:** both providers document tethering. Saily's help centre walks through personal-hotspot setup on iOS and Android with no stated restrictions. Airalo's help centre allows hotspot \"as long as it is supported by your device and the network\", and notes that some eSIMs require a manually-set APN for the hotspot to work — an extra step on certain packages, not a blanket ban. Airalo also states on its unlimited-packages page that its unlimited eSIMs come with full hotspot support built in (that statement is Airalo describing its own product)."
+      "text": "**Hotspot:** both providers document tethering. Saily's help centre walks through personal-hotspot setup on iOS and Android with no stated restrictions. Airalo's help centre allows hotspot \"as long as it is supported by your device and the network\", and notes that some eSIMs require a manually-set APN for the hotspot to work — an extra step on certain packages, not a blanket ban. Per its unlimited-packages page, Airalo also states that its unlimited eSIMs come with \"full hotspot support built in\" (that statement is Airalo describing its own product)."
     },
     {
       "type": "paragraph",
@@ -126,7 +126,7 @@
     { "type": "heading", "level": 2, "text": "Unlimited plans: read the daily allowance first" },
     {
       "type": "paragraph",
-      "text": "Both providers sell \"unlimited\" plans, and both mean a daily full-speed allowance rather than unlimited speed forever — the details are the most important small print in this comparison. Per Saily's plan pages, its unlimited plans include 5GB per day at full speed, dropping to 1 Mbps after that. Per Airalo's unlimited-packages FAQ, its unlimited plans give 3GB per day at 20 Mbps, after which speeds are reduced, with the allowance resetting every 24 hours. That makes Saily's documented allowance larger and, after the cap, faster in absolute terms (1 Mbps versus \"reduced speeds\", which Airalo does not quantify). Airalo's unlimited line starts cheaper — $11.50 for 3 days in Japan or Europe against Saily's 15-day $48.99 minimum — so for a short heavy-use weekend Airalo's unlimited can be the better buy, while a two-week work trip leans toward Saily's documented 5GB/day. These terms come from each provider's own pages; we have not tested real-world speeds."
+      "text": "Both providers sell \"unlimited\" plans, and both mean a daily full-speed allowance rather than unlimited speed forever — the details are the most important small print in this comparison. Per Saily's plan pages, its unlimited plans include 5GB per day at full speed, dropping to 1 Mbps after that. Per Airalo's unlimited-packages FAQ, its unlimited plans give 3GB per day at 20 Mbps, after which speeds are reduced, with the allowance resetting every 24 hours. Saily's documented daily allowance is larger: 5GB against Airalo's 3GB. After the cap the two are not directly comparable from the pages — Saily names a concrete 1 Mbps floor, while Airalo says only \"reduced speeds\" without a number, and 1 Mbps sits far below the 20 Mbps Airalo quotes for its own full-speed stage. Airalo's unlimited line starts cheaper — $11.50 for 3 days in Japan or Europe against Saily's 15-day $48.99 minimum — so for a short heavy-use weekend Airalo's unlimited can be the better buy, while a two-week work trip leans toward Saily's documented 5GB/day. These terms come from each provider's own pages; we have not tested real-world speeds."
     },
     { "type": "heading", "level": 2, "text": "Refunds: two different philosophies with your money" },
     {
@@ -140,7 +140,7 @@
     { "type": "heading", "level": 2, "text": "Privacy and extras" },
     {
       "type": "paragraph",
-      "text": "Saily ships extra features its parent positions as security tools: per Saily's own site and terms, these include virtual location changes, malicious-domain blocking and an ad blocker, and the app can add a US phone number for calls and texts at $1.99/month with identity verification required. Airalo's extras are travel-shaped rather than security-shaped: per its own site, the app supports 53 languages and multiple currencies, and its Discover global eSIM line includes data/calls/texts packages. We did not evaluate any security claim as a feature test — these are the providers describing their own products. Airalo's app-store ratings (4.7 iOS / 4.6 Android per its site) and Saily's (4.7 per its site) are self-reported and shifted between Saily's own pages on our check date, so we leave them out of the verdict entirely."
+      "text": "Saily ships extra features its parent positions as security tools: per Saily's own site and terms, these include virtual location changes, malicious-domain blocking and an ad blocker, and the app can add a US phone number for calls and texts at $1.99/month with identity verification required. Airalo's extras are travel-shaped rather than security-shaped: per its own site, the app supports 53 languages and multiple currencies, and its Discover global eSIM line includes data/calls/texts packages. We did not evaluate any security claim as a feature test — these are the providers describing their own products."
     },
     { "type": "divider" },
     { "type": "heading", "level": 2, "text": "Who should choose which" },
@@ -148,7 +148,7 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**A one-country trip with light data needs:** compare the entry plans directly — Saily's 1GB/7-day Japan plan existed on the check date while Airalo's 1GB sat in its 3-day group; but Airalo's 3GB/7-day at $8.00 undercuts Saily's 3GB/30-day at $7.99 only on shelf price, not validity. Price the exact days you need.",
+        "**A one-country trip with light data needs:** compare the entry plans directly — Saily's 1GB/7-day Japan plan existed on the check date while Airalo's 1GB sat in its 3-day group; mid-size is the closest call, because Airalo's 3GB/7-day at $8.00 costs a cent more than Saily's 3GB/30-day at $7.99 and covers less than half the days. Price the exact days you need.",
         "**A multi-country Europe trip on a data budget:** Airalo's 10GB/30-day at $31.00 beat Saily's $35.99 on the check date — but verify your countries against both providers' lists, since the two \"Europe\" plans cover different maps.",
         "**Heavy data use:** Saily's documented 5GB/day full-speed allowance beats Airalo's 3GB/day at 20 Mbps for sustained use; Airalo's unlimited line starts cheaper for a short weekend of heavy streaming.",
         "**A long multi-region trip:** the global plans are near-identical on price; decide on coverage lists and activation policy rather than the price column.",
@@ -158,7 +158,7 @@
     },
     {
       "type": "paragraph",
-      "text": "And to say it plainly: on price alone, across everything we compared on October 6, 2026, there is no meaningful winner. The decision is made by your itinerary, your data appetite and how much you value a cash refund."
+      "text": "And to say it plainly: on price alone there is no consistent winner across everything we compared on October 6, 2026 — the global plans alternate by cents, and the one clearly wide gap we found, Europe 10GB over 30 days, runs Airalo's way. The decision is made by your itinerary, your data appetite and how much you value a cash refund."
     },
     {
       "type": "faq",
