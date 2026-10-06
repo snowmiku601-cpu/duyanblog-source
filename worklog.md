@@ -802,3 +802,18 @@ Agent: Claude Code (lead) — PR #8 final blocker cleanup (no reviewer; verifica
 - Gate 39 → 42 checks, all PASS exit 0; serializeBlocks 31/31 roundtrip (21,060 bytes); floors recomputed (12/12 match); local duyanblog_dev re-synced + read-back verified (draft, publishedAt null).
 - Mergeability re-inspected: origin/main fetched, branch behind 0, PR #8 mergeable=MERGEABLE state=CLEAN. NOT merged.
 - Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, diff --check clean. Commit 5fde85f pushed (PR #8 head). Production untouched; indexing unchanged.
+
+---
+Task ID: 30
+Agent: Claude Code (lead) — PRODUCTION DRAFT IMPORT for how-much-esim-data-do-i-need (NO publish).
+
+- DEPLOY: Spaceship worktree ~/nodeapps/duyanblog-proof ff-only → origin/main 7ee3b97 (canonical, PR #8 merged). prisma migrate deploy: "No pending migrations". prisma generate OK; next build --webpack exit 0; standalone assembled (hero asset present in public/). Restart via supported mechanism tmp/restart.txt touch (CloudLinux Node app selector watches it) — new next-server PID confirmed.
+- SOURCE-OF-TRUTH: gate 42/42 exit 0; slop 0; lint 0; typecheck 0; validate:docs PASS; diff --check clean; serializeBlocks 31/31 roundtrip on merged main; all expected invariants verified (guide/slug/isDemo false/duyan/Duy An Tran/travel/31 blocks/readingMinutes 15/hero exact/tags/goLinks 0/no offerId/Pexels 35969/versus link present).
+- PREREQUISITES (fail-closed): production author duyan exists with EXACT minimal profile (name Duy An Tran, role Author, bio "Duy An Tran writes for Duyan Blog.", focusAreas []) — verified, not created; category travel exists; slug how-much-esim-data-do-i-need did NOT exist pre-import.
+- IMPORT: ONE targeted Prisma transaction (create Article + tag upsert/createMany; app's canonical slugifyTag). status draft, publishedAt null, isDemo false. No AffiliateOffer/Comparison/ReviewScore rows (affiliateOffer count 0 verified post-import).
+- READBACK: all fields exact — draft/null/false/Duy An Tran/Author/minimal bio/travel/31 blocks parse/15/hero fields exact/tagSlugs [data-planning, esim, travel-connectivity]/reviewerId null/lastReviewedAt null/featured false/0 go:/no offerId.
+- PUBLIC DRAFT INVARIANTS: guide route + all 4 wrong-type routes → 404; slug absent from sitemap.xml, feed.xml, feed.json, /guides index, /travel hub, /tag/esim, /tag/travel-connectivity, /tag/data-planning, homepage (all 0); controls present (sitemap + /compare contain saily-vs-airalo); hero 200; robots Disallow: /; ALLOW_INDEXING=false verified in production env.
+- POST-RESTART: homepage 200, /compare/saily-vs-airalo 200, error log + home_error log EMPTY, no new fatal errors. RESEND_API_KEY warning may remain (known). No demo seed, no affiliate records, no schema mutation, no unrelated Article mutations, Hostinger untouched.
+- ADMIN PREVIEW UNAVAILABLE — NO AUTHENTICATED SESSION (per brief: not a blocker; DB readback + fail-closed public invariants pass).
+- PRODUCTION VERSION: duyanblog.com serving source 7ee3b97 (main; PR #8).
+- WORKLOG: this entry only; no article content change, no article PR. Nothing published.
