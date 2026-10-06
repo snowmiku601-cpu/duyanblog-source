@@ -129,6 +129,17 @@ check("article meta: versus/slug/isDemo false", draft.type === "versus" && draft
 check("title ≤ 70 chars", typeof draft.title === "string" && draft.title.length <= 70, `${draft.title?.length}`);
 check("deck present", typeof draft.deck === "string" && draft.deck.length > 20);
 
+// 12b — final-state counts and approved tags (must match the production row exactly)
+check("final block count = 34", blocks.length === 34, `${blocks.length}`);
+check("readingMinutes = 14", draft.readingMinutes === 14, `${draft.readingMinutes}`);
+const APPROVED_TAGS = ["eSIM", "Travel connectivity", "Saily", "Airalo"];
+check(
+  "tags exactly the four approved values",
+  Array.isArray(draft.tags) && draft.tags.length === APPROVED_TAGS.length &&
+    APPROVED_TAGS.every((t, i) => draft.tags[i] === t),
+  JSON.stringify(draft.tags),
+);
+
 // 13 — every price/validity pair the prose or FAQ compares directly must exist as a table row.
 // Regression: prose once compared "Airalo 10GB/30d $18.00" while the table only had 10GB/7d $17.00.
 // Extract "$X.XX" amounts near a "<N> GB/<N> days"-style validity token from paragraph/faq text,

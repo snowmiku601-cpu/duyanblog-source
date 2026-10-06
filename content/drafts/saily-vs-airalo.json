@@ -6,6 +6,16 @@
   "tldr": "Neither provider wins on price consistently: in the global plans the cheaper option alternates by cents, and the one clearly wide gap we found — Europe 10GB over 30 days — runs Airalo's way ($31.00 against Saily's $35.99). Saily's unlimited plan documents a higher daily full-speed allowance (5GB/day, then 1 Mbps) than Airalo's (3GB/day at 20 Mbps, then reduced speeds). Saily publishes a 30-day full-refund window for plans that were never installed or activated; Airalo processes refunds in-app and pays 'wrong purchase' cases back in app credit only.",
   "categoryId": "travel",
   "isDemo": false,
+  "heroImage": "/images/articles/saily-vs-airalo/hero-airport-phone.jpg",
+  "heroAlt": "A traveler holding a smartphone in an airport terminal, with luggage nearby",
+  "heroCredit": "Towfiqu barbhuiya / Pexels",
+  "readingMinutes": 14,
+  "tags": [
+    "eSIM",
+    "Travel connectivity",
+    "Saily",
+    "Airalo"
+  ],
   "blocks": [
     {
       "type": "callout",
@@ -572,8 +582,5 @@
     {
       "type": "divider"
     }
-  ],
-  "heroImage": "/images/articles/saily-vs-airalo/hero-airport-phone.jpg",
-  "heroAlt": "A traveler holding a smartphone in an airport terminal, with luggage nearby",
-  "heroCredit": "Towfiqu barbhuiya / Pexels"
+  ]
 }
