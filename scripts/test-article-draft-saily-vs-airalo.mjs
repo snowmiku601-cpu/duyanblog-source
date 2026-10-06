@@ -237,14 +237,15 @@ check(
 );
 
 // 16 — exactly one contextual internal link to the data-estimation guide
-// (two-way cluster link; must be a paragraph-level Markdown link, not a source row).
-const guideLinks = blocks.filter(
-  (b) => b.type === "paragraph" && /\[[^\]]+\]\(\/guides\/how-much-esim-data-do-i-need\)/.test(b.text),
-);
+// (two-way cluster link). Count actual Markdown-link OCCURRENCES across article
+// prose, not paragraphs containing it — two links inside one paragraph must fail.
+const guideLinkOccurrences = blocks
+  .filter((b) => b.type === "paragraph")
+  .flatMap((b) => [...b.text.matchAll(/\[[^\]]+\]\(\/guides\/how-much-esim-data-do-i-need\)/g)]);
 check(
   "exactly one contextual link to /guides/how-much-esim-data-do-i-need",
-  guideLinks.length === 1,
-  `${guideLinks.length} link(s)`,
+  guideLinkOccurrences.length === 1,
+  `${guideLinkOccurrences.length} occurrence(s)`,
 );
 const guideSrcRow = (sources?.items ?? []).some((s) => (s.url ?? "").includes("how-much-esim-data-do-i-need"));
 check("guide link lives in prose, not in the sources block", !guideSrcRow);
