@@ -21,11 +21,14 @@ export function MerchantOffer({
   offer,
   articleSlug,
   compact = false,
+  isDemo = false,
   className,
 }: {
   offer: OfferView;
   articleSlug?: string;
   compact?: boolean;
+  /** Demo context from the enclosing article (or /deals page mode) — default false. */
+  isDemo?: boolean;
   className?: string;
 }) {
   return (
@@ -70,7 +73,10 @@ export function MerchantOffer({
         <AffiliateButton offerId={offer.id} articleSlug={articleSlug} size={compact ? "sm" : "default"}>
           View at {offer.merchantName}
         </AffiliateButton>
-        <span className="text-xs text-muted-foreground">on {offer.merchantName} (demo)</span>
+        {isDemo && (
+          <span className="text-xs font-medium uppercase tracking-wide text-ochre">Sample offer · fictional data</span>
+        )}
+        {!isDemo && <span className="text-xs text-muted-foreground">on {offer.merchantName}</span>}
       </div>
 
       {!compact && <AffiliateDisclosure className="mt-4 border-t border-border pt-3" />}

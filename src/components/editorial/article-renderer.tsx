@@ -90,12 +90,15 @@ export async function ArticleRenderer({
   articleSlug,
   className,
   dropCap = false,
+  isDemo,
 }: {
   blocks: Block[];
   articleSlug?: string;
   className?: string;
   /** Editorial drop cap on the opening paragraph (long-form types). */
   dropCap?: boolean;
+  /** Demo context — REQUIRED so a caller cannot omit it and let sample commerce look real. */
+  isDemo: boolean;
 }) {
   if (blocks.length === 0) return null;
   const out: React.ReactNode[] = [];
@@ -266,10 +269,11 @@ export async function ArticleRenderer({
               {offer && (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <ComparisonOffer offer={offer} articleSlug={articleSlug} />
-                  <span className="text-xs text-muted-foreground">
-                    {offer.price ? <span className="font-medium text-foreground">{offer.price} </span> : null}
-                    via {offer.merchantName} (demo merchant)
-                  </span>
+                  {offer.price ? <span className="font-medium text-foreground">{offer.price}</span> : null}
+                  <span className="text-xs text-muted-foreground">via {offer.merchantName}</span>
+                  {isDemo && (
+                    <span className="text-xs font-medium uppercase tracking-wide text-ochre">sample data</span>
+                  )}
                 </div>
               )}
             </div>
@@ -280,13 +284,13 @@ export async function ArticleRenderer({
       case "comparisonEmbed": {
         const data = await getComparisonItems(block.comparisonSlug);
         if (data && data.items.length >= 2) {
-          out.push(<ComparisonTable key={key} items={data.items} articleSlug={articleSlug} caption={data.title} />);
+          out.push(<ComparisonTable key={key} items={data.items} articleSlug={articleSlug} caption={data.title} isDemo={isDemo} />);
         }
         break;
       }
       case "offerEmbed": {
         const offer = await getOfferView(block.offerId);
-        if (offer) out.push(<MerchantOffer key={key} offer={offer} articleSlug={articleSlug} />);
+        if (offer) out.push(<MerchantOffer key={key} offer={offer} articleSlug={articleSlug} isDemo={isDemo} />);
         break;
       }
       case "faq":

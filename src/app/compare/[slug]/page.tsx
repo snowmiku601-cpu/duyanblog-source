@@ -153,13 +153,13 @@ export default async function VersusPage({ params }: Params) {
       {comparisonItems.length >= 2 && (
         <div className="mx-auto max-w-5xl px-4 pb-4 lg:px-6">
           <h2 className="mb-4 font-display text-2xl font-semibold">Side by side</h2>
-          <ComparisonTable items={comparisonItems} articleSlug={article.slug} caption={article.comparison?.title ?? article.title} />
+          <ComparisonTable items={comparisonItems} articleSlug={article.slug} caption={article.comparison?.title ?? article.title} isDemo={article.isDemo} />
           <AffiliateDisclosure className="mt-3" />
         </div>
       )}
 
       <div className="mx-auto max-w-3xl px-4 py-8 lg:px-6">
-        <ArticleRenderer blocks={blocks} articleSlug={article.slug} />
+        <ArticleRenderer blocks={blocks} articleSlug={article.slug} isDemo={article.isDemo} />
 
         <TagChips tags={article.tags.map((t) => t.tag)} className="mt-10 border-t border-border pt-6" />
 

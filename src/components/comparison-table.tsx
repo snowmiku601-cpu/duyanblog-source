@@ -146,11 +146,14 @@ export function ComparisonTable({
   items: originalItems,
   articleSlug,
   caption = "Product comparison",
+  isDemo,
   className,
 }: {
   items: ComparisonItemView[];
   articleSlug?: string;
   caption?: string;
+  /** Demo context — REQUIRED so a demo comparison can never look real. */
+  isDemo: boolean;
   className?: string;
 }) {
   const [hoverCol, setHoverCol] = useState<number>(-1);

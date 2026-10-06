@@ -124,7 +124,7 @@ export default async function ReviewPage({ params }: Params) {
           {article.isDemo && <DemoNotice />}
           <AdSlot enabled={isAdsEnabled(settings)} slotId="review-top" />
 
-          <ArticleRenderer blocks={blocks} articleSlug={article.slug} />
+          <ArticleRenderer blocks={blocks} articleSlug={article.slug} isDemo={article.isDemo} />
 
           <SourcesList sources={article.sources} />
 

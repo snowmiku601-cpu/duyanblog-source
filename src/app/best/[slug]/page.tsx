@@ -125,7 +125,7 @@ export default async function RoundupPage({ params }: Params) {
         {article.isDemo && <DemoNotice />}
         <AdSlot enabled={isAdsEnabled(settings)} slotId="roundup-top" />
 
-        <ArticleRenderer blocks={blocks} articleSlug={article.slug} />
+        <ArticleRenderer blocks={blocks} articleSlug={article.slug} isDemo={article.isDemo} />
 
         <SourcesList sources={article.sources} />
 
