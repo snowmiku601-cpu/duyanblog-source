@@ -5,6 +5,7 @@ import { parseAttributes, parseStringList } from "@/lib/comparison";
 import { InlineText } from "@/components/editorial/inline-text";
 import { ProsCons } from "@/components/editorial/pros-cons";
 import { MerchantOffer, type OfferView } from "@/components/affiliate/merchant-offer";
+import { AffiliateDisclosure } from "@/components/affiliate/affiliate-link";
 import { ComparisonTable } from "@/components/comparison-table";
 import { ComparisonOffer } from "@/components/affiliate/merchant-offer";
 import { ComparisonItemView, comparisonItemViewSchema } from "@/lib/comparison";
@@ -286,6 +287,11 @@ export async function ArticleRenderer({
                     <span className="text-xs font-medium uppercase tracking-wide text-ochre">sample data</span>
                   )}
                 </div>
+              )}
+              {offer && (
+                // Self-contained disclosure: guides/editorials can render picks without a
+                // page-level AffiliateDisclosure, so a pick with a CTA carries its own.
+                <AffiliateDisclosure className="mt-3" />
               )}
             </div>
           </article>

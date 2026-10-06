@@ -13,7 +13,7 @@
     "start:node": "NODE_ENV=production node .next/standalone/server.js",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/smoke.mjs",
+    "test": "npm run test:cta && node scripts/smoke.mjs",
     "test:media": "node --import tsx scripts/test-media-validation.mjs",
     "test:newsletter": "node scripts/test-newsletter-semantics.mjs",
     "test:cta": "node scripts/test-cta-readiness.mjs",

@@ -8,21 +8,26 @@ visibly fictional — driven by the existing `Article.isDemo` truth, without a s
 while rendering `pick.imageUrl` and making the affiliate disclosure verifiable.
 
 **Architecture:** `Article.isDemo` (already used for `DemoNotice` + `noIndex`) becomes a
-REQUIRED `isDemo: boolean` prop on `ArticleRenderer` and `ComparisonTable`, threaded from all
-five article route call sites. `MerchantOffer`/`ComparisonOffer` gain an optional `isDemo`
-prop (default `false`), so offer cards render "sample/fictional" wording only when the
-enclosing article (or `/deals` page-level `demo_mode`) is demo. `/deals` sources
-`settings["demo_mode"] === "true"` OR `offer.article?.isDemo` and loses its seed-CLI empty
-state and fabricated "checked today" date. Affiliate disclosure drops the unverifiable
-"it costs you nothing extra" for neutral wording. `pick.imageUrl` renders as a decorative
-`alt=""` image inside the existing card (schema has no truthful alt field).
+REQUIRED `isDemo: boolean` prop on `ArticleRenderer`, `ComparisonTable` and `MerchantOffer`,
+threaded from all five article route call sites (plus the /deals and review-sidebar offer
+cards), so offer cards render "sample/fictional" wording only when the enclosing article
+(or `/deals` page-level `demo_mode`) is demo. `ComparisonOffer` stays CTA-only — the pick
+case in `ArticleRenderer` owns the adjacent "sample data" chip instead of threading the flag
+through `ComparisonOffer`. `/deals` sources `settings["demo_mode"] === "true"` OR
+`offer.article?.isDemo` and loses its seed-CLI empty state and fabricated "checked today"
+date; its lead and linked-article line are demo-aware. Affiliate disclosure drops the
+unverifiable "it costs you nothing extra" for neutral wording, and a pick with an offer CTA
+carries its own adjacent inline disclosure (guides/editorials have no page-level one).
+`pick.imageUrl` renders as a decorative `alt=""` image inside the existing card (schema has
+no truthful alt field).
 
 **Tech Stack:** Next.js 16 App Router (React 19 server components), TypeScript strict, Tailwind 4,
 Prisma 6, Zod 4. Tests: existing `scripts/smoke.mjs` (running-server rendered checks) plus a new
 structural guard `scripts/test-cta-readiness.mjs` following the `test-newsletter-semantics.mjs`
 pattern (deterministic, no framework added).
 
-**Spec:** `docs/superpowers/specs/` — approved in-chat design (bounded path), amendments 1–6.
+**Spec:** approved in-chat bounded design (this session; amendments 1–6 recorded in the chat
+record — no dedicated spec file exists for this task). This plan is the written artifact.
 No schema change. No migration. No production DB write.
 
 ## Global Constraints
@@ -201,13 +206,15 @@ process.exit(process.exitCode ?? 0);
 - Consumes: `Article.isDemo` on every route's `article` row.
 - Produces: `ArticleRenderer({ blocks, articleSlug, isDemo, ... })` REQUIRED;
   `ComparisonTable({ items, articleSlug, caption, isDemo, ... })` REQUIRED;
-  `MerchantOffer({ offer, articleSlug, compact, isDemo?, className })`;
-  `ComparisonOffer({ offer, articleSlug, isDemo? })` (used by pick + pick uses it directly).
+  `MerchantOffer({ offer, articleSlug, compact, isDemo, className })` REQUIRED (final —
+  fail-closed per independent review; no default);
+  `ComparisonOffer` UNCHANGED (CTA-only — the pick case in ArticleRenderer owns the
+  adjacent "sample data" chip instead).
 
 - [ ] **Step 1: merchant-offer.tsx — add `isDemo` prop + conditional sample label.**
 
 ```tsx
-export function MerchantOffer({ offer, articleSlug, compact = false, isDemo = false, className }) {
+export function MerchantOffer({ offer, articleSlug, compact = false, isDemo, className }) {
   // ...existing header/price/note...
   {isDemo && (
     <span className="text-xs font-medium uppercase tracking-wide text-ochre">Sample offer · fictional data</span>
@@ -220,8 +227,9 @@ export function MerchantOffer({ offer, articleSlug, compact = false, isDemo = fa
 }
 ```
 
-`ComparisonOffer` gains `isDemo = false` and renders `{isDemo ? "Sample data" : ...}` nothing
-extra — its CTA text stays `Check price` / `Get it — ${price}`.
+`ComparisonOffer` is NOT changed — it stays a bare CTA button (`Check price` /
+`Get it — ${price}`). The pick case renders the demo chip itself, next to the
+"via {merchant}" line, so the flag doesn't need to thread through ComparisonOffer.
 
 - [ ] **Step 2: article-renderer.tsx — add REQUIRED `isDemo`, thread through.**
 
@@ -235,9 +243,10 @@ export async function ArticleRenderer({ blocks, articleSlug, className, dropCap 
 }) {
 ```
 
-Case `pick`: pass `isDemo` to `ComparisonOffer`, drop "(demo merchant)" → conditional sample chip:
+Case `pick`: `ComparisonOffer` stays CTA-only; drop "(demo merchant)" → conditional sample chip
+owned by the renderer:
 ```tsx
-<ComparisonOffer offer={offer} articleSlug={articleSlug} isDemo={isDemo} />
+<ComparisonOffer offer={offer} articleSlug={articleSlug} />
 {offer.price && <span className="font-medium text-foreground">{offer.price}</span>}
 <span className="text-xs text-muted-foreground">via {offer.merchantName}</span>
 {isDemo && <span className="text-xs font-medium uppercase tracking-wide text-ochre">sample data</span>}

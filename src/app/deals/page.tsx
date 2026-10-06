@@ -12,8 +12,10 @@ export const revalidate = 120;
 
 export const metadata: Metadata = buildMetadata({
   title: "Deals worth your money",
+  // Truthful in both modes: no "checked/reviewed" claim that fictional demo data
+  // would contradict — sample labelling is rendered on the page itself.
   description:
-    "Current deals on products and services we have actually reviewed or would review. Every deal is checked by an editor — and labelled clearly when it is a sample.",
+    "Current deals on products and services we cover. Offers are labelled clearly when they are samples, and prices can change — check the merchant page.",
   path: "/deals",
 });
 
@@ -46,7 +48,9 @@ export default async function DealsPage() {
             Deals worth your money<span className="text-vermilion">.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            We only list deals on things we have reviewed or would stake our byline on.
+            {pageDemoMode
+              ? "Sample offers on things we cover — the merchants and discounts here are fictional demo data."
+              : "We only list deals on things we have reviewed or would stake our byline on."}{" "}
             Links are affiliate links —{" "}
             <Link href="/affiliate-disclosure" className="underline underline-offset-2 hover:text-foreground">
               here&apos;s what that means
@@ -68,10 +72,21 @@ export default async function DealsPage() {
                 <MerchantOffer offer={offerToView(offer)} articleSlug={offer.article?.slug} isDemo={pageDemoMode || offer.article?.isDemo === true} className="flex-1" />
                 {offer.article && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    We reviewed this:{" "}
-                    <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
-                      read the review
-                    </Link>
+                    {offer.article.isDemo ? (
+                      <>
+                        Sample article:{" "}
+                        <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
+                          view the demo review
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        We reviewed this:{" "}
+                        <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
+                          read the review
+                        </Link>
+                      </>
+                    )}
                   </p>
                 )}
               </div>

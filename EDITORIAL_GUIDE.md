@@ -45,6 +45,8 @@ Every article also needs: `slug` (unique across the site, one type per slug — 
 
 **`go:` vs raw URLs — the rule.** Article prose must reference offers by ID (`go:off_auralis_direct`), never by merchant URL. Reasons: the destination is owned by the `AffiliateOffer` row (change the URL once in the database, every article follows); every click is logged consistently with `rel="sponsored"`; article text can never leak a stale or non-HTTPS URL. Never paste a raw merchant URL into a `text` field — it would render as a plain `nofollow` external link with no tracking and no disclosure chain.
 
+> **Launch constraint (until a dedicated inline-disclosure pass).** Structured commerce surfaces — `pick` with `offerId`, `offerEmbed`, `comparisonEmbed` — carry their own adjacent affiliate disclosure. Inline `[label](go:OFFER_ID)` links in prose do **not**, and routes like guides/editorials have no page-level disclosure. Until that pass ships, the first real content wave uses structured commerce surfaces on guide/editorial pages rather than inline `go:` links.
+
 ## 3. Block type reference (all 15)
 
 | Type | Fields | Limits |

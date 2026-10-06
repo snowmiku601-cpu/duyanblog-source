@@ -608,3 +608,42 @@ changes. PR #4.
 Docs gate: validate:docs PASS — auto-load budget 23950B ≤ 24000B; slop 0; git diff --check
 clean. (Final state after independent-review amendments; earlier intermediate figures are
 superseded by this entry.)
+
+---
+Task ID: 21
+Agent: Claude Code (lead) — CTA production readiness (PR #5, branch feat/cta-production-readiness).
+
+Goal: every commerce surface renders real content as real and demo content as visibly
+fictional, driven by the existing Article.isDemo truth. Superpowers flow: brainstorm
+(bounded, in-chat design + amendments 1-6) → writing-plans (committed plan) →
+executing-plans inline + TDD → verification → one hostile review → repair pass →
+one independent-review repair pass.
+
+- Demo context is REQUIRED (fail closed): ArticleRenderer, ComparisonTable and
+  MerchantOffer all take isDemo: boolean (no default); all five article routes + compare
+  pass article.isDemo; /deals and the review sidebar thread their own truth.
+- MerchantOffer: "(demo)" hardcoded label removed; "Sample offer · fictional data" chip
+  only in demo context. Pick: "(demo merchant)" removed for a renderer-owned conditional
+  "sample data" chip; ComparisonOffer stays CTA-only. pick.imageUrl now renders
+  (decorative alt="" — no truthful alt field; never invented from the product name).
+- ComparisonTable footer demo-aware; a pick with an offer CTA carries its own adjacent
+  inline AffiliateDisclosure (guides/editorials have no page-level one). Launch constraint
+  recorded: until a separate inline-go disclosure pass, the first real content wave uses
+  structured commerce surfaces (pick/offerEmbed/comparison), not inline [go:OFFER_ID]
+  links on guide/editorial pages.
+- /deals: demo from settings["demo_mode"] OR offer.article?.isDemo; demo-aware lead,
+  linked-article line branches on article truth ("Sample article: view the demo review");
+  truthful empty state (no seed CLI); fabricated new Date() price-check claim removed;
+  metadata description neutral in both modes.
+- Disclosure: unverifiable "it costs you nothing extra" replaced with neutral commission
+  wording; methodology + business-rules links, rel="sponsored noopener", /go routing
+  unchanged.
+- Tests: scripts/test-cta-readiness.mjs structural guard now in the normal test gate
+  ("test": "npm run test:cta && node scripts/smoke.mjs"); 27 checks; mutation-tested
+  (ungated pick chip / footer ternary / MerchantOffer label / (demo) in real branch all
+  FAIL the guard); smoke extended to 52 checks (2 rendered demo-label checks).
+- No schema change, no migration, no production DB write, no deployment, no indexing
+  change. Hostinger/Spaceship untouched.
+
+Gates: lint 0, typecheck 0, test (guard+smoke) all PASS on a local standalone production
+build, build 0, validate:docs PASS (budget 23950B), slop 0, diff --check clean.

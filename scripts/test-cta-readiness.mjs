@@ -56,6 +56,8 @@ function gatedOccurrences(src, token) {
 }
 check("MerchantOffer: '(demo)' only inside isDemo-gated branches",
   !gatedOccurrences(merchantOffer, "(demo)"));
+check("MerchantOffer's actual demo label only inside isDemo-gated branches",
+  !gatedOccurrences(merchantOffer, "Sample offer · fictional data"));
 check("pick path: '(demo merchant)' only inside isDemo-gated branches",
   !gatedOccurrences(renderer, "(demo merchant)"));
 check("pick chip 'sample data' only inside isDemo-gated branches",
@@ -75,8 +77,10 @@ check("ArticleRenderer requires isDemo",
   /isDemo:\s*boolean\s*}/.test(renderer) || /isDemo\s*:\s*boolean/.test(renderer));
 check("ComparisonTable requires isDemo",
   /isDemo:\s*boolean/.test(comparisonTable));
-check("MerchantOffer accepts isDemo prop (default false)",
-  /isDemo\??:\s*boolean/.test(merchantOffer));
+check("MerchantOffer requires isDemo (no optional ?)",
+  /isDemo:\s*boolean/.test(merchantOffer) && !/isDemo\?:\s*boolean/.test(merchantOffer));
+check("MerchantOffer has no isDemo default value",
+  !/isDemo\s*=\s*false/.test(merchantOffer));
 for (const [name, src] of Object.entries(callSites)) {
   check(`ArticleRenderer call site (${name}) passes article.isDemo`,
     /<ArticleRenderer[^>]*articleSlug=\{article\.slug\}[^>]*\bisDemo=\{article\.isDemo\}/.test(src));
@@ -94,6 +98,11 @@ for (const [name, src] of Object.entries(merchantCallSites)) {
   check(`<MerchantOffer call site (${name}) threads isDemo`,
     /<MerchantOffer[^>]*\bisDemo=\{/.test(src));
 }
+// A pick with an offer CTA carries its own adjacent AffiliateDisclosure — guides and
+// editorials render ArticleRenderer without any page-level disclosure.
+check("pick with offer renders an adjacent AffiliateDisclosure",
+  /import \{ AffiliateDisclosure \} from "@\/components\/affiliate\/affiliate-link";/.test(renderer)
+  && /case "pick":[\s\S]*?\{offer && \(\s*\/\/ Self-contained disclosure[\s\S]*?<AffiliateDisclosure/.test(renderer));
 
 // --- Invariant 3: /deals production hygiene ----------------------------------
 check("/deals never exposes seed:demo to visitors",

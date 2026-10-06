@@ -21,14 +21,14 @@ export function MerchantOffer({
   offer,
   articleSlug,
   compact = false,
-  isDemo = false,
+  isDemo,
   className,
 }: {
   offer: OfferView;
   articleSlug?: string;
   compact?: boolean;
-  /** Demo context from the enclosing article (or /deals page mode) — default false. */
-  isDemo?: boolean;
+  /** Demo context — REQUIRED (fail closed): a forgotten call site must not present sample commerce as real. */
+  isDemo: boolean;
   className?: string;
 }) {
   return (
