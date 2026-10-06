@@ -13,12 +13,12 @@ owner reviews/approves it. Nothing here runs against production.
 | Evidence ledger | `.superpowers/sdd/2026-10-06-saily-vs-airalo-research/ledger-notes.md` (git-ignored; §DRAFT-TIME REFRESH has the same-day price refresh + conflict rulings) |
 | Media | `public/images/articles/saily-vs-airalo/` (1 Pexels hero photo, Git-managed) |
 
-## Author / byline publish gate
+## Author / byline
 
 The local draft currently uses author slug `duyan` / byline `Duy An Tran`.
-Owner must explicitly confirm this is the intended real byline before publish.
-(The other seed authors are fictional demo characters and must not be used.)
-If the byline should differ, swap `authorId` in the admin UI before publishing.
+Owner confirmed public byline: Duy An Tran (2026-10-06).
+(Fictional seed authors must not be used. If the byline ever needs to change,
+swap `authorId` in the admin UI before publishing.)
 
 ## Production import — what a git merge does and does not do
 

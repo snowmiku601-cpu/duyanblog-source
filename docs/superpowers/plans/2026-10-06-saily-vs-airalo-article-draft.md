@@ -131,8 +131,9 @@ owner's independent PR review). Deviations from the original plan as written abo
 - Integrity gate final = **26 checks** (grew from the planned 11: table/prose pair
   consistency mutation-tested, plain-text/no-go: credit checks, attribution-paragraph
   photo-ID check, homepage-claim→source completeness).
-- The byline (`duyan` / Duy An Tran) is NOT assumed to be the owner's identity — it stays
-  owner-confirmation gated before production import/publish.
+- The byline (`duyan` / Duy An Tran) was owner-confirmation gated before production
+  import/publish. Owner confirmed public byline: Duy An Tran (2026-10-06) — that gate is
+  now closed.
 - Production import remains explicit and separate from a git merge: merging ships draft
   JSON + media only; the production Article row does not exist until an owner-approved
   create/import step runs, and publishing is a separate later action.
