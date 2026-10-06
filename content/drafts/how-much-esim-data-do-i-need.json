@@ -3,7 +3,7 @@
   "slug": "how-much-esim-data-do-i-need",
   "title": "How much eSIM data do I need?",
   "deck": "A way to estimate your travel data from what you actually do — maps, messaging, music, calls, streaming — built on each company's published figures, with the math shown and every number labelled.",
-  "tldr": "Pick a usage profile (light, normal, or heavy), start from roughly a third of a gigabyte to three-plus gigabytes a day depending on your profile, multiply by your trip length, then round up to the next package size the store actually sells. Two documented facts do most of the work: Netflix publishes exactly what each video quality costs per hour, and phone settings like Data Saver, Low Data Mode, and offline maps decide most of the rest. Buy at least one package size above your estimate — never less than an app-update cycle's worth of headroom — or plan to top up.",
+  "tldr": "Pick a usage profile (light, normal, or heavy), multiply the profile's daily floor by your trip length, then choose the next package your provider sells that is at least that amount. Two documented facts do most of the work: Netflix publishes exactly what each video quality costs per hour, and phone settings like Data Saver, Low Data Mode, and offline maps decide most of the rest. Add non-numeric headroom when your trip includes hotspot, streaming, backups or possible large downloads - or make sure the plan can be topped up.",
   "categoryId": "travel",
   "isDemo": false,
   "authorSlug": "duyan",
@@ -29,6 +29,10 @@
       "text": "Every eSIM store will happily sell you 1GB, 3GB, 5GB, 10GB or 20GB, and almost none of them will tell you which one your trip needs. Search the web for a data calculator and you will find dozens of tables confidently stating that one gigabyte equals a certain number of hours of anything — usually without a source. The honest answer is that nobody outside your phone knows what you will use, but the picture is less foggy than the calculator sites make it: several companies publish exact, checkable figures for the activities that actually move the total."
     },
     {
+      "type": "paragraph",
+      "text": "Photo: [Ingo Joseph / Pexels](https://www.pexels.com/photo/35969/)"
+    },
+    {
       "type": "heading",
       "level": 2,
       "text": "The short version"
@@ -39,7 +43,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The most common mistakes run in opposite directions. People massively overestimate messaging (text is kilobytes — WhatsApp states it uses the same internet connection as web browsing, and its own settings page shows you the exact number you used) and underestimate the four things that actually consume gigabytes: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
+      "text": "The most common mistakes run in opposite directions. People massively overestimate messaging (WhatsApp does not publish a useful per-message figure — but it documents that it uses the same internet connection as web browsing, and its own settings page shows you the exact number you used) and underestimate the four things that can dominate a plan's total: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
     },
     {
       "type": "heading",
@@ -203,7 +207,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The light profile deserves one honest caveat. Text messaging is essentially free in data terms, and ride-hailing apps are light — but a phone that is not configured to save data quietly synchronizes photos, downloads app updates and refreshes apps in the background. Apple's Low Data Mode and Android's Data Saver exist precisely to stop that, and both companies document what they do. Without such a setting, a \"light\" user's floor is set by the background, not by the activities they chose."
+      "text": "The light profile deserves one honest caveat. Text messaging is essentially free in data terms, and ride-hailing usage is modest — but a phone that is not configured to save data quietly synchronizes photos, downloads app updates and refreshes apps in the background. Apple's Low Data Mode and Android's Data Saver exist precisely to stop that, and both companies document what they do. Without such a setting, a \"light\" user's floor is set by the background, not by the activities they chose."
     },
     {
       "type": "heading",
@@ -212,47 +216,47 @@
     },
     {
       "type": "paragraph",
-      "text": "Take the lower end of your profile's per-day range, multiply by your days, then round up to the package sizes eSIM stores actually sell — the bands below use the bottom of each profile range exactly that way, so they are deliberately conservative floors, not midpoints. These bands are editorial: they combine documented per-hour figures with estimated hours-of-use, and they are ranges because every input is a range. Treat them as a starting point for the size dial, not as a measured fact about your trip."
+      "text": "The table below shows the planning floor for each combination: the bottom of the profile's daily range multiplied by your trip days. A floor is not a recommendation - treat it as the minimum worth considering, then choose the next package your provider offers that is at least this amount. We do not assume every store sells the same sizes. Add non-numeric headroom when your trip includes hotspot, streaming, cloud backups or possible large downloads, or make sure the plan can be topped up. These floors are editorial: they combine documented per-hour figures with estimated hours-of-use."
     },
     {
       "type": "table",
-      "caption": "Editorial starting points by trip length and profile, rounded up to commonly sold package sizes. Combines documented per-hour anchors with estimated daily hours; every band is an estimate. Anchors checked 2026-10-06.",
+      "caption": "Editorial planning FLOORS: bottom of each profile's daily range times trip days. Not package recommendations - choose the next package at least this amount; add headroom (or top up) if your trip includes hotspot, streaming, backups or large downloads. Anchors checked 2026-10-06.",
       "head": [
         "Trip",
-        "Light",
-        "Normal",
-        "Heavy"
+        "Light floor",
+        "Normal floor",
+        "Heavy floor"
       ],
       "rows": [
         [
           "3 days",
-          "≈ 1 GB",
-          "≈ 1–2 GB",
-          "≈ 3–5 GB"
+          "0.6 GB",
+          "1.2 GB",
+          "3 GB"
         ],
         [
           "7 days",
-          "≈ 1–2 GB",
-          "≈ 2–5 GB",
-          "≈ 10 GB"
+          "1.4 GB",
+          "2.8 GB",
+          "7 GB"
         ],
         [
           "14 days",
-          "≈ 2–3 GB",
-          "≈ 5–10 GB",
-          "≈ 20 GB"
+          "2.8 GB",
+          "5.6 GB",
+          "14 GB"
         ],
         [
           "30 days",
-          "≈ 5 GB",
-          "≈ 10–20 GB",
-          "20+ GB or unlimited, FUP-aware"
+          "6 GB",
+          "12 GB",
+          "30 GB"
         ]
       ]
     },
     {
       "type": "paragraph",
-      "text": "Good Wi-Fi changes these numbers dramatically — that is the modifier most calculators skip. If your accommodation has genuinely fast Wi-Fi, a normal-use day can happen almost entirely off the eSIM, and the light column becomes realistic even for a normal user. Conversely, poor or absent Wi-Fi moves everything onto the eSIM, and — a documented, easy-to-miss behavior — your phone may quietly assist a weak Wi-Fi connection with cellular data: Apple states that when Connectivity Assist is on, cellular data is used along with Wi-Fi to keep the connection reliable when Wi-Fi is weak or busy, which might result in additional cellular data use. On a trip, that setting is worth finding and deciding about deliberately."
+      "text": "Good Wi-Fi changes these numbers dramatically — that is the modifier most calculators skip. If your accommodation has genuinely fast Wi-Fi, a normal-use day can happen almost entirely off the eSIM, and the light column becomes realistic even for a normal user. Conversely, poor or absent Wi-Fi moves everything onto the eSIM, and — a documented, easy-to-miss behavior — your phone may quietly supplement a weak Wi-Fi connection with cellular data: Apple's Connectivity Assist documentation states that it uses cellular data to improve your connection when Wi-Fi is slow or unusable, and the cellular-data page notes this might result in additional cellular data use. The setting lives in Wi-Fi settings on current iOS and is worth finding and deciding about deliberately before a trip."
     },
     {
       "type": "heading",
@@ -264,9 +268,9 @@
       "ordered": false,
       "items": [
         "**Video quality, not video length.** Netflix publishes the spread: one hour costs up to 0.3 GB at Low and up to 3 GB at HD. The same show is a 10× difference depending on one settings toggle.",
-        "**Cloud photo backup.** Apple's own documentation warns that allowing Photos to use cellular data \"could lead to higher data usage.\" A library syncing in the background over an eSIM can silently consume gigabytes.",
-        "**App and system updates.** A phone that thinks it is on unlimited Wi-Fi will download them over your eSIM. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
-        "**Weak Wi-Fi with cellular assist.** Apple's Connectivity Assist (documented above) supplements shaky Wi-Fi with cellular; Android's equivalent behaviors exist per-app via \"Unrestricted data.\"",
+        "**Cloud photo backup.** Apple's own documentation warns that allowing Photos to use cellular data \"could lead to higher data usage.\" Apple's own documentation warns this can materially increase cellular usage — the library keeps syncing whenever Photos is allowed to use cellular data.",
+        "**App and system updates.** A phone that thinks it is on unlimited Wi-Fi will download them over your eSIM, and update downloads can materially increase cellular usage. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
+        "**Weak Wi-Fi with cellular assist.** Apple's Connectivity Assist (documented above) supplements shaky Wi-Fi with cellular — worth deciding about deliberately before you travel.",
         "**Hotspot / tethering.** Tethering a laptop means the laptop's update schedule and backup behavior run on your eSIM budget. Android's documentation notes that some carriers limit or charge extra for tethering — check your eSIM provider's terms before assuming it is simply allowed.",
         "**Autoplay everywhere.** Social feeds autoplay video by default; the difference between text-heavy scrolling and autoplay feeds is the widest editorial range in our table."
       ]
@@ -320,11 +324,11 @@
       "items": [
         {
           "q": "How many GB do I need for a 7-day trip?",
-          "a": "For most travelers our editorial starting point is 2–5 GB on a normal profile, 1–2 GB if you will mostly be on maps and messaging with good Wi-Fi, and around 10 GB if you plan to stream or tether. These are starting points derived from the documented per-hour anchors in the table above, not measurements — round up to the package the store sells and add headroom for updates."
+          "a": "Our planning floor for a 7-day trip is 1.4 GB on a light profile, 2.8 GB on a normal profile and 7 GB on a heavy one - the bottom of each profile's daily range times seven. Choose the next package your provider sells that is at least that amount, and add headroom (or plan to top up) if you will stream, tether, or back up photos. These are editorial floors derived from the documented per-hour anchors above, not measurements."
         },
         {
           "q": "Is 1GB enough for a week?",
-          "a": "It can be, with the data-saving settings documented above and genuinely good Wi-Fi for anything heavy. One gigabyte is about 20 minutes of Netflix at HD (its HD tier publishes up to 3 GB per hour), or about 23 hours of Spotify Normal quality (derived), or a lot of maps and text messaging. What breaks a 1GB week is not the activities you choose — it is background syncing and an OS update arriving on cellular. If you cannot control the background, buy the next size up."
+          "a": "Only on the lightest profile, and only with the data-saving settings documented above and genuinely good Wi-Fi. Our planning floor for a 7-day light trip is 1.4 GB. One gigabyte is about 20 minutes of Netflix at HD (its HD tier publishes up to 3 GB per hour), or about 23 hours of Spotify Normal quality (derived). What breaks a small plan is not the activities you choose - it is background syncing and updates arriving on cellular. If you cannot control the background, choose a package above the floor."
         },
         {
           "q": "Does WhatsApp use a lot of data abroad?",
@@ -381,12 +385,16 @@
           "url": "https://faq.whatsapp.com/5315147411944059/?cms_platform=android&locale=en_US"
         },
         {
-          "label": "Apple — Use cellular data on your iPhone or iPad: per-app toggles and Connectivity Assist (checked 2026-10-06)",
+          "label": "Apple — Use cellular data on your iPhone or iPad: per-app cellular toggles; system-services cellular note (checked 2026-10-06)",
           "url": "https://support.apple.com/en-us/109323"
         },
         {
           "label": "Apple — Use Low Data Mode on your iPhone and iPad (checked 2026-10-06)",
           "url": "https://support.apple.com/en-us/102433"
+        },
+        {
+          "label": "Apple — About Connectivity Assist: cellular used when Wi-Fi is slow or unusable (checked 2026-10-06)",
+          "url": "https://support.apple.com/en-us/127686"
         },
         {
           "label": "Apple — Set up and use iCloud Photos: cellular-data warning (checked 2026-10-06)",

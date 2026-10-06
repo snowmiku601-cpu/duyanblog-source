@@ -166,5 +166,77 @@ check("derivation math shown (kbps to MB/hour)", /×\s*0\.45|3600.{0,40}8.{0,40}
 // 15 — author/byline fixed (approved public identity only)
 check("author duyan with public byline", draft.authorSlug === "duyan" && draft.authorByline === "Duy An Tran");
 
+// 16 — TRIP-FLOOR ARITHMETIC REGRESSION: every trip-table cell must equal
+// (profile daily lower bound) × days, recomputed here independently.
+// Regression: the first draft's table included values below lower-bound × days
+// (light 7d "1 GB" vs floor 1.4 GB), contradicting the stated rounding rule.
+const DAILY_LOWER = { light: 0.2, normal: 0.4, heavy: 1.0 };
+const TRIP_DAYS = { "3 days": 3, "7 days": 7, "14 days": 14, "30 days": 30 };
+const tripTable = tables.find((t) => /Light floor/i.test(t.head.join("|")));
+const floorErrors = [];
+for (const row of tripTable?.rows ?? []) {
+  const days = TRIP_DAYS[row[0]];
+  if (!days) { floorErrors.push(`unknown trip "${row[0]}"`); continue; }
+  ["light", "normal", "heavy"].forEach((profile, col) => {
+    const expected = DAILY_LOWER[profile] * days;
+    const stated = parseFloat(row[col + 1]);
+    if (!Number.isFinite(stated) || Math.abs(stated - expected) > 0.051) {
+      floorErrors.push(`${row[0]} ${profile}: stated ${row[col + 1]} ≠ floor ${expected}`);
+    }
+  });
+}
+check(
+  "trip floors = profile lower bound × days (recomputed)",
+  tripTable && floorErrors.length === 0,
+  floorErrors.join("; ") || "12 cells recomputed",
+);
+check(
+  "trip table presents floors, not package recommendations",
+  !!tripTable && /planning floor/i.test(tripTable.caption) && !/round up to the next package/i.test(tripTable.caption),
+);
+
+// 17 — ONE buy rule: "next package at least the estimate"; the conflicting
+// "one package size above your estimate" rule must not appear anywhere.
+check(
+  "single consistent buy rule",
+  /package.{0,60}(at least (this|that) amount|at least that amount)/i.test(allText) &&
+    !/one package size above your estimate/i.test(allText) &&
+    !/quality tier more headroom/i.test(allText),
+);
+
+// 18 — unsupported magnitude claims stay out
+const magnitude = [/text is kilobytes/i, /ride-hailing apps are light/i, /consume gigabytes/i, /silently consume/i];
+const magHits = magnitude.filter((r) => r.test(allText));
+check("no unsupported magnitude claims", magHits.length === 0, magHits.map(String).join(", "));
+
+// 19 — Android Unrestricted-data must not be framed as a weak-Wi-Fi assist equivalent
+check(
+  "no Unrestricted-data-as-assist-equivalent claim",
+  !/unrestricted data[^\"]{0,80}(assist|weak wi-fi|connectivity)/i.test(blockText),
+);
+
+// 20 — Apple Connectivity Assist must cite its current source (127686), not 109323
+const caUsed = /Connectivity Assist/i.test(blockText);
+const caSrc = (sources?.items ?? []).find((s) => (s.url ?? "").includes("127686"));
+check(
+  "Connectivity Assist claims have the current Apple source",
+  !caUsed || (!!caSrc && caSrc.label.includes(CHECK_DATE)),
+  caSrc ? "127686 present" : "127686 missing",
+);
+
+// 21 — Pexels attribution: reader-visible paragraph near the start with the real photo ID
+const pexParas = blocks.filter(
+  (b) => b.type === "paragraph" && /\[[^\]]+\]\(https:\/\/www\.pexels\.com\/photo\/(\d+)\/\)/.test(b.text),
+);
+check("reader-visible Pexels paragraph exists", pexParas.length >= 1, `${pexParas.length}`);
+check("Pexels photo ID is 35969", pexParas.every((b) => b.text.match(/pexels\.com\/photo\/(\d+)\//)?.[1] === "35969"));
+const pexIdx = blocks.findIndex((b) => b.type === "paragraph" && /pexels\.com\/photo\/35969/.test(b.text ?? ""));
+check("Pexels attribution near the beginning (within first 6 blocks)", pexIdx >= 0 && pexIdx <= 5, `block ${pexIdx}`);
+check(
+  "heroCredit plain text (no Markdown/go:)",
+  typeof draft.heroCredit === "string" && !/\]\(/.test(draft.heroCredit) && !draft.heroCredit.includes("go:"),
+  draft.heroCredit,
+);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);
