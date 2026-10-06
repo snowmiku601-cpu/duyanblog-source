@@ -831,3 +831,18 @@ Agent: Claude Code (lead) — PUBLISHED article #2: how-much-esim-data-do-i-need
 - LOGS/SAFETY: 0 fatal/unhandled lines; Hostinger untouched; no demo seed; no affiliate rows; no schema mutation; no credential bootstrap; ALLOW_INDEXING=false verified; no Google/Bing submission.
 - FINAL READBACK: published / publishedAt set / isDemo false / 31 blocks / rm 15 / hero+tags+author+category unchanged / reviewerId null / lastReviewedAt null / featured false / 0 go: / no offerId. Only the two real articles exist (saily-vs-airalo, how-much-esim-data-do-i-need) — no unrelated mutations.
 - NEXT: backlink saily-vs-airalo ↔ guide still pending (small content-sync task); next planned content = Best eSIM for Europe; Content Launch Review before ALLOW_INDEXING=true.
+
+---
+Task ID: 33
+Agent: Claude Code (lead) — merged PR #9 + production backlink sync (two-way cluster link complete).
+
+- PR #9 verified (OPEN/head 25c637f/MERGEABLE/CLEAN, files = saily-vs-airalo.json + gate script) → MERGED. Canonical origin/main now db33e3c (merge commit).
+- DEPLOY DECISION: PR changes only committed content JSON + integrity test script — no runtime app/config/schema files → NO rebuild/deploy. Production deployed code remains 7ee3b97 (verified).
+- PRE-SYNC production readback: Saily-vs-Airalo published, isDemo false, 34 blocks, rm 14, publishedAt 11:14:45.251Z, hero/tags/author exact, reviewer/lastReviewed null, comparison not set, 0 go:/offerId, backlink ABSENT. /guides/how-much-esim-data-do-i-need 200; robots Disallow: /; ALLOW_INDEXING=false.
+- SYNC (guard-debug note): targeted Prisma update of ONLY `blocks` field; guard initially failed because Prisma returns comparisonId as `undefined` (scalar FK omitted), not `null` — guard switched to nullish (`== null`) after dumping all fields (all others matched). Write succeeded.
+- POST-SYNC readback: backlinkCount 1, lives in the plan-tables intro paragraph, not in sources block, 0 go:, 0 offerId, status/publishedAt/title/deck/tldr/hero/rm/tags/author/reviewer/lastReviewed/comparison all unchanged, blocks 34/34.
+- PUBLIC: backlink visible immediately (stale-while-revalidate); rendered verification — exactly one link, href exact, punctuation clean ("need?"), no buy CTA, no /go/, 3 tables + FAQ + Sources render, canonical unchanged, Article JSON-LD intact, no Product/Offer/Review/aggregateRating schema. "Demo build" + "Affiliate disclosure" are pre-existing site-wide footer items, not article-level.
+- INDEXING OFF: ALLOW_INDEXING=false; robots Disallow: /; no Google/Bing submission.
+- SITEMAP FRESHNESS BACKLOG (durable, unchanged): Spaceship standalone sitemap freshness does not reliably follow revalidate=3600; dedicated review required before indexing launch. This task added/removed no URL, so sitemap unchanged.
+- LOGS/SAFETY: 0 fatal/unhandled; no Hostinger changes; no demo seed; affiliateOffer count 0; no schema mutation; no credential reset; no unrelated Article mutation.
+- NEXT: research gate for best-esim-for-europe (not started here).
