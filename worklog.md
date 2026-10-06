@@ -738,3 +738,67 @@ handoff entry. 4. Verify production/indexing state before assuming it is unchang
 Superpowers only where applicable; one lead agent, at most one hostile reviewer.
 Do not reopen settled Saily-vs-Airalo review work unless a real production
 regression appears.
+
+---
+Task ID: 25
+Agent: Claude Code (lead) — "How much eSIM data do I need?" RESEARCH GATE (research only; no article, no DB row, no publish).
+
+Superpowers: brainstorming (classified SPIKE, brief = approved question+probe) → structured first-party research → verification-before-completion → ONE hostile reviewer. Agent cap respected: 2 subagents total (seo-cluster SERP/intent ×2 attempts — first died on upstream model 400s, relaunched on opus; general-purpose hostile review).
+
+- TOOLING: WebSearch/WebFetch failed all session (upstream "Model is unavailable" 400s). All first-party evidence fetched via Playwright browser session 2026-10-06, same method as Task 22. SERP via DuckDuckGo Lite (Bing geo-garbled + captcha'd; SERP features UNOBSERVED, recorded as such).
+- OFFICIAL EVIDENCE (first-party, checked 2026-10-06): Netflix (0.3/0.7/1/3/7 GB per hour by quality; mobile ~4 h/GB, Save Data ~6 h/GB, Max 1 GB/20 min); Spotify (24/96/160/320 kbit/s + Lossless FLAC no-number; podcasts 96/128 kbit/s); Zoom (600 kbps 1:1 HQ → 3.8 Mbps 1080p; VoIP 60–80 kbps; screen share 50–150 kbps); Teams (audio 10–76 kbps; video 150–4000 kbps up/down table; "HD in under 1.5 Mbps"); Google Meet saver mode; WhatsApp (data-roaming + charges articles: same connection as web/email, Network-usage setting, media auto-download off — NO MB figures published); Google Maps (offline maps behavior + offline limitations; NO MB figures); Apple (cellular per-app toggles, Connectivity Assist weak-Wi-Fi fallback, Low Data Mode behaviors, iCloud Photos cellular warning, Personal Hotspot carrier fees); Android (Data Saver background-only-via-Wi-Fi + Unrestricted override, "carriers may limit or charge extra for tethering"); Airalo unlimited FUP re-verified (3GB/day @20 Mbps then reduced, resets 24 h) + tethering included against FUP.
+- DERIVED: kbps × 0.45 = MB/h per direction (decimal GB), all recomputed by reviewer: Spotify ~11–144 MB/h; Zoom/Teams upper bounds ~0.5–2 GB/hour video. Requirement-vs-consumption caveat mandatory (Zoom/Teams numbers are provisioning ceilings, not typical consumption).
+- EDITORIAL (labelled ranges only): Maps MB/h, messaging, social feeds, photo/video sizes, OS-update sizes. DO-NOT-CLAIM list: per-app point figures (Instagram/WhatsApp/Maps), "average traveler uses X", unlimited=full-speed, tethering-always-included, any SEO metric.
+- SERP (DuckDuckGo Lite, 7 queries, no invented metrics): very vendor-heavy (overwhelming majority vendor blogs/calculators funneling to own sales); first-party sourcing nearly absent (only Roamless cites WhatsApp FAQ); hotspot/tethering + unlimited daily caps + background drains almost uncovered; calculators don't disclose MB/h assumptions. SERP features UNOBSERVED (engine limitation, not guessed).
+- INTERNAL LINKS: guide ↔ /compare/saily-vs-airalo (one contextual non-commercial link each direction; reverse link is a later small edit); future best-esim-for-europe as follow-up. No cannibalization: "how much" vs "which provider".
+- VERDICT: B — WRITE WITH CONDITIONS. Conditions: DOCUMENTED/DERIVED/EDITORIAL labels carried into the article; Maps/social/WhatsApp stay editorial ranges; no calculator presented as precise; same-day re-check of vendor prices/FUP at draft; re-fetch sources this session did not fetch (Saily, Apple/Android/WhatsApp/Maps) before citing checked dates.
+- BLUEPRINT (validated against 15-block grammar, no fake calculator): scope callout → problem → TL;DR decision rule (profile × days × Wi-Fi, round up, OS-update headroom) → documented/derived activity-cost table with shown math → intensity framework → trip-length scenario ranges (3/7/14/30 × light/normal/heavy) → underestimation modifiers (documented behaviors) → reduction settings (documented) → unlimited/FUP section (Airalo+Saily terms, tethering) → recommendation bands + natural link to Saily-vs-Airalo → FAQ → sources with dates. Type=guide, slug=how-much-esim-data-do-i-need.
+- HOSTILE REVIEW (one round, general-purpose, default DO-NOT-SHIP): 3 MAJOR + 7 MINOR, all repaired in the ledger: Teams up/down reversal; requirement≠consumption framing; missing Spotify Lossless; Zoom "identical globally" retracted; SERP % demoted to qualitative; buffer reframed; re-fetch conditions added. Arithmetic ×0.45 verified correct by reviewer; Netflix/Spotify/Teams spot-checked on rendered pages. Post-repair: SHIP at research-gate level.
+- SCOPE: research only. Scratch ledger git-ignored (.superpowers/sdd/2026-10-06-esim-data-need-research/ledger-notes.md). No article DB rows, no AffiliateOffer rows, no seed, no publish, no indexing change (ALLOW_INDEXING still false), no deploy, no Prisma/schema/CTA change, Hostinger/Spaceship untouched. Nothing committed except this worklog entry.
+- Gates: validate:docs PASS; git diff --check clean (only worklog.md modified, tracked); scratch ignored.
+
+---
+Task ID: 26
+Agent: Claude Code (lead) — how-much-esim-data-do-i-need DRAFT ARTICLE (branch content/how-much-esim-data-do-i-need-draft; PR #8; NOT merged, NOT published).
+
+Superpowers: writing-plans implicit in brief → TDD (gate RED first) → inline execution → verification-before-completion → ONE hostile reviewer → one repair pass. Agent cap: 1 reviewer.
+
+- BRANCH: Task 25 local branch renamed research/esim-data-need → content/how-much-esim-data-do-i-need-draft per brief (9d26e66 on top of 3b05a55=origin/main, no duplicate commits). Verified origin/main unchanged.
+- EVIDENCE REFRESH (same day, third browser session, ALL UNCHANGED): Netflix node/87, Spotify audio-quality, Zoom KB0060749, Teams prepare-network (up/down column order confirmed), Maps 6291838, WhatsApp 5315147411944059, Apple 102433/109323/108782, Android 7055392/9059108, Airalo unlimited FUP, Saily Japan unlimited terms. Ledger updated (.superpowers/sdd/2026-10-06-esim-data-need-research/ledger-notes.md, git-ignored).
+- BLOCKER RESOLUTION: 2–7 GB OS-update range DROPPED (no first-party range source); safe wording "Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling." enforced by gate.
+- TDD GATE: scripts/test-article-draft-how-much-esim-data-do-i-need.mjs — written RED against missing draft, then draft to GREEN; 30 checks (meta/slug/isDemo, no go:/commerce, no first-hand language, no per-app point figures, no 2–7 GB, classification labels present, requirement-vs-consumption caveat, unlimited≠full-speed + both FUP terms attributed, source-family completeness, external source dates, internal /compare/saily-vs-airalo link, no provider recommendation, FAQ, hero media, derivation math shown, author duyan/byline Duy An Tran).
+- DRAFT: content/drafts/how-much-esim-data-do-i-need.json — guide, 30 blocks, 19,965 bytes serialized; serializeBlocks 30/30 roundtrip. Structure: scope callout → problem → TL;DR decision rule → activity-cost table (documented/derived/editorial rows) → upper-bound callout → derivation math paragraph → 3 profiles → trip-length bands (rounding rule stated) → Wi-Fi modifier → underestimation list → reduction settings (all documented) → unlimited/FUP section → neutral link to versus → 7-question FAQ → 16 dated sources.
+- RECOMMENDATION BANDS: derived in ledger from profile GB/day × days, rounded up to sold sizes; reviewer caught profile/band mismatch (bands used lower bounds while profiles published higher ranges) → profiles aligned (light 0.2–0.4, normal 0.4–0.8, heavy 1–3+ GB/day) + explicit "bottom of range × days, rounded up" rule.
+- MEDIA: 1 Pexels hero (photo 35969, Ingo Joseph — person using a map app outdoors), 1344×768 108 KB, truthful plain-text credit; no second image (not blocking per brief).
+- HOSTILE REVIEW (one, DO-NOT-SHIP default): 2 BLOCKER + 3 MAJOR + 4 MINOR → one repair pass: FAQ "1GB = one Netflix hour at HD" arithmetic contradiction → "about 20 minutes" (HD = up to 3 GB/h documented); profile/band consistency + rounding rule; tldr "one to three GB" → "a third of a GB to three-plus"; "two largest travel eSIM apps" (unmeasured market claim) → "two major … we cover"; duplicate photo credit removed; Zoom cell direction labels; junk callout keys removed. Reviewer's re-fetch-evidence question: satisfied by this session's Playwright refresh (all 13 sources re-read live).
+- LOCAL DB: duyanblog_dev ONLY — Article row created then re-synced after repairs: status draft, publishedAt null, isDemo false, author duyan, category travel, tags eSIM/Travel connectivity/Data planning, readingMinutes 15; read-back parse 30/30. Production DB untouched.
+- GATES: draft gate 30/30 exit 0; slop 0; lint 0; typecheck 0; validate:docs PASS (budget 23950B); git diff --check clean.
+- GIT: commits fa5349a (draft+gate+hero) + worklog entry on content/how-much-esim-data-do-i-need-draft, pushed; PR #8 opened (gh) — NOT merged, NOT deployed, production NOT imported, indexing unchanged (ALLOW_INDEXING=false).
+- PROPOSED BACKLINK (later task): saily-vs-airalo pricing section adds "Not sure how much data your trip needs? Read our guide to estimating it." with internal link — separate content-sync task.
+
+---
+Task ID: 27
+Agent: Claude Code (lead) — PR #8 independent-review repair (one pass, no new reviewer).
+
+- TRIP MATH: table rebuilt as raw editorial planning FLOORS = profile lower bound × days (3d 0.6/1.2/3.0 · 7d 1.4/2.8/7.0 · 14d 2.8/5.6/14 · 30d 6/12/30 — recomputed independently, matches). Rounding rule now "choose the next package your provider offers that is at least this amount" + non-numeric headroom; no universal package ladder; FAQ values aligned. Gate regression #16 recomputes all 12 cells.
+- TLDR: single buy rule (conflicting "one package size above your estimate" + "app-update cycle's worth of headroom" removed); headroom is non-numeric or top-up. Gate #17.
+- EVIDENCE CLEANUP: "text is kilobytes", "ride-hailing apps are light", "consume gigabytes" (updates/backups) removed → non-numeric documented framing ("materially increase cellular usage" per Apple's own wording class); maps/social/browsing stay labelled editorial.
+- APPLE: Connectivity Assist re-sourced to support.apple.com/en-us/127686 "About Connectivity Assist" (fetched, checked 2026-10-06: cellular used when Wi-Fi slow/unusable; supersedes Wi-Fi Assist; on-by-default note). 109323 kept for per-app cellular toggles/system-services note only. Wi-Fi paragraph rewritten with correct attribution. Gate #20.
+- ANDROID: "Unrestricted data = assist equivalent" claim removed (Data Saver docs support only background-while-saver-on). Gate #19.
+- PEXELS: reader-visible paragraph "Photo: [Ingo Joseph / Pexels](https://www.pexels.com/photo/35969/)" near the opening (block 3); heroCredit stays plain text. Gates #21.
+- COPY: "two major travel eSIM apps we cover' own" → "the published plan tables, refund rules and activation mechanics for the two travel eSIM providers we currently cover" — no market-share implication.
+- GATE: extended 30 → 39 checks; all PASS exit 0. serializeBlocks 31/31 roundtrip, 20,620 bytes.
+- LOCAL DB re-synced + read back verified (draft, publishedAt null, floors/127686/Pexels para present). Production untouched.
+- Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, git diff --check clean.
+- Commit 7d6261e pushed to content/how-much-esim-data-do-i-need-draft (PR #8 head). NOT merged, NOT deployed, no production import, no publish, indexing unchanged.
+
+---
+Task ID: 28
+Agent: Claude Code (lead) — PR #8 final blocker cleanup (no reviewer; verification only).
+- Residual magnitudes removed (massively-overestimate-messaging, essentially-free-text, ride-hailing-modest, FAQ uses-very-little) → WhatsApp framing: "does not publish a useful per-message data figure; Network usage screen lets you inspect your own usage."
+- Connectivity Assist: travel caveat added from source 127686 (not used while iPhone is international roaming or cellular Low Data Mode enabled); no speculation on eSIM roaming treatment. Gate regression #20 extended.
+- Technical wording: background "can add cellular use" (no always-on claim); hotspot = shared cellular budget; offline maps "can reduce the amount of online map data needed for the downloaded area."
+- Copy bug (we cover' own) fixed; short-version buy rule aligned to floor methodology (at-least-the-floor, no ladder).
+- Gate 39 → 42 checks, all PASS exit 0; serializeBlocks 31/31 roundtrip (21,060 bytes); floors recomputed (12/12 match); local duyanblog_dev re-synced + read-back verified (draft, publishedAt null).
+- Mergeability re-inspected: origin/main fetched, branch behind 0, PR #8 mergeable=MERGEABLE state=CLEAN. NOT merged.
+- Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, diff --check clean. Commit 5fde85f pushed (PR #8 head). Production untouched; indexing unchanged.
