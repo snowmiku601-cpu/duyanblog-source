@@ -124,7 +124,7 @@ export default async function ReviewPage({ params }: Params) {
           {article.isDemo && <DemoNotice />}
           <AdSlot enabled={isAdsEnabled(settings)} slotId="review-top" />
 
-          <ArticleRenderer blocks={blocks} articleSlug={article.slug} />
+          <ArticleRenderer blocks={blocks} articleSlug={article.slug} isDemo={article.isDemo} />
 
           <SourcesList sources={article.sources} />
 
@@ -157,7 +157,7 @@ export default async function ReviewPage({ params }: Params) {
               <section aria-label="Where to buy" className="space-y-3">
                 <p className="eyebrow text-muted-foreground">Where to buy</p>
                 {article.offers.map((offer) => (
-                  <MerchantOffer key={offer.id} offer={offerToView(offer)} articleSlug={article.slug} compact />
+                  <MerchantOffer key={offer.id} offer={offerToView(offer)} articleSlug={article.slug} isDemo={article.isDemo} compact />
                 ))}
               </section>
             )}

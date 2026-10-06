@@ -5,6 +5,7 @@ import { parseAttributes, parseStringList } from "@/lib/comparison";
 import { InlineText } from "@/components/editorial/inline-text";
 import { ProsCons } from "@/components/editorial/pros-cons";
 import { MerchantOffer, type OfferView } from "@/components/affiliate/merchant-offer";
+import { AffiliateDisclosure } from "@/components/affiliate/affiliate-link";
 import { ComparisonTable } from "@/components/comparison-table";
 import { ComparisonOffer } from "@/components/affiliate/merchant-offer";
 import { ComparisonItemView, comparisonItemViewSchema } from "@/lib/comparison";
@@ -90,12 +91,15 @@ export async function ArticleRenderer({
   articleSlug,
   className,
   dropCap = false,
+  isDemo,
 }: {
   blocks: Block[];
   articleSlug?: string;
   className?: string;
   /** Editorial drop cap on the opening paragraph (long-form types). */
   dropCap?: boolean;
+  /** Demo context — REQUIRED so a caller cannot omit it and let sample commerce look real. */
+  isDemo: boolean;
 }) {
   if (blocks.length === 0) return null;
   const out: React.ReactNode[] = [];
@@ -258,6 +262,17 @@ export async function ArticleRenderer({
                   )}
                 </h3>
               </div>
+              {block.imageUrl && (
+                <div className="relative ml-auto h-16 w-24 shrink-0 overflow-hidden rounded-sm border border-border bg-muted md:h-20 md:w-28">
+                  <Image
+                    src={block.imageUrl}
+                    alt="" // decorative: the schema has no truthful image-alt field, so we never
+                    fill // invent alt text from the product name — the name sits in adjacent text
+                    sizes="112px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
             </div>
             <div className="p-5">
               <p className="prose-body text-foreground/90">
@@ -266,11 +281,17 @@ export async function ArticleRenderer({
               {offer && (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <ComparisonOffer offer={offer} articleSlug={articleSlug} />
-                  <span className="text-xs text-muted-foreground">
-                    {offer.price ? <span className="font-medium text-foreground">{offer.price} </span> : null}
-                    via {offer.merchantName} (demo merchant)
-                  </span>
+                  {offer.price ? <span className="font-medium text-foreground">{offer.price}</span> : null}
+                  <span className="text-xs text-muted-foreground">via {offer.merchantName}</span>
+                  {isDemo && (
+                    <span className="text-xs font-medium uppercase tracking-wide text-ochre">sample data</span>
+                  )}
                 </div>
+              )}
+              {offer && (
+                // Self-contained disclosure: guides/editorials can render picks without a
+                // page-level AffiliateDisclosure, so a pick with a CTA carries its own.
+                <AffiliateDisclosure className="mt-3" />
               )}
             </div>
           </article>
@@ -280,13 +301,13 @@ export async function ArticleRenderer({
       case "comparisonEmbed": {
         const data = await getComparisonItems(block.comparisonSlug);
         if (data && data.items.length >= 2) {
-          out.push(<ComparisonTable key={key} items={data.items} articleSlug={articleSlug} caption={data.title} />);
+          out.push(<ComparisonTable key={key} items={data.items} articleSlug={articleSlug} caption={data.title} isDemo={isDemo} />);
         }
         break;
       }
       case "offerEmbed": {
         const offer = await getOfferView(block.offerId);
-        if (offer) out.push(<MerchantOffer key={key} offer={offer} articleSlug={articleSlug} />);
+        if (offer) out.push(<MerchantOffer key={key} offer={offer} articleSlug={articleSlug} isDemo={isDemo} />);
         break;
       }
       case "faq":

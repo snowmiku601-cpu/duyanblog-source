@@ -527,5 +527,50 @@ try {
   failed += 1;
 }
 
+// CTA production-readiness (rendered, demo seed — all articles isDemo=true):
+// demo labels must be present, old hardcoded "demo merchant" gone, pick.imageUrl
+// actually renders, and no seed CLI instruction leaks onto a page. With an
+// all-demo seed there is no real rendered surface to hit; the structural guard
+// (scripts/test-cta-readiness.mjs) proves real-path wording is conditional on
+// isDemo — smoke proves demo is still unmistakably labelled.
+try {
+  const res = await fetch(`${BASE}/best/best-esim-providers`);
+  const html = await res.text();
+  // pick.imageUrl evidence: in a production build next/image emits a literal <img>;
+  // in dev-mode RSC (Next 16) the image serializes as a Flight reference with a
+  // quoted "src":"/images/...". Accept either — the point is the image is wired
+  // into the pick card with a decorative alt and no invented alt text.
+  const hasPickImage =
+    /<img[^>]*src=["']\/images\/(nomadlink|terrasim|waveline)\.png/.test(html) ||
+    /\/images\/(nomadlink|terrasim|waveline)\.png.{0,140}?\\"alt\\":\\"\\"/s.test(html);
+  const ok = res.status === 200
+    && html.includes("sample data") // demo pick chip
+    && hasPickImage
+    && !html.includes("(demo merchant)") // old hardcoded label gone
+    && !html.includes("seed:demo") // no seed instruction on a page
+    && !/\\"alt\\":\\"(NomadLink Global 30|TerraSIM Regional Asia|Waveline Flex)\\"/.test(html) // never invent alt from product name
+  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status}  /best/best-esim-providers demo pick labels + image`);
+  if (!ok) failed += 1;
+} catch (err) {
+  console.log(`FAIL  ERR  /best/best-esim-providers  ${err.message}`);
+  failed += 1;
+}
+
+// /deals demo page: sample statement present (pageDemoMode via demo_mode=true),
+// no seed CLI, no fabricated "checked today" date claim.
+try {
+  const res = await fetch(`${BASE}/deals`);
+  const html = await res.text();
+  const ok = res.status === 200
+    && html.includes("fictional sample data")
+    && !html.includes("seed:demo")
+    && !html.includes("prices were accurate when");
+  console.log(`${ok ? "PASS" : "FAIL"}  ${res.status}  /deals demo labelling + hygiene`);
+  if (!ok) failed += 1;
+} catch (err) {
+  console.log(`FAIL  ERR  /deals  ${err.message}`);
+  failed += 1;
+}
+
 console.log(failed === 0 ? "\nAll smoke checks passed." : `\n${failed} check(s) failed.`);
 process.exit(failed === 0 ? 0 : 1);

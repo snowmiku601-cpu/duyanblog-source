@@ -105,7 +105,7 @@ export default async function EditorialPage({ params }: Params) {
           </figure>
         )}
 
-        <ArticleRenderer blocks={blocks} articleSlug={article.slug} dropCap />
+        <ArticleRenderer blocks={blocks} articleSlug={article.slug} isDemo={article.isDemo} dropCap />
 
         <TagChips tags={article.tags.map((t) => t.tag)} className="border-t border-border pt-6" />
 

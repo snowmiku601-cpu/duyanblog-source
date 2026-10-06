@@ -88,8 +88,7 @@ export function AffiliateDisclosure({
       <p className="eyebrow text-muted-foreground">Why there are buy links here</p>
       <p className="mt-1.5 text-sm leading-relaxed text-foreground/80">
         Some links on this page are affiliate links. If you buy through them, we may earn a
-        commission from the merchant — it costs you nothing extra and it never changes our
-        verdicts, which follow our{" "}
+        commission from the merchant. It never changes our verdicts, which follow our{" "}
         <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">
           published methodology
         </Link>{" "}

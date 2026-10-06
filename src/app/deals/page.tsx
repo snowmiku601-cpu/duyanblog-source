@@ -5,24 +5,33 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { offerToView } from "@/lib/offers";
 import { db } from "@/lib/db";
-import { formatDate } from "@/lib/format";
+import { getSiteSettings } from "@/lib/settings";
 import { articlePath } from "@/lib/site";
 
 export const revalidate = 120;
 
 export const metadata: Metadata = buildMetadata({
   title: "Deals worth your money",
+  // Truthful in both modes: no "checked/reviewed" claim that fictional demo data
+  // would contradict — sample labelling is rendered on the page itself.
   description:
-    "Current deals on products and services we have actually reviewed or would review. Every deal is checked by an editor — and labelled clearly when it is a sample.",
+    "Current deals on products and services we cover. Offers are labelled clearly when they are samples, and prices can change — check the merchant page.",
   path: "/deals",
 });
 
 export default async function DealsPage() {
-  const offers = await db.affiliateOffer.findMany({
-    where: { active: true, isDeal: true },
-    include: { merchant: true, article: { select: { slug: true, type: true, title: true } } },
-    orderBy: [{ order: "asc" }, { updatedAt: "desc" }],
-  });
+  const [settings, offers] = await Promise.all([
+    getSiteSettings(),
+    db.affiliateOffer.findMany({
+      where: { active: true, isDeal: true },
+      include: { merchant: true, article: { select: { slug: true, type: true, title: true, isDemo: true } } },
+      orderBy: [{ order: "asc" }, { updatedAt: "desc" }],
+    }),
+  ]);
+
+  // Demo presentation truth for the whole page: the site-level demo_mode setting,
+  // OR an offer attached to a demo article — either keeps the card labelled sample.
+  const pageDemoMode = settings["demo_mode"] === "true";
 
   return (
     <>
@@ -39,7 +48,9 @@ export default async function DealsPage() {
             Deals worth your money<span className="text-vermilion">.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            We only list deals on things we have reviewed or would stake our byline on.
+            {pageDemoMode
+              ? "Sample offers on things we cover — the merchants and discounts here are fictional demo data."
+              : "We only list deals on things we have reviewed or would stake our byline on."}{" "}
             Links are affiliate links —{" "}
             <Link href="/affiliate-disclosure" className="underline underline-offset-2 hover:text-foreground">
               here&apos;s what that means
@@ -52,19 +63,30 @@ export default async function DealsPage() {
       <div className="mx-auto max-w-6xl px-4 py-12 lg:px-6">
         {offers.length === 0 ? (
           <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-            No active deals right now. Run <code className="rounded-sm bg-muted px-1.5 py-0.5">npm run seed:demo</code> to load the sample offers.
+            No active deals right now.
           </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {offers.map((offer) => (
               <div key={offer.id} className="flex flex-col">
-                <MerchantOffer offer={offerToView(offer)} articleSlug={offer.article?.slug} className="flex-1" />
+                <MerchantOffer offer={offerToView(offer)} articleSlug={offer.article?.slug} isDemo={pageDemoMode || offer.article?.isDemo === true} className="flex-1" />
                 {offer.article && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    We reviewed this:{" "}
-                    <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
-                      read the review
-                    </Link>
+                    {offer.article.isDemo ? (
+                      <>
+                        Sample article:{" "}
+                        <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
+                          view the demo review
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        We reviewed this:{" "}
+                        <Link href={articlePath(offer.article.type, offer.article.slug)} className="underline underline-offset-2 hover:text-foreground">
+                          read the review
+                        </Link>
+                      </>
+                    )}
                   </p>
                 )}
               </div>
@@ -72,7 +94,8 @@ export default async function DealsPage() {
           </div>
         )}
         <p className="mt-10 text-xs text-muted-foreground">
-          Deals change without notice; prices were accurate when each offer was added ({formatDate(new Date())} for this list). Merchants, offers and discounts on this page are fictional demo data.
+          Deals can change without notice. Check the merchant page for current price and availability.
+          {pageDemoMode && <> Merchants, offers and discounts on this page are fictional sample data.</>}
         </p>
       </div>
     </>

@@ -146,11 +146,14 @@ export function ComparisonTable({
   items: originalItems,
   articleSlug,
   caption = "Product comparison",
+  isDemo,
   className,
 }: {
   items: ComparisonItemView[];
   articleSlug?: string;
   caption?: string;
+  /** Demo context — REQUIRED so a demo comparison can never look real. */
+  isDemo: boolean;
   className?: string;
 }) {
   const [hoverCol, setHoverCol] = useState<number>(-1);
@@ -478,7 +481,11 @@ export function ComparisonTable({
       </div>
 
       <p className="border-t border-border px-4 py-2.5 text-[11px] leading-relaxed text-muted-foreground">
-        Buy links are affiliate links — we may earn a commission. Prices and availability are shown as examples in this demo.
+        {isDemo ? (
+          <>Buy links are affiliate links — we may earn a commission. Prices and availability are shown as examples in this demo.</>
+        ) : (
+          <>Buy links are affiliate links — we may earn a commission if you buy through them. Check the product page for current price and availability.</>
+        )}
       </p>
     </div>
   );
