@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { offerToView } from "@/lib/offers";
 import { db } from "@/lib/db";
-import { formatDate } from "@/lib/format";
+import { getSiteSettings } from "@/lib/settings";
 import { articlePath } from "@/lib/site";
 
 export const revalidate = 120;
@@ -18,11 +18,18 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function DealsPage() {
-  const offers = await db.affiliateOffer.findMany({
-    where: { active: true, isDeal: true },
-    include: { merchant: true, article: { select: { slug: true, type: true, title: true } } },
-    orderBy: [{ order: "asc" }, { updatedAt: "desc" }],
-  });
+  const [settings, offers] = await Promise.all([
+    getSiteSettings(),
+    db.affiliateOffer.findMany({
+      where: { active: true, isDeal: true },
+      include: { merchant: true, article: { select: { slug: true, type: true, title: true, isDemo: true } } },
+      orderBy: [{ order: "asc" }, { updatedAt: "desc" }],
+    }),
+  ]);
+
+  // Demo presentation truth for the whole page: the site-level demo_mode setting,
+  // OR an offer attached to a demo article — either keeps the card labelled sample.
+  const pageDemoMode = settings["demo_mode"] === "true";
 
   return (
     <>
@@ -52,13 +59,13 @@ export default async function DealsPage() {
       <div className="mx-auto max-w-6xl px-4 py-12 lg:px-6">
         {offers.length === 0 ? (
           <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-            No active deals right now. Run <code className="rounded-sm bg-muted px-1.5 py-0.5">npm run seed:demo</code> to load the sample offers.
+            No active deals right now.
           </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {offers.map((offer) => (
               <div key={offer.id} className="flex flex-col">
-                <MerchantOffer offer={offerToView(offer)} articleSlug={offer.article?.slug} className="flex-1" />
+                <MerchantOffer offer={offerToView(offer)} articleSlug={offer.article?.slug} isDemo={pageDemoMode || offer.article?.isDemo === true} className="flex-1" />
                 {offer.article && (
                   <p className="mt-2 text-xs text-muted-foreground">
                     We reviewed this:{" "}
@@ -72,7 +79,8 @@ export default async function DealsPage() {
           </div>
         )}
         <p className="mt-10 text-xs text-muted-foreground">
-          Deals change without notice; prices were accurate when each offer was added ({formatDate(new Date())} for this list). Merchants, offers and discounts on this page are fictional demo data.
+          Deals can change without notice. Check the merchant page for current price and availability.
+          {pageDemoMode && <> Merchants, offers and discounts on this page are fictional sample data.</>}
         </p>
       </div>
     </>
