@@ -105,11 +105,24 @@ const unattributed = vendorClaims.filter((r) => {
 });
 check("vendor claims carry per-provider attribution", unattributed.length === 0, unattributed.map(String).join(", "));
 
-// 11 — image blocks point at real local files
+// 11 — hero lives in Article.heroImage (deduped from the body); any remaining image
+// blocks must point at real local files, and the body must NOT duplicate the hero.
 const images = blocks.filter((b) => b.type === "image");
 const missing = images.filter((b) => !existsSync(path.join(ROOT, "public", b.src)));
 check("image blocks reference existing local files", missing.length === 0, missing.map((b) => b.src).join(", "));
-check("hero image present", images.length >= 1);
+const HERO = "/images/articles/saily-vs-airalo/hero-airport-phone.jpg";
+check(
+  "hero metadata present and matches the deployed asset",
+  draft.heroImage === HERO && existsSync(path.join(ROOT, "public", draft.heroImage ?? "")) &&
+    typeof draft.heroAlt === "string" && draft.heroAlt.length > 20 &&
+    typeof draft.heroCredit === "string" && draft.heroCredit.length > 3,
+  `${draft.heroImage} | alt ${draft.heroAlt?.length ?? 0}ch | credit ${draft.heroCredit ?? "none"}`,
+);
+check(
+  "hero image not duplicated in body blocks",
+  images.every((b) => b.src !== HERO),
+  `${images.length} body image block(s)`,
+);
 
 // 12 — article meta shape Task 4 imports
 check("article meta: versus/slug/isDemo false", draft.type === "versus" && draft.slug === "saily-vs-airalo" && draft.isDemo === false);
