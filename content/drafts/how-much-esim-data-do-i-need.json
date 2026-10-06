@@ -43,7 +43,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The most common mistakes run in opposite directions. Messaging is the activity people misjudge most often: WhatsApp does not publish a useful per-message data figure, but it documents that it uses the same internet connection as web browsing, and its Network usage screen lets you inspect your own usage. and underestimate the four things that can dominate a plan's total: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
+      "text": "WhatsApp does not publish a useful per-message data figure, but it documents that it uses the same internet connection as web browsing, and its Network usage screen lets you inspect your own usage. The activities that can move a travel-data total much faster are video streaming, video calls, laptop tethering and background downloads."
     },
     {
       "type": "heading",
@@ -268,10 +268,10 @@
       "ordered": false,
       "items": [
         "**Video quality, not video length.** Netflix publishes the spread: one hour costs up to 0.3 GB at Low and up to 3 GB at HD. The same show is a 10× difference depending on one settings toggle.",
-        "**Cloud photo backup.** Apple's own documentation warns that allowing Photos to use cellular data \"could lead to higher data usage.\" Apple's own documentation warns this can materially increase cellular usage — the library keeps syncing whenever Photos is allowed to use cellular data.",
+        "**Cloud photo backup.** Apple documents that iCloud Photos can use cellular data when allowed and warns that this can lead to higher data usage.",
         "**App and system updates.** Automatic downloads, backups and other background activity can add cellular use; Low Data Mode and Data Saver restrict several kinds of background use. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
         "**Weak Wi-Fi with cellular assist.** Apple's Connectivity Assist (documented above) supplements shaky Wi-Fi with cellular — worth deciding about deliberately before you travel.",
-        "**Hotspot / tethering.** Tethering a laptop means the laptop's update schedule and backup behavior run on your eSIM budget. Android's documentation notes that some carriers limit or charge extra for tethering — check your eSIM provider's terms before assuming it is simply allowed.",
+        "**Hotspot / tethering.** All laptop traffic sent through the hotspot shares the eSIM's cellular budget, and background activity on the laptop can add usage. Android's documentation notes that some carriers limit or charge extra for tethering — check your eSIM provider's terms before assuming it is simply allowed.",
         "**Autoplay everywhere.** Social feeds autoplay video by default; the difference between text-heavy scrolling and autoplay feeds is the widest editorial range in our table."
       ]
     },
