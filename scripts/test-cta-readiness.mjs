@@ -51,7 +51,7 @@ check("ComparisonTable footer 'examples in this demo' is conditional or gone",
 check("affiliate disclosure no longer claims 'it costs you nothing extra'",
   !/costs you nothing extra/.test(affiliateLink));
 check("affiliate disclosure neutral wording present",
-  /we may earn a commission from the merchant/.test(affiliateLink));
+  /we may earn a\s+commission\s+from the merchant/.test(affiliateLink));
 
 // --- Invariant 2: demo context is required, never optional -------------------
 check("ArticleRenderer requires isDemo",
