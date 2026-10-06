@@ -205,9 +205,18 @@ check(
 );
 
 // 18 — unsupported magnitude claims stay out
-const magnitude = [/text is kilobytes/i, /ride-hailing apps are light/i, /consume gigabytes/i, /silently consume/i];
+const magnitude = [
+  /text is kilobytes/i, /ride-hailing apps are light/i, /consume gigabytes/i, /silently consume/i,
+  /massively overestimate messaging/i, /text messaging is essentially free/i, /text messaging uses very little/i,
+  /ride-hailing usage is modest/i, /updates, backups and sync all switch on/i,
+  /removes the largest recurring map cost entirely/i, /removes \.\.\. map cost entirely/i,
+  /behaves like it is on home wi-?fi/i,
+];
 const magHits = magnitude.filter((r) => r.test(allText));
 check("no unsupported magnitude claims", magHits.length === 0, magHits.map(String).join(", "));
+
+// 18b — malformed copy bug must never return
+check("no malformed possessive copy bug", !/we cover' own/i.test(allText));
 
 // 19 — Android Unrestricted-data must not be framed as a weak-Wi-Fi assist equivalent
 check(
@@ -215,13 +224,23 @@ check(
   !/unrestricted data[^\"]{0,80}(assist|weak wi-fi|connectivity)/i.test(blockText),
 );
 
-// 20 — Apple Connectivity Assist must cite its current source (127686), not 109323
+// 20 — Apple Connectivity Assist must cite its current source (127686), not 109323,
+// and any travel-context CA discussion must carry the international-roaming caveat.
+// Regression: the feature's documentation states it is NOT used while the iPhone is
+// international roaming or cellular Low Data Mode is enabled — omitting that in a
+// travel/eSIM article would overstate the roaming drain.
 const caUsed = /Connectivity Assist/i.test(blockText);
 const caSrc = (sources?.items ?? []).find((s) => (s.url ?? "").includes("127686"));
 check(
   "Connectivity Assist claims have the current Apple source",
   !caUsed || (!!caSrc && caSrc.label.includes(CHECK_DATE)),
   caSrc ? "127686 present" : "127686 missing",
+);
+const caTravel = /Connectivity Assist[\s\S]{0,600}/i.test(blockText) && /travel|roaming|trip/i.test(blockText.match(/Connectivity Assist[\s\S]{0,600}/i)?.[0] ?? "");
+check(
+  "Connectivity Assist travel discussion carries the roaming caveat",
+  !caTravel || /not used while the iPhone is international roaming/i.test(blockText),
+  caTravel ? "travel context found — caveat required" : "no travel-context CA discussion",
 );
 
 // 21 — Pexels attribution: reader-visible paragraph near the start with the real photo ID

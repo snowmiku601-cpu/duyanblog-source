@@ -39,11 +39,11 @@
     },
     {
       "type": "paragraph",
-      "text": "Estimate with three questions, in this order. **What kind of user are you** — mostly maps and messaging, everyday social and music, or streaming and calls? **How long is the trip?** **How good is the Wi-Fi where you are staying** — because genuinely good Wi-Fi absorbs most of a normal profile, and absent or flaky Wi-Fi pushes everything onto the eSIM. Multiply a per-day figure by your days, round up to the next package size on sale, and add explicit headroom: leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling."
+      "text": "Estimate with three questions, in this order. **What kind of user are you** — mostly maps and messaging, everyday social and music, or streaming and calls? **How long is the trip?** **How good is the Wi-Fi where you are staying** — because genuinely good Wi-Fi absorbs most of a normal profile, and absent or flaky Wi-Fi pushes everything onto the eSIM. Multiply a per-day floor by your days, then choose a package your provider offers that is at least the calculated floor. Add non-numeric headroom when appropriate — leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — or make sure the plan can be topped up."
     },
     {
       "type": "paragraph",
-      "text": "The most common mistakes run in opposite directions. People massively overestimate messaging (WhatsApp does not publish a useful per-message figure — but it documents that it uses the same internet connection as web browsing, and its own settings page shows you the exact number you used) and underestimate the four things that can dominate a plan's total: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
+      "text": "The most common mistakes run in opposite directions. Messaging is the activity people misjudge most often: WhatsApp does not publish a useful per-message data figure, but it documents that it uses the same internet connection as web browsing, and its Network usage screen lets you inspect your own usage. and underestimate the four things that can dominate a plan's total: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
     },
     {
       "type": "heading",
@@ -207,7 +207,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The light profile deserves one honest caveat. Text messaging is essentially free in data terms, and ride-hailing usage is modest — but a phone that is not configured to save data quietly synchronizes photos, downloads app updates and refreshes apps in the background. Apple's Low Data Mode and Android's Data Saver exist precisely to stop that, and both companies document what they do. Without such a setting, a \"light\" user's floor is set by the background, not by the activities they chose."
+      "text": "The light profile deserves one honest caveat. WhatsApp does not publish a useful per-message data figure; its Network usage screen lets you inspect your own usage. The bigger variable for a light user is the phone itself: without a data-saving setting, background syncing and downloads continue on cellular. Apple's Low Data Mode and Android's Data Saver exist precisely to stop that, and both companies document what they do. Without such a setting, a \"light\" user's floor is set by the background, not by the activities they chose."
     },
     {
       "type": "heading",
@@ -256,7 +256,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Good Wi-Fi changes these numbers dramatically — that is the modifier most calculators skip. If your accommodation has genuinely fast Wi-Fi, a normal-use day can happen almost entirely off the eSIM, and the light column becomes realistic even for a normal user. Conversely, poor or absent Wi-Fi moves everything onto the eSIM, and — a documented, easy-to-miss behavior — your phone may quietly supplement a weak Wi-Fi connection with cellular data: Apple's Connectivity Assist documentation states that it uses cellular data to improve your connection when Wi-Fi is slow or unusable, and the cellular-data page notes this might result in additional cellular data use. The setting lives in Wi-Fi settings on current iOS and is worth finding and deciding about deliberately before a trip."
+      "text": "Good Wi-Fi changes these numbers dramatically — that is the modifier most calculators skip. If your accommodation has genuinely fast Wi-Fi, a normal-use day can happen almost entirely off the eSIM, and the light column becomes realistic even for a normal user. Conversely, poor or absent Wi-Fi moves everything onto the eSIM, and — a documented, easy-to-miss behavior — your phone may quietly supplement a weak Wi-Fi connection with cellular data: Apple's Connectivity Assist documentation states that it uses cellular data to improve your connection when Wi-Fi is slow or unusable, and the cellular-data page notes this might result in additional cellular data use. The setting lives in Wi-Fi settings on current iOS and is worth finding and deciding about deliberately before a trip. One material caveat for travelers, from the same documentation: Apple says Connectivity Assist is not used while the iPhone is international roaming, or while cellular Low Data Mode is enabled — so the feature can add cellular use at a destination, but is not a general roaming drain."
     },
     {
       "type": "heading",
@@ -269,7 +269,7 @@
       "items": [
         "**Video quality, not video length.** Netflix publishes the spread: one hour costs up to 0.3 GB at Low and up to 3 GB at HD. The same show is a 10× difference depending on one settings toggle.",
         "**Cloud photo backup.** Apple's own documentation warns that allowing Photos to use cellular data \"could lead to higher data usage.\" Apple's own documentation warns this can materially increase cellular usage — the library keeps syncing whenever Photos is allowed to use cellular data.",
-        "**App and system updates.** A phone that thinks it is on unlimited Wi-Fi will download them over your eSIM, and update downloads can materially increase cellular usage. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
+        "**App and system updates.** Automatic downloads, backups and other background activity can add cellular use; Low Data Mode and Data Saver restrict several kinds of background use. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
         "**Weak Wi-Fi with cellular assist.** Apple's Connectivity Assist (documented above) supplements shaky Wi-Fi with cellular — worth deciding about deliberately before you travel.",
         "**Hotspot / tethering.** Tethering a laptop means the laptop's update schedule and backup behavior run on your eSIM budget. Android's documentation notes that some carriers limit or charge extra for tethering — check your eSIM provider's terms before assuming it is simply allowed.",
         "**Autoplay everywhere.** Social feeds autoplay video by default; the difference between text-heavy scrolling and autoplay feeds is the widest editorial range in our table."
@@ -288,7 +288,7 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Download offline maps.** Google documents that offline maps guide you when the internet is slow or unavailable, as long as the whole route is inside the downloaded area — with documented limitations: offline you lose transit, bicycling and walking directions, and driving loses traffic info and alternate routes. Downloading your destination's area before you leave removes the largest recurring map cost entirely.",
+        "**Download offline maps.** Google documents that offline maps guide you when the internet is slow or unavailable, as long as the whole route is inside the downloaded area — with documented limitations: offline you lose transit, bicycling and walking directions, and driving loses traffic info and alternate routes. Downloading your destination's area before you leave can reduce the amount of online map data needed for the downloaded area.",
         "**Turn on Data Saver (Android) or Low Data Mode (iOS).** Android documents that Data Saver lets most apps get background data only via Wi-Fi while active apps keep using mobile data. Apple's Low Data Mode stops background network use, turns off Background App Refresh, reduces streaming quality and turns off automatic downloads and backups.",
         "**Stop WhatsApp media auto-download on cellular.** WhatsApp recommends exactly this when roaming, and documents where to see your real usage: Settings > Storage and data > Network usage.",
         "**Drop Netflix to Save Data.** The mobile setting is documented at about 6 hours per GB, versus about 4 hours per GB on Automatic.",
@@ -316,7 +316,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Once you have a size in mind, the remaining question is which provider sells that size on fair terms for your destination. We put the two major travel eSIM apps we cover' own published plan tables, refund rules and activation mechanics side by side in [Saily vs Airalo](/compare/saily-vs-airalo) — prices dated the day we checked them, vendor claims attributed, no overall winner declared. If your trip is one destination or one region, check that destination's own plans too; per-country catalogues often beat the global bundles on price per gigabyte."
+      "text": "Once you have a size in mind, the remaining question is which provider sells that size on fair terms for your destination. We put the published plan tables, refund rules and activation mechanics for the two travel eSIM providers we currently cover side by side in [Saily vs Airalo](/compare/saily-vs-airalo) — prices dated the day we checked them, vendor claims attributed, no overall winner declared. If your trip is one destination or one region, check that destination's own plans too; per-country catalogues often beat the global bundles on price per gigabyte."
     },
     {
       "type": "faq",
@@ -332,7 +332,7 @@
         },
         {
           "q": "Does WhatsApp use a lot of data abroad?",
-          "a": "Text messaging uses very little — WhatsApp's own help pages document that it uses the same internet connection as web browsing and email, and that you can see your exact usage in Settings > Storage and data > Network usage. WhatsApp does not publish per-minute or per-hour figures for calls, and we will not invent them; voice and video calls behave like the call-app figures in our table above. What matters abroad is the media settings: WhatsApp recommends turning off media auto-download over cellular while roaming."
+          "a": "WhatsApp does not publish a useful per-message data figure; its Network usage screen (Settings > Storage and data) lets you inspect your own usage. WhatsApp also does not publish per-minute or per-hour figures for calls, and we will not invent them; voice and video calls behave like the call-app figures in our table above. What matters abroad is the media settings: WhatsApp recommends turning off media auto-download over cellular while roaming."
         },
         {
           "q": "Do unlimited eSIMs really mean unlimited?",
@@ -340,7 +340,7 @@
         },
         {
           "q": "Should I tether my laptop to my eSIM?",
-          "a": "Only deliberately. A laptop on hotspot behaves like it is on home Wi-Fi — updates, backups and sync all switch on — and Android's documentation notes some carriers limit or charge extra for tethering. Airalo states tethered usage counts against its unlimited plans' daily high-speed allowance. If you tether, turn the laptop's own background updates off first."
+          "a": "Only deliberately. All laptop traffic sent through the hotspot shares the eSIM's cellular budget, and background activity on the laptop can add usage. Android's documentation notes some carriers limit or charge extra for tethering. Airalo states tethered usage counts against its unlimited plans' daily high-speed allowance. If you tether, turn the laptop's own background updates off first."
         },
         {
           "q": "How do I check how much data I actually used?",
