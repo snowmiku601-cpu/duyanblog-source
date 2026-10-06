@@ -9,7 +9,7 @@ owner reviews/approves it. Nothing here runs against production.
 |---|---|
 | Draft article row | Local MySQL `duyanblog_dev`, `Article` slug `saily-vs-airalo`, `status: "draft"`, `isDemo: false`, `publishedAt: null`, author `duyan` (Duy An Tran), category `travel` |
 | Draft source of truth | `content/drafts/saily-vs-airalo.json` (committed — re-running the persist script re-syncs the DB row from this file) |
-| Integrity gate | `node scripts/test-article-draft-saily-vs-airalo.mjs` (20 checks, must exit 0) |
+| Integrity gate | `node scripts/test-article-draft-saily-vs-airalo.mjs` (24 checks, must exit 0) |
 | Evidence ledger | `.superpowers/sdd/2026-10-06-saily-vs-airalo-research/ledger-notes.md` (git-ignored; §DRAFT-TIME REFRESH has the same-day price refresh + conflict rulings) |
 | Media | `public/images/articles/saily-vs-airalo/` (1 Pexels hero photo, Git-managed) |
 

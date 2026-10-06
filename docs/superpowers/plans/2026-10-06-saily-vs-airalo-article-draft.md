@@ -113,3 +113,22 @@
 - [ ] **Step 3: ONE editorial reviewer** (subagent, general-purpose) over the draft JSON + ledger: unsupported claims, stale pricing vs Task 1 refresh, hidden vendor marketing, fake-firsthand implication, asymmetric comparison, premature winner, SEO slop, media misrepresentation, source gaps.
 - [ ] **Step 4: ONE repair pass** from findings; re-run gates; ledger the result.
 - [ ] **Step 5: Worklog entry (Task ID 23)** + commit; final report in Vietnamese with all confirmations; STOP for owner review. **Do not publish, do not merge to production, no indexing change.**
+
+## Final-state amendments after independent review
+
+Recorded 2026-10-06 after two independent review rounds (one editorial reviewer, then the
+owner's independent PR review). Deviations from the original plan as written above:
+
+- Final media = **1** Pexels hero photo (ID 15068317), not 3 — the two supporting backups
+  were removed as dead weight; the hero credit renders as a link to its Pexels photo page
+  (image-block `credit` now parses inline links in the renderer figcaption).
+- Japan table final = **15 rows** (the prose-compared Airalo 10GB/30d $18.00 and 5GB/30d
+  $11.00 rows were added after review found the table missing them).
+- Integrity gate final = **24 checks** (grew from the planned 11: table/prose pair
+  consistency mutation-tested, Pexels credit link checks, homepage-claim→source
+  completeness).
+- The byline (`duyan` / Duy An Tran) is NOT assumed to be the owner's identity — it stays
+  owner-confirmation gated before production import/publish.
+- Production import remains explicit and separate from a git merge: merging ships draft
+  JSON + media only; the production Article row does not exist until an owner-approved
+  create/import step runs, and publishing is a separate later action.

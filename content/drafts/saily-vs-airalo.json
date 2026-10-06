@@ -139,7 +139,7 @@
       "type": "paragraph",
       "text": "Practically: if your plan is firm and you might change your mind before travel, Saily's documented 30-day cash-back window is the clearer protection. If your plans are volatile, note that with Airalo a 'plans changed' refund arrives as app credit, not money back — that credit is only worth holding if you expect to book with Airalo again."
     },
-    { "type": "heading", "level": 2, "text": "Privacy and extras" },
+    { "type": "heading", "level": 2, "text": "Extras and security features" },
     {
       "type": "paragraph",
       "text": "Saily ships extra features its parent positions as security tools: per Saily's own site and terms, these include virtual location changes, malicious-domain blocking and an ad blocker, and the app can add a US phone number for calls and texts at $1.99/month with identity verification required. Airalo's extras are travel-shaped rather than security-shaped: per its own site, the app supports 53 languages and multiple currencies, and its Discover global eSIM line includes data/calls/texts packages. We did not evaluate any security claim as a feature test — these are the providers describing their own products."
@@ -220,6 +220,8 @@
         { "label": "Airalo — Hotspot/tethering help article (checked 2026-10-06)", "url": "https://www.airalo.com/help/using-managing-esims/ZSEEHBT5HW6F/can-i-use-tethering-personal-hotspot/5XTAX1X7HR0B" },
         { "label": "Airalo — Top-up help article (checked 2026-10-06)", "url": "https://www.airalo.com/help/using-managing-esims/ZSEEHBT5HW6F/how-can-i-top-up-an-esim/2DMCF3341SYF" },
         { "label": "Airalo — Package validity help article (checked 2026-10-06)", "url": "https://www.airalo.com/help/getting-started-with-airalo/E8DFWD88SHUX/when-does-my-esim-data-package-expire/0HBQDX9CSUPR" },
+        { "label": "Airalo — official homepage (coverage, customer-count and app-language claims; checked 2026-10-06)", "url": "https://www.airalo.com/" },
+        { "label": "Saily — official homepage (NordVPN-creator label and phone-number add-on claims; checked 2026-10-06)", "url": "https://saily.com/" },
         { "label": "Duyan methodology (internal; reader-facing rules page)", "url": "https://duyanblog.com/methodology" }
       ]
     },

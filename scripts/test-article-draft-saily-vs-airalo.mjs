@@ -172,5 +172,30 @@ check(
   imgsWithCredit.every((b) => b.credit.startsWith("[") || !/pexels/i.test(b.credit)),
 );
 
+// 15 — reader-facing source completeness: homepage-derived claim families must have
+// their official homepage in the Sources block with the checked date.
+// Regression: "200+ locations"/"30 million"/"creators of NordVPN"/"$1.99 phone add-on"
+// appeared in prose with no homepage source a reader could check.
+const homepageClaimFamilies = [
+  { provider: "airalo", patterns: [/200\+\s*locations/i, /over 30\s*million/i, /53\s*languages/i, /multiple currencies/i], homepage: "https://www.airalo.com" },
+  { provider: "saily", patterns: [/creators of nordvpn/i, /\$1\.99\/month/i, /\$1\.99\s*(?:\/|per)\s*mo/i], homepage: "https://saily.com" },
+];
+const srcUrls = new Set((sources?.items ?? []).map((s) => s.url.replace(/\/$/, "")));
+const staleClaims = [];
+for (const family of homepageClaimFamilies) {
+  const claimsUsed = family.patterns.some((r) => r.test(blockText));
+  const homepageSrc = [...srcUrls].find((u) => u === family.homepage);
+  if (claimsUsed && !homepageSrc) staleClaims.push(`${family.provider}: claims used but homepage missing from sources`);
+  if (claimsUsed && homepageSrc) {
+    const item = (sources?.items ?? []).find((s) => s.url.replace(/\/$/, "") === family.homepage);
+    if (item && !item.label.includes(CHECK_DATE)) staleClaims.push(`${family.provider}: homepage source lacks the checked date`);
+  }
+}
+check(
+  "homepage-derived claims have their homepage source with the checked date",
+  staleClaims.length === 0,
+  staleClaims.join("; ") || "both homepage families covered",
+);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);
