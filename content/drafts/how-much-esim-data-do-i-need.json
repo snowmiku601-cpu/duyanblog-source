@@ -1,0 +1,422 @@
+{
+  "type": "guide",
+  "slug": "how-much-esim-data-do-i-need",
+  "title": "How much eSIM data do I need?",
+  "deck": "A way to estimate your travel data from what you actually do — maps, messaging, music, calls, streaming — built on each company's published figures, with the math shown and every number labelled.",
+  "tldr": "Pick a usage profile (light, normal, or heavy), start from roughly a third of a gigabyte to three-plus gigabytes a day depending on your profile, multiply by your trip length, then round up to the next package size the store actually sells. Two documented facts do most of the work: Netflix publishes exactly what each video quality costs per hour, and phone settings like Data Saver, Low Data Mode, and offline maps decide most of the rest. Buy at least one package size above your estimate — never less than an app-update cycle's worth of headroom — or plan to top up.",
+  "categoryId": "travel",
+  "isDemo": false,
+  "authorSlug": "duyan",
+  "authorByline": "Duy An Tran",
+  "heroImage": "/images/articles/how-much-esim-data/hero-phone-navigation.jpg",
+  "heroAlt": "A close-up of hands holding a smartphone outdoors, using a map application for navigation",
+  "heroCredit": "Ingo Joseph / Pexels",
+  "readingMinutes": 15,
+  "tags": [
+    "eSIM",
+    "Travel connectivity",
+    "Data planning"
+  ],
+  "blocks": [
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "How we built these numbers",
+      "text": "This guide is built from each company's published documentation, checked on 2026-10-06. Duyan did not conduct first-hand performance testing, and we did not measure anyone's actual trip. Every figure below carries one of three labels: **documented** (copied from the company's own page), **derived** (our arithmetic from a published bitrate, shown in the text), or **editorial** (our estimate where no first-party figure exists — ranges only, never a precise number)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Every eSIM store will happily sell you 1GB, 3GB, 5GB, 10GB or 20GB, and almost none of them will tell you which one your trip needs. Search the web for a data calculator and you will find dozens of tables confidently stating that one gigabyte equals a certain number of hours of anything — usually without a source. The honest answer is that nobody outside your phone knows what you will use, but the picture is less foggy than the calculator sites make it: several companies publish exact, checkable figures for the activities that actually move the total."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The short version"
+    },
+    {
+      "type": "paragraph",
+      "text": "Estimate with three questions, in this order. **What kind of user are you** — mostly maps and messaging, everyday social and music, or streaming and calls? **How long is the trip?** **How good is the Wi-Fi where you are staying** — because genuinely good Wi-Fi absorbs most of a normal profile, and absent or flaky Wi-Fi pushes everything onto the eSIM. Multiply a per-day figure by your days, round up to the next package size on sale, and add explicit headroom: leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling."
+    },
+    {
+      "type": "paragraph",
+      "text": "The most common mistakes run in opposite directions. People massively overestimate messaging (text is kilobytes — WhatsApp states it uses the same internet connection as web browsing, and its own settings page shows you the exact number you used) and underestimate the four things that actually consume gigabytes: video streaming, video calls, laptop tethering, and operating-system updates that run on cellular because nobody told them not to."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What one hour of each activity costs"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the table the calculator sites won't show you, with the source basis attached to every row. Where a figure is documented, it is copied from the company's own page on 2026-10-06. Where it is derived, the math is in the next section. Where no first-party source exists at all, the row is an editorial range and says so."
+    },
+    {
+      "type": "table",
+      "caption": "Per-hour data cost by activity. Documented rows are the companies' own published figures, checked 2026-10-06; derived rows are our arithmetic (shown below); editorial rows are our estimates because no first-party figure exists.",
+      "head": [
+        "Activity",
+        "Setting / condition",
+        "Data per hour",
+        "Basis"
+      ],
+      "rows": [
+        [
+          "Video streaming",
+          "Netflix, Low quality",
+          "up to 0.3 GB",
+          "Documented"
+        ],
+        [
+          "Video streaming",
+          "Netflix, Medium",
+          "up to 0.7 GB",
+          "Documented"
+        ],
+        [
+          "Video streaming",
+          "Netflix, SD",
+          "up to 1 GB",
+          "Documented"
+        ],
+        [
+          "Video streaming",
+          "Netflix, HD",
+          "up to 3 GB",
+          "Documented"
+        ],
+        [
+          "Video streaming",
+          "Netflix, 4K",
+          "up to 7 GB",
+          "Documented"
+        ],
+        [
+          "Music streaming",
+          "Spotify, Normal (96 kbit/s)",
+          "≈ 43 MB",
+          "Derived"
+        ],
+        [
+          "Music streaming",
+          "Spotify, High (160 kbit/s)",
+          "≈ 72 MB",
+          "Derived"
+        ],
+        [
+          "Music streaming",
+          "Spotify, Very high (320 kbit/s)",
+          "≈ 144 MB",
+          "Derived"
+        ],
+        [
+          "Video call, audio only",
+          "Zoom VoIP (60–80 kbit/s)",
+          "27–36 MB per direction",
+          "Derived from documented"
+        ],
+        [
+          "Video call",
+          "Zoom 1:1 HQ video (600 kbit/s)",
+          "≈ 270 MB per direction",
+          "Derived upper bound"
+        ],
+        [
+          "Video call",
+          "Zoom group 720p (2.6 down / 1.8 up Mbps)",
+          "≈ 1.2 + 0.8 GB",
+          "Derived upper bound"
+        ],
+        [
+          "Video call",
+          "Teams 1:1 recommended (1.5 Mbps)",
+          "≈ 675 MB per direction",
+          "Derived upper bound"
+        ],
+        [
+          "Navigation",
+          "Google Maps, online",
+          "≈ 3–15 MB",
+          "Editorial estimate"
+        ],
+        [
+          "Social feeds",
+          "text-heavy vs autoplay video",
+          "≈ 50 MB – 1+ GB",
+          "Editorial estimate"
+        ],
+        [
+          "Browsing",
+          "typical sites",
+          "≈ 30–100 MB",
+          "Editorial estimate"
+        ]
+      ]
+    },
+    {
+      "type": "callout",
+      "title": "Why the video-call rows say \"upper bound\"",
+      "variant": "note",
+      "text": "Zoom and Microsoft publish *bandwidth requirements* — the capacity a connection needs for each quality tier — not measured consumption. Microsoft's own page notes that actual bandwidth consumption varies with video layout, resolution and frame rate, and that Teams can deliver HD in under 1.5 Mbps. Treat the derived call figures as ceilings for what a call at that quality tier can use, not as what every call uses."
+    },
+    {
+      "type": "paragraph",
+      "text": "The derived rows come from one piece of arithmetic you can re-do yourself. A published bitrate in kbit/s converts to data per hour as: kbit/s × 3,600 seconds ÷ 8 bits per byte ÷ 1,000,000 = MB per hour, per direction — which is why every figure above is labelled per direction or explicitly combined. Spotify's Normal quality at 96 kbit/s works out to 96 × 0.45 = 43.2 MB per hour. Zoom's group-720p requirement of 2.6 Mbps down plus 1.8 Mbps up works out to roughly 1.2 GB down and 0.8 GB up per hour — an upper bound of about 2 GB for a full-quality hour."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Three usage profiles"
+    },
+    {
+      "type": "paragraph",
+      "text": "Profiles are deliberately defined by activities, not by a fictional average person. Combine the rows above with how much of each you actually do. (Spotify's Lossless quality is excluded from these estimates on purpose: the company publishes a format description — \"up to 24-bit/44.1kHz FLAC\" — but no bitrate number, and we will not invent one. If you stream lossless over cellular, your music use will exceed every figure in the table above.)"
+    },
+    {
+      "type": "table",
+      "caption": "Editorial per-day profiles, built from the documented per-hour anchors above. These are estimates by construction; the ranges are wide on purpose. Anchors checked 2026-10-06.",
+      "head": [
+        "Profile",
+        "Typical activities",
+        "Rough per-day use",
+        "Main documented anchor"
+      ],
+      "rows": [
+        [
+          "Light",
+          "maps, messaging, email, ride-hailing; music on the way",
+          "≈ 0.2–0.4 GB",
+          "WhatsApp documented behavior; Spotify derived 43 MB/h; maps editorial"
+        ],
+        [
+          "Normal",
+          "light + social feeds, browsing, 1–2 h music, occasional photo upload",
+          "≈ 0.4–0.8 GB",
+          "Netflix documented; Spotify derived; social editorial"
+        ],
+        [
+          "Heavy",
+          "normal + streaming or video calls, hotspot, cloud photo backup",
+          "≈ 1–3+ GB",
+          "Netflix HD documented 3 GB/h; Teams/Zoom derived ceilings"
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The light profile deserves one honest caveat. Text messaging is essentially free in data terms, and ride-hailing apps are light — but a phone that is not configured to save data quietly synchronizes photos, downloads app updates and refreshes apps in the background. Apple's Low Data Mode and Android's Data Saver exist precisely to stop that, and both companies document what they do. Without such a setting, a \"light\" user's floor is set by the background, not by the activities they chose."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Trip-length scenarios"
+    },
+    {
+      "type": "paragraph",
+      "text": "Take the lower end of your profile's per-day range, multiply by your days, then round up to the package sizes eSIM stores actually sell — the bands below use the bottom of each profile range exactly that way, so they are deliberately conservative floors, not midpoints. These bands are editorial: they combine documented per-hour figures with estimated hours-of-use, and they are ranges because every input is a range. Treat them as a starting point for the size dial, not as a measured fact about your trip."
+    },
+    {
+      "type": "table",
+      "caption": "Editorial starting points by trip length and profile, rounded up to commonly sold package sizes. Combines documented per-hour anchors with estimated daily hours; every band is an estimate. Anchors checked 2026-10-06.",
+      "head": [
+        "Trip",
+        "Light",
+        "Normal",
+        "Heavy"
+      ],
+      "rows": [
+        [
+          "3 days",
+          "≈ 1 GB",
+          "≈ 1–2 GB",
+          "≈ 3–5 GB"
+        ],
+        [
+          "7 days",
+          "≈ 1–2 GB",
+          "≈ 2–5 GB",
+          "≈ 10 GB"
+        ],
+        [
+          "14 days",
+          "≈ 2–3 GB",
+          "≈ 5–10 GB",
+          "≈ 20 GB"
+        ],
+        [
+          "30 days",
+          "≈ 5 GB",
+          "≈ 10–20 GB",
+          "20+ GB or unlimited, FUP-aware"
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Good Wi-Fi changes these numbers dramatically — that is the modifier most calculators skip. If your accommodation has genuinely fast Wi-Fi, a normal-use day can happen almost entirely off the eSIM, and the light column becomes realistic even for a normal user. Conversely, poor or absent Wi-Fi moves everything onto the eSIM, and — a documented, easy-to-miss behavior — your phone may quietly assist a weak Wi-Fi connection with cellular data: Apple states that when Connectivity Assist is on, cellular data is used along with Wi-Fi to keep the connection reliable when Wi-Fi is weak or busy, which might result in additional cellular data use. On a trip, that setting is worth finding and deciding about deliberately."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What makes people underestimate"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Video quality, not video length.** Netflix publishes the spread: one hour costs up to 0.3 GB at Low and up to 3 GB at HD. The same show is a 10× difference depending on one settings toggle.",
+        "**Cloud photo backup.** Apple's own documentation warns that allowing Photos to use cellular data \"could lead to higher data usage.\" A library syncing in the background over an eSIM can silently consume gigabytes.",
+        "**App and system updates.** A phone that thinks it is on unlimited Wi-Fi will download them over your eSIM. Leave extra headroom for large app or system updates, or download them on trusted Wi-Fi before travelling — we deliberately give no per-update figure, because no manufacturer publishes a reliable range.",
+        "**Weak Wi-Fi with cellular assist.** Apple's Connectivity Assist (documented above) supplements shaky Wi-Fi with cellular; Android's equivalent behaviors exist per-app via \"Unrestricted data.\"",
+        "**Hotspot / tethering.** Tethering a laptop means the laptop's update schedule and backup behavior run on your eSIM budget. Android's documentation notes that some carriers limit or charge extra for tethering — check your eSIM provider's terms before assuming it is simply allowed.",
+        "**Autoplay everywhere.** Social feeds autoplay video by default; the difference between text-heavy scrolling and autoplay feeds is the widest editorial range in our table."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How to use less of the data you bought"
+    },
+    {
+      "type": "paragraph",
+      "text": "Every setting below is documented by the company that makes it, with the date we checked. None of them is our invention, and none requires a third-party app."
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Download offline maps.** Google documents that offline maps guide you when the internet is slow or unavailable, as long as the whole route is inside the downloaded area — with documented limitations: offline you lose transit, bicycling and walking directions, and driving loses traffic info and alternate routes. Downloading your destination's area before you leave removes the largest recurring map cost entirely.",
+        "**Turn on Data Saver (Android) or Low Data Mode (iOS).** Android documents that Data Saver lets most apps get background data only via Wi-Fi while active apps keep using mobile data. Apple's Low Data Mode stops background network use, turns off Background App Refresh, reduces streaming quality and turns off automatic downloads and backups.",
+        "**Stop WhatsApp media auto-download on cellular.** WhatsApp recommends exactly this when roaming, and documents where to see your real usage: Settings > Storage and data > Network usage.",
+        "**Drop Netflix to Save Data.** The mobile setting is documented at about 6 hours per GB, versus about 4 hours per GB on Automatic.",
+        "**Set Spotify to Normal quality.** Normal is documented at ≈96 kbit/s — roughly 43 MB per hour derived — against ≈144 MB at Very high.",
+        "**Use Meet saver mode for calls.** Google documents the setting as restricting data use and conserving battery on mobile."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "About \"unlimited\" eSIM plans"
+    },
+    {
+      "type": "paragraph",
+      "text": "Unlimited does not mean unlimited full-speed. Both major providers we compare on this site document their own limits, and the differences are material. Airalo's help pages state that its unlimited packages have a fair-usage policy with a high-speed allowance of 3GB per day at 20 Mbps, after which the connection continues at reduced speeds, resetting every 24 hours. Saily's own plan page describes its unlimited as 5GB per day without a speed limit, then unlimited data at up to 1 Mbps. These are each provider's descriptions of its own plans, checked 2026-10-06 — read the terms of the specific plan you are buying, because the shape of the throttle differs."
+    },
+    {
+      "type": "paragraph",
+      "text": "Hotspot interacts with these limits, too. Airalo states that tethered usage is included and counts against the same daily high-speed allowance; Android's documentation reminds that some carriers limit or charge extra for tethering generally. The practical reading: an \"unlimited\" plan can be the right heavy-use choice — but know the daily full-speed allowance before you rely on it, especially for tethering."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "After you know the volume you need"
+    },
+    {
+      "type": "paragraph",
+      "text": "Once you have a size in mind, the remaining question is which provider sells that size on fair terms for your destination. We put the two major travel eSIM apps we cover' own published plan tables, refund rules and activation mechanics side by side in [Saily vs Airalo](/compare/saily-vs-airalo) — prices dated the day we checked them, vendor claims attributed, no overall winner declared. If your trip is one destination or one region, check that destination's own plans too; per-country catalogues often beat the global bundles on price per gigabyte."
+    },
+    {
+      "type": "faq",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "How many GB do I need for a 7-day trip?",
+          "a": "For most travelers our editorial starting point is 2–5 GB on a normal profile, 1–2 GB if you will mostly be on maps and messaging with good Wi-Fi, and around 10 GB if you plan to stream or tether. These are starting points derived from the documented per-hour anchors in the table above, not measurements — round up to the package the store sells and add headroom for updates."
+        },
+        {
+          "q": "Is 1GB enough for a week?",
+          "a": "It can be, with the data-saving settings documented above and genuinely good Wi-Fi for anything heavy. One gigabyte is about 20 minutes of Netflix at HD (its HD tier publishes up to 3 GB per hour), or about 23 hours of Spotify Normal quality (derived), or a lot of maps and text messaging. What breaks a 1GB week is not the activities you choose — it is background syncing and an OS update arriving on cellular. If you cannot control the background, buy the next size up."
+        },
+        {
+          "q": "Does WhatsApp use a lot of data abroad?",
+          "a": "Text messaging uses very little — WhatsApp's own help pages document that it uses the same internet connection as web browsing and email, and that you can see your exact usage in Settings > Storage and data > Network usage. WhatsApp does not publish per-minute or per-hour figures for calls, and we will not invent them; voice and video calls behave like the call-app figures in our table above. What matters abroad is the media settings: WhatsApp recommends turning off media auto-download over cellular while roaming."
+        },
+        {
+          "q": "Do unlimited eSIMs really mean unlimited?",
+          "a": "Not at full speed. Airalo documents a daily high-speed allowance of 3GB per day at 20 Mbps on its unlimited packages, with reduced speeds after; Saily describes 5GB per day full-speed, then unlimited at up to 1 Mbps. Both are the providers' own published terms, checked 2026-10-06. If your usage is video-heavy, compare the daily full-speed allowance, not the word \"unlimited\"."
+        },
+        {
+          "q": "Should I tether my laptop to my eSIM?",
+          "a": "Only deliberately. A laptop on hotspot behaves like it is on home Wi-Fi — updates, backups and sync all switch on — and Android's documentation notes some carriers limit or charge extra for tethering. Airalo states tethered usage counts against its unlimited plans' daily high-speed allowance. If you tether, turn the laptop's own background updates off first."
+        },
+        {
+          "q": "How do I check how much data I actually used?",
+          "a": "On iPhone, Settings > Cellular lists per-app usage and lets you reset statistics. On Android, Settings > Network & internet shows mobile data use per app. WhatsApp shows its own totals under Settings > Storage and data > Network usage. Your eSIM provider's app also reports remaining data — the device totals are the honest source for your next trip estimate."
+        },
+        {
+          "q": "Why do your numbers differ from other sites' calculators?",
+          "a": "Because most calculators publish single numbers without sources, and the per-app figures they repeat are convention, not documentation. We label every row in our table as documented, derived or editorial, date every source, and show the arithmetic. Where no first-party figure exists — maps, social feeds, browsing — we give ranges and say they are estimates."
+        }
+      ]
+    },
+    {
+      "type": "sources",
+      "title": "Sources — all first-party, checked 2026-10-06",
+      "items": [
+        {
+          "label": "Netflix — How to control how much data Netflix uses (checked 2026-10-06)",
+          "url": "https://help.netflix.com/en/node/87"
+        },
+        {
+          "label": "Spotify — Audio quality: published bitrates per setting (checked 2026-10-06)",
+          "url": "https://support.spotify.com/us/article/audio-quality/"
+        },
+        {
+          "label": "Zoom — System requirements: bandwidth requirements for calls (checked 2026-10-06)",
+          "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060749"
+        },
+        {
+          "label": "Microsoft Teams — Prepare your organization's network: bandwidth requirements table (checked 2026-10-06)",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network"
+        },
+        {
+          "label": "Google Meet — Meet saver mode (checked 2026-10-06)",
+          "url": "https://support.google.com/meet/answer/10569613"
+        },
+        {
+          "label": "Google Maps — Download areas & navigate offline: documented offline behavior and limitations (checked 2026-10-06)",
+          "url": "https://support.google.com/maps/answer/6291838"
+        },
+        {
+          "label": "WhatsApp — About data roaming charges: connection behavior, Network usage setting, media auto-download (checked 2026-10-06)",
+          "url": "https://faq.whatsapp.com/5315147411944059/?cms_platform=android&locale=en_US"
+        },
+        {
+          "label": "Apple — Use cellular data on your iPhone or iPad: per-app toggles and Connectivity Assist (checked 2026-10-06)",
+          "url": "https://support.apple.com/en-us/109323"
+        },
+        {
+          "label": "Apple — Use Low Data Mode on your iPhone and iPad (checked 2026-10-06)",
+          "url": "https://support.apple.com/en-us/102433"
+        },
+        {
+          "label": "Apple — Set up and use iCloud Photos: cellular-data warning (checked 2026-10-06)",
+          "url": "https://support.apple.com/en-us/108782"
+        },
+        {
+          "label": "Apple — Connect to the Personal Hotspot of an iPhone or iPad (checked 2026-10-06)",
+          "url": "https://support.apple.com/en-mide/111785"
+        },
+        {
+          "label": "Android — Use less mobile data with Data Saver (checked 2026-10-06)",
+          "url": "https://support.google.com/pixelphone/answer/7055392"
+        },
+        {
+          "label": "Android — Share a mobile connection by hotspot or tethering: carrier limits note (checked 2026-10-06)",
+          "url": "https://support.google.com/android/answer/9059108"
+        },
+        {
+          "label": "Airalo — Unlimited data eSIMs: fair-usage policy and tethering FAQ (checked 2026-10-06)",
+          "url": "https://www.airalo.com/m/esim/unlimited-packages"
+        },
+        {
+          "label": "Saily — Japan eSIM plan page: unlimited plan terms (checked 2026-10-06)",
+          "url": "https://saily.com/esim-japan/"
+        },
+        {
+          "label": "Pexels — Hero photo by Ingo Joseph, photo 35969 (checked 2026-10-06)",
+          "url": "https://www.pexels.com/photo/35969/"
+        }
+      ]
+    }
+  ]
+}
