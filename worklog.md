@@ -676,3 +676,65 @@ Superpowers lightweight: writing-plans (committed plan docs/superpowers/plans/20
 - Editorial review (ONE reviewer): 5 BLOCKER + 6 MINOR → all repaired in one pass (Japan mid-size arithmetic; unlimited post-cap not-comparable; unsourced 200+→"209 destinations found"; TL;DR/closing name the Europe gap instead of blanket parity; ratings block cut; superlatives replaced; hotspot claim verify-then-recorded). Post-repair: gate 20/20, slop 0, schema 34/34, lint 0, typecheck 0, validate:docs PASS, diff --check clean; DB re-synced.
 - Independent review round 2 (PR #6): Japan table completed with the compared-but-missing rows (Airalo 10GB/30d $18.00, 5GB/30d $11.00 — now 15 rows); FAQ coverage line quotes "209 destinations found"; Pexels credits render as links (renderer figcaption → InlineText); unused media removed; byline gate + production-import truth written into README; "Privacy and extras" heading renamed "Extras and security features" (it never compared privacy practices); homepage-derived claim families now require their homepage source with the checked date (gate check 15). Final gate 24/24.
 - Scope: NO production DB mutation (local only), NO publish, NO indexing change, NO deploy, NO schema change, Hostinger/Spaceship untouched. Not merged — awaiting owner review.
+
+---
+Task ID: 24
+Agent: Claude Code (lead) — SESSION HANDOFF: production state + next-launch plan (docs only).
+
+PRODUCTION STATE (as of 2026-10-06, deploy verified this session):
+- Production = Spaceship (duyanblog.com); Hostinger staging = rollback/reference only, untouched.
+- Deployed source: a096c9e812f4a610ce014d6422623055036058ed (main; PR #7 merged).
+- FIRST REAL ARTICLE IS LIVE: https://duyanblog.com/compare/saily-vs-airalo
+  - slug saily-vs-airalo, type versus, status published, isDemo=false, publishedAt 2026-10-06T11:14:45.251Z.
+  - Public byline: Duy An Tran. Production author profile deliberately minimal/truthful:
+    role = Author; bio = "Duy An Tran writes for Duyan Blog."; focusAreas = [].
+  - 34 blocks; readingMinutes = 14; hero metadata set (heroImage/heroAlt/heroCredit;
+    "Image credit:" label on all 5 article routes since this SHA).
+  - Tags: eSIM, travel-connectivity, saily, airalo.
+  - Comparison relation intentionally null (v1 uses static evidence tables).
+  - reviewerId null; lastReviewedAt null; featured false.
+  - No affiliate/go links; no AffiliateOffer dependency anywhere in the article.
+  - Row counts in this entry are an as-of-session observation, NOT durable invariants.
+
+INDEXING STATE:
+- Indexing intentionally STILL OFF: ALLOW_INDEXING=false; robots serves "Disallow: /".
+- The published article IS in sitemap.xml/feed.xml/feed.json and publicly reachable,
+  but Google/Bing submission has NOT been done.
+- Do NOT open indexing merely because one article is live. Current editorial preference:
+  publish a small initial content cluster first, then run a separate Content Launch Review
+  before enabling indexing. This is an editorial launch choice, not a Google rule.
+
+NEXT CONTENT ORDER:
+1. how-much-esim-data-do-i-need — "How much eSIM data do I need?" — next session starts
+   with RESEARCH GATE ONLY (no drafting/publishing).
+2. Best eSIM for Europe.
+3. Content Launch Review → if clean: ALLOW_INDEXING=true → rebuild/restart →
+   verify robots + sitemap + canonicals → submit sitemap / Google Search Console →
+   Bing can follow.
+Launch cluster: how-much-esim-data-do-i-need ↔ saily-vs-airalo ↔ best-esim-for-europe;
+cross-link naturally once the articles exist.
+
+EDITORIAL / MONETIZATION RULES (unchanged, durable):
+- Affiliate approval is NOT a prerequisite for publishing or indexing.
+  Strategy: content first → indexing → affiliate retrofit later.
+- Never fabricate affiliate offers, merchant URLs, scores, testing claims, or
+  first-hand experience. Evidence standard: official docs/specs/pricing/terms +
+  credible sources + explicit check dates + editorial judgment. Scores are editorial
+  judgment only. Early non-commerce versus content: static evidence tables are fine;
+  never create a Comparison row merely to satisfy structure.
+
+PRODUCTION SAFETY (durable): Spaceship is production; Hostinger untouched; supported
+CloudLinux/cPanel/Spaceship mechanisms only; builds use the proven limited-worker setup
+(experimental.cpus = 2); schema deploy = prisma migrate deploy; never rewrite applied
+migrations; never seed demo data into production; new schema changes = new migrations
+only; never expose credentials/tokens/session URLs; never broad-kill Node processes.
+Do not persist transient deployment details (PID/BUILD_ID/env values) into governance.
+
+NEXT SESSION START PROCEDURE:
+1. git fetch origin. 2. Verify actual origin/main. 3. Read .claude/CLAUDE.md,
+.claude/rules/operating-rhythm.md, relevant editorial/content governance, and this
+handoff entry. 4. Verify production/indexing state before assuming it is unchanged.
+5. Start a research-only task for how-much-esim-data-do-i-need.
+Superpowers only where applicable; one lead agent, at most one hostile reviewer.
+Do not reopen settled Saily-vs-Airalo review work unless a real production
+regression appears.
