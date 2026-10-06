@@ -791,3 +791,14 @@ Agent: Claude Code (lead) — PR #8 independent-review repair (one pass, no new 
 - LOCAL DB re-synced + read back verified (draft, publishedAt null, floors/127686/Pexels para present). Production untouched.
 - Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, git diff --check clean.
 - Commit 7d6261e pushed to content/how-much-esim-data-do-i-need-draft (PR #8 head). NOT merged, NOT deployed, no production import, no publish, indexing unchanged.
+
+---
+Task ID: 28
+Agent: Claude Code (lead) — PR #8 final blocker cleanup (no reviewer; verification only).
+- Residual magnitudes removed (massively-overestimate-messaging, essentially-free-text, ride-hailing-modest, FAQ uses-very-little) → WhatsApp framing: "does not publish a useful per-message data figure; Network usage screen lets you inspect your own usage."
+- Connectivity Assist: travel caveat added from source 127686 (not used while iPhone is international roaming or cellular Low Data Mode enabled); no speculation on eSIM roaming treatment. Gate regression #20 extended.
+- Technical wording: background "can add cellular use" (no always-on claim); hotspot = shared cellular budget; offline maps "can reduce the amount of online map data needed for the downloaded area."
+- Copy bug (we cover' own) fixed; short-version buy rule aligned to floor methodology (at-least-the-floor, no ladder).
+- Gate 39 → 42 checks, all PASS exit 0; serializeBlocks 31/31 roundtrip (21,060 bytes); floors recomputed (12/12 match); local duyanblog_dev re-synced + read-back verified (draft, publishedAt null).
+- Mergeability re-inspected: origin/main fetched, branch behind 0, PR #8 mergeable=MERGEABLE state=CLEAN. NOT merged.
+- Gates: slop 0, lint 0, typecheck 0, validate:docs PASS, diff --check clean. Commit 5fde85f pushed (PR #8 head). Production untouched; indexing unchanged.
