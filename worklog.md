@@ -817,3 +817,17 @@ Agent: Claude Code (lead) — PRODUCTION DRAFT IMPORT for how-much-esim-data-do-
 - ADMIN PREVIEW UNAVAILABLE — NO AUTHENTICATED SESSION (per brief: not a blocker; DB readback + fail-closed public invariants pass).
 - PRODUCTION VERSION: duyanblog.com serving source 7ee3b97 (main; PR #8).
 - WORKLOG: this entry only; no article content change, no article PR. Nothing published.
+
+---
+Task ID: 31
+Agent: Claude Code (lead) — PUBLISHED article #2: how-much-esim-data-do-i-need (indexing still OFF).
+
+- MAIN VS DEPLOYED: origin/main cd96c3f = docs-only diff (worklog Task 30) vs deployed 7ee3b97 — NO redeploy for SHA parity.
+- PRE-PUBLISH READBACK: ALL INVARIANTS OK (guard script checked 20+ fields against committed source; guide route 404; robots Disallow: /; ALLOW_INDEXING=false).
+- PUBLISH MUTATION: ONE targeted Prisma update, guarded by full draft invariants, changed EXACTLY status + publishedAt (2026-10-06T15:53:30.989Z). No admin PUT; no other field touched.
+- VISIBILITY: canonical route 200 on first poll (stale-while-revalidate). Rendered-page verification (Playwright): H1 exact, byline Duy An Tran + role Author, hero ×1, "Image credit: Ingo Joseph / Pexels", Pexels 35969 link, TL;DR, 3 tables, FAQ, sources, versus link, 0 /go/, 0 buy CTAs, canonical exact, OG image = hero, Article + Breadcrumb JSON-LD with datePublished = publishedAt, 0 Product/Offer/Review/aggregateRating schema, wrong-type routes 404. The only "demo" text on page = site-wide footer Demo build disclaimer (pre-existing, not article DemoNotice).
+- DISTRIBUTION: sitemap.xml, feed.xml, feed.json, /guides, /travel, /tag/esim, /tag/travel-connectivity, /tag/data-planning all contain the slug; homepage shows it in the latest-articles section (app behaviour — home's latest query is not featured-filtered; featured stays false).
+- INCIDENT (Task 31): sitemap.xml stayed stale >4.5 h after publish (many ISR windows). Diagnosis: Next 16 standalone prerendered sitemap body never runtime-revalidated on this host (meta has no expiry; body still build-time). Fix per supported controls: rebuild (same source 7ee3b97 — rebuild is a supported deploy step, not a SHA-chase redeploy) + restart.txt touch. Prerendered sitemap now contains the article; post-restart all routes verified 200 + robots unchanged. Lesson: on this host, content changes that must appear in sitemap.xml require either a rebuild or a documented runtime revalidation path (admin publish route calls revalidatePaths — future publishes should use the admin API or accept rebuild latency).
+- LOGS/SAFETY: 0 fatal/unhandled lines; Hostinger untouched; no demo seed; no affiliate rows; no schema mutation; no credential bootstrap; ALLOW_INDEXING=false verified; no Google/Bing submission.
+- FINAL READBACK: published / publishedAt set / isDemo false / 31 blocks / rm 15 / hero+tags+author+category unchanged / reviewerId null / lastReviewedAt null / featured false / 0 go: / no offerId. Only the two real articles exist (saily-vs-airalo, how-much-esim-data-do-i-need) — no unrelated mutations.
+- NEXT: backlink saily-vs-airalo ↔ guide still pending (small content-sync task); next planned content = Best eSIM for Europe; Content Launch Review before ALLOW_INDEXING=true.
