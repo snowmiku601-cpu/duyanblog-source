@@ -236,5 +236,18 @@ check(
   staleClaims.join("; ") || "both homepage families covered",
 );
 
+// 16 — exactly one contextual internal link to the data-estimation guide
+// (two-way cluster link; must be a paragraph-level Markdown link, not a source row).
+const guideLinks = blocks.filter(
+  (b) => b.type === "paragraph" && /\[[^\]]+\]\(\/guides\/how-much-esim-data-do-i-need\)/.test(b.text),
+);
+check(
+  "exactly one contextual link to /guides/how-much-esim-data-do-i-need",
+  guideLinks.length === 1,
+  `${guideLinks.length} link(s)`,
+);
+const guideSrcRow = (sources?.items ?? []).some((s) => (s.url ?? "").includes("how-much-esim-data-do-i-need"));
+check("guide link lives in prose, not in the sources block", !guideSrcRow);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);
