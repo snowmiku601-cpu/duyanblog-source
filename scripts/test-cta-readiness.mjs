@@ -39,15 +39,32 @@ function check(name, cond) {
 }
 
 // --- Invariant 1: demo wording is conditional, not baked in ------------------
-// "sample"/"fictional"/"demo" strings must appear only inside branches gated by
-// an isDemo flag, OR in a documented demo-only message. We assert the LITERAL
-// demo tokens never appear unconditionally in the consumer-facing strings.
-check("MerchantOffer has no unconditional '(demo)' label",
-  !/\(demo\)/.test(merchantOffer.replace(/\s*\{isDemo[\s\S]*?\}\s*/g, "")));
-check("pick path has no unconditional '(demo merchant)'",
-  !/\(demo merchant\)/.test(renderer));
-check("ComparisonTable footer 'examples in this demo' is conditional or gone",
-  /isDemo/.test(comparisonTable));
+// Demo/sample tokens must only appear inside an isDemo-gated branch. A token
+// inside `{isDemo && (...)}` or a `isDemo ? demoBranch : realBranch` ternary is
+// fine; the same token outside any isDemo-gated context is a leak. We assert
+// conditionality structurally: every occurrence of the token sits after an
+// `isDemo &&`/`isDemo ?` gate opening before the next closing of that expression.
+function gatedOccurrences(src, token) {
+  // split on isDemo gates; anything outside a gate that contains the token fails.
+  // Segments: find every `isDemo && (` ... matching close, and `isDemo ?` ... `:`.
+  // Cheap structural approximation: strip isDemo-gated regions, then search.
+  const stripped = src
+    .replace(/\{\s*isDemo\s*&&\s*\([\s\S]*?\)\s*\}/g, "") // JSX conditional render
+    .replace(/\{\s*isDemo\s*&&\s*<[\s\S]*?\/>\s*\}/g, "") // self-closing JSX
+    .replace(/isDemo\s*\?[\s\S]*?:[\s\S]*?(?=[,;)}])/g, ""); // ternaries
+  return stripped.includes(token);
+}
+check("MerchantOffer: '(demo)' only inside isDemo-gated branches",
+  !gatedOccurrences(merchantOffer, "(demo)"));
+check("pick path: '(demo merchant)' only inside isDemo-gated branches",
+  !gatedOccurrences(renderer, "(demo merchant)"));
+check("pick chip 'sample data' only inside isDemo-gated branches",
+  !gatedOccurrences(renderer, "sample data"));
+check("ComparisonTable footer demo wording only inside isDemo ternary",
+  (() => {
+    const m = comparisonTable.match(/isDemo\s*\?\s*\([\s\S]{0,400}?examples in this demo[\s\S]{0,200}?\)\s*:\s*\(/);
+    return !!m;
+  })());
 check("affiliate disclosure no longer claims 'it costs you nothing extra'",
   !/costs you nothing extra/.test(affiliateLink));
 check("affiliate disclosure neutral wording present",
@@ -66,6 +83,17 @@ for (const [name, src] of Object.entries(callSites)) {
 }
 check("compare page passes isDemo to ComparisonTable",
   /<ComparisonTable[^>]*\bisDemo=\{article\.isDemo\}/.test(callSites.compare));
+// Every <MerchantOffer> call site must thread demo context (deals computes it,
+// article-renderer forwards it, review sidebar uses article.isDemo).
+const merchantCallSites = {
+  deals: dealsPage,
+  reviews: callSites.review,
+  renderer,
+};
+for (const [name, src] of Object.entries(merchantCallSites)) {
+  check(`<MerchantOffer call site (${name}) threads isDemo`,
+    /<MerchantOffer[^>]*\bisDemo=\{/.test(src));
+}
 
 // --- Invariant 3: /deals production hygiene ----------------------------------
 check("/deals never exposes seed:demo to visitors",
