@@ -100,7 +100,7 @@ export default async function EditorialPage({ params }: Params) {
               />
             </div>
             {article.heroCredit && (
-              <figcaption className="bg-card px-4 py-2 text-xs text-muted-foreground">Illustration: {article.heroCredit}</figcaption>
+              <figcaption className="bg-card px-4 py-2 text-xs text-muted-foreground">Image credit: {article.heroCredit}</figcaption>
             )}
           </figure>
         )}

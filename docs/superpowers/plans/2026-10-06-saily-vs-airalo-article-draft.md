@@ -120,20 +120,26 @@ Recorded 2026-10-06 after two independent review rounds (one editorial reviewer,
 owner's independent PR review). Deviations from the original plan as written above:
 
 - Final media = **1** Pexels hero photo (ID 15068317), not 3 — the two supporting backups
-  were removed as dead weight. Attribution shape after the third review round: image
-  `credit` stays **plain text** ("Towfiqu barbhuiya / Pexels") and a linked attribution
-  paragraph follows the hero block — an earlier attempt to parse credit through InlineText
-  in the renderer was **fully reverted** (it would have allowed `go:OFFER_ID` inside image
-  credits, an undisclosed affiliate surface).
-- Final draft = **35 blocks** (34 + the attribution paragraph).
+  were removed as dead weight. The hero was then **deduped out of the body**: it lives in
+  the Article `heroImage`/`heroAlt`/`heroCredit` fields (mirrored in the committed draft),
+  and the linked Pexels attribution paragraph stays in the body. Attribution wording in
+  the routes is "Image credit:" (was "Illustration:"). An earlier attempt to parse credit
+  through InlineText in the renderer was **fully reverted** (it would have allowed
+  `go:OFFER_ID` inside image credits, an undisclosed affiliate surface).
+- Final draft = **34 blocks** (the body hero image block was removed in the metadata pass).
 - Japan table final = **15 rows** (the prose-compared Airalo 10GB/30d $18.00 and 5GB/30d
   $11.00 rows were added after review found the table missing them).
-- Integrity gate final = **26 checks** (grew from the planned 11: table/prose pair
+- Integrity gate final = **30 checks** (grew from the planned 11: table/prose pair
   consistency mutation-tested, plain-text/no-go: credit checks, attribution-paragraph
-  photo-ID check, homepage-claim→source completeness).
+  photo-ID check, homepage-claim→source completeness, hero-metadata + hero-not-duplicated,
+  final counts: 34 blocks / readingMinutes 14 / the 4 approved tags).
+- `readingMinutes = 14` (repo's own `estimateReadingMinutes` on the final 34 blocks);
+  tags exactly `eSIM`, `travel-connectivity`, `saily`, `airalo`.
 - The byline (`duyan` / Duy An Tran) was owner-confirmation gated before production
   import/publish. Owner confirmed public byline: Duy An Tran (2026-10-06) — that gate is
   now closed.
-- Production import remains explicit and separate from a git merge: merging ships draft
-  JSON + media only; the production Article row does not exist until an owner-approved
-  create/import step runs, and publishing is a separate later action.
+- Production state: the Article row EXISTS in production as a draft (explicit
+  owner-approved import), the author profile was repaired to the minimal truthful
+  values, and the metadata pass is applied there too. Comparison remains **null
+  intentionally** (v1 uses static evidence tables). Still unpublished;
+  `ALLOW_INDEXING` remains false; publishing is a separate owner action.

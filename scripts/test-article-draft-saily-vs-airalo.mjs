@@ -105,16 +105,40 @@ const unattributed = vendorClaims.filter((r) => {
 });
 check("vendor claims carry per-provider attribution", unattributed.length === 0, unattributed.map(String).join(", "));
 
-// 11 — image blocks point at real local files
+// 11 — hero lives in Article.heroImage (deduped from the body); any remaining image
+// blocks must point at real local files, and the body must NOT duplicate the hero.
 const images = blocks.filter((b) => b.type === "image");
 const missing = images.filter((b) => !existsSync(path.join(ROOT, "public", b.src)));
 check("image blocks reference existing local files", missing.length === 0, missing.map((b) => b.src).join(", "));
-check("hero image present", images.length >= 1);
+const HERO = "/images/articles/saily-vs-airalo/hero-airport-phone.jpg";
+check(
+  "hero metadata present and matches the deployed asset",
+  draft.heroImage === HERO && existsSync(path.join(ROOT, "public", draft.heroImage ?? "")) &&
+    typeof draft.heroAlt === "string" && draft.heroAlt.length > 20 &&
+    typeof draft.heroCredit === "string" && draft.heroCredit.length > 3,
+  `${draft.heroImage} | alt ${draft.heroAlt?.length ?? 0}ch | credit ${draft.heroCredit ?? "none"}`,
+);
+check(
+  "hero image not duplicated in body blocks",
+  images.every((b) => b.src !== HERO),
+  `${images.length} body image block(s)`,
+);
 
 // 12 — article meta shape Task 4 imports
 check("article meta: versus/slug/isDemo false", draft.type === "versus" && draft.slug === "saily-vs-airalo" && draft.isDemo === false);
 check("title ≤ 70 chars", typeof draft.title === "string" && draft.title.length <= 70, `${draft.title?.length}`);
 check("deck present", typeof draft.deck === "string" && draft.deck.length > 20);
+
+// 12b — final-state counts and approved tags (must match the production row exactly)
+check("final block count = 34", blocks.length === 34, `${blocks.length}`);
+check("readingMinutes = 14", draft.readingMinutes === 14, `${draft.readingMinutes}`);
+const APPROVED_TAGS = ["eSIM", "Travel connectivity", "Saily", "Airalo"];
+check(
+  "tags exactly the four approved values",
+  Array.isArray(draft.tags) && draft.tags.length === APPROVED_TAGS.length &&
+    APPROVED_TAGS.every((t, i) => draft.tags[i] === t),
+  JSON.stringify(draft.tags),
+);
 
 // 13 — every price/validity pair the prose or FAQ compares directly must exist as a table row.
 // Regression: prose once compared "Airalo 10GB/30d $18.00" while the table only had 10GB/7d $17.00.

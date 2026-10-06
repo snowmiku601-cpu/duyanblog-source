@@ -84,7 +84,7 @@ Order picks by `rank` starting at 1. Each pick: a specific need in `badge` ("Bes
 ## 6. Comparisons
 
 - **Embedded table in any article:** add `{ "type": "comparisonEmbed", "comparisonSlug": "cloudpeak-vs-harborstack-table" }`. The slug points at a `Comparison` row; rows/attributes/winner logic come from the database, not the article.
-- **Versus pages:** attach the `Comparison` to the article (`Comparison.articleId = article.id`) — `/compare/[slug]` then renders the table automatically above the body. Write the prose to interpret the table (who wins what, and who should buy which), not to repeat every cell. Attributes that should drive a "winner" mark need `numeric` values and a `direction` (`"high"` or `"low"`); ties show no winner by design.
+- **Versus pages:** attach the `Comparison` to the article (`Comparison.articleId = article.id`) — `/compare/[slug]` then renders the table automatically above the body. Write the prose to interpret the table (who wins what, and who should buy which), not to repeat every cell. Attributes that should drive a "winner" mark need `numeric` values and a `direction` (`"high"` or `"low"`); ties show no winner by design. A versus article launching **without** structured commerce/comparison data may use static evidence `table` blocks in the body instead and leave the `Comparison` relation null — attach a `Comparison` row only when using the structured comparison engine, and never fabricate scores or items merely to satisfy the relation.
 
 ## 7. Labelling rule for demo/sample content
 
