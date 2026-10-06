@@ -21,7 +21,7 @@
       "type": "image",
       "src": "/images/articles/saily-vs-airalo/hero-airport-phone.jpg",
       "alt": "A traveler holding a smartphone in an airport terminal, with luggage nearby",
-      "credit": "Photo: Towfiqu barbhuiya / Pexels",
+      "credit": "[Photo: Towfiqu barbhuiya / Pexels](https://www.pexels.com/photo/15068317/)",
       "caption": "Both apps promise the same thing: data that works the moment you land. The differences are in the plan tables and the small print."
     },
     { "type": "heading", "level": 2, "text": "The short version" },
@@ -49,7 +49,9 @@
         ["Airalo", "3 GB", "3 days", "$7.50", ""],
         ["Airalo", "3 GB", "7 days", "$8.00", ""],
         ["Airalo", "5 GB", "7 days", "$10.00", ""],
+        ["Airalo", "5 GB", "30 days", "$11.00", ""],
         ["Airalo", "10 GB", "7 days", "$17.00", ""],
+        ["Airalo", "10 GB", "30 days", "$18.00", ""],
         ["Airalo", "20 GB", "30 days", "$25.00", ""],
         ["Airalo", "Unlimited", "3–30 days", "$11.50–$69.00", "3GB/day at 20 Mbps, then reduced"]
       ]
@@ -182,7 +184,7 @@
         },
         {
           "q": "Which provider covers more countries?",
-          "a": "Their own labels aren't comparable: Saily's site says 200+ destinations overall and 121 countries for its global plan; Airalo's says 200+ locations overall and 168 'Countries and Networks' for its Discover global eSIM. Different units, different lists. Check your specific destinations against both providers' published country lists."
+          "a": "Their own labels aren't comparable: Saily's all-destinations page said '209 destinations found' on the check date and its global plan listing says 121 countries; Airalo's site says '200+ locations' overall and its Discover global page says 168 'Countries and Networks'. Different units, different lists. Check your specific destinations against both providers' published country lists."
         },
         {
           "q": "Do these eSIMs come with a phone number for calls and texts?",

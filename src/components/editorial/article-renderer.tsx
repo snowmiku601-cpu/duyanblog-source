@@ -238,7 +238,11 @@ export async function ArticleRenderer({
             {(block.caption || block.credit) && (
               <figcaption className="bg-card px-4 py-2.5 text-xs text-muted-foreground">
                 {block.caption}
-                {block.credit && <span className="ml-2 italic">({block.credit})</span>}
+                {block.credit && (
+                  <span className="ml-2 italic">
+                    (<InlineText text={block.credit} ctx={{ articleSlug }} />)
+                  </span>
+                )}
               </figcaption>
             )}
           </figure>

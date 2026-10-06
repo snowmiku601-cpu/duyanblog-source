@@ -116,5 +116,61 @@ check("article meta: versus/slug/isDemo false", draft.type === "versus" && draft
 check("title ≤ 70 chars", typeof draft.title === "string" && draft.title.length <= 70, `${draft.title?.length}`);
 check("deck present", typeof draft.deck === "string" && draft.deck.length > 20);
 
+// 13 — every price/validity pair the prose or FAQ compares directly must exist as a table row.
+// Regression: prose once compared "Airalo 10GB/30d $18.00" while the table only had 10GB/7d $17.00.
+// Extract "$X.XX" amounts near a "<N> GB/<N> days"-style validity token from paragraph/faq text,
+// then require the (provider-agnostic) pair to appear in some table.
+const proseFields = [
+  ...blocks.filter((b) => b.type === "paragraph").map((b) => b.text),
+  ...(blocks.find((b) => b.type === "faq")?.items ?? []).map((i) => i.a),
+  draft.tldr ?? "",
+].join("\n");
+
+const tablePairs = new Set();
+for (const t of tables) {
+  for (const r of t.rows) {
+    const gb = (r[1] ?? "").match(/(\d+)\s*GB/i)?.[1];
+    const days = (r[2] ?? "").match(/(\d+)\s*days?/i)?.[1];
+    const price = (r[3] ?? "").match(/\$(\d+(?:\.\d{2})?)/)?.[1];
+    if (gb && days && price) tablePairs.add(`${gb}GB|${days}d|${price}`);
+  }
+}
+
+const compared = new Set();
+// Split prose into sentences; pin a pair only when one sentence names a GB amount
+// and a day window AND contains both prices — a much tighter context than raw proximity.
+for (const sentence of proseFields.split(/(?<=[.!?])\s+/)) {
+  const prices = [...sentence.matchAll(/\$(\d+(?:\.\d{2})?)/g)].map((x) => x[1]);
+  if (prices.length < 2) continue;
+  const gbs = [...sentence.matchAll(/(\d+)\s*GB\b/gi)].map((x) => x[1]);
+  const days = [...sentence.matchAll(/(\d+)[- ]days?|\bover (\d+) days\b|(\d+)\s*days?\s+(?:of validity|minimum|window)/gi)]
+    .map((x) => x[1] ?? x[2] ?? x[3])
+    .filter(Boolean);
+  if (gbs.length !== 1 || days.length !== 1) continue;
+  for (const price of prices) compared.add(`${gbs[0]}GB|${days[0]}d|${price}`);
+}
+const uncovered = [...compared].filter((p) => !tablePairs.has(p));
+check(
+  "every prose/FAQ price pair exists as a table row",
+  uncovered.length === 0,
+  uncovered.length ? `missing from tables: ${uncovered.join("; ")}` : `${compared.size} compared pairs all covered`,
+);
+
+// 14 — Pexels credit carries a rendered link to the photo page (inline syntax, not plain text)
+const imgsWithCredit = images.filter((b) => b.credit);
+check(
+  "image credits are inline links to pexels.com",
+  imgsWithCredit.every((b) => /\[[^\]]+\]\(https:\/\/www\.pexels\.com\/photo\/[^)]+\)/.test(b.credit)),
+  imgsWithCredit.map((b) => b.credit?.slice(0, 50)).join(" | "),
+);
+const photoPageIds = imgsWithCredit
+  .map((b) => b.credit?.match(/pexels\.com\/photo\/(\d+)/)?.[1])
+  .filter(Boolean);
+check("every credited photo page URL uses the real Pexels photo ID", photoPageIds.length === imgsWithCredit.length && photoPageIds.length > 0, photoPageIds.join(", "));
+check(
+  "no plain-text-only Pexels credit",
+  imgsWithCredit.every((b) => b.credit.startsWith("[") || !/pexels/i.test(b.credit)),
+);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);

@@ -11,14 +11,27 @@ owner reviews/approves it. Nothing here runs against production.
 | Draft source of truth | `content/drafts/saily-vs-airalo.json` (committed — re-running the persist script re-syncs the DB row from this file) |
 | Integrity gate | `node scripts/test-article-draft-saily-vs-airalo.mjs` (20 checks, must exit 0) |
 | Evidence ledger | `.superpowers/sdd/2026-10-06-saily-vs-airalo-research/ledger-notes.md` (git-ignored; §DRAFT-TIME REFRESH has the same-day price refresh + conflict rulings) |
-| Media | `public/images/articles/saily-vs-airalo/` (3 Pexels photos, Git-managed) |
+| Media | `public/images/articles/saily-vs-airalo/` (1 Pexels hero photo, Git-managed) |
 
-## Why author `duyan`
+## Author / byline publish gate
 
-The seed marks its dataset fictional, but the `duyan` row (Duy An Tran, Founding editor)
-carries the owner's own identity — the site is named after them. The other two seed authors
-are fictional characters and were deliberately not used. Swap `authorId` in the admin UI if
-the byline should differ.
+The local draft currently uses author slug `duyan` / byline `Duy An Tran`.
+Owner must explicitly confirm this is the intended real byline before publish.
+(The other seed authors are fictional demo characters and must not be used.)
+If the byline should differ, swap `authorId` in the admin UI before publishing.
+
+## Production import — what a git merge does and does not do
+
+**A git merge of this branch ships draft JSON + media files only.** The `Article`
+row exists ONLY in the local `duyanblog_dev` database — production does NOT
+contain this article after merging. To get it into production:
+
+1. Owner approves the draft content (this review).
+2. An explicit, owner-approved create/import step creates the production
+   `Article` row with `status: "draft"` first (via the production admin editor
+   or a one-time import run against the production DB by the owner).
+3. Publishing (`status: "published"` + `publishedAt`) is a later, separate action.
+4. Never seed demo content into production.
 
 ## How to review
 
