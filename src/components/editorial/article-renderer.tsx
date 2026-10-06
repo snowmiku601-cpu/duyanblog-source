@@ -261,6 +261,17 @@ export async function ArticleRenderer({
                   )}
                 </h3>
               </div>
+              {block.imageUrl && (
+                <div className="relative ml-auto h-16 w-24 shrink-0 overflow-hidden rounded-sm border border-border bg-muted md:h-20 md:w-28">
+                  <Image
+                    src={block.imageUrl}
+                    alt="" // decorative: the schema has no truthful image-alt field, so we never
+                    fill // invent alt text from the product name — the name sits in adjacent text
+                    sizes="112px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
             </div>
             <div className="p-5">
               <p className="prose-body text-foreground/90">
