@@ -21,8 +21,12 @@
       "type": "image",
       "src": "/images/articles/saily-vs-airalo/hero-airport-phone.jpg",
       "alt": "A traveler holding a smartphone in an airport terminal, with luggage nearby",
-      "credit": "[Photo: Towfiqu barbhuiya / Pexels](https://www.pexels.com/photo/15068317/)",
+      "credit": "Towfiqu barbhuiya / Pexels",
       "caption": "Both apps promise the same thing: data that works the moment you land. The differences are in the plan tables and the small print."
+    },
+    {
+      "type": "paragraph",
+      "text": "Photo: [Towfiqu barbhuiya / Pexels](https://www.pexels.com/photo/15068317/)"
     },
     { "type": "heading", "level": 2, "text": "The short version" },
     {

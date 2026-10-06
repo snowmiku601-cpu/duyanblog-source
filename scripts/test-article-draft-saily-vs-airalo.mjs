@@ -156,20 +156,35 @@ check(
   uncovered.length ? `missing from tables: ${uncovered.join("; ")}` : `${compared.size} compared pairs all covered`,
 );
 
-// 14 — Pexels credit carries a rendered link to the photo page (inline syntax, not plain text)
+// 14 — Pexels attribution: a reader-visible link to the photo page must exist in article
+// content (paragraph), while image.credit stays PLAIN TEXT — it must never carry Markdown
+// links or go: targets (renderer renders credit as plain text; a link there would be a
+// semantics change and go: would create an undisclosed affiliate surface).
 const imgsWithCredit = images.filter((b) => b.credit);
 check(
-  "image credits are inline links to pexels.com",
-  imgsWithCredit.every((b) => /\[[^\]]+\]\(https:\/\/www\.pexels\.com\/photo\/[^)]+\)/.test(b.credit)),
+  "image credits are plain text (no Markdown links)",
+  imgsWithCredit.every((b) => !/\]\(/.test(b.credit)),
   imgsWithCredit.map((b) => b.credit?.slice(0, 50)).join(" | "),
 );
-const photoPageIds = imgsWithCredit
-  .map((b) => b.credit?.match(/pexels\.com\/photo\/(\d+)/)?.[1])
-  .filter(Boolean);
-check("every credited photo page URL uses the real Pexels photo ID", photoPageIds.length === imgsWithCredit.length && photoPageIds.length > 0, photoPageIds.join(", "));
 check(
-  "no plain-text-only Pexels credit",
-  imgsWithCredit.every((b) => b.credit.startsWith("[") || !/pexels/i.test(b.credit)),
+  "image credits contain no go: targets",
+  imgsWithCredit.every((b) => !b.credit.includes("go:")),
+);
+const pexelsLinkBlocks = blocks.filter(
+  (b) => b.type === "paragraph" && /\[[^\]]+\]\(https:\/\/www\.pexels\.com\/photo\/\d+\/\)/.test(b.text),
+);
+check(
+  "a paragraph renders the Pexels photo-page link",
+  pexelsLinkBlocks.length >= 1,
+  `${pexelsLinkBlocks.length} attribution paragraph(s)`,
+);
+const photoPageIds = pexelsLinkBlocks
+  .map((b) => b.text.match(/pexels\.com\/photo\/(\d+)/)?.[1])
+  .filter(Boolean);
+check(
+  "the Pexels link uses the real photo ID",
+  photoPageIds.length >= 1 && photoPageIds.every((id) => /^\d+$/.test(id)),
+  photoPageIds.join(", "),
 );
 
 // 15 — reader-facing source completeness: homepage-derived claim families must have

@@ -120,13 +120,17 @@ Recorded 2026-10-06 after two independent review rounds (one editorial reviewer,
 owner's independent PR review). Deviations from the original plan as written above:
 
 - Final media = **1** Pexels hero photo (ID 15068317), not 3 — the two supporting backups
-  were removed as dead weight; the hero credit renders as a link to its Pexels photo page
-  (image-block `credit` now parses inline links in the renderer figcaption).
+  were removed as dead weight. Attribution shape after the third review round: image
+  `credit` stays **plain text** ("Towfiqu barbhuiya / Pexels") and a linked attribution
+  paragraph follows the hero block — an earlier attempt to parse credit through InlineText
+  in the renderer was **fully reverted** (it would have allowed `go:OFFER_ID` inside image
+  credits, an undisclosed affiliate surface).
+- Final draft = **35 blocks** (34 + the attribution paragraph).
 - Japan table final = **15 rows** (the prose-compared Airalo 10GB/30d $18.00 and 5GB/30d
   $11.00 rows were added after review found the table missing them).
-- Integrity gate final = **24 checks** (grew from the planned 11: table/prose pair
-  consistency mutation-tested, Pexels credit link checks, homepage-claim→source
-  completeness).
+- Integrity gate final = **26 checks** (grew from the planned 11: table/prose pair
+  consistency mutation-tested, plain-text/no-go: credit checks, attribution-paragraph
+  photo-ID check, homepage-claim→source completeness).
 - The byline (`duyan` / Duy An Tran) is NOT assumed to be the owner's identity — it stays
   owner-confirmation gated before production import/publish.
 - Production import remains explicit and separate from a git merge: merging ships draft
