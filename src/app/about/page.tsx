@@ -84,8 +84,8 @@ export default async function AboutPage() {
             <div className="rounded-md border border-border bg-card p-5">
               <LogoMark className="h-8 w-8" />
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Duyan Blog is currently a demonstration build: every product, merchant and offer
-                is clearly labelled fictional sample data.
+                Duyan Blog is an independent publication. Our reviews are dated, sourced and
+                reasoned in the open — read the methodology and challenge the working.
               </p>
               <Link href="/contact" className="mt-4 inline-block text-sm font-medium underline underline-offset-4 hover:text-foreground">
                 Say hello →

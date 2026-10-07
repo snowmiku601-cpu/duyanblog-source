@@ -45,7 +45,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Sample content",
         body: [
-          "This demonstration build contains fictional products, merchants, offers and authors, published to show how real editorial work will be presented. Sample pages say so on the page. No sample content is created to deceive search engines, and no fake reviews, ratings or structured data are generated.",
+          "If Duyan Blog publishes demonstration or sample content, it is clearly labelled on the page and excluded from normal editorial and indexing surfaces. No sample content is created to deceive search engines, and no fake reviews, ratings or structured data are generated.",
         ],
       },
       {
@@ -68,7 +68,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Affiliate commissions",
         body: [
-          "Some links to merchants are affiliate links: if you buy something after clicking, the merchant pays us a small commission, at no extra cost to you. Commission rates differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
+          "If and when we use affiliate links to merchants, buying through them may pay us a small commission, at no extra cost to you. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
         ],
       },
       {
@@ -95,10 +95,10 @@ const POLICIES: Policy[] = [
     slug: "affiliate-disclosure",
     title: "Affiliate disclosure",
     description:
-      "How affiliate links work on Duyan Blog: where they appear, how they are marked, and why they never affect verdicts.",
-    updated: "2026-03-01",
+      "How affiliate links work on Duyan Blog when they appear: how they are marked, and why they never affect verdicts.",
+    updated: "2026-10-07",
     intro:
-      "Some pages on this site contain affiliate links. This page explains, in plain language, what that means and does not mean.",
+      "This page explains, in plain language, how affiliate links would be used on this site and what that does and does not mean. There are currently no affiliate links on Duyan Blog; if and when we add them, they will be marked and governed here.",
     sections: [
       {
         heading: "What an affiliate link is",
@@ -120,9 +120,9 @@ const POLICIES: Policy[] = [
         ],
       },
       {
-        heading: "Sample data",
+        heading: "If sample data ever appears",
         body: [
-          "In this demonstration build, all merchants, offers and prices are fictional. Clicking an affiliate link in the demo navigates to a fictional destination URL defined in the admin database — it is never a real checkout.",
+          "Any demonstration or sample offer on the site is clearly labelled as such, both where it is shown and in this disclosure. No sample offer is ever a real checkout.",
         ],
       },
     ],
@@ -285,7 +285,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Editorial content",
         body: [
-          "Articles reflect the authors' honest judgement at the time of writing and are provided “as is”, without warranty of completeness or fitness for your specific situation. Prices, terms and product behaviour change; check the merchant before you buy. In this demonstration build, all products, merchants and offers are fictional samples.",
+          "Articles reflect the authors' honest judgement at the time of writing and are provided “as is”, without warranty of completeness or fitness for your specific situation. Prices, terms and product behaviour change; check the merchant before you buy.",
         ],
       },
       {

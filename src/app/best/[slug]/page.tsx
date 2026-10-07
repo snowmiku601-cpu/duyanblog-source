@@ -8,7 +8,6 @@ import { TagChips } from "@/components/editorial/tag-chips";
 import { ReadingProgress } from "@/components/editorial/reading-progress";
 import { BackToTop } from "@/components/editorial/back-to-top";
 import { DemoNotice, SourcesList, TldrBox } from "@/components/editorial/article-extras";
-import { AffiliateDisclosure } from "@/components/affiliate/affiliate-link";
 import { AdSlot } from "@/components/affiliate/ad-slot";
 import { ArticleCard } from "@/components/editorial/article-card";
 import { SectionHeading } from "@/components/editorial/section-heading";
@@ -121,7 +120,6 @@ export default async function RoundupPage({ params }: Params) {
         )}
 
         {article.tldr && <TldrBox text={article.tldr} />}
-        <AffiliateDisclosure variant="box" />
         {article.isDemo && <DemoNotice />}
         <AdSlot enabled={isAdsEnabled(settings)} slotId="roundup-top" />
 

@@ -87,7 +87,7 @@ export default async function GuidePage({ params }: Params) {
 
       <div className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
         <div className="grid gap-10 lg:grid-cols-12">
-          <div className="space-y-8 lg:col-span-8">
+          <div className="min-w-0 space-y-8 lg:col-span-8">
             {article.heroImage && (
               <figure className="overflow-hidden rounded-md border border-border">
                 <div className="relative aspect-[16/9] bg-muted">

@@ -68,7 +68,7 @@ export function SiteFooter() {
 
         <div className="mt-12 pt-6 border-t border-band-fg/15 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-band-fg/55">
-            © {new Date().getFullYear()} {site.name} · {site.domain}. Demo build — every product, merchant and offer shown is a clearly labelled fictional sample.
+            © {new Date().getFullYear()} {site.name} · {site.domain}. Reviews with the evidence attached.
           </p>
           <div className="flex items-center gap-4 text-xs">
             <CookieSettingsButton className="text-band-fg/60 hover:text-band-fg underline-offset-4 hover:underline" />
