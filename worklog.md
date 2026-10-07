@@ -956,3 +956,17 @@ Agent: Claude Code (lead) — TARGETED PUBLISH article #3 best-esim-for-europe (
 - INDEXING: ALLOW_INDEXING=false (live env) + robots Disallow: / verified post-rebuild. No Google/Bing/URL-inspection submissions. Content Launch Review still required before indexing (3-article cluster now public but unindexed).
 - PRODUCTION VERSION: source SHA 1ae96a3 (unchanged), standalone BUILD_ID VDr3d2Q-wsj-_YkhBm5Li.
 - NEXT: reverse backlinks from articles #1/#2 into the Europe roundup (Content Launch Review remains the indexing gate; sitemap-freshness latency now mitigated by rebuild-on-publish convention).
+
+---
+Task ID: 39
+Agent: Claude Code (lead) — reverse backlinks from articles #1/#2 into Europe roundup (SOURCE PR ONLY; NOT merged, NOT sync'd).
+
+- BASE: origin/main f50fa41 (= Task 38's worklog commit). Branch content/europe-roundup-reverse-backlinks (HEAD 1e95426).
+- SCOPE: content JSON + gate scripts only. No article #3 content, no runtime code, no production/DB/indexing/Hostinger/Spaceship change. DO NOT MERGE / DO NOT SYNC PRODUCTION.
+- ARTICLE #1 (saily-vs-airalo): added ONE contextual backlink at the Europe-plans conclusion — "If Europe is your destination and you want to compare a wider set of providers rather than just these two, our [Best eSIM for Europe](/best/best-esim-for-europe) roundup compares five regional options on documented pricing, coverage and fair-use terms." Existing guide link preserved (exactly 1). Block count 34 unchanged.
+- ARTICLE #2 (how-much-esim-data-do-i-need): added ONE contextual backlink in the "After you know the volume you need" paragraph — "If your trip crosses European countries, our [Best eSIM for Europe](/best/best-esim-for-europe) roundup compares current regional plan shapes after you have estimated how much data you need." Existing versus link preserved (exactly 1). Block count 31 unchanged.
+- TDD / MUTATION TESTS: both gates now enforce EXACT Markdown-link OCCURRENCE counts (matchAll) for the new backlink. Mutation A1 (dupe europe link in saily-vs-airalo same paragraph) → FAIL count 2, restore PASS. Mutation A2 (dupe in guide same paragraph) → FAIL count 2, restore PASS. Article #1 gate also asserts the europe link lives in prose, not the sources block.
+- GATES: saily-vs-airalo gate PASS (all incl. new europe checks); how-much gate PASS (versus exactly 1 + europe exactly 1); best-esim-for-europe gate PASS (untouched). slop 0, lint 0, typecheck 0, validate:docs PASS, git diff --check clean. REAL serializeBlocks(): saily-vs-airalo 34 blocks / 21,210 B / round-trip 0 diffs; how-much 31 blocks / 20,971 B / round-trip 0 diffs.
+- CONTENT SAFETY: no go:/offerId/offerEmbed/comparisonEmbed; no first-hand wording; no universal-winner claim; no speed/reliability claim; no provider-recommendation wording ("Best eSIM for Europe" used only as the roundup's link label). The word "checkout" (pre-existing, unmodified) is factual tax-handling prose, not a CTA.
+- COMMIT: 1e95426 (content + gates). One focused commit. Pushed branch; PR opened targeting main. NOT merged.
+- NEXT: independent PR review; after merge + authorized targeted sync task, run the production backlink sync (one block-field update per article + revalidate), then Content Launch Review for indexing.

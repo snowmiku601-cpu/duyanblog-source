@@ -250,5 +250,19 @@ check(
 const guideSrcRow = (sources?.items ?? []).some((s) => (s.url ?? "").includes("how-much-esim-data-do-i-need"));
 check("guide link lives in prose, not in the sources block", !guideSrcRow);
 
+// 17 — exactly one contextual reverse-backlink to the Europe roundup (Task 39).
+// Same occurrence-count discipline as the guide link: two links inside one paragraph
+// must fail, and the link must live in prose rather than the sources block.
+const europeLinkOccurrences = blocks
+  .filter((b) => b.type === "paragraph")
+  .flatMap((b) => [...b.text.matchAll(/\[[^\]]+\]\(\/best\/best-esim-for-europe\)/g)]);
+check(
+  "exactly one contextual link to /best/best-esim-for-europe",
+  europeLinkOccurrences.length === 1,
+  `${europeLinkOccurrences.length} occurrence(s)`,
+);
+const europeSrcRow = (sources?.items ?? []).some((s) => (s.url ?? "").includes("best-esim-for-europe"));
+check("europe-roundup link lives in prose, not in the sources block", !europeSrcRow);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);
