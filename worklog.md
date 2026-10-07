@@ -917,3 +917,23 @@ Agent: Claude Code (lead) — PRODUCTION DRAFT IMPORT for best-esim-for-europe (
 - PRODUCTION VERSION: duyanblog.com serving origin/main 1ae96a3 (PR #10 merged), standalone BUILD_ID s-EsFjXWxQMVTfFbfqTmv, ALLOW_INDEXING=false.
 - WORKLOG: docs-only commit (this entry); no redeploy needed (docs outside deployed static bundle).
 - NEXT: pre-publish review of the draft (route-level + editorial), then publish via admin API or rebuild-latency path; do NOT enable ALLOW_INDEXING or submit search engines before the Content Launch Review.
+
+---
+Task ID: 37
+Agent: Claude Code (lead) — PRE-PUBLISH RENDER REVIEW for best-esim-for-europe (local Playwright DOM-only; NO production change, NO publish).
+
+- SCOPE: review only. origin/main = bcba304 (deployed code = 1ae96a3; diff = Task 36 worklog/docs only, verified). Gates on main: draft gate 51/51 exit 0; slop 0; lint 0; typecheck 0; validate:docs PASS; diff --check clean; serializeBlocks 37/37 round-trip 0 diffs (22,749 B).
+- PROD DRAFT READBACK (read-only): 23/23 invariants PASS — slug/type roundup/status draft/publishedAt null/isDemo false/Duy An Tran/travel/37 blocks/5 picks ranks 1-5/15 min/hero exact/tags esim·europe·travel-connectivity/reviewer null/lastReviewedAt null/featured false/1 guide + 1 versus link/0 go:/0 offerId/0 offers/0 comparison/0 scores. Canonical route 404 confirmed.
+- LOCAL MIRROR (duyanblog_dev only; no prod/Hostinger DB): created test-fixture Article from exact committed JSON, status=published + local test timestamp (ONLY to render the real /best route locally), isDemo false, featured false, author duyan temporarily aligned to minimal profile then restored to local seed profile after render. Not a seed corpus.
+- LOCAL RENDER (Playwright, localhost:3000, real route /best/best-esim-for-europe): H1 exact; TL;DR/deck/byline (Duy An Tran)/methodology callout/What-Europe-means/quick table/price table (all $/GB)/unlimited-FUP/hotspot/activation-refund/caveats/FAQ 6/Sources 16 all render; 2 tables; hero img count 1 with exact alt; hero credit + reader-visible Pexels photo 16022620 link.
+- PICKS/COMMERCE: all 5 pick cards render with ranks 1-5 and badges (BEST FIXED-DATA VALUE / ITEMISED REGIONAL COVERAGE / CLARITY ON UNLIMITED TETHERING / HIGH DAILY UNLIMITED ALLOWANCE / SIMPLE FLAT-FEE UNLIMITED — renderer uppercases). 0 /go/ links; 0 buy/shop/view-deal CTA; 0 pick-level affiliate disclosure. Only "demo/sample" text on page = site-wide footer disclaimer (allowed). No article-level commerce.
+- RESPONSIVENESS (DOM only): desktop 1440x900 no doc overflow (1425≤1440); mobile 390x844 no doc overflow (375≤390); 5 picks in flow, 0 hidden; H1 visible; tables scroll within their own overflow containers (allowed); FAQ control reachable; 0 console errors/warnings on article route.
+- INTERNAL LINKS: exactly 1 rendered body link to /guides/how-much-esim-data-do-i-need ("How much eSIM data do I need?"), exactly 1 to /compare/saily-vs-airalo ("Saily vs Airalo comparison"); zero duplicates anywhere (rendered DOM link set).
+- SEO/JSON-LD: canonical exact https://duyanblog.com/best/best-esim-for-europe; og:image = committed hero; title/description approved; Article (author Person Duy An Tran) + BreadcrumbList + benign ItemList(empty); NO Product/Offer/Review/aggregateRating.
+- HIGH-RISK CLAIMS (rendered DOM spot check): Ubigi FUP duration-specific 25GB/7d+30/15d+60/30d→2Mbps; Airalo 3GB/day@20Mbps; Saily 5GB/day→1Mbps; Holafly 1GB/day hotspot + operator-side FUP; Nomad unresolved; Airalo validity package-specific (x3); ABSENT: "all five activate", "clock starts when you land", "most travellers buy", "safer start", "regional plan wins", first-hand-testing.
+- WRONG-TYPE LOCAL ROUTES: /reviews, /compare, /guides, /articles best-esim-for-europe → all 404; only /best resolves.
+- PRODUCTION SAFETY: after local testing — /best/best-esim-for-europe 404; ALLOW_INDEXING=false (live env verified); robots Disallow: /; prod DB row still status=draft/publishedAt=null/isDemo false/updatedAt unchanged; no production write occurred.
+- DEMO ROUNDUP: prod /best/best-esim-providers still absent (404) — Task 36 finding stands; no cleanup commit for local seed fixtures (out of scope); local fixture left status=draft.
+- SITEMAP: production sitemap excludes article #3 (draft) — consistent; standalone ISR sitemap-freshness backlog remains for the publish task.
+- CLEANUP: local mirror returned to draft, local author restored, dev server stopped, AGENTS.md auto-injected block by next dev reverted (working tree clean), temp scripts removed.
+- NEXT: targeted publish task (Task 38) must account for sitemap-freshness latency explicitly; Content Launch Review still gates ALLOW_INDEXING.
