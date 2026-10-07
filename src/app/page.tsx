@@ -89,9 +89,9 @@ export default async function HomePage() {
               </Button>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
-              Reader-supported: we may earn a commission when you buy through our links.{" "}
+              Duyan Blog is independent and currently carries no affiliate links. If we add them later, commissions will not change our verdicts.{" "}
               <Link href="/how-we-make-money" className="underline underline-offset-2 hover:text-foreground">
-                Here&apos;s exactly how that works.
+                How we plan to make money.
               </Link>
             </p>
           </Reveal>
@@ -402,7 +402,7 @@ export default async function HomePage() {
               {[
                 { n: "01", t: "Evidence over hype", d: "Claims link to sources. Where we lack data, we say so instead of inventing numbers." },
                 { n: "02", t: "Trade-offs in the open", d: "No product is perfect for everyone. We tell you who should buy it — and who shouldn't." },
-                { n: "03", t: "Commerce never edits", d: "Affiliate revenue funds the site; it never decides a verdict. Rankings can't be bought." },
+                { n: "03", t: "Commerce never edits", d: "If we ever run affiliate links, they will never decide a verdict. Rankings can't be bought." },
               ].map((p) => (
                 <div key={p.n} className="bg-band-bg p-6">
                   <span className="section-index text-sun">{p.n}</span>

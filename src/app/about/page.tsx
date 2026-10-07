@@ -10,7 +10,7 @@ export const revalidate = 600;
 export const metadata: Metadata = buildMetadata({
   title: "About Duyan Blog",
   description:
-    "Why Duyan Blog exists: an independent, reader-supported publication reviewing software, travel and technology with the reasoning shown.",
+    "Why Duyan Blog exists: an independent editorial publication reviewing software, travel and technology with the reasoning shown.",
   path: "/about",
 });
 
@@ -54,7 +54,7 @@ export default async function AboutPage() {
           <div className="mt-10 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-3">
             {[
               { t: "Independent", d: "No manufacturer signs off on our verdicts. Ever." },
-              { t: "Reader-supported", d: "Commissions and subscriptions fund the work; rankings can't be bought." },
+              { t: "Not for sale", d: "Commercial relationships never buy rankings or verdicts." },
               { t: "Reasoned", d: "Every score maps to a published criterion. Disagree with the method, not the vibe." },
             ].map((v) => (
               <div key={v.t} className="bg-card p-5">

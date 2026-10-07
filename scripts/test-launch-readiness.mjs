@@ -119,5 +119,77 @@ check(
 );
 
 // ---------------------------------------------------------------------------
+// 4. FALSE CURRENT-REVENUE / AFFILIATE-GUARANTEE LANGUAGE — public copy
+// ---------------------------------------------------------------------------
+// The launch state has zero AffiliateOffers, zero /go/ links, no subscriptions,
+// no advertising. Public copy must not claim any of these currently fund the
+// site, and must not make blanket price guarantees for a future program.
+const homepage = read("src/app/page.tsx");
+const about = read("src/app/about/page.tsx");
+const siteLib = read("src/lib/site.ts");
+const footer = read("src/components/site-footer.tsx");
+
+check(
+  "homepage does NOT claim current commissions 'when you buy through our links'",
+  !/we may earn a commission when you buy through our links/.test(homepage),
+  "homepage hero must be current/future-neutral (no active affiliate links today)",
+);
+check(
+  "homepage does NOT assert 'Here is exactly how that works' over a current revenue claim",
+  !/we may earn a commission when you buy through our links[\s\S]{0,120}Here&apos;s exactly how that works/.test(homepage),
+  "homepage revenue sentence must be neutral, not a promise about active links",
+);
+check(
+  "About metadata does NOT claim 'reader-supported publication' as current state",
+  !/independent, reader-supported publication/.test(about),
+  "About description must not assert a current reader-support model",
+);
+check(
+  "About card does NOT claim 'Commissions and subscriptions fund the work'",
+  !/Commissions and subscriptions fund the work/.test(about),
+  "no unverified current funding model on /about",
+);
+check(
+  "publisherNote does NOT start with an unsupported 'Reader-supported.' assertion",
+  !/publisherNote: "Reader-supported\./.test(siteLib),
+  "publisherNote must not claim a funding model the site does not currently have",
+);
+check(
+  "footer does not assert commissions from existing links",
+  !/we may earn a commission when you buy through links on this site/.test(footer),
+);
+check(
+  "how-we-make-money description does NOT frame affiliate commissions + subscriptions as the current business model",
+  !/business model: affiliate commissions and subscriptions/.test(policies),
+  "how-we-make-money description must be current/future-neutral",
+);
+check(
+  "how-we-make-money intro does NOT claim 'Here is exactly how we pay for it'",
+  !/Here is exactly how we pay for it/.test(policies),
+  "intro must not imply a current funding stream",
+);
+check(
+  "affiliate copy does NOT promise 'at no extra cost to you'",
+  !/at no extra cost to you/.test(policies),
+  "blanket no-extra-cost promise on a future program cannot be guaranteed",
+);
+check(
+  "affiliate copy does NOT promise 'the price you pay is the same' or 'sometimes better'",
+  !/The price you pay is the same|sometimes better, when we negotiate a deal/.test(policies),
+  "blanket same-price / sometimes-better promise cannot be guaranteed",
+);
+
+check(
+  "site header utility strip does NOT claim 'Reader-supported' as current state",
+  !/Independent · Reader-supported/.test(read("src/components/site-header.tsx")),
+  "header trust strip must not assert a funding model the site does not currently have",
+);
+check(
+  "homepage does NOT claim 'Affiliate revenue funds the site' as current state",
+  !/Affiliate revenue funds the site/.test(homepage),
+  "no current affiliate-revenue claim — the site has zero affiliate revenue today",
+);
+
+// ---------------------------------------------------------------------------
 console.log(`\n${passed} pass, ${failed} fail`);
 if (failed > 0) process.exitCode = 1;

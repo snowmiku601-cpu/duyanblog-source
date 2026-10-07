@@ -11,7 +11,7 @@ export const site = {
   description:
     "Reviews with the evidence attached. Duyan Blog independently reviews software, travel and technology from the published specs, source documents and dated checks — methodology, trade-offs and the day we checked the numbers, all in the open.",
   locale: "en_US",
-  publisherNote: "Reader-supported. If we ever add affiliate links, commissions will never change our verdicts.",
+  publisherNote: "Independent editorial. If we add affiliate links later, commissions will never change our verdicts.",
 } as const;
 
 /** Primary navigation shown in the site header. */

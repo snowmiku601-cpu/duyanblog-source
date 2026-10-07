@@ -60,15 +60,15 @@ const POLICIES: Policy[] = [
     slug: "how-we-make-money",
     title: "How we make money",
     description:
-      "Duyan Blog's business model: affiliate commissions and subscriptions — and the rules that keep commerce out of the newsroom.",
-    updated: "2026-10-05",
+      "How Duyan Blog plans to fund independent publishing, and the rules that keep future commerce out of editorial decisions.",
+    updated: "2026-10-07",
     intro:
-      "Independent publishing costs money. Here is exactly how we pay for it, and the rules that keep the money from steering the words.",
+      "Independent publishing costs money. We do not currently run ads or affiliate links; this page explains the revenue models we may use and the rules that would govern them.",
     sections: [
       {
         heading: "Affiliate commissions",
         body: [
-          "If and when we use affiliate links to merchants, buying through them may pay us a small commission, at no extra cost to you. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
+          "If and when we use affiliate links to merchants, buying through them may pay us a commission. Commission rates, and the price you pay, are merchant- and program-specific — check the merchant's current price and terms before you buy. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
         ],
       },
       {
@@ -103,7 +103,7 @@ const POLICIES: Policy[] = [
       {
         heading: "What an affiliate link is",
         body: [
-          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. The price you pay is the same (sometimes better, when we negotiate a deal).",
+          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. Commission arrangements and the price you pay are set by the merchant's affiliate program, so check the merchant's current price and terms before you buy.",
           "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, and the Duyan Blog page the link sat on) and then forwards you to the merchant. We do not read or store your browser's Referer header and we never store your IP with click data. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
         ],
       },

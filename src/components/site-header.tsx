@@ -51,7 +51,7 @@ export function SiteHeader() {
       {/* Utility strip — trust signals up top */}
       <div className="hidden md:block border-b border-border/70 bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 lg:px-6 flex items-center justify-between py-1.5">
-          <p className="eyebrow text-muted-foreground">Independent · Reader-supported · Vietnamese roots</p>
+          <p className="eyebrow text-muted-foreground">Independent · Reader-first · Vietnamese roots</p>
           <nav aria-label="Trust" className="flex items-center gap-4 text-xs text-muted-foreground">
             <Link href="/methodology" className="hover:text-foreground underline-offset-4 hover:underline">How we review</Link>
             <Link href="/how-we-make-money" className="hover:text-foreground underline-offset-4 hover:underline">How we make money</Link>
