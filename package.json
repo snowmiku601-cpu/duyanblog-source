@@ -18,6 +18,7 @@
     "test:newsletter": "node scripts/test-newsletter-semantics.mjs",
     "test:cta": "node scripts/test-cta-readiness.mjs",
     "test:admin-auth": "node --import tsx scripts/test-admin-auth.mjs",
+    "test:launch": "node scripts/test-launch-readiness.mjs",
     "validate:docs": "node scripts/validate-docs.mjs",
     "slop": "node scripts/slop-scan.mjs",
     "db:generate": "prisma generate",

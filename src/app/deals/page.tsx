@@ -51,11 +51,15 @@ export default async function DealsPage() {
             {pageDemoMode
               ? "Sample offers on things we cover — the merchants and discounts here are fictional demo data."
               : "We only list deals on things we have reviewed or would stake our byline on."}{" "}
-            Links are affiliate links —{" "}
-            <Link href="/affiliate-disclosure" className="underline underline-offset-2 hover:text-foreground">
-              here&apos;s what that means
-            </Link>
-            .
+            {offers.length > 0 && (
+              <>
+                Links are affiliate links —{" "}
+                <Link href="/affiliate-disclosure" className="underline underline-offset-2 hover:text-foreground">
+                  here&apos;s what that means
+                </Link>
+                .
+              </>
+            )}
           </p>
         </div>
       </header>

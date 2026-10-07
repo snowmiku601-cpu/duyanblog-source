@@ -45,7 +45,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Sample content",
         body: [
-          "This demonstration build contains fictional products, merchants, offers and authors, published to show how real editorial work will be presented. Sample pages say so on the page. No sample content is created to deceive search engines, and no fake reviews, ratings or structured data are generated.",
+          "If Duyan Blog publishes demonstration or sample content, it is clearly labelled on the page and excluded from normal editorial and indexing surfaces. No sample content is created to deceive search engines, and no fake reviews, ratings or structured data are generated.",
         ],
       },
       {
@@ -60,15 +60,15 @@ const POLICIES: Policy[] = [
     slug: "how-we-make-money",
     title: "How we make money",
     description:
-      "Duyan Blog's business model: affiliate commissions and subscriptions — and the rules that keep commerce out of the newsroom.",
-    updated: "2026-10-05",
+      "How Duyan Blog plans to fund independent publishing, and the rules that keep future commerce out of editorial decisions.",
+    updated: "2026-10-07",
     intro:
-      "Independent publishing costs money. Here is exactly how we pay for it, and the rules that keep the money from steering the words.",
+      "Independent publishing costs money. We do not currently run ads or affiliate links; this page explains the revenue models we may use and the rules that would govern them.",
     sections: [
       {
         heading: "Affiliate commissions",
         body: [
-          "Some links to merchants are affiliate links: if you buy something after clicking, the merchant pays us a small commission, at no extra cost to you. Commission rates differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
+          "If and when we use affiliate links to merchants, buying through them may pay us a commission. Commission rates, and the price you pay, are merchant- and program-specific — check the merchant's current price and terms before you buy. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
         ],
       },
       {
@@ -95,15 +95,15 @@ const POLICIES: Policy[] = [
     slug: "affiliate-disclosure",
     title: "Affiliate disclosure",
     description:
-      "How affiliate links work on Duyan Blog: where they appear, how they are marked, and why they never affect verdicts.",
-    updated: "2026-03-01",
+      "How affiliate links work on Duyan Blog when they appear: how they are marked, and why they never affect verdicts.",
+    updated: "2026-10-07",
     intro:
-      "Some pages on this site contain affiliate links. This page explains, in plain language, what that means and does not mean.",
+      "This page explains, in plain language, how affiliate links would be used on this site and what that does and does not mean. There are currently no affiliate links on Duyan Blog; if and when we add them, they will be marked and governed here.",
     sections: [
       {
         heading: "What an affiliate link is",
         body: [
-          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. The price you pay is the same (sometimes better, when we negotiate a deal).",
+          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. Commission arrangements and the price you pay are set by the merchant's affiliate program, so check the merchant's current price and terms before you buy.",
           "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, and the Duyan Blog page the link sat on) and then forwards you to the merchant. We do not read or store your browser's Referer header and we never store your IP with click data. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
         ],
       },
@@ -120,9 +120,9 @@ const POLICIES: Policy[] = [
         ],
       },
       {
-        heading: "Sample data",
+        heading: "If sample data ever appears",
         body: [
-          "In this demonstration build, all merchants, offers and prices are fictional. Clicking an affiliate link in the demo navigates to a fictional destination URL defined in the admin database — it is never a real checkout.",
+          "Any demonstration or sample offer on the site is clearly labelled as such, both where it is shown and in this disclosure. No sample offer is ever a real checkout.",
         ],
       },
     ],
@@ -285,7 +285,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Editorial content",
         body: [
-          "Articles reflect the authors' honest judgement at the time of writing and are provided “as is”, without warranty of completeness or fitness for your specific situation. Prices, terms and product behaviour change; check the merchant before you buy. In this demonstration build, all products, merchants and offers are fictional samples.",
+          "Articles reflect the authors' honest judgement at the time of writing and are provided “as is”, without warranty of completeness or fitness for your specific situation. Prices, terms and product behaviour change; check the merchant before you buy.",
         ],
       },
       {

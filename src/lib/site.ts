@@ -11,7 +11,7 @@ export const site = {
   description:
     "Reviews with the evidence attached. Duyan Blog independently reviews software, travel and technology from the published specs, source documents and dated checks — methodology, trade-offs and the day we checked the numbers, all in the open.",
   locale: "en_US",
-  publisherNote: "Reader-supported: we may earn a commission when you buy through links on this site. It never changes our verdicts.",
+  publisherNote: "Independent editorial. If we add affiliate links later, commissions will never change our verdicts.",
 } as const;
 
 /** Primary navigation shown in the site header. */
@@ -24,11 +24,9 @@ export const primaryNav = [
 ] as const;
 
 export const footerNav = {
-  sections: [
-    { label: "Software & AI", href: "/software" },
-    { label: "Travel & Connectivity", href: "/travel" },
-    { label: "Tech & Hosting", href: "/tech" },
-  ],
+  // Only sections that exist as routes are linked. /software and /tech have no
+  // category pages yet — listing them here would render dead footer links.
+  sections: [{ label: "Travel & Connectivity", href: "/travel" }],
   explore: [
     { label: "Reviews", href: "/reviews" },
     { label: "Best picks", href: "/best" },
