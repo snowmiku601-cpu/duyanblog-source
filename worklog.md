@@ -970,3 +970,20 @@ Agent: Claude Code (lead) — reverse backlinks from articles #1/#2 into Europe 
 - CONTENT SAFETY: no go:/offerId/offerEmbed/comparisonEmbed; no first-hand wording; no universal-winner claim; no speed/reliability claim; no provider-recommendation wording ("Best eSIM for Europe" used only as the roundup's link label). The word "checkout" (pre-existing, unmodified) is factual tax-handling prose, not a CTA.
 - COMMIT: 1e95426 (content + gates). One focused commit. Pushed branch; PR opened targeting main. NOT merged.
 - NEXT: independent PR review; after merge + authorized targeted sync task, run the production backlink sync (one block-field update per article + revalidate), then Content Launch Review for indexing.
+
+---
+Task ID: 39.1
+Agent: Claude Code (lead) — TARGETED PRODUCTION REVERSE-BACKLINK SYNC (PR #11 backlinks live; no deploy/build/migration).
+
+- SOURCE / MERGE: origin/main 07c739a (= PR #11 merged). Merge diff parent f50fa41..07c739a = article #1+#2 JSON (1 line each: Europe-roundup backlink), their gates, worklog. NO runtime/app/config/schema change. Gates on merged source: saily-vs-airalo PASS (guide 1 + europe 1), how-much PASS (versus 1 + europe 1), best-esim-for-europe PASS (untouched); slop/lint/typecheck/validate:docs/diff-check clean. serializeBlocks: #1 34 blocks / 21,210 B / 0 diffs; #2 31 blocks / 20,971 B / 0 diffs.
+- PRE-SYNC PRODUCTION (fail-closed): #1 saily-vs-airalo published, blocks 34, guide 1, europe-roundup 0 — no drift. #2 how-much published, blocks 31, versus 1, europe 0. #3 best-esim published, blocks 37, guide 1, versus 1. All fields intact (publishedAt, author, category, tags, reviewer/lastReviewed null, featured false, no comparison/offers/scores).
+- MUTATION: guard+publish-verification-mounted. Atomic $transaction updating ONLY blocks for #1 (merged serialized, exact bytes verified STORED_MATCHES_MERGED=true) and #2 (same). Guards: merge-content guard (34/1/1 + 31/1/1, 0 go:/offerId) + pre-state guard (europe must be 0 before sync) all passed. publishedAt unchanged for both; Prisma auto-touched updatedAt (reported separately; no manual set).
+- POST-SYNC DB: #1 blocks 34, guide 1, europe 1; #2 blocks 31, versus 1, europe 1; #3 untouched (37/1/1). 0 go:, 0 offerId, no commerce; all non-block fields unchanged (verified publishedAt identical). sources intact.
+- PUBLIC (normal ISR revalidate=300; backlinks surfaced on first poll, no cache hacks): /compare/saily-vs-airalo body guide 1 + europe 1; /guides/how-much-esim-data-do-i-need body versus 1 + europe 1. Article-body counts exclude the "Keep reading" template links (0 in Keep-reading for these). No rebuild/restart performed — DB-only change surfaced via revalidation.
+- THREE-WAY CLUSTER (authored, verified rendered): A1 → guide 1 + europe 1; A2 → versus 1 + europe 1; A3 → guide 1 + versus 1. All three canonical routes 200.
+- CONTENT/COMMERCE REGRESSION: canonical/H1/hero/TL;DR/FAQ/sources unchanged on both; JSON-LD Article+BreadcrumbList only (no Product/Offer/Review/aggregateRating) on both; 0 /go/; no new buy CTA; no pick-level affiliate disclosure. Article #3 unchanged.
+- SITEMAP/DISTRIBUTION: no URL set change; all 3 article URLs present in sitemap, all routes 200. Feed unchanged (no backlink encoding). sitemap rebuild NOT needed.
+- LOGS/SAFETY: Hostinger untouched; no schema/migration/deploy; no demo seed; no affiliate/Comparison/ReviewScore rows; no unrelated Article mutation; error log EMPTY; no fatal/unhandled.
+- INDEXING: ALLOW_INDEXING=false (live env verified) + robots Disallow: /; no search-engine submission.
+- PRODUCTION VERSION: source SHA 1ae96a3 unchanged; BUILD_ID VDr3d2Q-wsj-_YkhBm5Li unchanged (no rebuild).
+- NEXT: Content Launch Review (indexing gate). 3-article authored cluster now fully interlinked and live.
