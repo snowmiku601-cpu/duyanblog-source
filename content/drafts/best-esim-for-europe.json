@@ -1,0 +1,378 @@
+{
+  "type": "roundup",
+  "slug": "best-esim-for-europe",
+  "title": "Best eSIM for Europe: five providers compared on their own numbers",
+  "deck": "Five Europe travel eSIMs compared on their own published plans, coverage lists and fair-use terms — every price dated October 7, 2026, every coverage claim labelled, and the verdict left to your itinerary.",
+  "tldr": "For a typical one-to-two-week multi-country Europe trip the 10GB-over-30-days shape is the one all four fixed-data providers sell, and it is where Ubigi's $15.00 lists the lowest price per gigabyte ($1.50) of that row, with Nomad's $23.00 ($2.30/GB) next. If you stream or hotspot heavily, the honest question is the fair-use limit, not the word \"unlimited\": Ubigi documents 25GB (7d), 30GB (15d) or 60GB (30d) of full-speed data before slowing to 2 Mbps, while Airalo and Saily publish daily high-speed allowances (3GB/day and 5GB/day respectively). Holafly sells a simpler flat-fee unlimited plan in euros but documents no fixed high-speed cap of its own. No provider here was tested by us; every figure is dated and sourced.",
+  "categoryId": "travel",
+  "isDemo": false,
+  "authorSlug": "duyan",
+  "authorByline": "Duy An Tran",
+  "heroImage": "/images/articles/best-esim-for-europe/hero-europe-train.jpg",
+  "heroAlt": "A traveler using a smartphone while seated on a train, passing a scenic landscape through the window",
+  "heroCredit": "Jonathan Borba / Pexels",
+  "readingMinutes": 15,
+  "tags": [
+    "eSIM",
+    "Europe",
+    "Travel connectivity"
+  ],
+  "blocks": [
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "How we compared — and what we did not do",
+      "text": "Every price, coverage claim, fair-use term and activation rule in this article was read from the provider's own page on October 7, 2026 (two fair-use/hotspot sources carry their October 6, 2026 check date, marked in the source list), and each figure carries that date. Duyan did not test any of these providers on the road, and we did not run our own speed or reliability benchmarks. Where a number is **documented** we copied it from the provider; where it is **derived** we show the arithmetic; where it is our **editorial** judgment we label it as such."
+    },
+    {
+      "type": "paragraph",
+      "text": "A multi-country trip in Europe is the strongest case for a regional eSIM: one plan, one install, and coverage that follows you across borders. But the pages that rank the \"best\" eSIMs for Europe mostly do one of two things — they claim to have tested every card on the ground (we have not), or they line up a handful of provider screenshots and declare a winner without showing the arithmetic. This article does something narrower and, we think, more useful: it takes five providers' own published numbers, dates them, labels the units, and only then suggests where each one fits."
+    },
+    {
+      "type": "paragraph",
+      "text": "Photo: [Jonathan Borba / Pexels](https://www.pexels.com/photo/16022620/)"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The short version"
+    },
+    {
+      "type": "paragraph",
+      "text": "Our picks below are editorial choices made from the documented evidence, not a speed or reliability ranking. The quickest way to a decision is the fixed-data shape all four fixed-data providers sell — 10GB over 30 days — where the price per gigabyte is straightforward to compare: **Ubigi $1.50, Nomad $2.30, Airalo $3.10, Saily $3.60**, all derived by dividing each provider's own list price by the included gigabytes. Holafly does not publish a fixed-data plan for Europe, only flat-fee unlimited, so it sits outside that row and we say so."
+    },
+    {
+      "type": "paragraph",
+      "text": "If you expect to stream, hotspot a laptop or take a lot of photos, the deciding factor is not the base price but the shape of \"unlimited\": what exactly happens after the high-speed allowance runs out, and whether tethering counts against it. That is covered in its own section below. For a head-to-head on those two alone — prices, refunds and the small print — our [Saily vs Airalo comparison](/compare/saily-vs-airalo) walks the pair in depth."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What \"Europe\" means in this comparison"
+    },
+    {
+      "type": "paragraph",
+      "text": "The five providers count coverage in different units, and the numbers are **not directly comparable**. Saily publishes a country list of 35; Nomad offers two regional plans covering 35 and 36 listed countries; Airalo cites \"41 Countries and Networks\"; Ubigi shows a per-country network list (Andorra Telecom, A1 Telekom, Bouygues/Free/Orange/SFR in France, and so on) rather than a single count; Holafly's Europe page says coverage spans \"multiple countries\" and connects to the local network where you travel, and we did not find a full itemised list on the page. A \"countries\" number, a \"countries and networks\" number and a network list are three different things — we do not rank raw counts across them."
+    },
+    {
+      "type": "paragraph",
+      "text": "Boundary countries vary in ways that matter on the ground. **United Kingdom** and **Switzerland** are both included in the regional plans of Nomad (its coverage list names United Kingdom and Switzerland) and Ubigi (its Europe network list includes both); Saily's 35-country list includes the UK and Türkiye, with Switzerland not shown separately on the page we read. Airalo's 41-entry Europe catalogue is on its own page and we did not re-itemise it. **Türkiye** is in Nomad's list and in Saily's list, but does not appear in the Ubigi Europe network list we read — check the specific plan before assuming it covers Türkiye. Holafly's Europe page does not itemise countries at all, so we report it as unresolved rather than guessing."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The quick comparison"
+    },
+    {
+      "type": "table",
+      "caption": "Five Europe eSIMs measured on their own published pages, checked October 7, 2026 (two fair-use/hotspot sources carry an October 6 check date). Units differ, so coverage counts are quoted with their source label, never ranked against each other. Price/GB rows are derived only for fixed-data plans.",
+      "head": [
+        "Provider",
+        "Europe coverage (as published)",
+        "Fixed ~10GB / 30d",
+        "Unlimited (as documented)",
+        "Hotspot"
+      ],
+      "rows": [
+        [
+          "Ubigi",
+          "Network list per country (UK, CH incl.)",
+          "$15.00 (10GB/30d)",
+          "7d $23 / 15d $35 / 30d $62",
+          "Allowed"
+        ],
+        [
+          "Nomad",
+          "35 & 36 country plans (UK, CH, TR incl.)",
+          "$23.00 (10GB/30d)",
+          "5d $19 / 10d $34",
+          "Unresolved"
+        ],
+        [
+          "Saily",
+          "35 countries (list on page)",
+          "$35.99 (10GB/30d)",
+          "15d $49.99",
+          "Supported per help"
+        ],
+        [
+          "Airalo",
+          "\"41 Countries and Networks\"",
+          "$31.00 (10GB/30d)",
+          "from $11.50 (3d)",
+          "Counted in allowance"
+        ],
+        [
+          "Holafly",
+          "\"Multiple countries\" (no itemised list)",
+          "No fixed-data plan",
+          "€3.79 / day (1-day price shown)",
+          "1 GB/day shareable"
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Our picks"
+    },
+    {
+      "type": "paragraph",
+      "text": "Each pick is an editorial recommendation. We compared the five providers across eight criteria — Europe-region breadth, fixed-data value at comparable sizes, unlimited fair-use clarity, hotspot terms, validity flexibility, top-up availability, activation rules and refund clarity — weighted equally, with no numeric scores. Because the five cards win on different axes, the ranks below are an editorial ordering of the strongest fit per use case, not an overall “best card” claim, and no rank should be read as a speed or reliability ranking — none of these cards was tested by us. The trade-offs are stated in the open."
+    },
+    {
+      "type": "pick",
+      "rank": 1,
+      "name": "Ubigi (Europe)",
+      "badge": "Best fixed-data value",
+      "blurb": "The lowest price per gigabyte in the row we can compare honestly: $15.00 for 10GB over 30 days is $1.50/GB, less than half Saily's $3.60 at the identical shape. Ubigi also documents tethering as allowed and publishes a per-country network list, which is the most transparent coverage format of the five in our editorial reading. The trade-off: its unlimited plans slow to 2 Mbps after a set full-speed cap (25/30/60GB by length), and its Europe coverage is expressed as a per-country network list rather than a single country count — you verify the network list per country."
+    },
+    {
+      "type": "pick",
+      "rank": 2,
+      "name": "Nomad (Europe)",
+      "badge": "Best for itemised regional coverage",
+      "blurb": "Two clearly listed regional plans cover 35 or 36 named countries — including UK, Switzerland and Türkiye — with an explicit note that some overseas territories are not included. Prices are competitive at the 10GB shape ($23.00 / $2.30 per GB) and the on-sale 20GB and 50GB rows are cheaper still. The trade-off: Nomad's unlimited plans' fair-use terms were not published where we could read them on the day of check, so heavy users should treat its unlimited as unverified rather than assume a cap, and its hotspot policy is likewise unresolved on the page we read."
+    },
+    {
+      "type": "pick",
+      "rank": 3,
+      "name": "Airalo (Europe)",
+      "badge": "Best for clarity on unlimited tethering",
+      "blurb": "Airalo publishes unusually plain terms for its unlimited plans: a daily high-speed allowance of 3GB at 20 Mbps, reduced speeds after that, and — explicitly — tethered usage counts against the same daily allowance. If you plan to share the connection, that is the most useful documentation of the five in our editorial reading. The trade-off: its fixed-data prices are the second-highest in the row we compared ($3.10/GB at 10GB/30d, above Ubigi and Nomad), and its Europe coverage figure is expressed as \"41 Countries and Networks\", a unit we could not break into comparable countries without crawling its full catalogue."
+    },
+    {
+      "type": "pick",
+      "rank": 4,
+      "name": "Saily (Europe)",
+      "badge": "Best for a high daily unlimited allowance",
+      "blurb": "Saily's unlimited plan documents the most generous high-speed daily allowance here — 5GB per day at full speed, then 1 Mbps — in a flat 15-day $49.99 shape that suits a longer trip without re-buying. Its 35-country list and 180-day activation window are both published on the page. The trade-off: it is the most expensive fixed-data option we compared at the 10GB shape ($3.60/GB), so it earns the pick only when the unlimited daily allowance matters more than the per-gigabyte price."
+    },
+    {
+      "type": "pick",
+      "rank": 5,
+      "name": "Holafly (Europe)",
+      "badge": "Best for simple flat-fee unlimited",
+      "blurb": "Holafly sells a single flat-fee unlimited plan priced by the day (we read €3.79 for one day on October 7, 2026; the multi-day ladder is set from an interactive selector we did not fully itemise), with 1GB a day shareable to other devices and a published 1GB monthly backup if the unlimited ends. It is the easiest plan to reason about in our reading — one number, no caps table. The trade-off: it is priced in euros on Holafly's European storefront while the other four quote dollars, so it sits outside the per-gigabyte comparison; hotspots are limited to 1GB a day; and the Europe page does not itemise which countries are covered, so the geography is the thing to confirm before buying."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fixed-data value: same shape, different price"
+    },
+    {
+      "type": "paragraph",
+      "text": "The cleanest comparison is a fixed-data plan when two providers sell the same amount for the same validity. Four of the five sell 10GB over 30 days, so we used that row. Price per gigabyte here is derived arithmetic — each provider's own list price divided by the gigabytes included: Ubigi $15.00 ÷ 10 = $1.50/GB; Nomad $23.00 ÷ 10 = $2.30/GB; Airalo $31.00 ÷ 10 = $3.10/GB; Saily $35.99 ÷ 10 = $3.60/GB. Holafly has no fixed-data Europe plan, so it is not in this row."
+    },
+    {
+      "type": "table",
+      "caption": "Fixed-data price per gigabyte at the identical ~10GB / 30-day shape, derived from each provider's list price (checked October 7, 2026). Nomad's 10GB row is list price, not one of its on-sale rows.",
+      "head": [
+        "Provider",
+        "Plan",
+        "List price",
+        "Price / GB"
+      ],
+      "rows": [
+        [
+          "Ubigi",
+          "10GB / 30d",
+          "$15.00",
+          "$1.50"
+        ],
+        [
+          "Nomad",
+          "10GB / 30d",
+          "$23.00",
+          "$2.30"
+        ],
+        [
+          "Airalo",
+          "10GB / 30d",
+          "$31.00",
+          "$3.10"
+        ],
+        [
+          "Saily",
+          "10GB / 30d",
+          "$35.99",
+          "$3.60"
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Other shapes matter for other trips. If you only need a short window, Airalo's 3GB for 7 days at $11.00 and Nomad's 1GB for 7 days at $5.50 are useful entry points, and Ubigi's 3GB for 30 days at $7.00 undercuts the longer-stay crowd. We have deliberately not forced providers into plans they do not offer: Nomad's cheapest is 1GB/7d, Saily's entry is 1GB/7d, and Holafly sells no fixed-data Europe plan at all. Where shapes do not match, we list both rather than invent a conversion."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "\"Unlimited\" plans: read the allowance, not the word"
+    },
+    {
+      "type": "paragraph",
+      "text": "None of these providers' unlimited plans means unlimited speed. The honest question is what happens after the full-speed allowance is spent, and the answers differ enough that a single \"unlimited\" column would be misleading."
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Ubigi** documents the full-speed cap per plan length: 25GB over 7 days, 30GB over 15 days, or 60GB over 30 days, then \"optimized\" to 2 Mbps for the rest of the term — each quote from the matching plan page.",
+        "**Airalo** documents 3GB per day at 20 Mbps on its unlimited plans, then reduced speeds, with the allowance resetting every 24 hours (its own FAQ wording).",
+        "**Saily** documents 5GB per day without a speed limit, then unlimited data at up to 1 Mbps.",
+        "**Holafly** says any slowdown is down to the local operator's fair-use policy, not a cap it sets itself, and it publishes no fixed high-speed allowance — read that section as \"no published internal cap but no guarantee either\".",
+        "**Nomad** sells unlimited 5-day and 10-day plans but its fair-use terms were not visible on the page we checked on October 7, 2026, so we mark them unresolved rather than guess."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "All of the above are each provider's own published terms, with the checked date on the source list. Nothing here should be read as a reliability claim about any of them."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Hotspot and tethering"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hotspot support is not uniform, and where it exists the terms differ. Ubigi's unlimited page says \"Data sharing allowed\" and does not carve tethering out of its allowance. Airalo states tethering is supported and that tethered data counts against the same daily high-speed allowance as on-device use. Holafly's Europe page says you can share 1GB of data per day as a hotspot, with the total shareable amount tied to plan length (a 7-day plan shares 7GB). Saily documents hotspot setup in its own help centre (checked October 6, 2026 — the roundup's source list keeps that date). Nomad's Europe page does not state a hotspot policy, so we leave it unresolved."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Activation, validity, top-ups and refunds"
+    },
+    {
+      "type": "paragraph",
+      "text": "Activation rules matter more than most pages admit, and they are not uniform. Saily's plans activate when you reach your destination or 180 days after purchase; Nomad's can be activated within 60 days of purchase and start once you connect to the destination network; Ubigi's \"Smartstart\" starts the clock on arrival; Airalo's validity policy is package-specific (see below); Holafly's plan begins once you arrive and turn the eSIM on. The universal practical point is only the first one: install before you leave. Whether the validity clock then starts at the destination or earlier depends on the provider — and on the specific Airalo package — so check the plan's own validity policy before you install several days early."
+    },
+    {
+      "type": "paragraph",
+      "text": "Top-ups exist in different forms across the five, but we did not capture a verifiable top-up statement from every provider on the check day, so we do not claim it as documented for all of them — before relying on one, check the provider's plan page or app. Refunds are honestly mixed: Saily documents a full refund within 30 days for plans never installed or activated, and Airalo processes refunds through its app with some cases landing as app credit; Holafly publishes a refund-policy page; Nomad's and Ubigi's refund terms were not verified at check, so we list them as unresolved rather than repeat marketing."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How much data do you actually need?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Picking a provider is one decision; picking a size is a second one. The right amount depends on your profile and your itinerary's Wi-Fi, and we have built a separate guide that does the arithmetic from each app's own published bitrate figures: [How much eSIM data do I need?](/guides/how-much-esim-data-do-i-need). Europe's 10GB/30d row matters here only as a comparison anchor — it is the shape all four fixed-data providers sell, which is why this article uses it for the price-per-gigabyte comparison — not as a recommendation for how much data you should buy. Let the guide answer the sizing question."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Europe-specific trip caveats"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Coverage lists are the source of truth, not the store's headline count.** Ubigi names networks per country; Nomad and Saily publish country lists; Airalo's \"41 Countries and Networks\" and Holafly's \"multiple countries\" are not directly comparable to them. Confirm the list covers your actual route, especially for UK, Switzerland and Türkiye — the boundaries vary.",
+        "**Overseas territories are often excluded.** Nomad says explicitly that coverage \"may not include overseas territories under the jurisdiction of the specified country\". If your route touches the Canaries, Madeira or a French overseas department, check the plan's own list.",
+        "**Validity clocks are not all the same.** Saily, Nomad, Ubigi and Holafly tie the start to arrival or first connection; **Airalo is package-specific** — its own help text says some packages' validity starts the moment the eSIM is installed (even outside the coverage area), while others' starts when the eSIM connects to a network. Check the specific plan's validity policy before installing early, because an install-tied package starts ticking the moment you install it.",
+        "**\"Unlimited\" includes a speed floor, not a guarantee of speed.** What happens past the cap is provider-specific: Ubigi documents 2 Mbps, Saily 1 Mbps, Airalo reduced speeds without a published number, and Holafly a local-operator slowdown. These are the providers' own documented terms, not real-world results from our own testing."
+      ]
+    },
+    {
+      "type": "faq",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "Which Europe eSIM is best for a two-week multi-country trip?",
+          "a": "On the documented numbers, Ubigi's 10GB/30d at $15.00 is the best-value shape we could compare at equal size (10GB, 30 days), and its 15-day unlimited at $35.00 with 30GB of full-speed data is competitive if you stream. Airalo's 15-day unlimited at $49.00 and Saily's 15-day unlimited at $49.99 are the other documented 15-day options. Nomad's and Holafly's 15-day-specific pricing was not fully verifiable on the check date, so we do not assert a single best for every heavy user."
+        },
+        {
+          "q": "Do unlimited Europe eSIMs really mean unlimited?",
+          "a": "Not at full speed. Ubigi documents a full-speed amount per plan length before dropping to 2 Mbps (25/30/60GB for 7/15/30 days); Airalo documents 3GB per day at 20 Mbps then reduced speeds, resetting every 24 hours; Saily documents 5GB per day then 1 Mbps. Holafly attributes any slowdown to local operators rather than a cap of its own. Compare the daily or term allowance, not the word \"unlimited\"."
+        },
+        {
+          "q": "Do these eSIMs work in the UK, Switzerland and Türkiye?",
+          "a": "It varies and you should check each plan's list. Nomad's regional plans explicitly include United Kingdom, Switzerland and Türkiye. Ubigi's Europe network list includes UK and Switzerland but we did not find Türkiye in it. Saily's 35-country list includes the UK and Türkiye, with Switzerland not shown separately on the page we read. Airalo's and Holafly's Europe lists were not itemised on the pages we checked."
+        },
+        {
+          "q": "Should I use a country eSIM instead of a Europe regional plan?",
+          "a": "It depends on your route and the current prices. A multi-country regional plan can reduce plan switching — one install and one validity period across borders. If your whole trip is in one country, compare that country's own plan against the regional plan on price, validity and coverage before choosing; there is no universal winner, and which side wins changes with the two providers' current prices on your route."
+        },
+        {
+          "q": "Can I use a Europe eSIM as a hotspot for my laptop?",
+          "a": "Support varies by plan. Ubigi says data sharing is allowed; Airalo allows tethering but counts it against the same daily allowance; Holafly caps sharing at 1GB of data per day (roughly plan-length GB total); Saily documents hotspot setup in its help centre; Nomad's hotspot policy was unresolved on the page we read. Match the plan to how you actually tether."
+        },
+        {
+          "q": "When does the Europe eSIM validity start?",
+          "a": "It depends on the provider and the plan. Saily starts on arrival (or within 180 days of purchase), Nomad within 60 days of purchase and on connection, Ubigi via its Smartstart on arrival, and Holafly on arrival. Airalo is package-specific: its help text says some packages’ validity begins as soon as the eSIM is installed, while others’ begins when the eSIM connects to a network in its coverage area. Install before you leave, but check the specific plan’s validity policy before installing early — an install-tied Airalo package starts ticking the moment it is installed."
+        }
+      ]
+    },
+    {
+      "type": "sources",
+      "title": "Sources — all first-party, with the date each was checked",
+      "items": [
+        {
+          "label": "Ubigi Europe fixed+unlimited plans and per-country network list (checked 2026-10-07)",
+          "url": "https://cellulardata.ubigi.com/rates-and-coverage/europe-data-plans/"
+        },
+        {
+          "label": "Ubigi Europe Unlimited 7d page — 25GB full-speed then 2 Mbps (checked 2026-10-07)",
+          "url": "https://cellulardata.ubigi.com/rates-and-coverage/europe-data-plans/europe-unlimited-7-days/"
+        },
+        {
+          "label": "Ubigi Europe Unlimited 15d page — 30GB full-speed then 2 Mbps (checked 2026-10-07)",
+          "url": "https://cellulardata.ubigi.com/rates-and-coverage/europe-data-plans/europe-unlimited-15-days/"
+        },
+        {
+          "label": "Ubigi Europe Unlimited 30d page — 60GB full-speed then 2 Mbps (checked 2026-10-07)",
+          "url": "https://cellulardata.ubigi.com/rates-and-coverage/europe-data-plans/europe-unlimited-30-days/"
+        },
+        {
+          "label": "Nomad Europe eSIM — plans, coverage list, activation window (checked 2026-10-07)",
+          "url": "https://www.nomadesim.com/europe-eSIM"
+        },
+        {
+          "label": "Saily Europe eSIM — plans, 35-country list, unlimited terms, activation (checked 2026-10-07)",
+          "url": "https://saily.com/esim-europe/"
+        },
+        {
+          "label": "Airalo Europe eSIM — fixed+unlimited plans (checked 2026-10-07)",
+          "url": "https://www.airalo.com/europe-esim"
+        },
+        {
+          "label": "Airalo Unlimited packages FAQ — 3GB/day FUP and tethering terms (checked 2026-10-06)",
+          "url": "https://www.airalo.com/m/esim/unlimited-packages"
+        },
+        {
+          "label": "Holafly Europe eSIM — flat-fee unlimited, 1GB/day hotspot, Always-On backup (checked 2026-10-07)",
+          "url": "https://esim.holafly.com/esim-europe/"
+        },
+        {
+          "label": "Holafly FAQ — unlimited data and operator-side fair-use wording (checked 2026-10-07)",
+          "url": "https://esim.holafly.com/faq/about-esims/are-there-esims-with-unlimited-data/"
+        },
+        {
+          "label": "Saily Help — hotspot setup (checked 2026-10-06)",
+          "url": "https://support.saily.com/"
+        },
+        {
+          "label": "Airalo eSIM validity policy — package-specific, starts at installation or on connection (checked 2026-10-07)",
+          "url": "https://www.airalo.com/help/articles"
+        },
+        {
+          "label": "Saily Help — What is Saily's refund policy? full refund within 30 days if not installed/activated (checked 2026-10-07)",
+          "url": "https://support.saily.com/hc/en-us/articles/16420576170652"
+        },
+        {
+          "label": "Airalo Help — My Account & Airmoney: app-based refunds, Airmoney or original payment method (checked 2026-10-07)",
+          "url": "https://www.airalo.com/help/my-account-airmoney/QT1HK3HU71BG"
+        },
+        {
+          "label": "Holafly Refund Policy — up to 6 months, full/partial refund conditions (checked 2026-10-07)",
+          "url": "https://esim.holafly.com/refund-policy/"
+        },
+        {
+          "label": "Pexels — hero photo by Jonathan Borba, photo 16022620 (checked 2026-10-07)",
+          "url": "https://www.pexels.com/photo/16022620/"
+        }
+      ]
+    }
+  ]
+}
