@@ -937,3 +937,22 @@ Agent: Claude Code (lead) — PRE-PUBLISH RENDER REVIEW for best-esim-for-europe
 - SITEMAP: production sitemap excludes article #3 (draft) — consistent; standalone ISR sitemap-freshness backlog remains for the publish task.
 - CLEANUP: local mirror returned to draft, local author restored, dev server stopped, AGENTS.md auto-injected block by next dev reverted (working tree clean), temp scripts removed.
 - NEXT: targeted publish task (Task 38) must account for sitemap-freshness latency explicitly; Content Launch Review still gates ALLOW_INDEXING.
+
+---
+Task ID: 38
+Agent: Claude Code (lead) — TARGETED PUBLISH article #3 best-esim-for-europe (indexing OFF; intentional rebuild for sitemap/feed freshness).
+
+- PRE-PUBLISH READBACK (fail-closed): 25/25 PASS — roundup/draft/publishedAt null/isDemo false/Duy An Tran/Author/bio exact/focusAreas []/travel/37 blocks/5 picks ranks 1-5/15 min/hero exact/tags esim·europe·travel-connectivity/reviewer null/lastReviewedAt null/featured false/1 guide + 1 versus/0 go:/0 offerId/0 offers/0 comparison/0 scores. Public route 404, robots Disallow: /, ALLOW_INDEXING=false.
+- PUBLISH MUTATION: guarded Prisma update, ONLY status→"published" + publishedAt→now (2026-10-07T02:05:35.894Z). Guard passed (complete expected-draft-state guard, any mismatch = write nothing). articleId cmuxfys2e0001bj06p3jvpmso unchanged. No other field touched.
+- POST-WRITE DB: 16/16 PASS — status published, publishedAt exact ts, all metadata/relations unchanged, 0 commerce.
+- PUBLIC PAGE (Playwright, production): route 200 on first poll; H1 exact; Duy An Tran byline; hero once + exact alt; Pexels 16022620 link; TL;DR; methodology callout; 2 tables; 5 pick cards (ranks 1-5 + badges); FUP/hotspot/activation/refund sections; FAQ 6; Sources 16; article-body EXACTLY 1 guide + 1 versus link (the "Keep reading" related block adds one cross-link each to articles #1/#2 — site template, not article duplication); 0 /go/; 0 buy CTA; 0 pick-level affiliate disclosure; no article demo notice (only site-wide footer, allowed).
+- SEO/JSON-LD: canonical exact https://duyanblog.com/best/best-esim-for-europe; og:image=hero; title/description approved; Article (Person Duy An Tran, datePublished=exact production ts) + BreadcrumbList + benign ItemList; NO Product/Offer/Review/aggregateRating. Wrong-type routes all 404.
+- INTENTIONAL REBUILD (sitemap/feed freshness — standalone ISR unreliable per Tasks 30/36): cleared regenerable .next route-cache first (Task 36 ENOTEMPTY recovery); prisma migrate deploy "No pending migrations"; prisma generate OK; next build --webpack exit 0 (BUILD_ID VDr3d2Q-wsj-_YkhBm5Li; SWC→WASM fallback pre-existing); standalone assembled. Restart via tmp/restart.txt — new PID serving new BUILD_ID. Deployed source SHA kept at 1ae96a3 (no docs-only parity chase; docs outside runtime bundle).
+- DISTRIBUTION POST-REBUILD: #3 present in sitemap.xml (correct /best/ URL), feed.xml, feed.json, /best, /travel, /tag/esim, /tag/europe, /tag/travel-connectivity, and homepage latest-articles query (verified rendered, 5 hrefs). featured false (no mutation to force homepage). Existing articles intact (saily-vs-airalo 200, guide 200, both unchanged).
+- DEMO ROUNDUP: /best/best-esim-providers still ABSENT (DB row null, route 404). Not a launch blocker.
+- HIGH-RISK CLAIMS (live page): Ubigi 25/7d+30/15d+60/30d→2Mbps; Airalo 3GB/day@20Mbps; Saily 5GB/day→1Mbps; Holafly 1GB/day + operator FUP; Nomad unresolved; Airalo package-specific; ABSENT all-five-arrival/clock-land/most-travellers-buy/safer-start/regional-wins/first-hand.
+- FINAL DB: 18/18 PASS — published/publishedAt exact/37 blocks/5 picks/unmodified metadata/0 commerce/0 demo row; other two articles untouched (their updatedAt from prior tasks).
+- LOGS/SAFETY: error log EMPTY; no fatal/unhandled/ENOTEMPTY; Hostinger untouched; no demo seed; no affiliate rows; no Comparison/ReviewScore; no credential action; no unrelated Article mutation. Known RESEND warning was not re-observed in this window.
+- INDEXING: ALLOW_INDEXING=false (live env) + robots Disallow: / verified post-rebuild. No Google/Bing/URL-inspection submissions. Content Launch Review still required before indexing (3-article cluster now public but unindexed).
+- PRODUCTION VERSION: source SHA 1ae96a3 (unchanged), standalone BUILD_ID VDr3d2Q-wsj-_YkhBm5Li.
+- NEXT: reverse backlinks from articles #1/#2 into the Europe roundup (Content Launch Review remains the indexing gate; sitemap-freshness latency now mitigated by rebuild-on-publish convention).
