@@ -139,9 +139,25 @@ check(
   `${external.length} external items`,
 );
 
-// 11 — internal link to the versus article, contextual, no provider recommendation
-const vsLinks = blocks.filter((b) => b.type === "paragraph" && /\[[^\]]+\]\(\/compare\/saily-vs-airalo\)/.test(b.text));
-check("contextual internal link to /compare/saily-vs-airalo exists", vsLinks.length >= 1, `${vsLinks.length} link(s)`);
+// 11 — internal links: contextual, no provider recommendation.
+// Exact Markdown-link OCCURRENCE counts, not paragraph presence (Task 33/39
+// discipline: a duplicate inside one paragraph must fail).
+const countMkLinks = (haystack, w) => {
+  const re = new RegExp(`\\[[^\\]]+\\]\\(${w}\\)`, "g");
+  return [...haystack.matchAll(re)].length;
+};
+const guideProse = blocks
+  .filter((b) => ["paragraph", "callout", "list", "quote"].includes(b.type))
+  .map((b) => (Array.isArray(b.items) ? b.items.join("\n") : b.text ?? ""))
+  .join("\n");
+const vsLinkCount = countMkLinks(guideProse, "/compare/saily-vs-airalo");
+const europeLinkCount = countMkLinks(guideProse, "/best/best-esim-for-europe");
+check("contextual internal link to /compare/saily-vs-airalo exists", vsLinkCount === 1, `${vsLinkCount} occurrence(s)`);
+check(
+  "exactly one contextual reverse-backlink to /best/best-esim-for-europe (Task 39)",
+  europeLinkCount === 1,
+  `${europeLinkCount} occurrence(s)`,
+);
 check("no provider recommendation wording", !/(we recommend|you should choose|best provider is|choose saily|choose airalo)/i.test(allText));
 
 // 12 — FAQ present with the expected blocking questions
