@@ -328,7 +328,7 @@ export default async function HomePage() {
             </ol>
           </Reveal>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            Buy links are affiliate links — they never change the price you pay or a verdict on this site.{" "}
+            Buy links are affiliate links. Merchant prices and terms can change; affiliate relationships never change our verdicts.{" "}
             <Link href="/affiliate-disclosure" className="underline underline-offset-2 hover:text-foreground">
               How deals make the list.
             </Link>

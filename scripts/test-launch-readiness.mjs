@@ -190,6 +190,12 @@ check(
   "no current affiliate-revenue claim — the site has zero affiliate revenue today",
 );
 
+check(
+  "homepage deals copy does NOT promise 'never change the price you pay'",
+  !/never change the price you pay|never changes the price|does not affect the price|won.t cost more/.test(homepage),
+  "a future affiliate program cannot promise customer prices are unaffected",
+);
+
 // ---------------------------------------------------------------------------
 console.log(`\n${passed} pass, ${failed} fail`);
 if (failed > 0) process.exitCode = 1;

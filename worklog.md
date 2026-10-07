@@ -1050,3 +1050,17 @@ Agent: Claude Code (lead) — PR #12 TRUTHFULNESS RESIDUALS (amend-only, one nar
 - ARTICLE/ROBOTS/INDEXING: content/drafts untouched, robots.ts/sitemap.ts/ALLOW_INDEXING untouched, guide/roundup/footer-route fixes untouched. Production untouched.
 - COMMIT: one narrow commit on fix/pre-indexing-launch-majors (6 files, 84+/12-). Same PR #12 (head advanced). NOT merged, NOT deployed.
 - NEXT: independent PR re-review of PR #12; after merge + approval, deploy + indexing flip task per Task 40's launch procedure.
+
+---
+Task ID: 41A.2
+Agent: Claude Code (lead) — FINAL PRICE-GUARANTEE RESIDUAL (same PR #12 only, one tiny commit; indexing stays OFF, production untouched).
+
+- CONFIRMED RESIDUAL: src/app/page.tsx deals section still had "Buy links are affiliate links — they never change the price you pay or a verdict on this site." (inside deals.length > 0 conditional, so invisible on production today). "they never change the price you pay" is an unprovable blanket future-affiliate price guarantee, contradicting the 41A.1 merchant/program-specific repair.
+- TDD RED first: added invariant to scripts/test-launch-readiness.mjs — /never change the price you pay|never changes the price|does not affect the price|won.t cost more/ scanned against public runtime copy. RED: 19 pass / 1 fail.
+- COPY FIX (only the guarantee portion): "Buy links are affiliate links — they never change the price you pay or a verdict on this site." → "Buy links are affiliate links. Merchant prices and terms can change; affiliate relationships never change our verdicts." Keeps "buy links are affiliate links" + "never change our verdicts"; removes the price guarantee. GREEN: 20 pass / 0 fail.
+- MUTATION: restore old guarantee → test:launch FAIL (19/1); restore repair → PASS (20/0).
+- PRICE-GUARANTEE SWEEP: no remaining "never change the price / never changes the price / no extra cost / same price / price you pay is the same / sometimes better / does not affect the price / won't cost more" in src/app, src/components, src/content, src/lib. Remaining wording in policies is merchant- & program-specific ("check the merchant's current price and terms") — allowed.
+- GATES: test:launch 20 pass; test:cta 27 pass; 3 article gates pass; slop 0; lint 0; typecheck 0; validate:docs PASS; git diff --check clean. npm run build LOCAL exit 0.
+- PRESERVED: all PR #12 fixes (demo/affiliate/revenue copy, About/header, guide min-w-0, roundup box removal, footer dead-links, robots/sitemap/ALLOW_INDEXING, content/drafts) untouched.
+- COMMIT: one tiny commit on fix/pre-indexing-launch-majors (2 files, +7-1). Same PR #12. Not merged/deployed.
+- NEXT: final independent review of PR #12; then deploy + indexing flip per Task-40 launch procedure.
