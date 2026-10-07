@@ -39,7 +39,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Our picks below are editorial choices made from the documented evidence, not a speed or reliability ranking. The quickest way to a decision is the fixed-data shape most travellers buy — about 10GB over roughly 30 days — where the price per gigabyte is straightforward to compare: **Ubigi $1.50, Nomad $2.30, Airalo $3.10, Saily $3.60**, all derived by dividing each provider's own list price by the included gigabytes. Holafly does not publish a fixed-data plan for Europe, only flat-fee unlimited, so it sits outside that row and we say so."
+      "text": "Our picks below are editorial choices made from the documented evidence, not a speed or reliability ranking. The quickest way to a decision is the fixed-data shape all four fixed-data providers sell — 10GB over 30 days — where the price per gigabyte is straightforward to compare: **Ubigi $1.50, Nomad $2.30, Airalo $3.10, Saily $3.60**, all derived by dividing each provider's own list price by the included gigabytes. Holafly does not publish a fixed-data plan for Europe, only flat-fee unlimited, so it sits outside that row and we say so."
     },
     {
       "type": "paragraph",
@@ -244,7 +244,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Activation rules matter more than most pages admit. Saily's plans activate when you reach your destination or 180 days after purchase; Nomad's can be activated within 60 days of purchase and start once you connect to the destination network; Ubigi's \"Smartstart\" starts the clock on arrival; Airalo's activation policy is shown per plan before purchase; Holafly's plan begins once you arrive and turn the eSIM on. The practical point is the same across all five: install before you leave, and expect the validity clock to start at the destination, not at the checkout."
+      "text": "Activation rules matter more than most pages admit, and they are not uniform. Saily's plans activate when you reach your destination or 180 days after purchase; Nomad's can be activated within 60 days of purchase and start once you connect to the destination network; Ubigi's \"Smartstart\" starts the clock on arrival; Airalo's validity policy is package-specific (see below); Holafly's plan begins once you arrive and turn the eSIM on. The universal practical point is only the first one: install before you leave. Whether the validity clock then starts at the destination or earlier depends on the provider — and on the specific Airalo package — so check the plan's own validity policy before you install several days early."
     },
     {
       "type": "paragraph",
@@ -257,7 +257,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Picking a provider is one decision; picking a size is a second one. The right amount depends on your profile and your itinerary's Wi-Fi, and we have built a separate guide that does the arithmetic from each app's own published bitrate figures: [How much eSIM data do I need?](/guides/how-much-esim-data-do-i-need). For Europe specifically, the 10GB/30d shape is the one we can compare honestly across all four fixed-data providers, and the 20–50GB rows are the safer start if you will stream, tether or back up photos on the card."
+      "text": "Picking a provider is one decision; picking a size is a second one. The right amount depends on your profile and your itinerary's Wi-Fi, and we have built a separate guide that does the arithmetic from each app's own published bitrate figures: [How much eSIM data do I need?](/guides/how-much-esim-data-do-i-need). Europe's 10GB/30d row matters here only as a comparison anchor — it is the shape all four fixed-data providers sell, which is why this article uses it for the price-per-gigabyte comparison — not as a recommendation for how much data you should buy. Let the guide answer the sizing question."
     },
     {
       "type": "heading",
@@ -270,8 +270,8 @@
       "items": [
         "**Coverage lists are the source of truth, not the store's headline count.** Ubigi names networks per country; Nomad and Saily publish country lists; Airalo's \"41 Countries and Networks\" and Holafly's \"multiple countries\" are not directly comparable to them. Confirm the list covers your actual route, especially for UK, Switzerland and Türkiye — the boundaries vary.",
         "**Overseas territories are often excluded.** Nomad says explicitly that coverage \"may not include overseas territories under the jurisdiction of the specified country\". If your route touches the Canaries, Madeira or a French overseas department, check the plan's own list.",
-        "**The validity clock starts at the destination.** All five activate on arrival, so buying a 30-day plan ten days early does not eat your validity — but the reverse is also true: an activated plan starts ticking the moment you land.",
-        "**\"Unlimited\" includes a speed floor, not a guarantee of speed.** What happens past the cap is provider-specific: Ubigi documents 2 Mbps, Saily 1 Mbps, Airalo reduced speeds without a published number, and Holafly a local-operator slowdown. That is fine for maps and messaging and poor for streaming a second screen."
+        "**Validity clocks are not all the same.** Saily, Nomad, Ubigi and Holafly tie the start to arrival or first connection; **Airalo is package-specific** — its own help text says some packages' validity starts the moment the eSIM is installed (even outside the coverage area), while others' starts when the eSIM connects to a network. Check the specific plan's validity policy before installing early, because an install-tied package starts ticking the moment you install it.",
+        "**\"Unlimited\" includes a speed floor, not a guarantee of speed.** What happens past the cap is provider-specific: Ubigi documents 2 Mbps, Saily 1 Mbps, Airalo reduced speeds without a published number, and Holafly a local-operator slowdown. These are the providers' own documented terms, not real-world results from our own testing."
       ]
     },
     {
@@ -292,7 +292,7 @@
         },
         {
           "q": "Should I use a country eSIM instead of a Europe regional plan?",
-          "a": "A regional Europe plan is usually simpler for a multi-country trip — one install, one validity period. If you are spending your whole trip in one country, the country-specific plan is often cheaper per gigabyte because it does not pay for the regional breadth. The regional plan wins for anything with more than one border crossing."
+          "a": "It depends on your route and the current prices. A multi-country regional plan can reduce plan switching — one install and one validity period across borders. If your whole trip is in one country, compare that country's own plan against the regional plan on price, validity and coverage before choosing; there is no universal winner, and which side wins changes with the two providers' current prices on your route."
         },
         {
           "q": "Can I use a Europe eSIM as a hotspot for my laptop?",
@@ -300,7 +300,7 @@
         },
         {
           "q": "When does the Europe eSIM validity start?",
-          "a": "At the destination, for these providers: Saily on arrival (or within 180 days of purchase), Nomad within 60 days of purchase and on connection, Ubigi via its Smartstart on arrival, Airalo per its pre-purchase activation policy, and Holafly on arrival. Install before you leave; the clock starts when you land, not at checkout."
+          "a": "It depends on the provider and the plan. Saily starts on arrival (or within 180 days of purchase), Nomad within 60 days of purchase and on connection, Ubigi via its Smartstart on arrival, and Holafly on arrival. Airalo is package-specific: its help text says some packages’ validity begins as soon as the eSIM is installed, while others’ begins when the eSIM connects to a network in its coverage area. Install before you leave, but check the specific plan’s validity policy before installing early — an install-tied Airalo package starts ticking the moment it is installed."
         }
       ]
     },
@@ -351,6 +351,22 @@
         {
           "label": "Saily Help — hotspot setup (checked 2026-10-06)",
           "url": "https://support.saily.com/"
+        },
+        {
+          "label": "Airalo eSIM validity policy — package-specific, starts at installation or on connection (checked 2026-10-07)",
+          "url": "https://www.airalo.com/help/articles"
+        },
+        {
+          "label": "Saily Help — What is Saily's refund policy? full refund within 30 days if not installed/activated (checked 2026-10-07)",
+          "url": "https://support.saily.com/hc/en-us/articles/16420576170652"
+        },
+        {
+          "label": "Airalo Help — My Account & Airmoney: app-based refunds, Airmoney or original payment method (checked 2026-10-07)",
+          "url": "https://www.airalo.com/help/my-account-airmoney/QT1HK3HU71BG"
+        },
+        {
+          "label": "Holafly Refund Policy — up to 6 months, full/partial refund conditions (checked 2026-10-07)",
+          "url": "https://esim.holafly.com/refund-policy/"
         },
         {
           "label": "Pexels — hero photo by Jonathan Borba, photo 16022620 (checked 2026-10-07)",

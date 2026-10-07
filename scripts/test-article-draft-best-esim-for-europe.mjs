@@ -76,6 +76,16 @@ const usedProviders = shortlist.filter((p) => str(blockText).includes(p));
 check("each used provider has an official source",
   usedProviders.every((p) => new RegExp(p, "i").test(srcBlockText) && /https:\/\//i.test(srcBlockText)),
   `used: ${usedProviders.join(", ")}`);
+// PR #10 review: refund claims must each point at an official first-party refund source.
+const sailyRefundClaim = /Saily documents a full refund within 30 days/i.test(blockText);
+const airaloRefundClaim = /Airalo processes refunds through its app/i.test(blockText);
+const holaflyRefundClaim = /Holafly publishes a refund-policy page/i.test(blockText);
+const srcUrls = (sources?.items ?? []).map((s) => String(s.url ?? "")).join(" ");
+const refundSrcHits = [];
+if (sailyRefundClaim && !/support\.saily\.com\/hc\/en-us\/articles/.test(srcUrls)) refundSrcHits.push("Saily refund claim lacks official Saily help-center article URL");
+if (airaloRefundClaim && !/airalo\.com\/help\//.test(srcUrls)) refundSrcHits.push("Airalo refund claim lacks official Airalo help URL");
+if (holaflyRefundClaim && !/holafly\.com\/refund-policy/.test(srcUrls)) refundSrcHits.push("Holafly refund claim lacks official refund-policy URL");
+check("refund claims source-backed (Saily/Airalo/Holafly official URLs)", refundSrcHits.length === 0, refundSrcHits.join("; "));
 
 // 5 — GEOGRAPHY
 check("Europe-definition caveat present", /what .?we mean|not directly comparable|different definitions|countries and networks|destinations|coverage.*unit/i.test(blockText));
@@ -86,14 +96,70 @@ const geoMentions = /United Kingdom|Switzerland|Türkiye|Turkey/i.test(blockText
 check("UK/Switzerland/Türkiye handled evidence-bound", !geoMentions || /unresolved|not itemized|not on.{0,30}page|varies by provider|documented|includes/i.test(blockText),
   geoMentions ? "geo context present" : "no geo mentions (ok)");
 
-// 6 — PRICE
+// 6 — PRICE (derived-math is checked structurally, not hardcoded)
 const tables = blocks.filter((b) => b.type === "table");
 check("tables within schema limits (≤40 rows, ≤8 cols)", tables.every((t) => t.rows.length <= 40 && t.head.length <= 8 && t.rows.every((r) => r.length <= 8)));
-const pricePerGB = (p, g) => Math.round((p / g) * 100) / 100;
-const expected = { "ubigi": { "10": 1.5 }, "nomad": { "10": 2.3 }, "airalo": { "10": 3.1 }, "saily": { "10": 3.6 } };
-check("price/GB values are editorial-derived only (no false precision)", true); // structural; exact values checked in draft by reviewer
+
+// Locate the fixed-data 10GB/30d comparison table structurally (head names "Plan" + "List price" + "Price / GB").
+const priceTable = tables.find((t) =>
+  Array.isArray(t.head) &&
+  t.head.some((h) => /list price/i.test(h)) &&
+  t.head.some((h) => /price\s*\/\s*GB/i.test(h)) &&
+  t.head.some((h) => /^plan$/i.test(h))
+);
+const parseUSD = (s) => {
+  const m = String(s).match(/^\$?(\d+(?:\.\d+)?)/);
+  return m ? Number(m[1]) : NaN;
+};
+const priceMathFailures = [];
+if (!priceTable) {
+  priceMathFailures.push("no fixed-data $/GB table found");
+} else {
+  const gold = { Ubigi: { gb: 10, price: 15 }, Nomad: { gb: 10, price: 23 }, Airalo: { gb: 10, price: 31 }, Saily: { gb: 10, price: 35.99 } };
+  // Sanity: the table must not contain providers outside the four fixed-data row, and must not omit one.
+  const rows = priceTable.rows ?? [];
+  const provs = rows.map((r) => String(r[0] ?? "").toLowerCase());
+  for (const name of Object.keys(gold)) {
+    const i = provs.indexOf(name.toLowerCase());
+    if (i === -1) { priceMathFailures.push(`${name} missing from $/GB table`); continue; }
+    const row = rows[i];
+    const plan = String(row[1] ?? "");
+    const gbM = plan.match(/(\d+)GB/);
+    const price = parseUSD(row[2]);
+    const shown = parseUSD(row[3]);
+    if (!gbM || (gold[name].gb !== -1 && Number(gbM[1]) !== gold[name].gb)) { priceMathFailures.push(`${name}: plan GB mismatch ('${plan}')`); continue; }
+    if (gold[name].price !== -1 && Math.round(price * 100) !== Math.round(gold[name].price * 100)) { priceMathFailures.push(`${name}: list price ${price} != expected ${gold[name].price}`); continue; }
+    const recomputed = Math.round((price / Number(gbM[1])) * 100) / 100;
+    if (recomputed !== shown) { priceMathFailures.push(`${name}: shown $${shown}/GB != recomputed $${recomputed}/GB from $${price}/${gbM[1]}GB`); continue; }
+  }
+  // No unexpected fixed-data providers in this row.
+  for (const r of rows) {
+    const name = String(r[0] ?? "").toLowerCase();
+    const isGold = Object.keys(gold).some((k) => k.toLowerCase() === name);
+    if (!isGold) priceMathFailures.push(`unexpected provider '${r[0]}' in $/GB table`);
+  }
+}
+check("price/GB rows recompute exactly: round(listPrice ÷ GB, 2) === displayed", priceMathFailures.length === 0, priceMathFailures.join("; "));
 check("no unlimited price/GB", !/(unlimited[^\n]{0,30}\$\d+(?:\.\d+)?\/|\$\d+(?:\.\d+)?\/\s*GB[^\n]{0,30}unlimited)/i.test(blockText));
-check("no hidden currency mixing", /USD|EUR|€|\$/.test(blockText) && !/EUR[\s\S]{0,80}\$|\$[\s\S]{0,80}EUR/.test(blockText) || true);
+// Currency invariant: every row in the $/GB table is USD-fixed data (no €/EUR); Holafly (EUR) is absent from that row,
+// and Holafly's euro price exists only in prose that explicitly keeps it outside the USD $/GB comparison.
+const currency_failures = [];
+const fixedTables = tables.filter((t) =>
+  Array.isArray(t.head) &&
+  t.head.some((h) => /price\s*\/\s*GB/i.test(h)) &&
+  t.head.some((h) => /list price/i.test(h)));
+for (const t of fixedTables) {
+  for (const r of t.rows ?? []) {
+    const cells = r.map((c) => String(c));
+    const joined = cells.join(" ");
+    if (/€|EUR/i.test(joined)) currency_failures.push(`mixed-currency row in $/GB table: ${cells[0]}`);
+    const isHolafly = /holafly/i.test(cells[0] ?? "");
+    if (isHolafly) currency_failures.push("Holafly (EUR-only) present in the USD $/GB table");
+  }
+}
+if (!/€\s*\d|EUR/i.test(blockText)) currency_failures.push("Holafly's EUR pricing is not marked with €/EUR anywhere");
+if (!/flat-fee unlimited|\beuro(?:s)?\b|EUR/i.test(blockText)) currency_failures.push("Holafly's EUR pricing lacks an explicit currency/position disclaimer");
+check("currency: $/GB rows are USD-only fixed data; Holafly EUR excluded, not mixed", currency_failures.length === 0, currency_failures.join("; "));
 check("promo/list not silently mixed", !/on sale|promo|limited time/i.test(blockText) || /per (provider|its own|the page).*checked|list price|on sale|sale price/i.test(blockText));
 
 // 7 — FUP
@@ -108,11 +174,19 @@ check("Holafly hotspot/FUP product-specific", /share 1 ?GB|1 ?GB(?:[- ]per day| 
 check("Nomad FUP stays UNRESOLVED", !/nomad[\s\S]{0,200}(?:25 ?GB|2 ?Mbps|daily cap)/i.test(blockText),
   "no invented Nomad FUP numbers");
 
-// 8 — LINKS
-const guideLinks = blocks.filter((b) => b.type === "paragraph" && /\[[^\]]+\]\(\/guides\/how-much-esim-data-do-i-need\)/.test(b.text));
-const vsLinks = blocks.filter((b) => b.type === "paragraph" && /\[[^\]]+\]\(\/compare\/saily-vs-airalo\)/.test(b.text));
-check("exactly one guide link", guideLinks.length === 1, `${guideLinks.length}`);
-check("exactly one saily-vs-airalo link", vsLinks.length === 1, `${vsLinks.length}`);
+// 8 — LINKS (exact Markdown-link occurrence counts across prose, not paragraph presence)
+const proseText = blocks
+  .filter((b) => ["paragraph", "callout", "list", "quote", "pick"].includes(b.type))
+  .map((b) => (Array.isArray(b.items) ? b.items.join("\n") : b.text ?? ""))
+  .join("\n");
+const countMkLinks = (haystack, w) => {
+  const re = new RegExp(`\\[[^\\]]+\\]\\(${w}\\)`, "g");
+  return [...haystack.matchAll(re)].length;
+};
+const guideLinkCount = countMkLinks(proseText, "/guides/how-much-esim-data-do-i-need");
+const vsLinkCount = countMkLinks(proseText, "/compare/saily-vs-airalo");
+check("exactly one guide link (occurrence count)", guideLinkCount === 1, `${guideLinkCount}`);
+check("exactly one saily-vs-airalo link (occurrence count)", vsLinkCount === 1, `${vsLinkCount}`);
 
 // 9 — CLAIMS
 const firstHand = [/we tested/i, /in our tests/i, /our speed tests/i, /we experienced/i, /we measured/i, /tested across/i, /we bought/i];
@@ -125,6 +199,18 @@ check("no fabricated scores", !/\b\d(?:\.\d)?\s*\/\s*10\b/i.test(allText));
 check("no market-share/popularity claims", !/\d+ ?million (?:users|people)|most (?:popular|used) (?:eSIM|travel)/i.test(allText));
 check("no testimonial/award as evidence", !/(testimonial|5 star|excellent rating|award-r?winning|trustpilot)/i.test(allText));
 check("no 'average traveler needs X GB'", !/average (traveler|traveller|user) (needs|uses)/i.test(allText));
+
+// 9b — REGRESSION GUARDS (PR #10 review findings — do not let these reappear)
+// Unsupported popularity: the 10GB/30d row must be a comparison anchor for the four fixed-data sellers, never "most travellers buy".
+check("no unsupported popularity claim for the 10GB shape", !/most travellers? (buy|need)|most thoughtful|what most people (buy|need)|the (popular|common).{0,15}(shape|size).{0,15}(buy|choose)/i.test(allText));
+// Sizing recommendation must not ship; the guide owns "how much to buy".
+check("no draft-level sizing recommendation ('safer start' / 'covers a trip')", !/safer start|rows? (are|is) the safer|(10GB\/30d|the 10GB shape).{0,80}(covers|is enough for|suits? a)/i.test(allText));
+// Activation: never a universal "all five activate on arrival" / "clock starts when you land".
+check("no blanket 'all five activate on arrival'", !/all five activate|all providers activate|every (provider|plan).{0,30}arrival/i.test(allText));
+check("no blanket 'clock starts when you land'", !/clock starts? (when|as soon as|once) .{0,30}(land|arriv)/i.test(allText));
+// Regional-vs-country: no universal winner, no invented causal explanation.
+check("no 'regional plan wins' universal claim", !/regional plan wins|the (regional|Europe) plan (is better|wins).{0,40}(border|multi-country)/i.test(allText));
+check("no invented country-cheaper causal wording", !/(country[- ]?specific|single[- ]?country).{0,60}cheaper.{0,40}because.{0,40}(breadth|regional|reach)/i.test(allText));
 
 // 10 — MEDIA
 const images = blocks.filter((b) => b.type === "image");
