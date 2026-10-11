@@ -81,13 +81,41 @@ check("every googletagmanager reference sits behind an advertising-consent gate"
   behindAdvertisingGate(tag));
 
 // --- D. consent update on revocation ----------------------------------------
-check("revocation issues gtag consent update with ad_storage denied",
-  /ad_storage["']?\s*:\s*["']denied/.test(tag),
+// The revocation useEffect's push must deny ALL THREE advertising categories
+// together — grab the effect body and verify the complete payload, not just
+// the presence of the word "denied" anywhere in the file.
+const revokeBody = (tag.match(/useEffect\(\(\) => \{[\s\S]*?\n  \}, \[advertising\]\);/) || [""])[0];
+check("revocation effect exists", /useEffect/.test(revokeBody));
+check("revocation effect denies ad_storage",
+  /ad_storage["']?\s*:\s*["']denied/.test(revokeBody),
   "must set ad_storage denied on advertising consent withdrawal");
-check("revocation issues gtag consent update with ad_user_data denied",
-  /ad_user_data["']?\s*:\s*["']denied/.test(tag));
-check("revocation issues gtag consent update with ad_personalization denied",
-  /ad_personalization["']?\s*:\s*["']denied/.test(tag));
+check("revocation effect denies ad_user_data",
+  /ad_user_data["']?\s*:\s*["']denied/.test(revokeBody));
+check("revocation effect denies ad_personalization",
+  /ad_personalization["']?\s*:\s*["']denied/.test(revokeBody));
+check("revocation effect grants nothing (all-deny payload)",
+  !/["']granted["']/.test(revokeBody),
+  "revocation payload must not contain any granted value");
+
+// --- G. accepted consent must be reflected as GRANTED (Consent Mode) --------
+// The gtag default consent state at load time (which happens only after
+// advertising acceptance) must GRANT ad_storage + ad_user_data, keep
+// ad_personalization denied (measurement consent ≠ personalization), and
+// mirror analytics_storage from the independently-granted analytics consent.
+check("load-time consent grants ad_storage (not blanket denied)",
+  /ad_storage["']?\s*:\s*["']granted/.test(tag),
+  "advertising acceptance must surface as ad_storage: granted");
+check("load-time consent grants ad_user_data (not blanket denied)",
+  /ad_user_data["']?\s*:\s*["']granted/.test(tag));
+check("ad_personalization stays denied even when advertising granted",
+  !/ad_personalization["']?\s*:\s*["']granted/.test(tag),
+  "measurement consent must not silently enable personalization");
+check("analytics_storage derives from analytics consent flag",
+  /analytics_storage["']?\s*:\s*\$\{[^}]*analytics/.test(tag) || /analytics_storage["']?\s*:\s*["']\$\{/.test(tag),
+  "analytics_storage value must be interpolated from the analytics consent flag");
+check("granted consent is set as gtag default BEFORE config (ordering)",
+  /consent['"],\s*['"]default[\s\S]{0,400}config['"]/.test(tag.replace(/\\n/g, "")),
+  "default consent must precede config in the loaded script");
 
 // --- consent-state handling --------------------------------------------------
 check("uses getConsentSnapshot + subscribeConsent (existing consent abstraction)",

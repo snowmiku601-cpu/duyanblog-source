@@ -8,18 +8,25 @@ import { getConsentSnapshot, subscribeConsent } from "@/lib/consent";
  * Google Ads measurement tag (destination only — no GA4 site tag, no GTM).
  *
  * Contract (mirrors AdSlot and src/lib/consent.ts):
- * - The tag is configured ONLY via NEXT_PUBLIC_GOOGLE_ADS_ID. If the env var
- *   is absent, nothing loads — on localhost, previews, and the Hostinger
- *   rollback/reference deployment alike.
+ * - The tag is configured ONLY via NEXT_PUBLIC_GOOGLE_ADS_ID, which Next.js
+ *   inlines at BUILD time (like NEXT_PUBLIC_SITE_URL). If the var was absent
+ *   when the deployment was built, nothing loads — on localhost, previews,
+ *   and the Hostinger rollback/reference deployment alike. Setting it later
+ *   requires a rebuild (production env mutation is deliberately a separate,
+ *   review-gated step).
  * - No request may reach googletagmanager.com before advertising consent is
  *   stored (nothing optional runs before consent).
- * - On advertising consent, gtag.js loads once and configures the single Ads
- *   destination with consent default-denied for every advertising category,
- *   so advertising cookies/storage stay off until explicitly granted.
- * - On revocation (advertising true → false), gtag("consent", "update", …)
- *   denies ad_storage/ad_user_data/ad_personalization — no further
- *   advertising measurement is permitted. Script bytes already in browser
- *   memory cannot be unloaded; the denied consent state is the enforcement.
+ * - On advertising consent, gtag.js loads once. The load-time consent default
+ *   reflects the decision that authorized the load: ad_storage and
+ *   ad_user_data GRANTED (advertising consent exists), ad_personalization
+ *   DENIED (measurement consent is not personalization consent), and
+ *   analytics_storage mirroring the independently-granted analytics consent.
+ *   This default precedes config, so measurement starts in the right state.
+ * - On revocation (advertising true → false), a gtag consent update denies
+ *   ad_storage/ad_user_data/ad_personalization — no further advertising
+ *   measurement is permitted. Script bytes already in browser memory cannot
+ *   be unloaded, previously stored Google cookies are not erased here, and
+ *   the denied consent state is the enforcement.
  *
  * Consent-state side effects use useEffect (deterministic on every consent
  * transition), NOT next/script inline blocks — next/script dedupes inline
@@ -28,8 +35,6 @@ import { getConsentSnapshot, subscribeConsent } from "@/lib/consent";
  */
 
 const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "";
-
-const DENIED = { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" } as const;
 
 declare global {
   interface Window {
@@ -44,16 +49,20 @@ export function GoogleAdsTag() {
     () => getConsentSnapshot()?.advertising ?? false,
     () => false
   );
+  // Read once at consent-transition time; the loader only mounts after
+  // advertising consent, so the granted/default state matches the decision.
+  const analytics = advertising ? (getConsentSnapshot()?.analytics ?? false) : false;
 
-  // Revocation / deny enforcement: whenever advertising consent is false and
-  // the tag is configured, re-assert denied consent state on every transition.
-  // Safe pre-load too: pushing to dataLayer before gtag.js loads is the
-  // standard consent-mode bootstrap pattern.
+  // Revocation enforcement: whenever advertising consent is false and the tag
+  // is configured, deny every advertising category on every transition.
   useEffect(() => {
-    if (!ADS_ID) return;
-    if (advertising) return;
+    if (!ADS_ID || advertising) return;
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(["consent", "update", DENIED]);
+    window.dataLayer.push([
+      "consent",
+      "update",
+      { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" },
+    ]);
   }, [advertising]);
 
   if (!ADS_ID) return null;
@@ -70,8 +79,13 @@ export function GoogleAdsTag() {
           {`
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'granted',
+  ad_user_data: 'granted',
+  ad_personalization: 'denied',
+  analytics_storage: '${analytics ? "granted" : "denied"}'
+});
 gtag('js', new Date());
-gtag('consent', 'default', ${JSON.stringify(DENIED)});
 gtag('config', '${ADS_ID}');
 `}
         </Script>
