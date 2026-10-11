@@ -76,6 +76,44 @@ gtag('consent', 'default', {
 /** Destinations configured on this page so far (per page session). */
 const configured = new Set<string>();
 
+/**
+ * Sanitized GA4 page context (Task 48.2). GA4 defaults page_location to
+ * document.location and page_referrer to document.referrer — both can carry
+ * query parameters (e.g. ?email=…&token=…), which the privacy policy
+ * promises never to send. Everything GA4 measures gets explicit values:
+ * - page_location: trusted site origin (build-time site.url) + the clean
+ *   pathname (query string and fragment stripped).
+ * - page_referrer: navigation attribution preserved as safely as possible —
+ *   a same-origin referrer keeps origin + clean path (no query/fragment);
+ *   a cross-origin referrer is reduced to the bare origin (never passes a
+ *   third party's URLs or user-generated identifiers); an empty/invalid
+ *   referrer is omitted (GA4 sees no referrer rather than a raw one).
+ */
+function safePath(p: string | null | undefined): string {
+  return (p ?? "").split("?")[0]?.split("#")[0] ?? "";
+}
+
+function sanitizedPageContext(path: string): {
+  page_path: string;
+  page_location: string;
+  page_referrer?: string;
+} {
+  const ctx: { page_path: string; page_location: string; page_referrer?: string } = {
+    page_path: path,
+    page_location: `${site.url}${path}`,
+  };
+  if (typeof document !== "undefined" && document.referrer) {
+    try {
+      const r = new URL(document.referrer);
+      const sameOrigin = r.origin === new URL(site.url).origin;
+      ctx.page_referrer = sameOrigin ? `${r.origin}${safePath(r.pathname)}` : r.origin;
+    } catch {
+      // unparseable referrer: omit entirely rather than leak it
+    }
+  }
+  return ctx;
+}
+
 function issueConsentUpdate(analytics: boolean, advertising: boolean) {
   window.gtag?.("consent", "update", {
     ad_storage: advertising ? "granted" : "denied",
@@ -122,16 +160,32 @@ export function GoogleTag() {
 
   // Configure each destination ONCE when its own consent first grants. GA4
   // uses send_page_view:false — the page-view effect below owns page views
-  // (exactly one per navigation, including the first grant).
+  // (exactly one per navigation, including the first grant). The config
+  // itself pins the sanitized page context, so even Google-generated
+  // config-time events can never inherit document.location/referrer with
+  // query parameters.
   useEffect(() => {
     if (!libraryId || !mounted) return;
     if (advertising && ADS_ID && !configured.has(ADS_ID)) {
       configured.add(ADS_ID);
-      window.gtag?.("config", ADS_ID);
+      // Ads auto page_view defaults dl=document.location — the same query-
+      // string leak GA4 would have. Suppress it and pin the same sanitized
+      // context; conversions (none configured yet) would be pushed explicitly
+      // with their own sanitized parameters.
+      const path = safePath(pathname);
+      window.gtag?.("config", ADS_ID, {
+        send_page_view: false,
+        ...sanitizedPageContext(path),
+      });
     }
     if (analytics && GA4_ID && !configured.has(GA4_ID)) {
       configured.add(GA4_ID);
-      window.gtag?.("config", GA4_ID, { send_page_view: false });
+      const path = safePath(pathname);
+      if (path && !PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(p + "/"))) {
+        window.gtag?.("config", GA4_ID, { send_page_view: false, ...sanitizedPageContext(path) });
+      } else {
+        window.gtag?.("config", GA4_ID, { send_page_view: false });
+      }
     }
   }, [analytics, advertising, mounted, libraryId, pathname]);
 
@@ -145,13 +199,12 @@ export function GoogleTag() {
   // which is navigation metadata, not form/URL parameters.
   useEffect(() => {
     if (!GA4_ID || !mounted || !analytics) return;
-    const path = pathname?.split("?")[0] ?? "";
+    const path = safePath(pathname);
     if (!path || PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(p + "/"))) return;
     if (!configured.has(GA4_ID)) return; // not yet configured this session
     window.gtag?.("event", "page_view", {
       send_to: GA4_ID,
-      page_path: path,
-      page_location: `${site.url}${path}`,
+      ...sanitizedPageContext(path),
       page_title: document.title,
     });
   }, [GA4_ID, analytics, mounted, pathname]);

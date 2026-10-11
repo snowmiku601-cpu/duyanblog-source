@@ -181,6 +181,35 @@ check("F3: explicit sanitized page_location is set (site origin + clean pathname
   /page_location/.test(tag) && /origin/.test(tag),
   "GA4 would otherwise default page_location to the full URL incl. query strings");
 
+// --- Task 48.2 — GA4 config context gap --------------------------------------
+// GA4 defaults page_location=document.location and page_referrer=
+// document.referrer — both can carry query parameters. The GA4 config AND
+// every manual page_view must set BOTH explicitly, from sanitized values.
+// The referrer strategy: same-origin referrer = origin + clean path;
+// cross-origin = origin only; raw document.referrer never passed through.
+check("48.2: GA4 config itself sets explicit sanitized page context (spreads the sanitizer)",
+  /config["'],\s*GA4_ID,\s*\{\s*send_page_view:\s*false,\s*\.\.\.sanitizedPageContext/.test(tag),
+  "config-time context must be sanitized, not left to GA4 defaults");
+check("48.2: sanitized page_referrer helper exists (strip query/fragment, origin-only cross-origin)",
+  /page_referrer/.test(tag) && (/referrer/.test(tag) && (/origin/.test(tag) || /same-origin|sanitiz/i.test(tag))),
+  "raw document.referrer must never be passed through");
+check("48.2: manual page_view sets page_referrer explicitly (no implicit document.referrer)",
+  (tag.match(/page_referrer/g) || []).length >= 2,
+  "config + manual page_view must both carry the sanitized referrer");
+check("48.2: sanitized page context is shared between config and page_view (one sanitizer)",
+  /function sanitize|const sanitize|safePath|cleanPath/.test(tag),
+  "duplicate sanitizers drift; one shared helper");
+const sanitizerBody = (tag.match(/function sanitizedPageContext[\s\S]*?(?=function issueConsentUpdate)/) || [""])[0];
+check("48.2: sanitizer never passes raw document.referrer through",
+  Boolean(sanitizerBody) && !/page_referrer\s*=\s*document\.referrer/.test(sanitizerBody) && /safePath|r\.origin/.test(sanitizerBody),
+  "referrer must be reduced to origin(+clean same-origin path), never document.referrer raw");
+check("48.2: cross-origin referrer is origin-only",
+  /sameOrigin\s*\?|\?[^:]*r\.origin[^:]*:/.test(sanitizerBody) || /sameOrigin\s*\?\s*`/.test(sanitizerBody),
+  "third-party URLs/identifiers must not leak through the referrer");
+check("48.2: AW config also suppresses auto page_view (dl=document.location leak)",
+  /config["'],\s*ADS_ID,\s*\{[\s\S]{0,120}send_page_view:\s*false/.test(tag),
+  "Ads default page_view sends the raw document.location — it must be suppressed like GA4's");
+
 // --- wiring + invariants ------------------------------------------------------
 check("layout renders GoogleTag (mount point)", /GoogleTag/.test(layout));
 check("layout does NOT contain a hardcoded googletagmanager script",
