@@ -93,7 +93,7 @@ export function ConsentManager() {
             <div className="flex items-center justify-between gap-4">
               <Label htmlFor="consent-analytics" className="flex flex-col gap-0.5">
                 Analytics
-                <span className="text-xs font-normal text-muted-foreground">Anonymous usage statistics. Off by default.</span>
+                <span className="text-xs font-normal text-muted-foreground">Allows Google Analytics measurement on public pages. Off by default.</span>
               </Label>
               <Switch
                 id="consent-analytics"

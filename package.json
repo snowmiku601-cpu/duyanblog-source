@@ -27,7 +27,8 @@
     "db:reset": "prisma migrate reset",
     "seed:demo": "tsx prisma/seed.ts",
     "admin:bootstrap": "tsx scripts/admin-bootstrap.ts",
-    "media:manifest": "tsx scripts/media-manifest.ts"
+    "media:manifest": "tsx scripts/media-manifest.ts",
+    "test:google-consent": "node scripts/test-google-tag-consent.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

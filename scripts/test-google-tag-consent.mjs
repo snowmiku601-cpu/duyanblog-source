@@ -1,0 +1,177 @@
+#!/usr/bin/env node
+/**
+ * Google tag consent coordination — structural guard (deterministic, no server).
+ *
+ * Covers BOTH destinations (Google Ads AW + GA4 G-) through ONE shared gtag
+ * bootstrap in src/components/consent/google-tag.tsx:
+ *
+ *   1. IDs come only from build-time env (NEXT_PUBLIC_GOOGLE_ADS_ID /
+ *      NEXT_PUBLIC_GA4_MEASUREMENT_ID); a missing ID disables that destination
+ *      (and both absent = no Google anything).
+ *   2. Zero external Google requests before any optional consent.
+ *   3. Consent Mode v2 shape: consent default ALL-DENIED precedes every
+ *      config; every transition re-issues a consent update through the gtag
+ *      command contract.
+ *   4. Google Ads gated by advertising consent; GA4 gated by analytics
+ *      consent; ad_personalization never granted; the categories stay
+ *      independent (analytics does not grant ads, ads does not grant
+ *      analytics).
+ *   5. Each destination is configured at most once per page session.
+ *   6. GA4 page views are application-generated (send_page_view:false) and
+ *      must stop when analytics consent is revoked.
+ *
+ * TDD: written RED against the pre-GA4 source (GoogleAdsTag-only), GREEN
+ * after the coordinated GoogleTag implementation + layout wiring. Rendered
+ * network behaviour is verified separately against a local server.
+ */
+import { readFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const read = (p) => readFileSync(path.join(root, p), "utf8");
+const exists = (p) => existsSync(path.join(root, p));
+
+let passed = 0;
+let failed = 0;
+function check(name, cond, hint = "") {
+  if (cond) { passed++; console.log(`PASS  ${name}`); }
+  else { console.error(`FAIL  ${name}${hint ? ` — ${hint}` : ""}`); failed++; }
+}
+
+const tagPath = "src/components/consent/google-tag.tsx";
+check("coordinated google-tag component exists", exists(tagPath));
+if (!exists(tagPath)) {
+  console.error(`\n${passed} pass, ${failed} fail — component missing (RED phase expected)`);
+  process.exit(failed ? 1 : 0);
+}
+
+const tag = read(tagPath);
+const layout = read("src/app/layout.tsx");
+const consent = read("src/lib/consent.ts");
+const envExample = read(".env.example");
+const adsTagStill = exists("src/components/consent/google-ads-tag.tsx")
+  ? read("src/components/consent/google-ads-tag.tsx") : null;
+
+// --- IDs from env, never hardcoded -------------------------------------------
+check("reads NEXT_PUBLIC_GOOGLE_ADS_ID from env (no hardcoded AW id)",
+  /NEXT_PUBLIC_GOOGLE_ADS_ID/.test(tag) && !/AW-\d+/.test(tag));
+check("reads NEXT_PUBLIC_GA4_MEASUREMENT_ID from env (no hardcoded G- id)",
+  /NEXT_PUBLIC_GA4_MEASUREMENT_ID/.test(tag) && !/G-[A-Z0-9]{6,}/.test(tag),
+  "GA4 Measurement ID must come from env");
+check(".env.example documents both Google IDs (commented, unset by default)",
+  /#\s*NEXT_PUBLIC_GOOGLE_ADS_ID/.test(envExample) && /#\s*NEXT_PUBLIC_GA4_MEASUREMENT_ID/.test(envExample));
+
+// --- Consent gating: every googletagmanager reference inside a consent gate ---
+function behindGate(src, gateRe) {
+  const noComments = src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  const regions = [];
+  let m;
+  while ((m = gateRe.exec(noComments)) !== null) {
+    const open = noComments.indexOf("(", m.index);
+    let depth = 0;
+    let end = -1;
+    for (let i = open; i < noComments.length; i++) {
+      if (noComments[i] === "(") depth++;
+      else if (noComments[i] === ")") { depth--; if (depth === 0) { end = i; break; } }
+    }
+    if (end > 0) regions.push([m.index, end]);
+  }
+  let idx = -1;
+  let found = false;
+  while ((idx = noComments.indexOf("googletagmanager", idx + 1)) >= 0) {
+    found = true;
+    if (!regions.some(([s, e]) => idx > s && idx < e)) return false;
+  }
+  return found;
+}
+// The gtag.js LOAD (any external request) must be gated on "some optional
+// consent granted" — accept either an explicit `(analytics || advertising)`
+// gate or an equivalent combined boolean in scope.
+check("every googletagmanager reference sits behind an optional-consent gate",
+  behindGate(tag, /(?:analytics\s*\|\|\s*advertising|someConsent|anyConsent|tagAuthorized)\s*&&\s*\(/g),
+  "external Google requests must never precede optional consent");
+
+// --- Consent Mode v2 defaults: all-denied BEFORE config -----------------------
+// Ordering guarantee is structural: the all-denied default lives INSIDE the
+// GTAG_STUB source, and the stub script is the FIRST rendered script (before
+// the gtag.js loader and long before any destination config). Verify both.
+const stubSource = (tag.match(/const GTAG_STUB = `([\s\S]*?)`;/) || ["", ""])[1];
+check("the all-denied consent default lives inside the shared bootstrap stub",
+  /consent['"],\s*['"]default['"]/.test(stubSource) &&
+  /ad_storage["']?\s*:\s*["']denied/.test(stubSource) &&
+  /ad_user_data["']?\s*:\s*["']denied/.test(stubSource) &&
+  /ad_personalization["']?\s*:\s*["']denied/.test(stubSource) &&
+  /analytics_storage["']?\s*:\s*["']denied/.test(stubSource),
+  "Consent Mode v2: defaults must exist before any config, in the first script");
+check("stub script renders before the gtag.js loader script",
+  tag.indexOf('id="dy-gtag-stub"') >= 0 &&
+  tag.indexOf('id="dy-gtag-stub"') < tag.indexOf('id="dy-gtag-js"'),
+  "bootstrap must precede the library load");
+const defaultCtx = (tag.match(/consent['"],\s*['"]default['"],?\s*\{[\s\S]{0,400}/) || [""])[0];
+check("consent default denies ad_storage",
+  /ad_storage["']?\s*:\s*["']denied/.test(defaultCtx));
+check("consent default denies ad_user_data",
+  /ad_user_data["']?\s*:\s*["']denied/.test(defaultCtx));
+check("consent default denies ad_personalization",
+  /ad_personalization["']?\s*:\s*["']denied/.test(defaultCtx));
+check("consent default denies analytics_storage",
+  /analytics_storage["']?\s*:\s*["']denied/.test(defaultCtx));
+check("ad_personalization is never granted anywhere",
+  !/ad_personalization["']?\s*:\s*["']granted/.test(tag));
+
+// --- Per-transition consent updates ------------------------------------------
+// The consent payload lives in the issueConsentUpdate helper; effects call it
+// on every transition. Verify the helper's granted/denied derivation AND the
+// effects' dependency wiring together.
+const effects = tag.match(/useEffect\(\s*\(\)\s*=>\s*\{[\s\S]*?\n\s*\},\s*\[[^\]]*\]\);/g) ?? [];
+const effectsCode = effects.join("\n");
+const consentUpdateFn = (tag.match(/function issueConsentUpdate[\s\S]*?\n\}/) || [""])[0];
+check("consent update helper derives categories from the live decisions",
+  /advertising\s*\?/.test(consentUpdateFn) && /analytics\s*\?/.test(consentUpdateFn),
+  "advertising consent controls ad categories; analytics controls analytics_storage");
+check("consent update helper grants ad categories only under advertising consent",
+  /ad_storage["']?\s*:\s*advertising\s*\?/.test(consentUpdateFn.replace(/\s/g, "").replace(":", ": ")) ||
+  /ad_storage["']?\s*:\s*\$\{advertising/.test(consentUpdateFn),
+  "categories must reflect the current advertising decision, not blanket-grant");
+check("consent effects depend on both consent categories",
+  /\[[^\]]*advertising[^\]]*\]/.test(effectsCode) && /\[[^\]]*analytics[^\]]*\]/.test(effectsCode));
+check("consent effects actually issue the consent update (live effect, re-accept without reload)",
+  /issueConsentUpdate\(/.test(effectsCode));
+
+// --- One bootstrap, one library load, per-destination single config ----------
+check("single shared gtag bootstrap stub",
+  (tag.match(/dy-gtag-stub|GTAG_STUB/g) || []).length >= 2, // definition + use
+  "one shared command-queue bootstrap");
+check("exactly one gtag.js script element is rendered (shared library load)",
+  (tag.match(/gtag\/js/g) || []).length === 1);
+check("each destination config is issued at most once per page session (config-set guard)",
+  /configured\.(add|has)/.test(tag),
+  "repeated config calls would duplicate measurement");
+check("GA4 config disables automatic page_view (send_page_view:false)",
+  /send_page_view["']?\s*:\s*false/.test(tag));
+
+// --- GA4 page views: application-generated, consent-gated, sanitized ---------
+check("GA4 page views are pushed from an effect gated on analytics consent",
+  /page_view/.test(effectsCode) && /analytics/.test(effectsCode));
+check("page_view is suppressed while analytics consent is absent/revoked",
+  /if\s*\(!?analytics\)|if\s*\(!analytics\)|analytics\s*\?/.test(effectsCode) || /analytics &&/.test(effectsCode));
+check("page views exclude admin/authenticated routes",
+  /\/admin/.test(tag));
+check("page views do not send raw query strings (PII-safe pathname)",
+  /pathname\.split|searchParams|location\.search.*exclude|split\(["']\?["']\)/.test(tag) || !/location\.search/.test(tag));
+
+// --- wiring + invariants ------------------------------------------------------
+check("layout renders GoogleTag (mount point)", /GoogleTag/.test(layout));
+check("layout does NOT contain a hardcoded googletagmanager script",
+  !/googletagmanager/.test(layout));
+check("consent.ts still defaults everything to off (no consent → null snapshot)",
+  !/advertising:\s*true/.test(consent));
+if (adsTagStill) {
+  check("the standalone GoogleAdsTag is retired (no duplicate tag implementations)",
+    !/googletagmanager/.test(adsTagStill),
+    "two competing gtag implementations would double-measure");
+}
+
+console.error(`\n${passed} pass, ${failed} fail`);
+process.exit(failed ? 1 : 0);
