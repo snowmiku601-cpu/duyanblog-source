@@ -1150,3 +1150,17 @@ Agent: Claude Code (lead) — DEPLOY Google Ads consent tag to Spaceship product
 - GSC FILE STATUS: google97ca35a7332c4a50.html preserved untracked at repo root (owner-provided; separate GSC task, NOT committed/gitignored).
 - WORKLOG / MAIN: this entry only (worklog-only commit; no redeploy). origin/main = 159fcc9; production runtime = 159fcc9.
 - NEXT: GSC HTML verification task (deploy google97ca...html + property verification + sitemap/URL inspection once GA4 MCP OAuth is repaired); owner may set up Google Ads account-side diagnostics.
+
+---
+Task ID: 46
+Agent: Claude Code (lead) — DEPLOY GSC HTML verification file to production (PR #14 merged); public file live-verified byte-exact.
+
+- SOURCE: origin/main 4642f35 (= PR #14 merge; reviewed head 53fc4e6 is an ancestor). Diff 159fcc9..4642f35 = public/google97ca35a7332c4a50.html (53 bytes, no BOM/trailing newline) + worklog only. No robots/sitemap/schema/article change.
+- PRODUCTION PREFLIGHT (read-only): runtime 159fcc9, ALLOW_INDEXING=true, NEXT_PUBLIC_GOOGLE_ADS_ID=AW-18506554917, SITE_URL https://duyanblog.com, 3 articles 200, DB 3 published / 0 commerce / 0 demo.
+- DEPLOY (Spaceship node-selector only): worktree ff-only -> 4642f35 (clean); regenerable .next route-cache cleared (Task 36 recovery); npm run build exit 0 with all build-time env preserved (INDEXING=true, ADS=AW-18506554917); standalone assembled (BUILD_ID JTT5yCtlK-VTJ_MbLcK1x, transient); verification file present in .next/standalone/public/; restart via tmp/restart.txt.
+- VERIFICATION FILE (MAIN SUCCESS CRITERION, public origin): https://duyanblog.com/google97ca35a7332c4a50.html -> HTTP 200, no redirect, no auth, no HTML wrapper; body EXACTLY "google-site-verification: google97ca35a7332c4a50.html"; 53 bytes, no BOM/trailing newline; cache-bypass request identical; byte-identical to repo source (cmp).
+- REGRESSION: homepage + 3 articles + robots/sitemap/feeds all 200; robots Allow:/ with admin/api/go/search excluded; sitemap 3 canonical articles, 0 leaks; Ads consent matrix re-verified live (no-consent 0 reqs; accepted -> 1 gtag.js AW-18506554917 + 1 config; revoked -> no new measurement). 0 console errors.
+- DB / LOGS: 3 articles unchanged; 0 commerce; 0 demo; error + home_error logs EMPTY; no new fatal/Prisma/ENOTEMPTY; Hostinger untouched; no env mutation this task.
+- GSC BOUNDARY: ownership NOT claimed — owner must open Search Console -> URL-prefix property https://duyanblog.com/ -> HTML file verification -> Verify. Domain property requires DNS TXT (not covered by this file). No OAuth retry, no sitemap submission, no Indexing API.
+- WORKLOG / MAIN: this entry only (worklog-only commit; no redeploy). origin/main = 4642f35 + this docs commit; production runtime = 4642f35.
+- NEXT: owner clicks Verify in GSC; after real verification, sitemap submission + URL inspection task (authenticated only).
