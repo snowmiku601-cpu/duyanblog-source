@@ -147,16 +147,24 @@ export function GoogleTag() {
   const someConsent = analyticsEligible || advertisingEligible;
   const libraryId = analyticsEligible ? GA4_ID : advertisingEligible ? ADS_ID : "";
 
+  // 48.3 P0: consent updates are driven by "a Google integration exists in
+  // this build" — NOT by the current eligibility. When both consents flip
+  // false after a tag load, the [analytics, advertising] deps still fire this
+  // effect and the all-denied update is issued; gating on the current
+  // libraryId would early-return and strand the loaded tag in its last
+  // granted state. Script LOADING stays separately gated by eligibility.
+  const anyIntegration = Boolean(GA4_ID || ADS_ID);
+
   // Every consent transition re-issues the full consent state as an update,
   // so the executed command stream always matches the visitor's decision.
   useEffect(() => {
-    if (!libraryId || !mounted) return;
+    if (!anyIntegration || !mounted) return;
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag !== "function") {
       window.gtag = function gtag(...args: unknown[]) { window.dataLayer!.push(args); };
     }
     issueConsentUpdate(analytics, advertising);
-  }, [analytics, advertising, mounted, libraryId]);
+  }, [analytics, advertising, mounted, anyIntegration]);
 
   // Configure each destination ONCE when its own consent first grants. GA4
   // uses send_page_view:false — the page-view effect below owns page views
@@ -179,12 +187,15 @@ export function GoogleTag() {
       });
     }
     if (analytics && GA4_ID && !configured.has(GA4_ID)) {
-      configured.add(GA4_ID);
       const path = safePath(pathname);
-      if (path && !PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(p + "/"))) {
+      const isPrivate = !path || PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(p + "/"));
+      // 48.3 P1: on a private route, do NOT configure GA4 at all — a bare
+      // send_page_view-only fallback would inherit GA4's raw default page
+      // context. The first PUBLIC navigation configures it with sanitized
+      // context, and measurement resumes correctly from there.
+      if (!isPrivate) {
+        configured.add(GA4_ID);
         window.gtag?.("config", GA4_ID, { send_page_view: false, ...sanitizedPageContext(path) });
-      } else {
-        window.gtag?.("config", GA4_ID, { send_page_view: false });
       }
     }
   }, [analytics, advertising, mounted, libraryId, pathname]);

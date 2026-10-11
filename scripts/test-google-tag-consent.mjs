@@ -210,6 +210,26 @@ check("48.2: AW config also suppresses auto page_view (dl=document.location leak
   /config["'],\s*ADS_ID,\s*\{[\s\S]{0,120}send_page_view:\s*false/.test(tag),
   "Ads default page_view sends the raw document.location — it must be suppressed like GA4's");
 
+// --- Task 48.3 — revocation + private-route config ---------------------------
+// P0: the consent effect must be driven by "a Google integration exists and
+// may have been loaded" — NOT by the current eligibility. When both consents
+// flip false after a tag load, the effect must STILL issue the all-denied
+// update; an early return keyed on libraryId strands the loaded tag in its
+// last granted state.
+const consentEffect = effects.find((e) => /issueConsentUpdate\(/.test(e)) ?? "";
+check("48.3 P0: consent effect is NOT gated on current library eligibility",
+  !/if\s*\(!libraryId\s*\|\|\s*!mounted\)\s*return/.test(consentEffect),
+  "both-false revocation would early-return and strand granted consent on a loaded tag");
+check("48.3 P0: consent effect runs when a tag was previously loaded (not eligibility-gated)",
+  /!anyIntegration\s*\|\|\s*!mounted/.test(consentEffect) && /issueConsentUpdate\(/.test(consentEffect),
+  "revocation after a load must still push the all-denied update — gate on integration existence, not current eligibility");
+// P1: private routes must never get a bare-fallback GA4 config (the bare
+// config inherits GA4's default raw page context); on private routes the
+// config must be skipped entirely (later public navigation configures it).
+check("48.3 P1: no bare send_page_view-only GA4 config fallback exists",
+  !/config["'],\s*GA4_ID,\s*\{\s*send_page_view:\s*false\s*\}\s*\)/.test(tag),
+  "private-route fallback would configure GA4 without sanitized context");
+
 // --- wiring + invariants ------------------------------------------------------
 check("layout renders GoogleTag (mount point)", /GoogleTag/.test(layout));
 check("layout does NOT contain a hardcoded googletagmanager script",
