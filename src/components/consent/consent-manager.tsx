@@ -104,7 +104,7 @@ export function ConsentManager() {
             <div className="flex items-center justify-between gap-4">
               <Label htmlFor="consent-advertising" className="flex flex-col gap-0.5">
                 Advertising
-                <span className="text-xs font-normal text-muted-foreground">Allows ad networks to set cookies. Off by default.</span>
+                <span className="text-xs font-normal text-muted-foreground">Allows advertising measurement providers to load and use permitted storage. Off by default.</span>
               </Label>
               <Switch
                 id="consent-advertising"

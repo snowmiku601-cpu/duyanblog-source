@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ConsentManager } from "@/components/consent/consent-manager";
+import { GoogleAdsTag } from "@/components/consent/google-ads-tag";
 import { Toaster } from "@/components/ui/toaster";
 import { buildMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -69,6 +70,7 @@ export default function RootLayout({
           </main>
           <SiteFooter />
           <ConsentManager />
+          <GoogleAdsTag />
           <Toaster />
         </ThemeProvider>
       </body>

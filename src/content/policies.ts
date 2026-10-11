@@ -74,7 +74,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Advertising",
         body: [
-          "We do not currently sell or serve advertising, and no ad network is configured on this site. If we add advertising later, it will be clearly labelled, governed by the rules in our advertising disclosure, and never touch a score, a ranking or a recommendation.",
+          "We do not currently sell or serve display advertising. A Google Ads measurement tag (which does not display ads) is configured for this site and loads only after you grant advertising consent — see the privacy and cookie policies for what that involves. If we add display advertising later, it will be clearly labelled, governed by the rules in our advertising disclosure, and never touch a score, a ranking or a recommendation.",
         ],
       },
       {
@@ -132,14 +132,14 @@ const POLICIES: Policy[] = [
     title: "Advertising disclosure",
     description:
       "The rules that will govern advertising and sponsorship on Duyan Blog, if and when we add them.",
-    updated: "2026-10-05",
+    updated: "2026-10-11",
     intro:
-      "We do not currently run advertising, and no ad network is configured on this site. If an advertiser's money ever touches a page here, this policy determines how you'll know about it.",
+      "We do not currently run display advertising. A Google Ads measurement tag (measurement only — it displays no ads) is configured and loads only after advertising consent. If an advertiser's money ever touches a page here, this policy determines how you'll know about it.",
     sections: [
       {
         heading: "Current state",
         body: [
-          "There is nothing to disclose yet: we do not sell display placements, we do not publish sponsored articles, and no advertising script loads anywhere on the site.",
+          "We do not sell display placements and we do not publish sponsored articles. A Google Ads measurement tag is configured: it loads only after you grant advertising consent through the cookie banner or “Cookie settings”, and it is not part of any advertising placement.",
         ],
       },
       {
@@ -191,7 +191,7 @@ const POLICIES: Policy[] = [
     title: "Privacy policy",
     description:
       "What Duyan Blog collects, what it doesn't, and how consent controls analytics and advertising. Plain language, short by design.",
-    updated: "2026-03-01",
+    updated: "2026-10-11",
     intro:
       "We collect as little as possible, and optional collection is off until you turn it on. This page explains the details — it is information, not legal advice.",
     sections: [
@@ -212,7 +212,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Analytics and advertising, after consent",
         body: [
-          "If you grant analytics consent, aggregate usage measurement may run. If you grant advertising consent, advertising partners may set their own cookies subject to their policies. Neither ever runs before consent, and affiliate links work with all consents denied.",
+          "If you grant analytics consent, aggregate usage measurement may run. If you grant advertising consent, a Google Ads measurement tag loads and advertising cookies/storage may be set for measurement purposes — the site does not serve display advertising. Neither ever runs before consent, and affiliate links work with all consents denied.",
         ],
       },
       {
@@ -235,7 +235,7 @@ const POLICIES: Policy[] = [
     title: "Cookie policy",
     description:
       "The cookies and browser storage Duyan Blog uses, grouped by purpose, and how consent controls the optional ones.",
-    updated: "2026-03-01",
+    updated: "2026-10-11",
     intro:
       "A short inventory of what this site stores in your browser, and when. Optional categories stay empty until you consent.",
     sections: [
@@ -256,7 +256,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Advertising (optional)",
         body: [
-          "Empty by default. If you enable advertising consent, future ad partners may store cookies for measurement or frequency capping. Ads never load before this consent exists.",
+          "Empty by default. If you enable advertising consent, a Google Ads measurement tag loads and advertising cookies/storage may be set for measurement. No display ad runs on the site. Ads (should we ever add them) and this tag never load before this consent exists.",
         ],
       },
       {
