@@ -5,6 +5,14 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { useMounted } from "@/hooks/use-mounted";
 import { getConsentSnapshot, subscribeConsent } from "@/lib/consent";
+import { site } from "@/lib/site";
+
+/**
+ * Route prefixes never measured: the authenticated admin surface. Public
+ * routes are measured; everything under these prefixes (and any unknown
+ * future private route added here) is excluded from GA4 page views.
+ */
+const PRIVATE_PREFIXES = ["/admin"] as const;
 
 /**
  * Coordinated Google tag — Google Ads (AW) + GA4 (G-) destinations through
@@ -91,25 +99,32 @@ export function GoogleTag() {
   );
   const pathname = usePathname();
 
-  const someConsent = analytics || advertising;
-  const tagId = ADS_ID || GA4_ID; // shared library URL identity (informational)
+  // F1 (review): eligibility — a destination is ELIGIBLE only when BOTH its
+  // consent is granted AND its ID is configured. The library id is chosen
+  // from the FIRST eligible destination (GA4 preferred so analytics-only
+  // consent never loads the Ads library; advertising-only loads AW). Consent
+  // for an unconfigured destination triggers nothing.
+  const analyticsEligible = analytics && Boolean(GA4_ID);
+  const advertisingEligible = advertising && Boolean(ADS_ID);
+  const someConsent = analyticsEligible || advertisingEligible;
+  const libraryId = analyticsEligible ? GA4_ID : advertisingEligible ? ADS_ID : "";
 
   // Every consent transition re-issues the full consent state as an update,
   // so the executed command stream always matches the visitor's decision.
   useEffect(() => {
-    if (!tagId || !mounted) return;
+    if (!libraryId || !mounted) return;
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag !== "function") {
       window.gtag = function gtag(...args: unknown[]) { window.dataLayer!.push(args); };
     }
     issueConsentUpdate(analytics, advertising);
-  }, [analytics, advertising, mounted, tagId]);
+  }, [analytics, advertising, mounted, libraryId]);
 
   // Configure each destination ONCE when its own consent first grants. GA4
   // uses send_page_view:false — the page-view effect below owns page views
   // (exactly one per navigation, including the first grant).
   useEffect(() => {
-    if (!tagId || !mounted) return;
+    if (!libraryId || !mounted) return;
     if (advertising && ADS_ID && !configured.has(ADS_ID)) {
       configured.add(ADS_ID);
       window.gtag?.("config", ADS_ID);
@@ -118,23 +133,30 @@ export function GoogleTag() {
       configured.add(GA4_ID);
       window.gtag?.("config", GA4_ID, { send_page_view: false });
     }
-  }, [analytics, advertising, mounted, tagId, pathname]);
+  }, [analytics, advertising, mounted, libraryId, pathname]);
 
   // Application-generated GA4 page views: one per public-route navigation
-  // while analytics consent stands. Admin/auth routes and query strings are
-  // never sent; revocation stops all subsequent page_view events.
+  // while analytics consent stands. Explicitly routed to the GA4 destination
+  // (send_to) so nothing lands on the Ads destination. Query strings and
+  // fragments are stripped: page_location is a sanitized ABSOLUTE URL built
+  // from the trusted site origin plus the clean pathname; page_title comes
+  // from the page's own metadata (never user-generated content), and the
+  // referrer is not overridden — GA4 receives document.referrer internally,
+  // which is navigation metadata, not form/URL parameters.
   useEffect(() => {
     if (!GA4_ID || !mounted || !analytics) return;
     const path = pathname?.split("?")[0] ?? "";
-    if (!path || path.startsWith("/admin")) return;
+    if (!path || PRIVATE_PREFIXES.some((p) => path === p || path.startsWith(p + "/"))) return;
     if (!configured.has(GA4_ID)) return; // not yet configured this session
     window.gtag?.("event", "page_view", {
+      send_to: GA4_ID,
       page_path: path,
+      page_location: `${site.url}${path}`,
       page_title: document.title,
     });
   }, [GA4_ID, analytics, mounted, pathname]);
 
-  if (!tagId) return null;
+  if (!libraryId) return null;
 
   return (
     <>
@@ -150,7 +172,7 @@ export function GoogleTag() {
         <Script
           id="dy-gtag-js"
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(tagId)}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(libraryId)}`}
         />
       )}
       {someConsent && (

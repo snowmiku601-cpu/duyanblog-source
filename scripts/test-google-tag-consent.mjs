@@ -161,6 +161,26 @@ check("page views exclude admin/authenticated routes",
 check("page views do not send raw query strings (PII-safe pathname)",
   /pathname\.split|searchParams|location\.search.*exclude|split\(["']\?["']\)/.test(tag) || !/location\.search/.test(tag));
 
+// --- Review findings (Task 48.1) — RED against PR head 0091198 ---------------
+// F1: the loader eligibility must follow the AUTHORIZED destination, not
+// `ADS_ID || GA4_ID`. Analytics-only must load the GA4 library; an
+// unconfigured destination's consent must never trigger a script.
+const noCommentsTag = tag.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+check("F1: the AW-first ordering regression (ADS_ID || GA4_ID) is absent",
+  !/(ADS_ID\s*\|\|\s*GA4_ID)|(const\s+libraryId\s*=\s*ADS_ID)/.test(noCommentsTag),
+  "analytics-only consent would load the Ads library — AW-first selection is banned");
+check("F1: library id is selected from eligibility (consent AND configured id)",
+  /analyticsEligible\s*\?|advertisingEligible\s*\?/.test(noCommentsTag),
+  "loader must pick the first AUTHORIZED+configured destination");
+// F2: explicit GA4 destination routing on every application-generated event.
+check("F2: manual page_view carries explicit send_to routing to the GA4 destination",
+  /send_to["']?\s*:/.test(tag) && /send_to["']?\s*:?\s*(GA4_ID|\$\{GA4_ID|GA4_ID\})/.test(tag),
+  "events must be routed explicitly to G-…, never to the default (Ads) destination");
+// F3: sanitized absolute page_location derived from a trusted origin.
+check("F3: explicit sanitized page_location is set (site origin + clean pathname)",
+  /page_location/.test(tag) && /origin/.test(tag),
+  "GA4 would otherwise default page_location to the full URL incl. query strings");
+
 // --- wiring + invariants ------------------------------------------------------
 check("layout renders GoogleTag (mount point)", /GoogleTag/.test(layout));
 check("layout does NOT contain a hardcoded googletagmanager script",
