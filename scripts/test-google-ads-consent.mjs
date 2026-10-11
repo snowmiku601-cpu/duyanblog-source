@@ -81,11 +81,15 @@ check("every googletagmanager reference sits behind an advertising-consent gate"
   behindAdvertisingGate(tag));
 
 // --- D. consent update on revocation ----------------------------------------
-// The revocation useEffect's push must deny ALL THREE advertising categories
-// together — grab the effect body and verify the complete payload, not just
-// the presence of the word "denied" anywhere in the file.
-const revokeBody = (tag.match(/useEffect\(\(\) => \{[\s\S]*?\n  \}, \[advertising\]\);/) || [""])[0];
-check("revocation effect exists", /useEffect/.test(revokeBody));
+// The consent effect's revoke branch (else) must deny ALL THREE advertising
+// categories together — verify the complete payload of the denied branch, not
+// just the presence of the word "denied" anywhere in the file.
+const effectBodiesAll = tag.match(/useEffect\(\s*\(\)\s*=>\s*\{[\s\S]*?\n\s*\},\s*\[[^\]]*\]\);/g) ?? [];
+const revokeBody =
+  effectBodiesAll
+    .map((b) => (b.match(/else\s*\{([\s\S]*?)\n\s*\}/) || [])[1] ?? "")
+    .find((body) => /ad_storage/.test(body)) ?? "";
+check("revocation effect exists", effectBodiesAll.length >= 1 && revokeBody.includes("ad_storage"));
 check("revocation effect denies ad_storage",
   /ad_storage["']?\s*:\s*["']denied/.test(revokeBody),
   "must set ad_storage denied on advertising consent withdrawal");
@@ -120,6 +124,37 @@ check("granted consent is set as gtag default BEFORE config (ordering)",
 // --- consent-state handling --------------------------------------------------
 check("uses getConsentSnapshot + subscribeConsent (existing consent abstraction)",
   /getConsentSnapshot/.test(tag) && /subscribeConsent/.test(tag));
+
+// --- H. consent LIFECYCLE (review findings on PR head b4b614c) ---------------
+// 1. EVERY transition — accept, revoke, and re-accept without a reload — must
+//    push a real gtag consent command. The current implementation only has a
+//    revoke-side effect; re-accept relies on remounting an inline Script,
+//    which next/script dedupes by id for the page lifetime (never re-runs).
+// 2. Analytics-only changes must also update analytics_storage.
+// 3. Commands must go through the documented gtag queue contract: the exact
+//    arguments-object form the loaded gtag() stub forwards, not a loose
+//    plain array that only happens to resemble one.
+const effectBodies = tag.match(/useEffect\(\s*\(\)\s*=>\s*\{[\s\S]*?\n\s*\},\s*\[[^\]]*\]\);/g) ?? [];
+const allEffectCode = effectBodies.join("\n");
+check("consent side effects exist as useEffect transitions (not only remounted inline scripts)",
+  effectBodies.length >= 1);
+// Both consent booleans must be in the effect dependency chain so that ANY
+// transition (accept, revoke, analytics-only) re-issues a consent command.
+check("consent effects depend on BOTH analytics and advertising transitions",
+  /\[[^\]]*advertising[^\]]*\]/.test(allEffectCode) && /\[[^\]]*analytics[^\]]*\]/.test(allEffectCode),
+  "analytics-only changes must re-issue analytics_storage, re-accept must re-grant");
+// The granted path must exist as an actual command issuer (not only the
+// load-time inline string): a granted consent command issued from an effect.
+check("a granted consent command is issued from a live effect (re-accept without reload)",
+  /["']granted["']/.test(allEffectCode) || /advertising\s*\?/.test(allEffectCode),
+  "re-accept must actively transition consent back to granted");
+check("denied path denies all three advertising categories in the effect",
+  /ad_storage["']?\s*:\s*["']denied/.test(allEffectCode) &&
+  /ad_user_data["']?\s*:\s*["']denied/.test(allEffectCode) &&
+  /ad_personalization["']?\s*:\s*["']denied/.test(allEffectCode));
+// ad_personalization must NEVER be granted anywhere, including effects.
+check("ad_personalization is never granted anywhere in the component",
+  !/ad_personalization["']?\s*:\s*["']granted/.test(tag));
 
 // --- layout wiring: client component only, no unconditional script -----------
 check("layout renders GoogleAdsTag (mount point)",
