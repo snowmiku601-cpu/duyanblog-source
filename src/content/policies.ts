@@ -212,7 +212,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Analytics and advertising, after consent",
         body: [
-          "If you grant analytics consent, aggregate usage measurement may run. If you grant advertising consent, a Google Ads measurement tag loads and advertising cookies/storage may be set for measurement purposes — the site does not serve display advertising. Neither ever runs before consent, and affiliate links work with all consents denied.",
+          "If you grant analytics consent, Google Analytics 4 measurement runs on public pages: it records page views and standard, aggregated usage events (no forms, emails, passwords or query strings are sent), and Google Analytics may use cookies or client identifiers to recognise your browser across visits. If you grant advertising consent, a Google Ads measurement tag loads and advertising cookies/storage may be set for measurement purposes — the site does not serve display advertising. Neither runs before its consent, and affiliate links work with all consents denied.",
         ],
       },
       {
@@ -250,7 +250,7 @@ const POLICIES: Policy[] = [
       {
         heading: "Analytics (optional)",
         body: [
-          "Empty by default. If, and only if, you enable analytics consent, an aggregate measurement tool may store an anonymous identifier. We deliberately keep this category unpopulated until a provider is configured.",
+          "Empty by default. If you enable analytics consent, Google Analytics 4 measurement runs on public pages and may store cookies or client identifiers (for example to tell repeat visits apart and to aggregate usage). No form content, emails, credentials or query strings are sent.",
         ],
       },
       {
