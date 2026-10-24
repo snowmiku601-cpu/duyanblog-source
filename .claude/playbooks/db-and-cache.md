@@ -51,3 +51,44 @@ Read before touching `prisma/schema.prisma`, migrations, seeds, `src/lib/queries
   orphan a page's image.
 - Next's image optimizer rejects extension/MIME mismatches with 400s: uploads are byte-sniffed
   at the door. Re-encoding an existing file changes bytes, not the path — no DB references move.
+
+## Secret-safe diagnostics and MySQL credential rotation
+
+**Trigger:** any DB credential, Node Selector env, MCP token or production authentication
+work. Task 51 incident: a diagnostic printed the complete `DATABASE_URL` once.
+Treat this as an exposure even if observed only in a local terminal.
+
+1. **Never output secrets.** No full connection strings, env dumps, credential objects,
+   Authorization headers, secret files or debug traces in stdout/stderr, CLI/MCP results,
+   tool arguments, shell history, logs, prompts, commits, patches, screenshots or worklogs.
+   Do not use `printenv`, `env`, `grep DATABASE_URL`, `cat` on secret files or `set -x`.
+   Return only sanitized booleans/status (present, valid, health pass/fail).
+2. **Trusted processing boundary.** Generate/read secrets only inside owner-controlled
+   protected processes or provider secret UI. Protected temporary storage must be outside
+   the repo and web root (directory 0700, file 0600). Explicitly suppress/redact script
+   output on BOTH success and failure. If an API/MCP call or tooling path would expose a
+   secret in its arguments or response, STOP and request owner-side credential entry.
+3. **Read-only preflight.** Confirm MySQL account/host/grants (without secret values),
+   application env *presence*, Node Selector status, DB and site health, no pending schema
+   migrations and a tested rollback route. Do not back up unredacted credentials into
+   repository, chat or insecure artifacts. Preserve existing app data and runtime settings.
+4. **Preferred overlap rotation.** Create a distinct MySQL application user with only
+   the privileges required on the same database and permitted host; do not grant global
+   or administrator privileges. Generate a cryptographically random strong password
+   inside the trusted host/provider (never echo or pass it through tool arguments). Test
+   the new login inside the protected process, reporting only pass/fail. Build the
+   correctly encoded `DATABASE_URL` there and update the Spaceship Node Selector setting
+   without revealing it. Restart using the proven workflow; verify Prisma, homepage,
+   About/Contact, and all three existing published articles.
+5. **Revoke after cutover.** Keep the old MySQL account valid until the new connection
+   has been verified on the live application. Then remove its access and temporary
+   credential copies. If the cutover fails, restore the previous *working* configuration
+   through the protected process, restart and verify recovery. If a second DB user cannot
+   be provisioned safely, STOP and request an owner-approved coordinated in-place rotation;
+   never change one side of the credential pair alone.
+6. **Report the incident without the credential.** Contain access to any terminal/log
+   capture that already holds it, rotate promptly, and report only status, affected scope
+   and any remaining risk. Do not claim external exposure was impossible without evidence.
+
+No schema/seed/reset/db-push changes, unrelated service credentials, indexing, GA4,
+Google Ads or publishing changes are authorized by a credential-rotation task.

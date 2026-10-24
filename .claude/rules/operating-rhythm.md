@@ -1,7 +1,14 @@
 # Operating rhythm — session start, the gate, drift checks, session end
 
-The frame around every session. A rule nobody can run is worse than no rule, because it makes
-the ones beside it look optional too — every step below is a command or a yes/no question.
+Every session follows these gates.
+
+## Secret-output gate — all tools
+
+Never dump env/config, DB URLs, passwords or tokens via CLI/MCP, stdout/stderr,
+shell history, logs, prompts or commits (including `grep DATABASE_URL`, `printenv`,
+`cat` of secret files or shell tracing). No secrets in tool arguments or responses.
+Read/write secrets only within trusted protected processes; report booleans only.
+If exposed, stop and rotate per `.claude/playbooks/db-and-cache.md`.
 
 ## Session start (in order)
 
@@ -13,10 +20,8 @@ the ones beside it look optional too — every step below is a command or a yes/
 
 ## Superpowers — process aid
 
-Use an installed `superpowers:*` skill when it matches the job: brainstorming → plans → execute,
-systematic-debugging, TDD, verification-before-completion, review before merge. Smallest fit.
-**Duyan governance precedes Superpowers** — rules/playbooks beat a generic Superpowers step; the
-two-agent cap, one reviewer and the gates still bind.
+Use the smallest fitting `superpowers:*` skill for plan, debug, TDD, verify or review.
+**Duyan governance overrides generic skills**; two-agent cap, one reviewer and gates still bind.
 
 Run the gate in `.claude/CLAUDE.md` before any commit/push and `npm run validate:docs` before
 reporting (auto-load budget + links + indexes). Verification claims include the exact command,
@@ -37,11 +42,8 @@ Ask the five questions:
 
 ## Session end
 
-1. New lesson learned this session? Write the memory file (one fact, named after the fact) and
-   the index line, and link it back from the rule it belongs to.
-2. The task changed behaviour or conventions? Update the root doc (`ARCHITECTURE.md`,
-   `README.md`, `SEO_GUIDE.md`, …) in the same commit — stale docs are how the next session
-   gets lost.
+1. New lesson? Record one fact in a named memory file, index it and link from its rule.
+2. Changed behaviour or convention? Update the relevant root doc in the same commit.
 3. Append a `Task ID: N` entry to `worklog.md` — built, changed, validation results,
    recommended next steps. That is the repo's institutional memory.
 4. Commit one concern per commit, English message, attribution line per the system reminder.
