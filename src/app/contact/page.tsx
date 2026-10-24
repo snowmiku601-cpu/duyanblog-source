@@ -40,7 +40,14 @@ export default function ContactPage() {
               </div>
               <div>
                 <dt className="font-semibold">Sponsorships &amp; advertising</dt>
-                <dd className="mt-1 text-muted-foreground">We sell clearly-labelled placements, never verdicts. Ask for the media kit and the <a href="/advertising-disclosure" className="underline underline-offset-2 hover:text-foreground">advertising disclosure</a>.</dd>
+                <dd className="mt-1 text-muted-foreground">
+                  Duyan Blog does not currently sell paid display advertising placements.
+                  For business or potential future partnership inquiries, email{" "}
+                  <a href="mailto:duyantresosinh@gmail.com" className="underline underline-offset-2 hover:text-foreground">duyantresosinh@gmail.com</a>.
+                  Any future advertising or sponsored content will be clearly disclosed and will
+                  never determine our editorial ratings, rankings or review conclusions — see the{" "}
+                  <a href="/advertising-disclosure" className="underline underline-offset-2 hover:text-foreground">advertising disclosure</a>.
+                </dd>
               </div>
               <div>
                 <dt className="font-semibold">Press</dt>

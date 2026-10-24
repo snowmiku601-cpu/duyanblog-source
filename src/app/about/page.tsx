@@ -43,12 +43,33 @@ export default async function AboutPage() {
               Where an article contains genuine first-hand work, it says so and describes exactly what was done.
             </p>
             <p>
-              We are small on purpose. Every piece has a named author and, for reviews, a second
-              editor who checks the claims. Where our data is thin, we publish our{" "}
+              We are small on purpose. Every piece has a named author. Where a review has been
+              checked by a second editor, we identify that reviewer. Where our data is thin, we
+              publish our{" "}
               <Link href="/methodology" className="underline underline-offset-2">methodology</Link>{" "}
               instead of inventing statistics — and our{" "}
               <Link href="/corrections-policy" className="underline underline-offset-2">corrections stay up</Link>.
             </p>
+          </div>
+
+          <div className="mt-10 rounded-md border border-border bg-card p-6">
+            <p className="eyebrow text-vermilion">Ownership &amp; operations</p>
+            <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted-foreground">
+              <p>
+                Duyan Blog is an independent editorial publication{" "}
+                <strong>owned and operated by Nguyễn Thị Duy An</strong>, an individual based in
+                Vietnam. It focuses on research-based reviews, comparisons and informational
+                guides covering software, travel and technology. Editorial content follows our
+                published{" "}
+                <Link href="/editorial-policy" className="underline underline-offset-2 hover:text-foreground">editorial policies</Link>{" "}
+                and{" "}
+                <Link href="/methodology" className="underline underline-offset-2 hover:text-foreground">review methodology</Link>.
+              </p>
+              <p>
+                For business, editorial or website-related inquiries, contact{" "}
+                <a href="mailto:duyantresosinh@gmail.com" className="font-medium underline underline-offset-2 hover:text-foreground">duyantresosinh@gmail.com</a>.
+              </p>
+            </div>
           </div>
 
           <div className="mt-10 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-3">

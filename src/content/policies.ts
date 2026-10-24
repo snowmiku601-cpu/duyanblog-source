@@ -61,14 +61,14 @@ const POLICIES: Policy[] = [
     title: "How we make money",
     description:
       "How Duyan Blog plans to fund independent publishing, and the rules that keep future commerce out of editorial decisions.",
-    updated: "2026-10-07",
+    updated: "2026-10-24",
     intro:
-      "Independent publishing costs money. We do not currently run ads or affiliate links; this page explains the revenue models we may use and the rules that would govern them.",
+      "Independent publishing costs money. This page explains the revenue models we may use and the rules that govern them.",
     sections: [
       {
         heading: "Affiliate commissions",
         body: [
-          "If and when we use affiliate links to merchants, buying through them may pay us a commission. Commission rates, and the price you pay, are merchant- and program-specific — check the merchant's current price and terms before you buy. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
+          "When an article includes affiliate links, purchases through those links may earn Duyan Blog a commission. Commission rates, and the price you pay, are merchant- and program-specific — check the merchant's current price and terms before you buy. Commission rates would differ across merchants and can be higher for products we do not rank first — which is precisely why our rule exists: verdicts are finalised before anyone looks at rates.",
         ],
       },
       {
@@ -96,9 +96,9 @@ const POLICIES: Policy[] = [
     title: "Affiliate disclosure",
     description:
       "How affiliate links work on Duyan Blog when they appear: how they are marked, and why they never affect verdicts.",
-    updated: "2026-10-07",
+    updated: "2026-10-24",
     intro:
-      "This page explains, in plain language, how affiliate links would be used on this site and what that does and does not mean. There are currently no affiliate links on Duyan Blog; if and when we add them, they will be marked and governed here.",
+      "This page explains, in plain language, how affiliate links are used on Duyan Blog and what that does and does not mean. When an article includes affiliate links, they are identified clearly and governed by the rules on this page.",
     sections: [
       {
         heading: "What an affiliate link is",
