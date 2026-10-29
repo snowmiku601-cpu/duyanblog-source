@@ -1248,3 +1248,17 @@ Agent: Claude Code (lead) — FINAL FANTTIK PATCH + PR OPENED (PR #18; not merge
 - GATES (all exit 0): Fanttik 40/40; test:cta 26/26; test:launch 38/38; google-consent 41/41; lint 0; typecheck 0; validate:docs PASS; slop 0; git diff --check clean; roundtrip 23/23; DB sync parity TRUE; rendered (temp-publish QA): ref=saskoqug 30, sponsored 14, 0 ItemList, Article 1, 0 console errors, 0 overflow; draft restored -> route 404. AGENTS.md verified byte-clean (no drift staged; diff empty). google97ca35a7332c4a50.html + task50-final-review.patch left untracked (unrelated).
 - BRANCH/PR: feat/best-fanttik-tools from main d897cf5; commit 495cf97 (18 files, +595/-29); pushed; PR #18 opened https://github.com/snowmiku601-cpu/duyanblog-source/pull/18 (base main d897cf5, head 495cf97). NOT merged, NOT deployed; production DB untouched; local draft still status=draft publishedAt=null.
 - NEXT: independent PR review; owner confirms image-rights basis and Fanttik deep-link tracking before publish.
+
+Task ID: 53.4
+Agent: Claude Code (lead) — PR #18 MICRO-FIXES pushed (head 65f6cd0; not merged, not deployed).
+
+- FIX 1 (RED->GREEN, mutation-tested): test-cta-readiness "pick with any CTA renders an adjacent AffiliateDisclosure" — RED reproduced at PR head 1da8089 (26 pass + 1 FAIL; import line now includes isReferralUrl, old regex whitespace-fragile). Repaired to behavioral assertions: (a) AffiliateDisclosure imported from @/components/affiliate/affiliate-link (no ordering dependence), (b) pick case extracts a bounded block and requires (offer||block.url) guard within 400 chars of <AffiliateDisclosure (comment gap tolerant), (c) check removed nothing. Mutation test: replacing the guard with {true && (} FAILS the gate; restored; final 27/27 (back to disclosure-check-inclusive baseline).
+- FIX 2: renderer price note "List price on the product page" -> "Current store prices apply; they can change" (CTAs point at the storefront, not a product page). Rendered verify: 0 "List price on", 10x new note.
+- FIX 3: "Shop Fanttik" hardcoded label -> generic "Visit merchant store". Rendered verify: 10x new label, 0 "Shop Fanttik", btn rel="sponsored noopener", href https://fanttik.com/?ref=saskoqug exact, heading not a link.
+- FIX 4: type-index empty state now type-aware: "No {reviews|best picks|comparisons|guides|editorial} published here yet. Check back soon."
+- FIX 5: EDITORIAL_GUIDE pick.url section corrected: product headings stay plain text for shared storefront URLs; the button is the affiliate link.
+- EDITORIAL GUARD: draft's 52s claim stays attributed to "Fanttik's comparison table" (on the X8 APEX product page, conditions: 25-inch tire, 30-35 PSI); the buying guide's 35s figure belongs to the X9 APEX (not in this article) — no substitution, no new research cycle.
+- PRESERVED: 23-block draft JSON unchanged, composite hero + 5 thumbnails, GSC file + task50 patch untracked, local MySQL draft untouched, image-rights basis stays owner-reported (no invented license).
+- GATES (exit 0): test:cta 27/27; Fanttik gate 40/40; test:launch 38/38; google-consent 41/41; lint 0; typecheck 0; validate:docs PASS; git diff --check clean; roundtrip+parity TRUE; 0 console errors; 0 overflow 1280.
+- STATE: draft restored (status=draft, publishedAt=null, route 404). Production untouched. No new PR, no merge, no deploy, no production import.
+- PR #18 NEW HEAD: 65f6cd0 (commit list: 495cf97 -> 1da8089 -> 65f6cd0).
