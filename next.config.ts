@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
         hostname: "fanttik.com",
         pathname: "/cdn/shop/files/**",
       },
+      {
+        // Ottocast product thumbnails (owner-approved hotlinking of the brand's own
+        // CDN for documented-research roundups; provenance recorded in the draft).
+        protocol: "https",
+        hostname: "www.ottocast.com",
+        pathname: "/cdn/shop/files/**",
+      },
     ],
   },
   async headers() {
