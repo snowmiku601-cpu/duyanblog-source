@@ -214,7 +214,7 @@ check(
 );
 check(
   "i3 variant confirmation + page-typo caveat present",
-  /confirm your exact vehicle, model year/.test(blockText) &&
+  /variants are configured separately at checkout/.test(blockText) &&
     /apparent typos/.test(blockText),
 );
 check(
@@ -230,6 +230,27 @@ check(
   "video safety framing on P3 Pro and Ottoscreen picks too",
   /video belongs to passengers and parked cars/i.test(blockText) &&
     /Video on its screen is a passenger and parked-car feature/i.test(blockText),
+);
+
+// 20 — Task 56.2 audit regressions (i3 memory attribution, price-ranking brittleness, exclusion scope).
+check(
+  "i3 8GB/128GB attributed to Ottocast's FAQ, not asserted universally",
+  /FAQ states the i3 comes standard with 8GB RAM and 128GB storage across all regions/.test(blockText) &&
+    /confirm the configuration listed for yours/.test(blockText),
+);
+check(
+  "no brittle absolute P3-Pro-vs-i3 price ranking",
+  !/\$10 under the i3/i.test(blockText),
+);
+check(
+  "Sony/Mitsubishi exclusions scoped to wired-adapter/AI-Box pages, not Ottoscreen",
+  /wired-adapter and AI Box pages/.test(blockText) &&
+    !/excluded across Ottocast's pages/i.test(blockText),
+);
+check(
+  "Ottoscreen carries no wired-system exclusions (checklist carve-out)",
+  /carries none of the wired-system exclusions/.test(blockText) ||
+    /its page carries none of the wired-system exclusions/.test(blockText),
 );
 
 // 16 — source links: referral URLs marked sponsored by the renderers (pinned against regression)

@@ -92,8 +92,17 @@ plus cross-page references (see conflict note below).
   Seal/Sealion/Denza 2023–2025, Audi A6 2024, Ford Sync 4 2024, Porsche Panamera 2024/Cayenne 2023/
   Macan 2024 [page spells "Prosche"], Hyundai Elantra 2024/Ix35, Changan Deepal 2025, MG4, Rolls-Royce
   Cullinan 2024, Volvo EX30 2024, Lexus NX 2024, MINI Cooper/Countryman 2024+ only.
-- Specs: Qualcomm Snapdragon 6125, Android 13, 8GB RAM + 128GB ROM (now standard across regions per
-  FAQ), Bluetooth 5.0, dual-band Wi-Fi, TF card up to 256GB, USB 5V~1A, OttoDrive OS open Android.
+- Specs: Qualcomm Snapdragon 6125, Android 13, Bluetooth 5.0, dual-band Wi-Fi, TF card up to
+  256GB, USB 5V~1A, OttoDrive OS open Android. MEMORY: Ottocast's FAQ states "the OttoAibox i3
+  now comes standard with 8GB RAM + 128GB ROM across all regions" (page text checked 2026-10-29;
+  no 4GB/64GB configuration appears anywhere on the page, and all four Shopify variants —
+  NA/EU × BMW/Ford-Hyundai — price identically at $229.00). Region/model variants are configured
+  separately at checkout; the article attributes the 8/128 figure to this FAQ and tells readers
+  to confirm the configuration listed for their selected variant rather than asserting it
+  universally. (An independent reviewer reported a 4GB/64GB North America configuration and a
+  $199 price from a page snapshot; neither figure appears on the page as fetched 2026-10-29.
+  A 4GB/64GB spec does exist in Ottocast's lineup — it is the OttoAibox P3 (non-Pro) in the
+  comparison table on the P3 Pro page, and the E2 — which may be the source of the confusion.)
 - Full-screen display depends on the car's factory wired CarPlay system (FAQ).
 - Uses: unlocks Android 13 on the iDrive screen, streaming apps, wireless CarPlay/AA conversion.
   Region variants as P3 Pro.
@@ -118,6 +127,12 @@ plus cross-page references (see conflict note below).
   "anything you want" vs "CarPlay & App"; Android 15 vs 13.
 - Compatibility-widget cross-reference: when a visitor's car "does not have factory CarPlay",
   Ottocast's own widget recommends Ottoscreen AI as the solution for those cars.
+- EXCLUSION SCOPE (Task 56.2): the Sony aftermarket head-unit and Mitsubishi checkout-note
+  exclusions appear on the wired-adapter and AI Box product pages; the Ottoscreen AI page
+  contains NEITHER (verified: 0 hits for "Sony"/"Mitsubishi" on the page text). Its own FAQ
+  states it is "a standalone, plug-and-play display designed for any car" and works for cars
+  older than 2016, noting "2016+ is mainly for wired-to-wireless adapters". The article scopes
+  these exclusions to the plug-in devices only.
 
 ## Policies
 

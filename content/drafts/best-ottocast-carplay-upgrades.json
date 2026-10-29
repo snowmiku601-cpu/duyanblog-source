@@ -56,7 +56,7 @@
         "**Factory wired Apple CarPlay** — the Mini NOVA and Play2Video Ultra convert it to wireless; the P3 Pro runs Android from it. (The i3 is for cars whose CarPlay is already wireless — next row.)",
         "**Factory wired Android Auto (no CarPlay)** — the Mini NOVA and the P3 Pro accept it; the Play2Video Ultra does not, and Ottocast's own pages say so flatly (\"Wired Android Auto-only vehicles are not supported\").",
         "**Factory wireless CarPlay only (some BMW, plus the other models on Ottocast's list)** — the adapters need a wired connection and will not help; the OttoAibox i3 is Ottocast's recommended model for these cars.",
-        "**No factory CarPlay or Android Auto** — none of the plug-in devices work; the standalone Ottoscreen AI display is the category Ottocast itself recommends for these cars."
+        "**No factory CarPlay or Android Auto** — none of the plug-in devices work; the standalone Ottoscreen AI display is the category Ottocast itself recommends for these cars, and its page carries none of the wired-system exclusions."
       ]
     },
     {
@@ -91,7 +91,7 @@
       "rank": 3,
       "name": "OttoAibox P3 Pro CarPlay AI Box",
       "badge": "Best for advanced AI Box functionality",
-      "blurb": "The full Android computer in this lineup: Ottocast publishes a Snapdragon 6225 chip, 8GB RAM, 128GB storage, Android 13 running its OttoDrive OS 3.0, dual-band Wi-Fi, HDMI output, and CloudSIM 3.0 connectivity (phone hotspot, vehicle Wi-Fi, or a SIM card, per Ottocast's FAQ). It needs a factory wired CarPlay or wired Android Auto port, per Ottocast's requirements. Ottocast says the device downloads 'any app you like'; that is the maker's claim, not our measurement, and its own FAQ documents real limits: Netflix does not run in split-screen mode, and the AI voice assistant is paid after a free allowance of 3 months or 1,000 conversation rounds (plans from $7.90 per 1,000 queries, billed per query, plus an AI Voice Service Pack sold separately). The trade-offs: at its displayed store price of $219.00 (checked October 29, 2026) it is the second-most-expensive device here, $10 under the i3, and whether every Android app behaves on your car's screen is not something Ottocast or we can promise. As with the Play2Video Ultra, video belongs to passengers and parked cars. Displayed prices can vary between listings and change at any time.",
+      "blurb": "The full Android computer in this lineup: Ottocast publishes a Snapdragon 6225 chip, 8GB RAM, 128GB storage, Android 13 running its OttoDrive OS 3.0, dual-band Wi-Fi, HDMI output, and CloudSIM 3.0 connectivity (phone hotspot, vehicle Wi-Fi, or a SIM card, per Ottocast's FAQ). It needs a factory wired CarPlay or wired Android Auto port, per Ottocast's requirements. Ottocast says the device downloads 'any app you like'; that is the maker's claim, not our measurement, and its own FAQ documents real limits: Netflix does not run in split-screen mode, and the AI voice assistant is paid after a free allowance of 3 months or 1,000 conversation rounds (plans from $7.90 per 1,000 queries, billed per query, plus an AI Voice Service Pack sold separately). The trade-offs: at its displayed store price of $219.00 (checked October 29, 2026) it sits under the i3's displayed price, and whether every Android app behaves on your car's screen is not something Ottocast or we can promise. As with the Play2Video Ultra, video belongs to passengers and parked cars. Displayed prices can vary between listings and change at any time.",
       "imageUrl": "https://www.ottocast.com/cdn/shop/files/20260924-104650.png?v=1790218043&width=240",
       "url": "https://www.ottocast.com/?ref=LAZYCORMORANT"
     },
@@ -100,7 +100,7 @@
       "rank": 4,
       "name": "OttoAibox i3 CarPlay AI Box",
       "badge": "Best for BMW iDrive and factory-wireless CarPlay cars",
-      "blurb": "The only pick here built for cars whose CarPlay is already wireless, where the plug-in adapters do not apply. Ottocast publishes two model options: a BMW version for vehicles with iDrive 6/7/8/9 (the page lists BMW 3/4/5/7/8 Series, X1 and X3 through X7, i3, i8 and Z4, with model-year windows that differ by model) and a second option for Ford, Audi, Hyundai and other factory wireless CarPlay vehicles. Hardware matches the AI Box class (Snapdragon 6125, Android 13, 8GB RAM and 128GB storage, Bluetooth 5.0, TF card support up to 256GB), adding an Android desktop with streaming apps on the factory screen. The trade-offs: the compatibility map is an image on the product page, not text, so confirm your exact vehicle, model year, infotainment configuration and the variant you select (region and model are separate options at checkout); full-screen display depends on the car's own CarPlay implementation, per Ottocast's FAQ; and the page's model list contains apparent typos (an 'X21', a misspelled 'Prosche') that Ottocast has not clarified, so treat it as a starting point, not a guarantee. Displayed store price of $229.00 (checked October 29, 2026).",
+      "blurb": "The only pick built for cars whose CarPlay is already wireless, where the plug-in adapters do not apply. Ottocast publishes two model options: BMW iDrive 6/7/8/9 (the page lists 3/4/5/7/8 Series, X1 and X3–X7, i3, i8 and Z4, with model-year windows that differ by model) and a second option for Ford, Audi, Hyundai and other factory wireless CarPlay vehicles. Hardware matches the AI Box class (Snapdragon 6125, Android 13, Bluetooth 5.0, TF card up to 256GB). On memory, Ottocast's FAQ states the i3 comes standard with 8GB RAM and 128GB storage across all regions (checked October 29, 2026) — but variants are configured separately at checkout, so confirm the configuration listed for yours before ordering. The trade-offs: the compatibility map is an image, not text, so verify your exact vehicle there; full-screen display depends on the car's own CarPlay implementation, per Ottocast's FAQ; and the page's model list contains apparent typos (an 'X21', a misspelled 'Prosche') that Ottocast has not clarified — treat it as a starting point, not a guarantee. Displayed store price of $229.00 (checked October 29, 2026, all variants).",
       "imageUrl": "https://www.ottocast.com/cdn/shop/files/ottoaibox-i3-bmw-carplay-ai-box-main-square-01.jpg?v=1767083167&width=240",
       "url": "https://www.ottocast.com/?ref=LAZYCORMORANT"
     },
@@ -149,7 +149,7 @@
         [
           "OttoAibox i3 AI Box",
           "Factory wireless CarPlay (BMW iDrive 6/7/8/9; Ford/Audi/Hyundai option)",
-          "Android 13 desktop on the factory screen, streaming apps, TF card to 256GB",
+          "Android 13 desktop on the factory screen, streaming apps, TF card to 256GB; 8GB/128GB per Ottocast's FAQ (all regions at check; variants configured separately)",
           "$229.00"
         ],
         [
@@ -208,7 +208,7 @@
         },
         {
           "q": "Will an Ottocast device work in my car?",
-          "a": "Per Ottocast's own guidance, the starting test is to plug a phone into the car's USB data port with a cable: if CarPlay appears for an iPhone, or Android Auto for an Android phone, the adapter that matches that system applies. The test is a starting point, not the whole answer: the 2016-or-newer rule, phone OS versions, and the Sony and Mitsubishi exclusions still apply. Android Auto-only cars are accepted by the Mini NOVA and P3 Pro but not the Play2Video Ultra. Cars with factory wireless CarPlay (some BMW models among others) need the OttoAibox i3 instead, and cars with no CarPlay or Android Auto need the standalone Ottoscreen AI display. Sony aftermarket head units are excluded across Ottocast's pages, and Mitsubishi vehicles need a note at checkout or an email first."
+          "a": "Per Ottocast's own guidance, the starting test is to plug a phone into the car's USB data port with a cable: if CarPlay appears for an iPhone, or Android Auto for an Android phone, the adapter that matches that system applies. The test is a starting point, not the whole answer: the 2016-or-newer rule, phone OS versions, and the Sony and Mitsubishi exclusions still apply. Android Auto-only cars are accepted by the Mini NOVA and P3 Pro but not the Play2Video Ultra. Cars with factory wireless CarPlay (some BMW models among others) need the OttoAibox i3 instead, and cars with no CarPlay or Android Auto need the standalone Ottoscreen AI display. The Sony and Mitsubishi exclusions come from Ottocast's wired-adapter and AI Box pages; the Ottoscreen AI page lists neither, and its FAQ says it is designed for any car."
         },
         {
           "q": "Are the prices on this page final?",
