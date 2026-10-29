@@ -8,12 +8,13 @@ Raw HTML cached in tmp/task58/downloads/ during the session.
 - Exact affiliate URL: `https://phomemo.com/?ref=yrqzcctj` (owner-provided, lowercase ref).
 - Deep-link tracking NOT verified → all 5 commercial CTAs point at the storefront homepage with
   the ref parameter, generic "Visit merchant store" label (same pattern as Fanttik/Ottocast).
-- IMAGE PERMISSION: NOT confirmed by the owner for Phomemo. The Fanttik/Ottocast permission does
-  NOT extend here (per task brief). → No composite hero built. Provision: if the owner confirms,
-  a 1600×1000 composite can be built from the og:image URLs recorded below. Until then the draft
-  ships with pick thumbnails (official CDN, owner-approved hotlinking pattern pending owner
-  confirmation) — RESOLVED: thumbnails hotlinked from official CDN as with prior roundups; the
-  composite hero is the only asset blocked on permission. Flagged in the draft's cover-image note.
+- IMAGE PERMISSION: OWNER-REPORTED AUTHORIZATION, confirmed in the Task 58 session (owner's
+  answer to an explicit in-session question, 2026-10-29): permission to use, crop, edit and
+  composite Phomemo product images for this affiliate editorial. Recorded as owner-reported;
+  no written license, signer or contractual scope exists or is asserted. Assets built under this
+  authorization: the 1600×1000 composite hero (hero-v3, PM241-BT dominant + M110 + D30 + T02)
+  and the five hotlinked official CDN thumbnails. Provenance recorded in the draft's
+  cover-image note and heroCredit.
 
 ## Pick 1 — Phomemo D30 Smart Mini Label Maker
 
@@ -24,7 +25,7 @@ Raw HTML cached in tmp/task58/downloads/ during the session.
   bundle context.
 - Specs (page): print widths 6/12/14/15 mm; 153 g; 131.5 × 75 × 29 mm; 15–20 mm/s; 1000 mAh
   (1.5-hour claimed battery life); 203 DPI; Micro USB charging (5V/2A); PC support: ✗ (phone
-  app only). Bluetooth, works with the Phomemo app (Android/iOS/tablets).
+  app only). Bluetooth, works with Phomemo's Print Master app (Android/iOS/tablets) — the drivers page groups the D30 under Print Master.
 - Positioning: home organization labels (narrow widths, app-driven, cheapest).
 
 ## Pick 2 — Phomemo M110 Bluetooth Portable Thermal Business Label Maker
@@ -33,8 +34,8 @@ Raw HTML cached in tmp/task58/downloads/ during the session.
 - og:image: //phomemo.com/cdn/shop/files/flash-sale-phomemo-m110-bluetooth-portable-thermal-business-label-maker-356411.jpg?v=1746653143
 - Variants: Printer $51.99 (White/Black); label bundles $66.99.
 - Specs (page): label widths 20–50 mm (cable labels, ID stickers etc.); 222.8 g; 30 mm/s;
-  1200 mAh (3–4 h use, up to 13 rolls per charge); 203 DPI; Type-C; PC support ✓ (Pinter Master
-  app iOS/Android or USB to computer).
+  1200 mAh (3–4 h use, up to 13 rolls per charge); 203 DPI; Type-C; PC support ✓ (Print Master
+  app iOS/Android or USB to computer; official App Store link: apps.apple.com/us/app/print-master/id1467113436).
 - Positioning: small-business/product labels (wider media, USB desktop workflow).
 
 ## Pick 3 — Phomemo PM241-BT Bluetooth Shipping Label Printer
@@ -89,14 +90,17 @@ Raw HTML cached in tmp/task58/downloads/ during the session.
 - Ongoing media costs (displayed store prices at check): 4×6 fan-fold labels $26.79; 53mm
   10-year sticker paper (3 rolls) $18.99; A4 thermal paper $25.89; D30 label rolls from the
   D30 accessory list. Media is proprietary-ish (per-model compatibility lists).
-- Apps differ: D30/T02 use the Phomemo app (phone-only); M110 uses Pinter Master (or USB);
+- Apps differ (official drivers-page mapping, phomemo.com/pages/drivers): Print Master = D30, M110 (mobile app; M110 also USB to computer); Labelife = PM241-BT (desktop USB driver route); Phomemo app = T02, M08F (mobile):
   PM241-BT USB from Windows/Mac + Bluetooth mobile; M08F Bluetooth + USB.
 
 ## Policies (official, checked 2026-10-29)
 
-- Shipping policy: processing 1–3 business days; delivery generally 3–15 business days after
-  dispatch; free standard shipping thresholds apply (site banner: free shipping on orders
-  $29.99+); weekend/holiday exclusions.
+- Shipping policy (phomemo.com, NOT eu.phomemo.com — do not conflate): processing 1–3 business
+  days; "Estimated delivery: Delivery generally takes 3–15 business days after dispatch"
+  (verbatim, re-fetched 2026-10-29; a reviewer reported 6–15 from a different snapshot/regional
+  store — the current main-store page says 3–15); free standard shipping thresholds displayed at
+  checkout; weekends/holidays and peak periods may delay; delivery times are estimates, not
+  guaranteed arrival dates.
 - Returns, Refunds & Warranty Policy: 30-day money-back guarantee (items bought directly from
   the Phomemo Website, original packaging, returned within the window); refunds issued within
   3 business days of receipt of returned goods; double shipping fee may be deducted if

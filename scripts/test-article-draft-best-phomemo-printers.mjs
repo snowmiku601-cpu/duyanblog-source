@@ -279,5 +279,30 @@ check(
   !/guaranteed .{0,20}(?:2|10|20)-year|prints last (?:2|10|20) years/i.test(blockText),
 );
 
+// 23 — Task 58.2 regressions: ledger freshness, shipping figures, affiliate FAQ.
+const ledger = readFileSync(path.join(ROOT, "content", "drafts", "phomemo-claim-ledger.md"), "utf8");
+check(
+  "ledger uses Print Master, never Pinter Master",
+  /Print Master/.test(ledger) && !/Pinter Master/.test(ledger),
+);
+check(
+  "ledger records owner-reported image authorization matching shipped assets",
+  /OWNER-REPORTED AUTHORIZATION/.test(ledger) && /hero-v3/.test(ledger),
+);
+check(
+  "ledger marks the main-store shipping policy and the 3-15 figure as re-fetched",
+  /re-fetched 2026-10-29/.test(ledger) && /3–15 business days/.test(ledger) && /eu\.phomemo\.com/.test(ledger),
+);
+check(
+  "affiliate FAQ makes no unconditional price guarantee",
+  !/referral code does not change the store's listed price/i.test(blockText) &&
+    /Phomemo sets the prices shown at checkout/.test(blockText) &&
+    /we do not control them/.test(blockText),
+);
+check(
+  "heroAlt names only the devices present in hero-v3 (D30, M110, PM241-BT, T02 — no M08F)",
+  /D30, M110, PM241-BT and T02/.test(draft.heroAlt ?? "") && !/M08F/.test(draft.heroAlt ?? ""),
+);
+
 console.log(failures === 0 ? `\nAll draft integrity checks passed.` : `\n${failures} check(s) FAILED.`);
 process.exit(failures === 0 ? 0 : 1);
