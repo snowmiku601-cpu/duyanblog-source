@@ -1,0 +1,294 @@
+{
+  "type": "roundup",
+  "slug": "best-phomemo-printers",
+  "title": "Best Phomemo printers: 5 picks for labels, stickers and documents",
+  "deck": "Five Phomemo printers matched to the media they actually take — 6mm home labels to full A4 thermal sheets — from Phomemo's own published pages checked October 29, 2026.",
+  "tldr": "Phomemo's five main printers do five different jobs, and the media decides the choice. The D30 ($28.99 printer-only) prints 6-15mm home labels from the phone app. The M110 ($51.99) takes 20-50mm business labels and connects to a computer by USB. The PM241-BT ($110.99 US plug) is the wall-powered shipping printer Phomemo builds for 4x6 labels and marketplace platforms (Amazon, eBay, Shopify, USPS, UPS and FedEx per its page). The T02 ($39.49 with a test roll) prints 53mm stickers from the phone app. The M08F ($108.99, A4 or Letter version) prints full pages on special thermal sheets, not ordinary copy paper. Every figure comes from Phomemo's published pages checked October 29, 2026. Duyan did not test any of these printers, and prices can change.",
+  "categoryId": "tech",
+  "isDemo": false,
+  "heroImage": "/images/articles/best-phomemo-printers/hero-phomemo-composite.jpg",
+  "heroAlt": "Phomemo D30, M110, PM241-BT and T02 printers arranged on a warm paper background",
+  "heroCredit": "Phomemo (phomemo.com); composite arrangement by Duyan Blog",
+  "readingMinutes": 14,
+  "tags": [
+    "Phomemo",
+    "Label printer",
+    "Thermal printer",
+    "Home office"
+  ],
+  "blocks": [
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "How we put this together — and what we did not do",
+      "text": "This roundup is documented research, not a hands-on test. Every specification, price and policy statement below comes from Phomemo's own product pages, shipping policy and returns/refunds/warranty policy, checked on October 29, 2026. Duyan did not test any of these printers, and we express no opinion on real-world print quality. Prices change without notice."
+    },
+    {
+      "type": "paragraph",
+      "text": "Phomemo sells thermal printers that all look alike in a product grid and print nothing alike: a 6mm home-label maker, a 50mm business label printer, a 4.6-inch shipping workhorse, a 53mm sticker toy, and a full-page document printer. The difference that decides a purchase is the media — what rolls or sheets the device takes, and what those supplies cost over time. Every printer here is direct thermal: it prints with heat on specially coated paper, needs no ink or toner, and produces black-and-white output unless you buy colored thermal paper. Pick the printer for the media you need; this page reads Phomemo's own pages so you can match the two before spending anything."
+    },
+    {
+      "type": "paragraph",
+      "text": "Cover image: composite arrangement of featured Phomemo products, built from product photography published on phomemo.com (October 29, 2026); arrangement by Duyan Blog. Product photographs remain the property of Phomemo."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The short version"
+    },
+    {
+      "type": "paragraph",
+      "text": "Start from what you print. **Home organization** — jar labels, school supplies, pantry — is the **D30**'s job: it is the cheapest printer here at $28.99 for the printer itself, prints 6/12/14/15mm labels, and runs entirely from the phone app. **Small-business product labels** (barcodes, price tags, cable and ID stickers at 20–50mm) belong to the **M110**, the smallest printer here that also connects to a computer by USB. **Shipping labels** — real 4×6 ones for the marketplaces and carriers Phomemo's page names (Amazon, eBay, Shopify, USPS, UPS, FedEx) — need the wall-powered **PM241-BT**, the only printer here built to sit on a desk and churn labels at up to 150mm/s per its spec block. **Stickers and creative printing** on 53mm thermal paper is the **T02**'s territory, with the app's template library doing most of the design work. And **full-page documents** — receipts, itineraries, tattoo stencils, homework — are the **M08F**'s job, printing on A4 or Letter thermal sheets. The buy links below go to Phomemo's store; we did not verify how Phomemo's affiliate program tracks deep links to individual products, so every button points at the store's front door with our referral code attached."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Which Phomemo printer category do you need?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Phomemo's own catalog sorts its printers into four categories, and the one you need depends on the media, not the features:"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Home label maker (6–15mm)** — the D30. Small adhesive labels for organizing; phone-app only; the cheapest entry point.",
+        "**Business label maker (20–50mm)** — the M110. Wider adhesive labels for products, barcodes, cables and IDs; phone app or USB to a computer.",
+        "**Shipping label printer (1\"–4.6\", wall power)** — the PM241-BT. Purpose-built for marketplace and carrier labels including 4×6; USB from Windows/Mac, Bluetooth from phones.",
+        "**Mini printer (53mm paper)** — the T02. Stickers and creative prints on 53mm rolls; phone-app only.",
+        "**Portable document printer (A4/Letter thermal sheets)** — the M08F. Full-page printing on special thermal paper — not ordinary copy paper — with Bluetooth and USB."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Two buyer traps worth naming before the picks. First, the apps differ: the D30 and T02 work only from a phone (Phomemo's pages mark PC support as ✗ for both), while the M110, PM241-BT and M08F connect to computers. If your labeling workflow lives on a desktop, those three are the candidates. Second, media is model-specific: 53mm rolls do not fit the D30's 6–15mm cassette, A4 thermal sheets do not fit the label makers, and Phomemo publishes per-model compatibility lists on its paper products — check the roll width against your printer before ordering supplies."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The five picks"
+    },
+    {
+      "type": "pick",
+      "rank": 1,
+      "name": "Phomemo D30 Smart Mini Label Maker",
+      "badge": "Best for home organization labels",
+      "blurb": "The cheapest way into Phomemo's system: $28.99 for the printer itself (gift bundles with 3 or 5 label rolls run $37.99–$49.99, per the page's variant list). It prints on 6, 12, 14 or 15mm adhesive label rolls, weighs a claimed 153g, and fits the 'everything gets a label' workflow: jar lids, chargers, school supplies, spice jars. Phomemo's spec block lists 203 DPI, 15–20mm/s print speed, a 1000mAh battery (1.5-hour claimed life), Micro USB charging — and PC support ✗: it works from Phomemo's Print Master app on Android, iOS and tablets, so plan your label designs on a phone. The trade-offs: 15mm is the ceiling — this is not a shipping or barcode printer — and the tiny label rolls are the ongoing cost to budget for.",
+      "imageUrl": "https://phomemo.com/cdn/shop/files/phomemo-d30-portable-bluetooth-home-label-maker-1056360.jpg?v=1771147627&width=240",
+      "url": "https://phomemo.com/?ref=yrqzcctj"
+    },
+    {
+      "type": "pick",
+      "rank": 2,
+      "name": "Phomemo M110 Bluetooth Portable Thermal Business Label Maker",
+      "badge": "Best for small-business product labels",
+      "blurb": "The step up to business media: label widths of 20–50mm per Phomemo's page — price tags, barcodes, cable wraps, ID stickers — at 203 DPI and a claimed 30mm/s. The M110 is the first label maker here that speaks desktop: Phomemo's page lists PC support ✓ with the Print Master app on iOS/Android or USB to a computer, so label templates can live on a workstation. The 1200mAh battery is claimed to last 3–4 hours and print up to 13 rolls per charge. The printer itself displays at $51.99 (White or Black); bundles with three label rolls run $66.99. The trade-offs: 50mm is still far from the 4×6 shipping-label format, and the app's template library is where the design work happens — worth browsing before you commit.",
+      "imageUrl": "https://phomemo.com/cdn/shop/files/flash-sale-phomemo-m110-bluetooth-portable-thermal-business-label-maker-356411.jpg?v=1746653143&width=240",
+      "url": "https://phomemo.com/?ref=yrqzcctj"
+    },
+    {
+      "type": "pick",
+      "rank": 3,
+      "name": "Phomemo PM241-BT Bluetooth Shipping Label Printer",
+      "badge": "Best for shipping labels",
+      "blurb": "The desk workhorse: a wall-powered direct-thermal printer whose spec block lists label widths of 1\"–4.6\" (25.4–117mm) at 203 DPI and up to 150mm/s — Phomemo claims about 72 labels per minute, and the page says the design is rated for more than 650,000 labels maintenance-free. 4×6 shipping labels sit comfortably in that width range, and Phomemo sells dedicated 4×6 fan-fold labels for this printer class. Connectivity is the broadest here: desktop printing over USB through Phomemo's Labelife driver from Windows (XP and newer) and Mac (10.9 and newer), Bluetooth for phones and tablets, and the page names the platforms it serves — Amazon, eBay, Shopify, USPS, UPS, FedEx. The trade-offs: no battery (it plugs into the wall at 24V, so it is a desk printer, not a portable one), it is the second-most-expensive device here at its displayed store price of $110.99 for the US plug ($121.99 for UK/EU/AU plugs, checked October 29, 2026), and you will want the 4×6 label supply cost on your radar for volume shipping.",
+      "imageUrl": "https://phomemo.com/cdn/shop/files/flash-sale-phomemo-pm241-bt-bluetooth-shipping-label-printer-628733.jpg?v=1749631610&width=240",
+      "url": "https://phomemo.com/?ref=yrqzcctj"
+    },
+    {
+      "type": "pick",
+      "rank": 4,
+      "name": "Phomemo T02 Inkless Mini Printer",
+      "badge": "Best for mini stickers and creative printing",
+      "blurb": "The fun one: a 150g pocket printer that prints on 53mm thermal sticker rolls — to-do lists, journaling, study notes, sticker sheets — driven by the Phomemo app's template and asset library on Android, iOS and tablets. The spec block lists 203 DPI, 6–10mm/s print speed, a 1000mAh battery (72+ hours claimed standby, up to 39 meters of printing per charge), and PC support ✗ — like the D30, it is a phone-only device. The displayed price at check was $39.49 for the printer with one test roll of white sticker paper; three-roll bundles run $54.53 (checked October 29, 2026). The trade-offs: 53mm-wide monochrome output keeps it in the creative zone, and the sticker paper is the recurring cost — Phomemo publishes 2-year and 10-year-lasting paper options, and the cheaper paper fades sooner.",
+      "imageUrl": "https://phomemo.com/cdn/shop/files/phomemo-t02-inkless-mini-printer-5006638.png?v=1786172540&width=240",
+      "url": "https://phomemo.com/?ref=yrqzcctj"
+    },
+    {
+      "type": "pick",
+      "rank": 5,
+      "name": "Phomemo M08F Letter & A4 Portable Printer",
+      "badge": "Best for portable document printing",
+      "blurb": "The only full-page printer here: the M08F prints documents on A4 or Letter thermal sheets — Phomemo's spec block lists the paper size as A4/Letter — at 203 DPI and a claimed 13–15mm/s. It is a direct thermal printer, so it requires special thermal paper (Phomemo's own paper category is 'Letter/A4 Thermal Printer Paper', with its A4 quick-dry sheets at $25.89 at check); it does not print on ordinary copy paper, and there is no ink, toner or ribbon to buy. The 1200mAh battery is claimed to hold up to 140 pages of continuous printing per charge. Connectivity spans phones and desktops: the page advertises Bluetooth for iPhone, Android and laptops, and USB with Phomemo's driver software for computers — the USB route is the one to count on for desktop workflows — making it the travel-friendly way to print an itinerary from a hotel room. The trade-offs: at $108.99 for either the A4 or Letter version (checked October 29, 2026) it is priced near the shipping printer while printing monochrome pages one slow page at a time, thermal sheets cost multiples of copy paper, and the print fades on paper-dependent timescales — Phomemo's paper pages are the source to check for expected longevity.",
+      "imageUrl": "https://phomemo.com/cdn/shop/files/phomemo-m08f-portable-a4-printer-bluetooth-thermal-printer-supports-a4-size-wireless-inkless-portable-printer-compatible-with-smartphones-and-laptops-169421.jpg?v=1749412593&width=240",
+      "url": "https://phomemo.com/?ref=yrqzcctj"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How the five compare"
+    },
+    {
+      "type": "table",
+      "caption": "As published by Phomemo on each product page, checked October 29, 2026. The media column decides the purchase — printers do not share rolls or sheets across categories. Displayed store prices; they can vary between listings and change at any time.",
+      "head": [
+        "Printer",
+        "Print purpose",
+        "Media it takes (size + requirement)",
+        "Connectivity",
+        "Displayed price (2026-10-29)"
+      ],
+      "rows": [
+        [
+          "D30",
+          "Home organization labels",
+          "6/12/14/15mm Phomemo D30 adhesive rolls",
+          "Bluetooth + Phomemo app (phone only)",
+          "$28.99 printer-only"
+        ],
+        [
+          "M110",
+          "Small-business product labels",
+          "20–50mm Phomemo M110-series labels",
+          "Bluetooth app or USB to computer",
+          "$51.99 printer-only"
+        ],
+        [
+          "PM241-BT",
+          "Shipping labels incl. 4×6",
+          "25.4–117mm direct-thermal labels (fan-fold or rolls)",
+          "USB (Windows/Mac) + Bluetooth (mobile)",
+          "$110.99 US plug"
+        ],
+        [
+          "T02",
+          "Mini stickers, creative prints",
+          "53mm thermal sticker paper",
+          "Bluetooth + Phomemo app (phone only)",
+          "$39.49 with test roll"
+        ],
+        [
+          "M08F",
+          "Full-page documents",
+          "A4/Letter THERMAL sheets (not copy paper)",
+          "Bluetooth + USB to computer",
+          "$108.99 (A4 or Letter version)"
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Printer versus paper: what each machine actually needs"
+    },
+    {
+      "type": "paragraph",
+      "text": "All five printers are **direct thermal**: the print head heats specially coated paper, which darkens where heated. No ink, toner or ribbon is ever bought — the consumable is the paper itself, and it must be the right paper for the machine. Phomemo's paper catalog is organized by printer model, and the widths do not interchange: the D30's 6–15mm cassettes, the M110's 20–50mm rolls, the T02's 53mm stickers, the PM241-BT's 25.4–117mm label stock, and the M08F's A4/Letter thermal sheets are five different supplies. Output is monochrome (black on the paper's base color); colored results come from colored, gradient or glitter thermal paper, which Phomemo sells per model. One more consequence of the technology: thermal prints fade. Phomemo's own paper pages publish different longevity ratings — 2-year, 10-year and 20-year lasting papers exist side by side — so the paper you load, not the printer you buy, decides how long a print survives. Heat, direct sunlight and humidity all accelerate thermal fading — that is the physics of direct-thermal chemistry, not a Phomemo-specific claim — so prints stored in a hot car or on a sunlit windowsill degrade fastest. Anything that must last (archival documents, external records) is a poor fit for direct thermal regardless of model."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Running costs and realistic trade-offs"
+    },
+    {
+      "type": "paragraph",
+      "text": "The printer price is the entry fee; the media is the subscription. Phomemo's displayed paper prices at check (October 29, 2026): 4×6 fan-fold shipping labels $26.79; 53mm 10-year-lasting sticker paper (3 rolls) $18.99; A4 quick-dry thermal paper $25.89; D30 label cassettes from its accessory list. Printing speed varies by a factor of 25 across the lineup — from the T02's 6–10mm/s to the PM241-BT's claimed 150mm/s — so a shipping-volume user cannot substitute a sticker printer, and a journaling user will not enjoy the shipping printer's footprint. Phone-only models (D30, T02) are the cheapest to buy and the most locked to a small screen; the three PC-capable models trade a higher price for a real keyboard and monitor during design. And every pick is monochrome: if the job needs color printing, none of these is the right category."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How we chose"
+    },
+    {
+      "type": "paragraph",
+      "text": "We started from the media a buyer needs — tiny home labels, business labels, shipping labels, stickers, full pages — then picked one Phomemo printer per media from the company's own catalog. We read each product's store page and the shipping and returns/refunds/warranty policies, kept only the figures Phomemo publishes, and dated every check to October 29, 2026. The five picks span five media classes, so this is not a single performance league table: Phomemo publishes print speeds and resolutions, but a 6mm label maker and an A4 document printer have no honest common benchmark, and we claim none. Variant pricing was checked on each page's own variant list (printer-only vs bundles, US vs other plugs, A4 vs Letter versions). No printer here was tested by us, and the ranking is an editorial fit-per-use-case ordering, not a performance measurement."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Before you buy from Phomemo"
+    },
+    {
+      "type": "paragraph",
+      "text": "Phomemo's shipping policy, checked October 29, 2026, states order processing of 1–3 business days and delivery generally 3–15 business days after dispatch, with free standard shipping thresholds displayed at checkout. The Returns, Refunds & Warranty Policy states a 30-day money-back guarantee for items bought directly from the Phomemo website (original packaging required, refunds issued within 3 business days of the returned goods arriving, a double shipping fee may be deducted if shipments are rejected, and personalized products are non-returnable). The warranty period is 1 year from purchase, with conditions: the claimant must be the initial purchaser, the product properly maintained, the problem reported within 10 days of discovering it, and the warranty is voided if anyone other than Phomemo repairs or alters the product. These are Phomemo's own published terms — read them on phomemo.com before ordering, because terms can change."
+    },
+    {
+      "type": "callout",
+      "variant": "note",
+      "title": "About our links",
+      "text": "The buy buttons on this page link to phomemo.com with our referral code (ref=yrqzcctj) attached. If you buy through them we may earn a commission. We could not verify how Phomemo's program tracks product-level deep links, so every button points at the store's front door — search the product name once you land. Prices shown are the displayed Phomemo store prices checked October 29, 2026; they can change at any time."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Frequently asked questions"
+    },
+    {
+      "type": "faq",
+      "title": "Phomemo questions",
+      "items": [
+        {
+          "q": "Did Duyan test these printers?",
+          "a": "No. This article is documented research from Phomemo's published product pages and policies, all checked October 29, 2026. We say so at the top of the article, and we claim no first-hand print-quality findings anywhere in it."
+        },
+        {
+          "q": "Can the M08F print on ordinary copy paper?",
+          "a": "No. Per its product page, the M08F is a direct thermal printer and its spec block lists the paper size as A4/Letter thermal sheets — the special heat-sensitive paper Phomemo sells in its 'Letter/A4 Thermal Printer Paper' category. It cannot print on ordinary copy paper, which does not react to heat."
+        },
+        {
+          "q": "Is the PM241-BT good for 4×6 shipping labels?",
+          "a": "Per its product page's spec block, the PM241-BT supports label widths of 1\"–4.6\" (25.4–117mm), which includes the 4×6 (101.6×152.4mm) shipping-label format, and Phomemo sells dedicated 4×6 fan-fold labels for this printer class. The page also names Amazon, eBay, Shopify, USPS, UPS and FedEx among supported platforms. Note the page's marketing text quotes the width range in a couple of slightly different ways (1\"–4.6\" and 4–10.4cm); the spec block's 25.4–117mm figure is the one we quote. Verify your label size against the current page before ordering."
+        },
+        {
+          "q": "Do all Phomemo printers use the same app and paper?",
+          "a": "No. The D30 and T02 work only from the Phomemo app on a phone (Phomemo marks PC support ✗ for both); the M110 uses the Print Master app or USB; the PM241-BT and M08F connect to Windows/Mac computers by USB plus Bluetooth for mobiles. Paper is equally model-specific — rolls and sheets do not interchange across the five categories."
+        },
+        {
+          "q": "Do thermal prints fade?",
+          "a": "Yes — that is a property of direct thermal technology, and Phomemo's own paper catalog acknowledges it by publishing different longevity ratings: 2-year, 10-year and 20-year lasting papers exist at different prices. The paper choice, storage conditions and heat exposure decide the actual lifespan. Nothing we could verify states a guaranteed permanent print life, and anything archival is better served by another printing technology."
+        },
+        {
+          "q": "Are the prices on this page final?",
+          "a": "No. Every price is the displayed Phomemo store price on October 29, 2026, and several models have variant pricing — the D30's printer-only price differs from its gift bundles, the PM241-BT's US plug differs from UK/EU/AU plugs, and the M08F's A4 and Letter versions are separate variants. Displayed prices can reflect active promotions, can vary between listings, and change without notice."
+        },
+        {
+          "q": "Is buying through the links on this page more expensive?",
+          "a": "Phomemo sets the prices shown at checkout. Duyan may receive a commission when you buy through our referral links; per our editorial policy, that never changes our verdicts. Prices and available promotions can change at any time — we do not control them."
+        }
+      ]
+    },
+    {
+      "type": "sources",
+      "title": "Sources",
+      "items": [
+        {
+          "label": "Phomemo — D30 Smart Mini Label Maker product page (checked October 29, 2026)",
+          "url": "https://phomemo.com/products/d30-label-maker?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — M110 Bluetooth Portable Thermal Business Label Maker product page (checked October 29, 2026)",
+          "url": "https://phomemo.com/products/m110-label-maker?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — PM241-BT Bluetooth Shipping Label Printer product page (checked October 29, 2026)",
+          "url": "https://phomemo.com/products/pm-241bt?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — T02 Inkless Mini Printer product page (checked October 29, 2026)",
+          "url": "https://phomemo.com/products/t02-portable-printer?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — M08F Letter & A4 Portable Printer product page (checked October 29, 2026)",
+          "url": "https://phomemo.com/products/m08f-portable-printer?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — Shipping Policy (checked October 29, 2026)",
+          "url": "https://phomemo.com/pages/shipping-policy?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — Returns, Refunds & Warranty Policy (checked October 29, 2026)",
+          "url": "https://phomemo.com/pages/refund-policy?ref=yrqzcctj"
+        },
+        {
+          "label": "Phomemo — official store homepage, product catalog and paper compatibility lists (checked October 29, 2026)",
+          "url": "https://phomemo.com/?ref=yrqzcctj"
+        },
+        {
+          "label": "Hero image: composite of official Phomemo product photographs, phomemo.com (checked October 29, 2026)",
+          "url": "https://phomemo.com/?ref=yrqzcctj"
+        }
+      ]
+    }
+  ]
+}

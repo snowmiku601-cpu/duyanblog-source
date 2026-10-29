@@ -26,6 +26,13 @@ const nextConfig: NextConfig = {
         hostname: "www.ottocast.com",
         pathname: "/cdn/shop/files/**",
       },
+      {
+        // Phomemo product thumbnails (owner-approved hotlinking of the brand's own
+        // CDN for documented-research roundups; provenance recorded in the draft).
+        protocol: "https",
+        hostname: "phomemo.com",
+        pathname: "/cdn/shop/files/**",
+      },
     ],
   },
   async headers() {
