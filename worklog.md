@@ -1277,3 +1277,16 @@ Agent: Claude Code (lead) — MERGE PR #18 + SPACESHIP DEPLOY c1401fc + PRODUCTI
 - PUBLIC EXCLUSION: article 404; 0 hits on /best, homepage, sitemap, feed. Existing 3 published articles 200 and untouched. Temp scripts removed from server; env untouched (6 vars).
 - WORKLOG / MAIN: this entry only (docs commit on main after merge). NOT published - waiting for separate owner PUBLISH authorization.
 - OWNER NEXT ACTION: independent QA of the draft in /admin; then a separate publish task (set status+publishedAt via admin, revalidate) when ready.
+
+Task ID: 55
+Agent: Claude Code (lead) — PUBLISH Fanttik to production (owner-authorized NOW). LIVE AND VERIFIED.
+
+- PREFLIGHT: runtime c1401fc exact + BUILD_ID Cb5jWtDvN_yKKi-n77crm + app started; MySQL reachable via protected staging workflow (never printed); exactly ONE fanttik row (id cmvsz4y4c0001bj2xlrzu1jnf, roundup/draft/null/isDemo false, category tech); pre-publish drift check 10/10 PASS (prod row == git JSON incl. blocks roundtrip, 5 picks, all pick urls storefront+ref).
+- PUBLISH (transactional, guarded): updateMany WHERE id+slug+status=draft+publishedAt IS NULL -> exactly 1 row. BEFORE draft/null; AFTER published @ 2026-10-29T03:45:40.899Z. Nothing else modified (slug/type/title/blocks/hero/tags/category/other articles untouched).
+- REVALIDATION: direct Prisma writes do not call revalidatePath -> used the established safe restart (tmp/restart.txt). Article 200 immediately.
+- LIVE VERIFICATION: /best/best-fanttik-tools 200; title exact; canonical exact; Article JSON-LD datePublished 2026-10-29T03:45:40Z + BreadcrumbList present; ItemList 0 (duplicate-URL guard working); Product/Review schema 0; ref=saskoqug 30x; rel=sponsored 14x; "Visit merchant store" 10x; Affiliate disclosure 12x; hero composite live (vision-verified: all three products on warm cream plate, no distortion/broken images); 5/5 product thumbnails 200 via optimizer; /best AND /tech both list the Fanttik ArticleCard; /tech 200 (first article in that category); feed.xml contains Fanttik; robots.txt live Allow:/ (admin/api/go/search excluded); GA4/Ads consent-gated live (0 external google requests fresh visit, gtag stub only); 3 old published articles 200 with original publishedAt dates unchanged; 0 console errors, 0 overflow desktop+mobile (Playwright).
+- SITEMAP: still cached from pre-publish (ISR 3600s) — will include Fanttik within an hour of the next revalidation; robots already allows indexing; NOT a blocker. Owner may request /sitemap.xml recache check later.
+- ADMIN ACCOUNTS: production User table has ZERO admin accounts (emails: none). Supported recovery for a separate owner-authorized task: npm run admin:bootstrap -- --email <e> --password <12+ chars letters+digits> (refuses production unless ALLOW_ADMIN_BOOTSTRAP=true; run server-side with staged env, never commit a working .env). Nothing changed in this task.
+- ROLLBACK READY: revert = single updateMany back to status draft (same guarded WHERE with status published), or via /admin once the owner bootstraps access.
+- LOCAL: worktree clean (owner's 2 untracked files preserved); no commit for this task (DB-only change; no source change).
+- FINAL: FOUR published articles live. STOP — waiting for no further action; next article is a separate task.
