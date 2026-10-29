@@ -98,11 +98,19 @@ for (const [name, src] of Object.entries(merchantCallSites)) {
   check(`<MerchantOffer call site (${name}) threads isDemo`,
     /<MerchantOffer[^>]*\bisDemo=\{/.test(src));
 }
-// A pick with an offer CTA carries its own adjacent AffiliateDisclosure — guides and
-// editorials render ArticleRenderer without any page-level disclosure.
-check("pick with offer renders an adjacent AffiliateDisclosure",
-  /import \{ AffiliateDisclosure \} from "@\/components\/affiliate\/affiliate-link";/.test(renderer)
-  && /case "pick":[\s\S]*?\{offer && \(\s*\/\/ Self-contained disclosure[\s\S]*?<AffiliateDisclosure/.test(renderer));
+// A pick with any commercial CTA (offer row OR direct pick.url) carries its own adjacent
+// AffiliateDisclosure — guides and editorials render ArticleRenderer without any
+// page-level disclosure. Asserts behavior, not import ordering or JSX whitespace:
+// (a) AffiliateDisclosure is imported from the affiliate-link module,
+// (b) inside the "pick" case a disclosure condition references the pick's commercial
+//     state (offer or block.url), and
+// (c) <AffiliateDisclosure renders after that condition within the pick case.
+const affiliateLinkImported = /import\s*\{[^}]*AffiliateDisclosure[^}]*\}\s*from\s*"@\/components\/affiliate\/affiliate-link"/.test(renderer);
+const pickCase = renderer.match(/case "pick":[\s\S]*?break;/)?.[0] ?? "";
+const disclosureGuarded = /\(offer\s*\|\|\s*block\.url\)[\s\S]{0,400}?<AffiliateDisclosure/.test(pickCase);
+check("pick with any CTA renders an adjacent AffiliateDisclosure",
+  affiliateLinkImported && pickCase.length > 0 && disclosureGuarded,
+  `imported=${affiliateLinkImported} pickCase=${pickCase.length > 0} guarded=${disclosureGuarded}`);
 
 // --- Invariant 3: /deals production hygiene ----------------------------------
 check("/deals never exposes seed:demo to visitors",

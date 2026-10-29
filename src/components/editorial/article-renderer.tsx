@@ -5,7 +5,7 @@ import { parseAttributes, parseStringList } from "@/lib/comparison";
 import { InlineText } from "@/components/editorial/inline-text";
 import { ProsCons } from "@/components/editorial/pros-cons";
 import { MerchantOffer, type OfferView } from "@/components/affiliate/merchant-offer";
-import { AffiliateDisclosure } from "@/components/affiliate/affiliate-link";
+import { AffiliateDisclosure, DirectAffiliateButton, isReferralUrl } from "@/components/affiliate/affiliate-link";
 import { ComparisonTable } from "@/components/comparison-table";
 import { ComparisonOffer } from "@/components/affiliate/merchant-offer";
 import { ComparisonItemView, comparisonItemViewSchema } from "@/lib/comparison";
@@ -255,11 +255,11 @@ export async function ArticleRenderer({
               <div className="min-w-0 flex-1">
                 <p className="eyebrow text-muted-foreground">Pick № {block.rank}{block.badge ? ` · ${block.badge}` : ""}</p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-snug">
-                  {block.url ? (
-                    <Link href={block.url} className="hover:underline underline-offset-4">{block.name}</Link>
-                  ) : (
-                    block.name
-                  )}
+                  {/* When the pick URL is a shared storefront (not product-specific),
+                    keep the heading as ordinary text — the explicit CTA button below
+                    is the commercial action. A named link here would imply the
+                    click leads to this specific product. */}
+                  {block.name}
                 </h3>
               </div>
               {block.imageUrl && (
@@ -278,7 +278,7 @@ export async function ArticleRenderer({
               <p className="prose-body text-foreground/90">
                 <InlineText text={block.blurb} ctx={{ articleSlug }} />
               </p>
-              {offer && (
+              {offer ? (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <ComparisonOffer offer={offer} articleSlug={articleSlug} />
                   {offer.price ? <span className="font-medium text-foreground">{offer.price}</span> : null}
@@ -287,8 +287,20 @@ export async function ArticleRenderer({
                     <span className="text-xs font-medium uppercase tracking-wide text-ochre">sample data</span>
                   )}
                 </div>
+              ) : (
+                block.url && (
+                  // Direct merchant CTA: pick blocks may carry a merchant URL in the
+                  // block itself (schema `pick.url`) — e.g. a store front door with a
+                  // referral parameter, used before an AffiliateOffer row exists.
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <DirectAffiliateButton url={block.url}>Visit merchant store</DirectAffiliateButton>
+                    <span className="text-xs text-muted-foreground">
+                      Current store prices apply; they can change
+                    </span>
+                  </div>
+                )
               )}
-              {offer && (
+              {(offer || block.url) && (
                 // Self-contained disclosure: guides/editorials can render picks without a
                 // page-level AffiliateDisclosure, so a pick with a CTA carries its own.
                 <AffiliateDisclosure className="mt-3" />
@@ -336,7 +348,15 @@ export async function ArticleRenderer({
                 <li key={j} className="flex gap-3">
                   <span className="section-index mt-0.5 text-muted-foreground/70">[{j + 1}]</span>
                   {s.url ? (
-                    <a href={s.url} rel="noopener nofollow" target="_blank" className="underline underline-offset-2 hover:text-foreground">
+                    // A source URL carrying a referral parameter is also a commercial
+                    // link — mark it sponsored, not plain nofollow. Ordinary research
+                    // citations keep rel="nofollow noopener".
+                    <a
+                      href={s.url}
+                      rel={isReferralUrl(s.url) ? "sponsored noopener" : "noopener nofollow"}
+                      target="_blank"
+                      className="underline underline-offset-2 hover:text-foreground"
+                    >
                       {s.label}
                     </a>
                   ) : (

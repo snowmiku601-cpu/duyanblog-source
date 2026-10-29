@@ -149,7 +149,7 @@ export default async function HomePage() {
               <FeatureCard article={featured} priority />
             ) : (
               <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-                No stories published yet. Run <code className="rounded-sm bg-muted px-1.5 py-0.5">npm run seed:demo</code> to load the sample issue.
+                No stories published yet. Check back soon.
               </p>
             )}
           </Reveal>

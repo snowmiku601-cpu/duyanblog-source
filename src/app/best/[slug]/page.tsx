@@ -86,14 +86,20 @@ export default async function RoundupPage({ params }: Params) {
             { label: article.title, href: articlePath(article.type, article.slug) },
           ]),
           ...(picks.length > 0
-            ? [
-                itemListJsonLd(
-                  article.title,
-                  picks
-                    .filter((p) => p.type === "pick" && p.url)
-                    .map((p) => ({ name: (p as { name: string }).name, url: (p as { url: string }).url }))
-                ),
-              ]
+            ? (() => {
+                // ItemList entries must name distinct destinations: five picks all
+                // pointing at the same merchant front door (shared referral URL)
+                // would emit five ListItems with one URL, which misrepresents the
+                // list to crawlers. Skip the ItemList until pick URLs are
+                // product-specific; Article + BreadcrumbList are unaffected.
+                const items = picks
+                  .filter((p) => p.type === "pick" && p.url)
+                  .map((p) => ({ name: (p as { name: string }).name, url: (p as { url: string }).url }));
+                const distinct = new Set(items.map((i) => i.url));
+                return distinct.size === items.length && items.length > 0
+                  ? [itemListJsonLd(article.title, items)]
+                  : [];
+              })()
             : []),
         ]}
       />

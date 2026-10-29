@@ -73,8 +73,7 @@ export async function TypeIndex({ type }: { type: ArticleType }) {
           </div>
         ) : (
           <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-            Nothing published in this section yet. Run{" "}
-            <code className="rounded-sm bg-muted px-1.5 py-0.5">npm run seed:demo</code> to load the sample issue.
+            No {intro.title.toLowerCase()} published here yet. Check back soon.
           </p>
         )}
 

@@ -84,8 +84,7 @@ export default async function CategoryHub({ params }: Params) {
       <div className="mx-auto max-w-6xl px-4 py-12 lg:px-6">
         {articles.length === 0 ? (
           <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-            No stories in this section yet — the sample issue includes some. Run{" "}
-            <code className="rounded-sm bg-muted px-1.5 py-0.5">npm run seed:demo</code>.
+            No stories in this section yet. Check back soon.
           </p>
         ) : (
           <div className="space-y-12">
