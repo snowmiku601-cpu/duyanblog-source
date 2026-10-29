@@ -1400,3 +1400,9 @@ Agent: Claude Code (lead) — PHOMEMO LIVE: PR #20 merged (67ee407) → deployed
 - SERVER CLEANUP: task scripts + env staging files removed; server untracked = tmp/ pre-existing only.
 - FINAL DB STATE: SIX published articles (phomemo 13:54 → ottocast 08:34 → fanttik 03:45 → esim 10-07 → how-much 10-06 → saily 10-06).
 - VERDICT: A. TASK 59 COMPLETE — PHOMEMO LIVE, VERIFIED, TRACKED CLEAN, UNTRACKED PRESERVED. STOP.
+
+Task ID: 59 (supplement — sitemap observation)
+Agent: Claude Code (lead) — SITEMAP STALE BEHAVIOR RECORDED (production healthy otherwise).
+
+- SITEMAP: as of 14:40 UTC (46 min after publish), /sitemap.xml still serves the pre-publish baked body (3 newer articles incl. Ottocast; 0 Phomemo). Diagnosed: the Next route-cache entry (route-cache/APP_ROUTE/.../$/sitemap.xml.body, mtime 09:55 build-time, cache-last-modified 13:52, expire 14:24:48) does NOT regenerate on restart alone, and LiteSpeed serves the stale body with ~16-20ms TTFB (x-nextjs-cache: HIT). The ISR 3600s window expires 15:24-15:30 UTC; a monitor task is checking inclusion after that. This matches the documented "stale ISR, not an indexing failure" pattern from Tasks 55/57 — /best (ISR 300s) refreshed normally within its window. No action taken; no cache-purge endpoint created (per task rule).
+- Article itself is fully live and verified (200, all QA PASS) — the sitemap lag does not affect the publication.
