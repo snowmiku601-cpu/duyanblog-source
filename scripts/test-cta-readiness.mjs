@@ -101,8 +101,8 @@ for (const [name, src] of Object.entries(merchantCallSites)) {
 // A pick with an offer CTA carries its own adjacent AffiliateDisclosure — guides and
 // editorials render ArticleRenderer without any page-level disclosure.
 check("pick with offer renders an adjacent AffiliateDisclosure",
-  /import \{ AffiliateDisclosure \} from "@\/components\/affiliate\/affiliate-link";/.test(renderer)
-  && /case "pick":[\s\S]*?\{offer && \(\s*\/\/ Self-contained disclosure[\s\S]*?<AffiliateDisclosure/.test(renderer));
+  /import \{ AffiliateDisclosure, DirectAffiliateButton \} from "@\/components\/affiliate\/affiliate-link";/.test(renderer)
+  && /case "pick":[\s\S]*?\{(?:offer \|\| block\.url) && \(\s*\/\/ Self-contained disclosure[\s\S]*?<AffiliateDisclosure/.test(renderer));
 
 // --- Invariant 3: /deals production hygiene ----------------------------------
 check("/deals never exposes seed:demo to visitors",

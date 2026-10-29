@@ -62,6 +62,47 @@ export function AffiliateButton({
   );
 }
 
+/**
+ * Does this URL carry a referral/affiliate parameter? Used by the source-list
+ * and inline-text renderers so a citation that doubles as a commercial link is
+ * marked rel="sponsored" instead of plain "nofollow". Parameter-name based so
+ * the list can grow (ref, aff, tag, affil) without touching call sites.
+ */
+export function isReferralUrl(url: string): boolean {
+  try {
+    const params = new URL(url).searchParams;
+    return ["ref", "aff", "affiliate", "affil", "tag"].some((k) => params.has(k));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Direct merchant CTA for pick blocks that carry a merchant URL in the block
+ * itself (schema `pick.url`) instead of an AffiliateOffer row. Same marking
+ * contract as AffiliateButton: rel="sponsored", new tab, zero-consent plain
+ * anchor. No click logging — that is the /go route's job, which these picks
+ * deliberately bypass until the merchant's program is wired into the DB.
+ */
+export function DirectAffiliateButton({
+  url,
+  children,
+  className,
+}: {
+  url: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <Button size="sm" className={cn("group font-medium", className)} asChild>
+      <a href={url} rel="sponsored noopener" target="_blank">
+        {children}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+      </a>
+    </Button>
+  );
+}
+
 /** Disclosure shown wherever commerce appears — one click from every offer. */
 export function AffiliateDisclosure({
   variant = "inline",

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { isReferralUrl } from "@/components/affiliate/affiliate-link";
 
 /**
  * Tiny inline-text renderer for article copy.
  *
  * Supported syntax (validated in src/lib/content-schema.ts):
  *   **bold**   *italic*   `code`
- *   [label](https://external.example)   → external, nofollow + new tab
+ *   [label](https://external.example)   → external, nofollow + new tab (sponsored instead when the URL carries a referral parameter)
  *   [label](/some/internal/path)        → internal link
  *   [label](go:OFFER_ID)                → tracked affiliate link (rel="sponsored")
  *
@@ -51,8 +52,16 @@ function renderToken(token: string, ctx: InlineContext, key: number): ReactNode 
       );
     }
     if (href.startsWith("http")) {
+      // A referral-bearing external link is commercial — sponsored, not nofollow.
+      const sponsored = isReferralUrl(href);
       return (
-        <a key={key} href={href} rel="nofollow noopener" target="_blank" className="underline underline-offset-2 hover:decoration-primary">
+        <a
+          key={key}
+          href={href}
+          rel={sponsored ? "sponsored noopener" : "nofollow noopener"}
+          target="_blank"
+          className="underline underline-offset-2 hover:decoration-primary"
+        >
           {label}
           <span className="sr-only"> (opens in a new tab)</span>
         </a>

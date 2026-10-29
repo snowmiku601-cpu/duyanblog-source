@@ -10,6 +10,17 @@ const nextConfig: NextConfig = {
   experimental: {
     cpus: 2,
   },
+  images: {
+    // Fanttik product thumbnails (owner-approved hotlinking of the brand's own
+    // CDN for documented-research roundups; provenance recorded in the draft).
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "fanttik.com",
+        pathname: "/cdn/shop/files/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {

@@ -103,8 +103,8 @@ const POLICIES: Policy[] = [
       {
         heading: "What an affiliate link is",
         body: [
-          "An affiliate link sends you to a merchant through a tracked destination. If you buy something, the merchant pays us a commission — typically a small percentage. Commission arrangements and the price you pay are set by the merchant's affiliate program, so check the merchant's current price and terms before you buy.",
-          "On this site, affiliate links navigate through /go/[offer-id], which records an anonymous click (timestamp, and the Duyan Blog page the link sat on) and then forwards you to the merchant. We do not read or store your browser's Referer header and we never store your IP with click data. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
+          "An affiliate link sends you to a merchant in a way that can credit this site for the referral. If you buy something, the merchant may pay us a commission — typically a small percentage. Commission arrangements and the price you pay are set by the merchant's affiliate program, so check the merchant's current price and terms before you buy.",
+          "Affiliate links on this site take one of two paths. Most navigate through /go/[offer-id], which records an anonymous click (timestamp, and the Duyan Blog page the link sat on) and then forwards you to the merchant. Some go directly to the merchant's own store — these do not create a click record in our /go system; any referral attribution happens on the merchant's side, under its program's terms. We do not read or store your browser's Referer header and we never store your IP with click data. No consent is required for affiliate navigation to work — tracking and navigation are separate systems.",
         ],
       },
       {
