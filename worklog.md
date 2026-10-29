@@ -1406,3 +1406,10 @@ Agent: Claude Code (lead) — SITEMAP STALE BEHAVIOR RECORDED (production health
 
 - SITEMAP: as of 14:40 UTC (46 min after publish), /sitemap.xml still serves the pre-publish baked body (3 newer articles incl. Ottocast; 0 Phomemo). Diagnosed: the Next route-cache entry (route-cache/APP_ROUTE/.../$/sitemap.xml.body, mtime 09:55 build-time, cache-last-modified 13:52, expire 14:24:48) does NOT regenerate on restart alone, and LiteSpeed serves the stale body with ~16-20ms TTFB (x-nextjs-cache: HIT). The ISR 3600s window expires 15:24-15:30 UTC; a monitor task is checking inclusion after that. This matches the documented "stale ISR, not an indexing failure" pattern from Tasks 55/57 — /best (ISR 300s) refreshed normally within its window. No action taken; no cache-purge endpoint created (per task rule).
 - Article itself is fully live and verified (200, all QA PASS) — the sitemap lag does not affect the publication.
+
+Task ID: 59 (supplement 2 — sitemap inclusion CONFIRMED)
+Agent: Claude Code (lead) — SITEMAP NOW INCLUDES PHOMEMO (14:53 UTC).
+
+- /sitemap.xml regenerated at its ISR window (initialRevalidateSeconds: 3600 from the 13:52 build; regenerate triggered by the first request past ~14:52) and now lists all SIX published articles: best-phomemo-printers, best-ottocast-carplay-upgrades, best-fanttik-tools, best-esim-for-europe, how-much-esim-data-do-i-need, saily-vs-airalo. Observed directly, as the brief required — not assumed.
+- Mechanism note for future rounds: a static-compute ISR route (sitemap, robots) regenerates only on a request that reaches next-server AFTER the revalidate window expires; restarts do not force it, and LiteSpeed's cached copy masks origin until a fresh request lands past expiry (~1 h from build). The /best index (ISR 300s) refreshes well within its own window; the sitemap simply needs up to ~1 h + one uncached request after publish.
+- All Task 59 items now fully closed. Tracked clean; untracked preserved.
