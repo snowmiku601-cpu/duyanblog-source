@@ -61,7 +61,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Two exclusions Ottocast publishes across its product pages: Sony aftermarket head units are not compatible, and Mitsubishi vehicles need a note at checkout or an email to support before ordering. Ottocast's compatibility guidance targets 2016-or-newer vehicles, and every product page carries a brand/model/year lookup. Check your specific car there before ordering, because the published lists are long but not exhaustive."
+      "text": "Two exclusions Ottocast publishes on its wired-adapter and AI Box pages: Sony aftermarket head units are not compatible, and Mitsubishi vehicles need a note at checkout or an email to support before ordering. The 2016-or-newer vehicle guidance and the brand/model/year lookup belong to those same wired-system pages — the standalone Ottoscreen AI's page carries neither the exclusions nor the 2016+ rule, and its FAQ says it is designed for any car. Check the page for your exact product before ordering, because the published lists are long but not exhaustive."
     },
     {
       "type": "heading",
@@ -208,7 +208,7 @@
         },
         {
           "q": "Will an Ottocast device work in my car?",
-          "a": "Per Ottocast's own guidance, the starting test is to plug a phone into the car's USB data port with a cable: if CarPlay appears for an iPhone, or Android Auto for an Android phone, the adapter that matches that system applies. The test is a starting point, not the whole answer: the 2016-or-newer rule, phone OS versions, and the Sony and Mitsubishi exclusions still apply. Android Auto-only cars are accepted by the Mini NOVA and P3 Pro but not the Play2Video Ultra. Cars with factory wireless CarPlay (some BMW models among others) need the OttoAibox i3 instead, and cars with no CarPlay or Android Auto need the standalone Ottoscreen AI display. The Sony and Mitsubishi exclusions come from Ottocast's wired-adapter and AI Box pages; the Ottoscreen AI page lists neither, and its FAQ says it is designed for any car."
+          "a": "Per Ottocast's own guidance, the starting test is to plug a phone into the car's USB data port with a cable: if CarPlay appears for an iPhone, or Android Auto for an Android phone, the adapter that matches that system applies. The test is a starting point, not the whole answer: on the wired-adapter and AI Box pages, the 2016-or-newer rule, phone OS versions, and the Sony and Mitsubishi exclusions each apply to the specific product you select — check that product's page. Android Auto-only cars are accepted by the Mini NOVA and P3 Pro but not the Play2Video Ultra. Cars with factory wireless CarPlay (some BMW models among others) need the OttoAibox i3 instead, and cars with no CarPlay or Android Auto need the standalone Ottoscreen AI display. The Sony and Mitsubishi exclusions come from Ottocast's wired-adapter and AI Box pages; the Ottoscreen AI page lists neither, and its FAQ says it is designed for any car."
         },
         {
           "q": "Are the prices on this page final?",

@@ -232,6 +232,19 @@ check(
     /Video on its screen is a passenger and parked-car feature/i.test(blockText),
 );
 
+// 21 — Task 57 micro-fix regressions: no broad compatibility claims.
+check(
+  "no broad 'across its product pages' exclusion claims (Task 57-A)",
+  !/exclusions Ottocast publishes across its product pages/i.test(blockText) &&
+    !/every product page carries a brand\/model\/year lookup/i.test(blockText) &&
+    /on its wired-adapter and AI Box pages/.test(blockText),
+);
+check(
+  "no unqualified 'still apply' compatibility rule in FAQ (Task 57-B)",
+  !/exclusions still apply/i.test(blockText) &&
+    /each apply to the specific product you select/.test(blockText),
+);
+
 // 20 — Task 56.2 audit regressions (i3 memory attribution, price-ranking brittleness, exclusion scope).
 check(
   "i3 8GB/128GB attributed to Ottocast's FAQ, not asserted universally",
