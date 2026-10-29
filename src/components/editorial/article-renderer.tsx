@@ -293,9 +293,9 @@ export async function ArticleRenderer({
                   // block itself (schema `pick.url`) — e.g. a store front door with a
                   // referral parameter, used before an AffiliateOffer row exists.
                   <div className="mt-4 flex flex-wrap items-center gap-3">
-                    <DirectAffiliateButton url={block.url}>Shop Fanttik</DirectAffiliateButton>
+                    <DirectAffiliateButton url={block.url}>Visit merchant store</DirectAffiliateButton>
                     <span className="text-xs text-muted-foreground">
-                      List price on the product page; prices can change
+                      Current store prices apply; they can change
                     </span>
                   </div>
                 )

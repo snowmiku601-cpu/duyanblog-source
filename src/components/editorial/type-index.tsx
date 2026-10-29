@@ -73,7 +73,7 @@ export async function TypeIndex({ type }: { type: ArticleType }) {
           </div>
         ) : (
           <p className="rounded-md border border-dashed border-border p-8 text-sm text-muted-foreground">
-            No picks published here yet. Check back soon.
+            No {intro.title.toLowerCase()} published here yet. Check back soon.
           </p>
         )}
 
