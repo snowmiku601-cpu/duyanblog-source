@@ -1384,3 +1384,19 @@ Agent: Claude Code (lead) — PHOMEMO FACT PATCH pushed to PR #20 (nothing merge
 - GATES (all exit 0): Phomemo 56/56; Fanttik 40/40; Ottocast 52/52; CTA 27/27; launch 38/38; consent 41/41; lint 0; typecheck 0; validate:docs PASS; slop 0; diff --check clean; roundtrip 29/29; local parity 15/15 TRUE (synced after edits).
 - FILE RESTRICTION: all artifacts inside E:\duyanblog-source (backups tmp/task58/backups/pre-582-ledger.md).
 - PR #20: head cb735f6 → new commit pushed same branch; base b7cf224 unchanged.
+
+Task ID: 59
+Agent: Claude Code (lead) — PHOMEMO LIVE: PR #20 merged (67ee407) → deployed (BUILD_ID FuwGAg-BEM8lpXlXVnSBY) → production draft imported (16/16 parity) → PUBLISHED @ 2026-10-29T13:54:16.921Z → live QA PASS. SIX published articles.
+
+- SHIPPING PREFLIGHT: 3–15 business days CONFIRMED TWICE — the Task 58.2 repo-local re-fetch (tmp/task58/downloads/shipping-policy-recheck.html) and a fresh Task 59 live refetch (shipping-policy-t59.html) both read verbatim "Delivery generally takes 3–15 business days after dispatch", processing 1–3. The 6–15 figure matches neither the current main-store page nor our draft (older cache or eu.phomemo.com). Copy retained unchanged; no patch needed.
+- UNTRACKED PRESERVATION: pre-inventory 51 files (2 user + 49 task artifacts); user files sha1-verified unchanged after all operations; no stash/reset/clean/add -A anywhere; explicit-path staging only.
+- GATES (all exit 0): Phomemo 56/56; Fanttik 40/40; Ottocast 52/52; CTA 27/27; launch 38/38; consent 41/41; lint 0; typecheck 0; validate:docs PASS; slop 0; diff --check clean; roundtrip 29/29; local parity 15/15 TRUE.
+- MERGE: PR #20 merge-commit 67ee407 (base b7cf224, head 0554bd0, state MERGED). Local main ff to 67ee407; tracked clean.
+- DEPLOY: checkout --detach 67ee407 (tracked clean); env re-staged via set_env_vars.py (6 vars, 600-perm, never printed — the T57 staging file had been cleaned, recreated fresh); rm -rf .next + full build → BUILD-EXIT=0, BUILD_ID FuwGAg-BEM8lpXlXVnSBY; robots.txt.body "Allow: /" + GA4 G-VLEMSKERCD baked verified; hero asset in standalone/public. Restart via tmp/restart.txt; next-server up 09:52 UTC.
+- PROD IMPORT: guarded — refuses non-proof2 DB, refuses existing slug, roundtrip 29/29; 1 Article + 4 tag links (author duyan, category tech resolved); NO Merchant/AffiliateOffer/AffiliateClick rows. Row id cmvtlt5li0005bjbyex18wtnp. Parity 16/16 TRUE. Draft invisible pre-publish (404, 0 mentions).
+- PUBLISH: guarded updateMany (id+slug+status=draft+publishedAt IS NULL) → exactly 1 row; published @ 2026-10-29T13:54:16.921Z; revalidation via restart; article 200 immediately.
+- LIVE QA: title/canonical exact; Article JSON-LD 1 + BreadcrumbList 2; ItemList 0 (duplicate-destination guard); aggregateRating 0; ref=yrqzcctj 30× (0 wrong-case); sponsored 14×; "Visit merchant store" 10×; Playwright: 5 CTAs all href==https://phomemo.com/?ref=yrqzcctj + sponsored; Affiliate disclosure 12×; 5/5 thumbs + hero 200 via optimizer; 6/6 images loaded, 0 broken; 0 console errors; 0 overflow 1280+375; vision PASS (desktop full-page + mobile hero, native-res mobile capture confirmed hero + credit legible). /best + /tech + homepage list the Phomemo card (after restart-assisted ISR refresh); feed.xml has Phomemo (13:54:16 pubDate) + all 5 older articles with original dates; robots Allow:/; GSC file 200; error log + home_error log EMPTY.
+- SITEMAP: still baked pre-publish (ISR 3600s) — will include Phomemo at its next revalidation window; stale ISR, not an indexing failure (same documented behavior as Tasks 55/57).
+- SERVER CLEANUP: task scripts + env staging files removed; server untracked = tmp/ pre-existing only.
+- FINAL DB STATE: SIX published articles (phomemo 13:54 → ottocast 08:34 → fanttik 03:45 → esim 10-07 → how-much 10-06 → saily 10-06).
+- VERDICT: A. TASK 59 COMPLETE — PHOMEMO LIVE, VERIFIED, TRACKED CLEAN, UNTRACKED PRESERVED. STOP.
