@@ -1,0 +1,441 @@
+{
+  "type": "guide",
+  "slug": "how-to-choose-aosu-security-cameras",
+  "title": "How to choose an aosu security camera: power and storage",
+  "deck": "Choose an aosu security camera by power, storage and Wi-Fi needs, then compare five configurations with USD prices checked November 26, 2026.",
+  "tldr": "Choose the location's power first, the recording destination second and the network requirements third. A hub-included solar kit, one single solar camera, a battery doorbell, a wired floodlight and a plug-in indoor camera solve different jobs. Check the exact variant and any card, hub or installation cost. Optional cloud plans are separate from local recording.",
+  "categoryId": "tech",
+  "status": "draft",
+  "publishedAt": null,
+  "lastReviewedAt": "2026-11-26T00:00:00.000Z",
+  "isDemo": false,
+  "authorSlug": "duyan",
+  "authorByline": "Duy An Tran",
+  "heroImage": "/images/articles/how-to-choose-aosu-security-cameras/hero-aosu-composite.jpg",
+  "heroAlt": "aosu Video Doorbell Pro, Floodlight Cam Pro and IndoorCam P1 Pro on a warm paper background",
+  "heroCredit": "Official aosu product photography; composite by Duyan Blog.",
+  "readingMinutes": 22,
+  "tags": [
+    "aosu",
+    "Security cameras",
+    "Local storage",
+    "Smart home"
+  ],
+  "blocks": [
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "How we put this together — and what we did not do",
+      "text": "This is documented research from aosu's official product pages, variant data and policies checked November 26, 2026, not a hands-on review. Duyan did not test motion detection latency, night-vision clarity, Wi-Fi range, battery winter drain or weather sealing. Buy buttons and official source links carry our referral code; purchases may earn us a commission. Prices and stock can change. Our [methodology](/methodology) explains the evidence standard. These cameras are not a guarantee against crime or a substitute for emergency services."
+    },
+    {
+      "type": "paragraph",
+      "text": "To choose an aosu security camera, start at the mounting point, not the resolution badge. A sunny side gate, a front door, an existing outdoor light and a shelf beside an outlet impose different requirements. A camera that fits one may leave you buying a hub, a memory card or electrical work for another. This guide separates those costs before comparing five configurations."
+    },
+    {
+      "type": "paragraph",
+      "text": "Cover image: Video Doorbell Pro, Floodlight Cam Pro and IndoorCam P1 Pro, arranged from official aosu photographs under owner-reported authorization. This is a composite, not our product shoot, a bundle or a scale comparison. Neither solar pick is pictured."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The short version"
+    },
+    {
+      "type": "paragraph",
+      "text": "For several outdoor approaches, consider the **SolarCam System 2-Cam Kit with New aosuBase**, which includes centralized local storage. For one sunlit outbuilding approach, **SolarCam P1 Max** documents camera-side microSD storage; confirm the C8S connection requirements before buying it for standalone use. **Video Doorbell Pro** handles visitor calls using a built-in battery and included aosuBase Mini. **Floodlight Cam Pro** suits a powered outdoor-light position; budget for mains wiring. **IndoorCam P1 Pro** suits a shared room near an outlet. These are five different jobs, not a measured performance ranking."
+    },
+    {
+      "type": "paragraph",
+      "text": "Price the camera together with its recording setup. Local storage can avoid a required cloud-recording subscription, but it still needs the right hub or card. Optional aosuProtect+ cloud plans save detected events, not continuous video. Do not assume a single-camera listing includes a hub, every model accepts 5GHz Wi-Fi, or a rotating lens records all directions at once."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Choose power, storage and network in that order"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1. Match the power source to the location"
+    },
+    {
+      "type": "paragraph",
+      "text": "**Solar and battery:** use these where you want to avoid a mains cable and can give the panel direct sunlight. P1 Max's official gallery says two hours of direct sunlight can sustain a day of use; that is a manufacturer claim, not our winter test. The selected SolarCam kit uses separate panels, which allow panel placement apart from the lens. Its checked evidence does not establish a numeric sunlight-hours requirement or panel wattage. Ask for those specifications rather than borrowing P1 Max's figure."
+    },
+    {
+      "type": "paragraph",
+      "text": "**Hardwired outdoor power:** Floodlight Cam Pro is a wired fixture. The maker's installation guidance discusses an existing light circuit and junction box, or new cable and a weather-rated box for a new position. Treat this as a mains AC installation to assess with a qualified electrician, not a battery mount. **Plug-in indoor power:** P1 Pro needs an outlet and its power supply. **Doorbell power:** the Pro pick below is battery-powered; existing chime wires do not establish compatibility with it."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2. Choose where recordings will live"
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Included hub:** the selected New aosuBase kit specifies 32GB built in, expandable to 1TB using a separately sold microSD card. This is the kit's hub, not a universal storage specification for every aosuBase generation or aosuCortex.",
+        "**Camera-side card:** P1 Max lists microSD up to 128GB. IndoorCam P1 Pro's official storage graphic specifies 8–128GB, A1, Class 10, not included. Budget for a card; P1 Max's checked text does not establish that one is supplied.",
+        "**Doorbell base:** Video Doorbell Pro includes aosuBase Mini; its table lists SD storage up to 128GB there, with the card not included. Mini is not the same product as the New aosuBase in the perimeter kit.",
+        "**Optional cloud:** aosuProtect+ is a recurring subscription for event recordings and extra features. Choose it deliberately after checking the plan, compatible features, retention and renewal terms in the app. Local storage does not mean every cloud feature is included."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "3. Check the exact network and hub requirements"
+    },
+    {
+      "type": "paragraph",
+      "text": "IndoorCam P1 Pro explicitly lists both 2.4GHz and 5GHz Wi-Fi. Video Doorbell Pro's comparison table specifies 2.4GHz, while other official bundle copy mentions 2.4/5GHz. Use 2.4GHz as the conservative planning requirement and confirm the selected hardware before relying on 5GHz. We could not verify exact Wi-Fi bands for the selected SolarCam kit, P1 Max or Floodlight Cam Pro from the checked model-specific evidence. That is a purchase question, not permission to assume dual-band support."
+    },
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "The single-camera add-on trap",
+      "text": "SolarCam D1 Max's single variant is named **1-Cam(aosuBase not included)**. That proves the hub is not supplied, not that a particular existing hub will work. Its gallery also advertises camera-side microSD storage, while a newer D1 Max kit describes a private aosuBase Wi-Fi network. The checked evidence does not settle whether that exact single SKU requires a hub or supports standalone use. Ask aosu to confirm the SKU, hub generation and recording route before buying it as an add-on. P1 Max below is a separate single-camera option with documented microSD storage, but its hub-free connection requirements also need confirmation."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Before-you-buy checklist"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "Name one job per position: perimeter approaches, one outbuilding entrance, visitor calls, floodlighting or indoor activity. Do not buy a kit just to fill camera count.",
+        "Check sunlight at the panel position, or identify the outlet/circuit and installation work. For a wired doorbell alternative, confirm the exact transformer and chime requirements in its manual; those are not established for this battery Pro pick.",
+        "Write down the exact variant, included hub and storage location. Add a compatible card where needed, and confirm whether local recording is event-based or continuous.",
+        "Ask support for any unresolved Wi-Fi band, hub-pairing or power specification before payment. Check the return terms before drilling or altering packaging.",
+        "Confirm the destination, USD checkout total and any optional subscription. Our [practical buying guides](/guides) use the same approach: settle prerequisites before comparing features."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Five configurations for five different jobs"
+    },
+    {
+      "type": "paragraph",
+      "text": "Each selected variant had available=true in the saved Shopify data, a matching displayed USD amount and enabled Add to cart controls on November 26, 2026. Hidden sold-out badge templates and unrelated recommendation cards are not stock evidence. The captures display USD, but their country selector shows Vietnam; these are dated store observations, not a completed US checkout or reserved inventory. Select your shipping country and confirm the exact configuration after opening the storefront."
+    },
+    {
+      "type": "pick",
+      "rank": 1,
+      "name": "aosu SolarCam System with New aosuBase — 2-Cam Kit",
+      "badge": "For a multi-camera solar perimeter",
+      "blurb": "Choose the 2-Cam Kit, SKU C7L-2H, for separate outdoor approaches sharing one included New aosuBase. Its displayed store price was $129.99 USD on November 26, 2026, with stock available in the saved variant data. The page specifies 2K QHD cameras, separate solar panels, 32GB hub storage expandable to 1TB with a separately sold microSD card, and support for six cameras. It names Alexa and Google Assistant. The trade-off is a hub to power and find space for, plus panel placement at each camera. The page says recording to aosuBase continues during Wi-Fi outages; that does not prove remote alerts work without internet. Exact router band, hub uplink method, panel wattage and sunlight-hours threshold were not verified. Confirm them and exact add-on compatibility before expanding; this is not the D1 Max or aosuCortex kit.",
+      "imageUrl": "https://www.aosulife.com/cdn/shop/files/C7L.png?v=1787714762&width=240",
+      "url": "https://www.aosulife.com/?ref=NGUYENTHIDUYAN"
+    },
+    {
+      "type": "pick",
+      "rank": 2,
+      "name": "aosu SolarCam P1 Max",
+      "badge": "For one single-camera sunlit outbuilding approach",
+      "blurb": "Consider the single P1 Max, SKU C8S, for one outdoor view with camera-side storage, subject to connection confirmation. Its displayed store price was $99.99 USD on November 26, 2026, with stock available in the saved variant data. The product page documents 4K video, an integrated solar panel, microSD up to 128GB or optional cloud storage, and Alexa/Google Assistant. Its gallery claims two hours of direct sunlight can sustain a day; we did not verify that in shade, winter or frequent activity. The checked page describes app setup and camera-side storage but does not explicitly settle hub-free operation. Confirm direct-to-router use for C8S before buying it as a standalone camera. The trade-off is positioning the integrated panel and camera together. A card's inclusion and the exact Wi-Fi band were not verified; confirm both before ordering. Do not transfer aosuCortex-bundle features to this single-camera SKU.",
+      "imageUrl": "https://www.aosulife.com/cdn/shop/files/SolarCamP1Max.png?v=1757680855&width=240",
+      "url": "https://www.aosulife.com/?ref=NGUYENTHIDUYAN"
+    },
+    {
+      "type": "pick",
+      "rank": 3,
+      "name": "aosu Video Doorbell Pro",
+      "badge": "For battery-powered front-door visitor calls",
+      "blurb": "Choose Video Doorbell Pro, SKU V8P, for seeing and speaking to visitors rather than covering the whole perimeter. Its displayed store price was $95.99 USD on November 26, 2026, with stock available in the saved variant data. The page lists 2K video, a 166° viewing-angle headline, a built-in battery and included aosuBase Mini. Its comparison gives 133° horizontal and 103° vertical with a 4:3 aspect ratio; these are different angle labels, not interchangeable measurements. SD storage up to 128GB is on the Mini, with the card not included. Alexa and Google Assistant are listed. The trade-off is battery recharging and finding space for the included Mini; confirm its power and placement instructions. The table says 2.4GHz; other official copy mentions dual-band, so confirm before relying on 5GHz. Existing wired-chime operation, transformer limits and a separate chime's inclusion were not verified. We do not promise the advertised 180-day battery life.",
+      "imageUrl": "https://www.aosulife.com/cdn/shop/files/v8p_b200bc42-ac04-4607-aa94-e2a76f9871b9.png?v=1783057101&width=240",
+      "url": "https://www.aosulife.com/?ref=NGUYENTHIDUYAN"
+    },
+    {
+      "type": "pick",
+      "rank": 4,
+      "name": "aosu Floodlight Cam Pro",
+      "badge": "For a mains-wired driveway light position",
+      "blurb": "Choose the Floodlight Cam Pro-only variant, SKU L5P, for a driveway light position with a suitable mains supply. Its displayed store price was $159.99 USD on November 26, 2026, with stock available in the saved variant data. aosu lists 5MP video, two adjustable lamps with brightness from 0 to 2,600 lumens, 360° pan/tilt coverage and three PIR sensors covering 270° of detection. That sensor figure is not a simultaneous 270° camera image. The maker documents continuous local microSD recording without a subscription, local human/pet/vehicle detection, a siren and optional paid cloud recording. The trade-off is hardwired installation and a compatible card, with electrical work potentially adding cost. Exact AC voltage, Wi-Fi band, maximum card capacity and siren loudness were not verified. Have the installer confirm the US model's instructions and junction-box fit; do not treat it as a plug-in or solar fixture.",
+      "imageUrl": "https://www.aosulife.com/cdn/shop/files/FloodlightCamPro.png?v=1768548879&width=240",
+      "url": "https://www.aosulife.com/?ref=NGUYENTHIDUYAN"
+    },
+    {
+      "type": "pick",
+      "rank": 5,
+      "name": "aosu IndoorCam P1 Pro",
+      "badge": "For plug-in shared-room activity monitoring",
+      "blurb": "Choose IndoorCam P1 Pro, SKU C2P, for indoor activity near an outlet, not an outdoor position. Its displayed store price was $49.99 USD on November 26, 2026, with stock available in the saved variant data. aosu specifies 4MP video, pan/tilt with a 360° round-look preset, both 2.4GHz and 5GHz Wi-Fi, one-touch calls and Privacy Mode. Its storage graphic lists a separately purchased 8–128GB microSD card, A1, Class 10. The maker's indoor guide says to keep it plugged in and enable 24/7 local recording; aosuProtect+ is the optional event-cloud alternative. Alexa and Google Assistant appear in the official feature graphic. The trade-off is a power lead and a camera whose lens sees only the direction it faces. Numeric tilt travel and adapter input/output ratings were not verified; do not read 360° as an all-room simultaneous recording or an outdoor weather rating.",
+      "imageUrl": "https://www.aosulife.com/cdn/shop/files/C2P_f7323620-ba09-4465-8b23-6ba1de1b1389.png?v=1786001288&width=240",
+      "url": "https://www.aosulife.com/?ref=NGUYENTHIDUYAN"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Compare the complete configurations"
+    },
+    {
+      "type": "table",
+      "caption": "Selected variants and displayed USD prices checked November 26, 2026; all available in saved data. Cards, electrical work and optional plans can add cost. Prices and stock can change.",
+      "head": [
+        "Configuration",
+        "Distinct job",
+        "Power",
+        "Local storage / network check",
+        "Displayed USD price"
+      ],
+      "rows": [
+        [
+          "SolarCam System, C7L-2H",
+          "Multi-camera perimeter",
+          "Battery + separate solar panels; powered hub",
+          "New aosuBase: 32GB to 1TB; confirm band/uplink",
+          "$129.99"
+        ],
+        [
+          "SolarCam P1 Max, C8S",
+          "One sunlit outbuilding approach",
+          "Battery + integrated solar",
+          "Camera microSD up to 128GB; confirm hub-free use/band",
+          "$99.99"
+        ],
+        [
+          "Video Doorbell Pro, V8P",
+          "Front-door visitor calls",
+          "Built-in battery; included Mini",
+          "Mini SD up to 128GB, not included; plan for 2.4GHz",
+          "$95.99"
+        ],
+        [
+          "Floodlight Cam Pro, L5P",
+          "Driveway illumination",
+          "Hardwired mains; installer check",
+          "microSD continuous recording; confirm capacity/band",
+          "$159.99"
+        ],
+        [
+          "IndoorCam P1 Pro, C2P",
+          "Shared-room activity",
+          "Plug-in indoor supply",
+          "8–128GB A1/Class 10 microSD, not included; 2.4/5GHz",
+          "$49.99"
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Power: sunlight claims are not a winter runtime"
+    },
+    {
+      "type": "paragraph",
+      "text": "P1 Max's integrated panel makes the mounting decision a compromise between the view and the sun. The C7L kit's separate panels offer more placement freedom. Neither arrangement establishes year-round battery independence at your address. We found no numeric panel wattage or C7L sunlight threshold in the checked evidence. The separate D1 Max kit adds its own conditions: a few hours of sun, based on 50 events per day at 20 seconds each, with solar charging stopping below -5°C (23°F). Those are that kit's conditions, not specifications to copy onto the C7L or P1 Max."
+    },
+    {
+      "type": "paragraph",
+      "text": "For a shaded wall, price a powered installation before assuming solar is cheaper. Floodlight Cam Pro's two lamp heads and adjustable output address illumination, but lumens do not prove identification of a moving face or plate. For indoors, keep P1 Pro's power lead out of the route people use. If that room is also your workplace, settle the desk arrangement before choosing a camera position; our [ProtoArc home-office guide](/best/best-protoarc-ergonomic-gear) covers keyboard, pointing-device and chair fit. Ask for exact electrical ratings if replacing a supply or using the product outside its intended market. We have not measured energy use or outage endurance for any pick."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Storage: local recording and cloud plans are different purchases"
+    },
+    {
+      "type": "paragraph",
+      "text": "New aosuBase's 32GB is capacity, not a verified number of days. How far back footage remains depends on recording settings, activity, camera count and usable storage. Its 1TB expansion requires a separately sold card. P1 Max stores on its own microSD; the doorbell stores on the included Mini. Do not assume those cameras, bases and cards form one interchangeable system. The separate aosuCortex bundles are different configurations; their capacities and pairing matrix were not established for these five picks."
+    },
+    {
+      "type": "paragraph",
+      "text": "For continuous local video, the maker explicitly documents Floodlight Cam Pro and IndoorCam P1 Pro with a compatible microSD and the appropriate recording setting. That does not extend continuous recording to the battery/solar picks. A camera can offer live viewing or event clips without saving the empty intervals. Before relying on a new setup, check storage recognition, play back a quiet interval between two events, and export a sample clip. This is a suggested owner check, not a test Duyan performed."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "What the published aosuProtect+ page says"
+    },
+    {
+      "type": "paragraph",
+      "text": "The cloud page displays Standard at $0.00/month with live mode and no event recordings, Basic at $4.99/month, and Basic + Face ID at $8.99/month labeled for video doorbells only. Treat those as published plan labels, not a quote for every camera or an entire household: the checked page does not clearly settle device allowance, all feature entitlements or the price for each retention option. Confirm your selected device and total in the app. The $0 cloud tier is not a statement that local card recording is unavailable."
+    },
+    {
+      "type": "paragraph",
+      "text": "The same page advertises 30-day unlimited event videos, while its FAQ describes 14-day or 30-day event-loop plans. It explicitly says the cloud service does not record continuously. Its feature section includes facial recognition, AI event organization and model-limited detections. Do not assume those extras are available locally on every camera: Floodlight Cam Pro separately documents local human, pet and vehicle detection, whereas other feature/plan combinations need confirmation. Cloud encryption and AWS statements are aosu's descriptions, not an independent security audit."
+    },
+    {
+      "type": "paragraph",
+      "text": "The cloud FAQ describes a 30-day trial requiring payment authorization, followed by charges; cancellation prevents the next billing cycle while the current prepaid period continues. Monthly and yearly subscriptions are recurring, not a one-time purchase. The Terms of Use also state automatic renewal and trial conversion unless canceled. Export important recordings before canceling or unlinking a device: the cloud FAQ describes deletion on the 14/30-day loop, but the Terms warn that access may be restricted immediately after expiration, cancellation, unlinking or account deletion. We do not promise post-cancellation access."
+    },
+    {
+      "type": "paragraph",
+      "text": "Local storage is not the same as no data leaving the property. The Privacy Policy says captured video/audio are not uploaded to the cloud unless cloud storage is enabled, but separately says event-preview thumbnails are uploaded to cloud infrastructure for notifications and app previews. It also describes account, device and operational data collection. Read those distinctions before enabling shared access or cloud features. We have not audited encryption, app traffic or access controls."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Wi-Fi, hubs and smart-home compatibility traps"
+    },
+    {
+      "type": "paragraph",
+      "text": "A hub's connection to your router and a camera's connection to its hub are separate questions. The newer D1 Max kit explicitly describes a private aosuBase Wi-Fi signal for up to six cameras, but that does not establish the C7L hub's uplink method or router band. Likewise, a capacity claim for six cameras does not prove support for every aosu camera or every hub generation. Obtain the pairing matrix for the exact SKU; a matching brand name is not enough."
+    },
+    {
+      "type": "paragraph",
+      "text": "Alexa and Google Assistant are named for the SolarCam System, P1 Max and Video Doorbell Pro. Floodlight and IndoorCam official feature material also names those platforms. We did not verify Apple HomeKit support for any pick, so do not buy for that integration without explicit confirmation. Smart-display compatibility does not establish local-only operation, every voice command or a shared archive across platforms. A 5GHz Wi-Fi label refers to a home-network band, not cellular 5G."
+    },
+    {
+      "type": "paragraph",
+      "text": "If you plan to check cameras while traveling, the home connection and your phone connection are separate dependencies. Our guide to [planning travel data](/guides/how-much-esim-data-do-i-need) covers the phone-side budget. We have not measured aosu camera-stream bitrates, so do not treat that guide's video-call figures as camera consumption."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How we chose and what remains unknown"
+    },
+    {
+      "type": "paragraph",
+      "text": "We screened the supplied cache of 22 available listings, then reconciled the selected five exact variants with displayed USD prices and enabled purchase controls. Each has a different purchasing job. We preferred the C7L kit with its included storage over presenting a hub-less add-on as a starter system. P1 Max documents camera-side storage for the single-view job, but we still require confirmation of its hub-free connection requirements. D1 Max's single listing has a separate unresolved hub warning. No customer rating became a Duyan score."
+    },
+    {
+      "type": "paragraph",
+      "text": "Important gaps remain: three picks' exact Wi-Fi bands, the C7L hub uplink, some card-inclusion details, Floodlight voltage/card capacity/siren output, doorbell wired-chime compatibility and IndoorCam tilt travel. These are explicit conditions to resolve before purchasing, not hidden negative specifications. We did not test alert speed, false alarms, night detail, weather resistance or winter runtime. The Terms of Use themselves warn that alerts can be delayed or missed and that AI features are not a basis for emergency or life-safety decisions."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Shipping, returns and warranty: read past the badges"
+    },
+    {
+      "type": "paragraph",
+      "text": "The shipping policy says order processing starts within 1–2 business days and lists US transit at 2–5 business days. These are separate stages, not a guaranteed arrival date. It names free shipping to the US, Canada, Germany, France, Italy and the UK, and says PO boxes are unsupported. Its transit table also lists Poland, Spain and Japan without reconciling the shorter destination list. Confirm service and the delivered total for your address rather than treating a country selector as delivery approval."
+    },
+    {
+      "type": "paragraph",
+      "text": "For direct-store change-of-mind returns, the policy gives 30 days after receipt, requires permission and original packaging/contents in unused, unmarked condition, and says return shipping is not covered. Quality-related exceptions can relax the condition requirement. Product badges say 30-Day Free Return, which conflicts with that buyer-paid-return wording. Ask for the cost and authorization before ordering or installing. After receipt, inspection and approval, the policy allows 3–5 business days for a refund to the original payment method. Other retailers handle their own returns."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Warranty Policy states a 12-month limited commercial warranty from original purchase for eligible official-channel products, and 24 months for EEA consumers. Product banners instead advertise a 2-Year Warranty (Black Friday Special). The policy acknowledges separately expressed promises, but the checked evidence does not settle eligibility or conditions for that promotion. Save the applicable terms and ask aosu to confirm your order's coverage; do not treat the banner or the default term as the whole answer."
+    },
+    {
+      "type": "paragraph",
+      "text": "Covered warranty claims need purchase proof, serial number and evidence of the issue. The policy provides a prepaid label and necessary shipping for covered inspection/replacement; that is different from a change-of-mind return. It excludes, among other things, improper installation, use beyond specified conditions, unauthorized modification and normal battery-capacity reduction. Normal battery aging is not the same as a battery manufacturing defect. This guide summarizes the merchant's terms, not your statutory rights or electrical/recording-law requirements."
+    },
+    {
+      "type": "callout",
+      "variant": "note",
+      "title": "About our links",
+      "text": "Every buy button opens aosu's storefront with ref=NGUYENTHIDUYAN. Product-level deep-link commission attribution is unverified, so search the exact model and variant after landing. Official source links carry the same referral code and are commercial links too. We may earn a commission from purchases. aosu sets the prices shown at checkout; prices and promotions can change, and we do not control them. We promise no discount or unchanged checkout price. Our [affiliate disclosure](/affiliate-disclosure) explains the relationship."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Frequently asked questions"
+    },
+    {
+      "type": "faq",
+      "title": "aosu buying questions",
+      "items": [
+        {
+          "q": "Which aosu camera should I start with?",
+          "a": "Start with the location. Use the C7L 2-Cam kit for separate perimeter approaches with an included hub, P1 Max for one sunlit view after confirming C8S's hub-free connection requirements, Video Doorbell Pro for visitor calls, Floodlight Cam Pro for a mains-wired light position, or IndoorCam P1 Pro near an indoor outlet. Resolve the network and storage requirements before paying; these are specification-led choices, not tested winners."
+        },
+        {
+          "q": "Does the SolarCam D1 Max single camera require aosuBase?",
+          "a": "The exact single variant says 1-Cam(aosuBase not included), so the hub is not supplied. Its gallery also describes camera-side microSD storage. Those facts do not settle whether that SKU requires a hub or which hub generation it supports. Get SKU-specific confirmation from aosu; do not assume it is a complete starter kit or a compatible add-on. P1 Max is our separately documented camera-side-storage example."
+        },
+        {
+          "q": "Can I use aosu without a subscription?",
+          "a": "The selected kit provides local hub storage; P1 Max, the doorbell Mini and the powered cameras document local card routes. Cards may cost extra. Floodlight Cam Pro and IndoorCam P1 Pro have documented continuous local options. Optional aosuProtect+ adds event-cloud storage and other features; the published $0 cloud tier is live mode without event recordings, not a limit on local recording."
+        },
+        {
+          "q": "How much sunlight do the solar cameras need?",
+          "a": "P1 Max's gallery claims two hours of direct sunlight for a day of operation. We did not verify that under winter, shade or heavy activity. The C7L kit uses separate panels but its exact hours and wattage were not verified. The separate D1 Max kit's charging cutoff below -5°C and 50-events/day conditions must not be transferred to these picks."
+        },
+        {
+          "q": "Will these work with 5GHz Wi-Fi, Alexa, Google or HomeKit?",
+          "a": "IndoorCam P1 Pro explicitly supports 2.4GHz and 5GHz. Doorbell Pro's official band descriptions conflict; plan for 2.4GHz and confirm the exact unit. Bands for C7L, P1 Max and Floodlight were not verified. Official material names Alexa/Google integrations, but exact functions vary. HomeKit support was not verified for any pick. Wi-Fi frequency is unrelated to cellular 5G."
+        },
+        {
+          "q": "Can the doorbell use my old chime, and can the floodlight run on battery?",
+          "a": "Video Doorbell Pro is the built-in-battery pick with an included aosuBase Mini. Existing wired-chime operation, transformer ratings and a separate chime's inclusion were not established. Floodlight Cam Pro is a mains-wired fixture, not the solar or battery choice; confirm the US installation manual, junction box and electrical supply with the installer."
+        },
+        {
+          "q": "Does 360-degree coverage mean continuous all-around recording?",
+          "a": "No. A rotating lens records the direction it faces, not all directions simultaneously. IndoorCam lists a 360° round-look preset without verified numeric tilt travel. Floodlight's 270° figure describes PIR detection, not a simultaneous image. Continuous local recording on the two powered picks also needs a compatible card and recording settings; aosuProtect+ cloud recording is event-based."
+        },
+        {
+          "q": "Are the prices, free returns and two-year warranty guaranteed?",
+          "a": "No. Prices are dated USD storefront observations, not completed US checkout totals or affiliate discounts. The return policy says buyer-paid return shipping despite free-return badges. The default warranty is 12 months, 24 months for EEA consumers, while banners advertise a two-year Black Friday special with unresolved conditions. Ask aosu to confirm the terms for your exact order and keep a copy."
+        }
+      ]
+    },
+    {
+      "type": "sources",
+      "title": "Official sources checked November 26, 2026",
+      "items": [
+        {
+          "label": "aosu: SolarCam System with New aosuBase, C7L-2H price, 2K and 32GB/1TB storage (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/aosu-solarcam-system-with-new-aosubase?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: SolarCam P1 Max, C8S price, 4K, integrated solar and microSD route (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/solarcam-p1-max?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Video Doorbell Pro, V8P price, battery, included Mini and comparison table (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/video-doorbell-pro?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Floodlight Cam Pro, L5P-only price, 5MP, 2,600-lumen lighting and PIR coverage (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/floodlight-cam-pro?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: IndoorCam P1 Pro, C2P price, 4MP, Wi-Fi and storage gallery (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/indoorcam-p1-pro?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: SolarCam D1 Max, hub-not-included single SKU and conflicting microSD graphic (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/solarcam-d1-max?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: separate D1 Max kit, private hub Wi-Fi and model-specific solar conditions (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/products/solarcam-kit-d1-max-aosubase?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: aosuProtect+ cloud plans, event retention, trial and cancellation FAQ (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/cloud-storage?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Shipping & Delivery Policy, processing, transit and destination list (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/shipping-delivery-policy?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Return Policy, permission, original condition, return costs and refund timing (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/return-policy?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Warranty Policy, default term, EEA term, covered freight and exclusions (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/warranty-policy?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Privacy Policy, local video versus uploaded thumbnails and operational data (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/privacy-policy?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: Terms of Use, alert limits, auto-renewal and cloud-access warning (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/terms-of-use?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: About Us and official support contacts; merchant background, not test evidence (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/pages/aboutus?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: floodlight buying guide, wired installation and model-specific local recording (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/blogs/buying-guides/floodlight-cameras-compared-lighting-recording-and-total-cost?ref=NGUYENTHIDUYAN"
+        },
+        {
+          "label": "aosu: indoor recording guide, P1 Pro plug-in power and continuous local recording (checked November 26, 2026)",
+          "url": "https://www.aosulife.com/blogs/buying-guides/best-indoor-cameras-with-continuous-recording-in-2026?ref=NGUYENTHIDUYAN"
+        }
+      ]
+    }
+  ]
+}
