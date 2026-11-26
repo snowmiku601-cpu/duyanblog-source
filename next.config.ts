@@ -52,6 +52,20 @@ const nextConfig: NextConfig = {
         hostname: "www.protoarc.com",
         pathname: "/cdn/shop/files/**",
       },
+      {
+        // Official aosu photography; owner-reported authorization is recorded
+        // in the local guide claim ledger.
+        protocol: "https",
+        hostname: "www.aosulife.com",
+        pathname: "/cdn/shop/files/**",
+      },
+      {
+        // Official Sonni24 photography; owner-reported authorization is
+        // recorded in the local guide claim ledger.
+        protocol: "https",
+        hostname: "sonni24.de",
+        pathname: "/cdn/shop/files/**",
+      },
     ],
   },
   async headers() {
