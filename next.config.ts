@@ -33,6 +33,25 @@ const nextConfig: NextConfig = {
         hostname: "phomemo.com",
         pathname: "/cdn/shop/files/**",
       },
+      {
+        // Official CMY Cubes photos; provenance and owner-reported permission
+        // are recorded in the local roundup claim ledger.
+        protocol: "https",
+        hostname: "www.cmycubes.com",
+        pathname: "/cdn/shop/files/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.cmycubes.com",
+        pathname: "/cdn/shop/products/**",
+      },
+      {
+        // Official ProtoArc photos; owner-reported authorization and provenance
+        // are recorded in the local roundup claim ledger.
+        protocol: "https",
+        hostname: "www.protoarc.com",
+        pathname: "/cdn/shop/files/**",
+      },
     ],
   },
   async headers() {
